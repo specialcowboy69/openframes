@@ -8,8 +8,11 @@ Hecho con [HyperFrames](https://hyperframes.heygen.com/) (HTML → vídeo).
 ## Estructura
 
 ```
-IDEAS.md                     Backlog de ideas (una idea = un vídeo)
 README.md                    Este archivo
+PROFILE.md                   Forma de trabajar y resultados esperados
+WORKFLOW.md                  Proceso de producción, paso a paso
+DECISIONS.md                 Registro de decisiones (fecha, motivo, alternativas)
+IDEAS.md                     Backlog de ideas (una idea = un vídeo)
 videos/<proyecto>/           Un proyecto de vídeo por carpeta
   BRIEF.md                   Qué es y para quién
   SCRIPT.md                  Guion bloqueado (voz en off)
