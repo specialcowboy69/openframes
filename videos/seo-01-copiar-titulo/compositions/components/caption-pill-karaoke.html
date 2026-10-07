@@ -1,0 +1,387 @@
+<template id="caption-pill-karaoke-template">
+  <div
+    data-composition-id="caption-pill-karaoke"
+    data-timeline-locked
+    data-start="0"
+    data-duration="42.55"
+    data-fps="30"
+    data-width="1080"
+    data-height="1920"
+  >
+    <div class="caption-layer" aria-hidden="true">
+      <div id="caption-stage" class="safe-zone"></div>
+    </div>
+  </div>
+
+  <style>
+    [data-composition-id="caption-pill-karaoke"] {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: transparent;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+    }
+    [data-composition-id="caption-pill-karaoke"] .safe-zone {
+      position: absolute;
+      bottom: 470px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-group {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-pill {
+      width: auto;
+      max-width: 1000px;
+      padding: 16px 40px 18px;
+      border-radius: 20px;
+      background: rgba(16, 16, 22, 0.86);
+      border: 2px solid #26262e;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      color: #8b8b99;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      word-break: normal;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-line {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: none;
+      line-height: 1.16;
+      white-space: nowrap;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-word {
+      display: inline-block;
+      color: #8b8b99;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var DURATION = 42.55;
+      var PILL_MAX_WIDTH = 940;
+      var PILL_MIN_PADDING_X = 30;
+      var PILL_MAX_PADDING_X = 40;
+      var FONT_WIDTH_SAFETY = 1.18;
+      var FONT_FAMILY = "Inter";
+      var FONT_WEIGHT = "800";
+      var BASE_FONT_SIZE = 56;
+      var MIN_FONT_SIZE = 38;
+      var MAX_WORDS_PER_GROUP = 4;
+      var WORD_SPACING = 12;
+      var PAUSE_THRESHOLD = 0.18;
+      var GROUP_END_BUFFER = 0.35;
+      var COLOR_INACTIVE = "#8b8b99";
+      var COLOR_ACTIVE = "#c8ff3d";
+      var COLOR_FADE_DURATION = 0.1;
+      var WORD_FADE_LEAD = 0.05;
+
+      var TRANSCRIPT = [
+        { text: "Copias", start: 0, end: 0.378 },
+        { text: "el", start: 0.378, end: 0.539 },
+        { text: "t\u00edtulo", start: 0.539, end: 0.917 },
+        { text: "de", start: 0.917, end: 1.079 },
+        { text: "la", start: 1.079, end: 1.241 },
+        { text: "web", start: 1.241, end: 1.457 },
+        { text: "que", start: 1.457, end: 1.672 },
+        { text: "sale", start: 1.672, end: 1.942 },
+        { text: "primera", start: 1.942, end: 2.374 },
+        { text: "y", start: 2.374, end: 2.482 },
+        { text: "tu", start: 2.482, end: 2.643 },
+        { text: "p\u00e1gina", start: 2.643, end: 3.021 },
+        { text: "no", start: 3.021, end: 3.183 },
+        { text: "sube.", start: 3.183, end: 3.507 },
+        { text: "Y", start: 3.507, end: 3.614 },
+        { text: "no", start: 3.614, end: 3.776 },
+        { text: "es", start: 3.776, end: 3.938 },
+        { text: "tu", start: 3.938, end: 4.1 },
+        { text: "contenido.", start: 4.1, end: 4.693 },
+        { text: "Google", start: 4.693, end: 5.06 },
+        { text: "no", start: 5.06, end: 5.217 },
+        { text: "solo", start: 5.217, end: 5.48 },
+        { text: "lee", start: 5.48, end: 5.689 },
+        { text: "palabras:", start: 5.689, end: 6.214 },
+        { text: "mira", start: 6.214, end: 6.476 },
+        { text: "tu", start: 6.476, end: 6.633 },
+        { text: "autoridad.", start: 6.633, end: 7.21 },
+        { text: "Enlaces,", start: 7.693, end: 8.208 },
+        { text: "historial,", start: 8.208, end: 8.837 },
+        { text: "tama\u00f1o", start: 8.837, end: 9.238 },
+        { text: "de", start: 9.238, end: 9.409 },
+        { text: "tu", start: 9.409, end: 9.581 },
+        { text: "web.", start: 9.581, end: 9.867 },
+        { text: "Y", start: 9.867, end: 9.981 },
+        { text: "eso", start: 9.981, end: 10.21 },
+        { text: "decide", start: 10.21, end: 10.611 },
+        { text: "c\u00f3mo", start: 10.611, end: 10.897 },
+        { text: "escribir.", start: 10.897, end: 11.469 },
+        { text: "El", start: 11.469, end: 11.631 },
+        { text: "modificador", start: 11.631, end: 12.281 },
+        { text: "es", start: 12.281, end: 12.443 },
+        { text: "la", start: 12.443, end: 12.605 },
+        { text: "palabra", start: 12.605, end: 13.038 },
+        { text: "extra", start: 13.038, end: 13.363 },
+        { text: "que", start: 13.363, end: 13.579 },
+        { text: "la", start: 13.579, end: 13.741 },
+        { text: "gente", start: 13.741, end: 14.066 },
+        { text: "a\u00f1ade", start: 14.066, end: 14.391 },
+        { text: "a", start: 14.391, end: 14.499 },
+        { text: "su", start: 14.499, end: 14.661 },
+        { text: "b\u00fasqueda.", start: 14.661, end: 15.202 },
+        { text: "T\u00fa", start: 15.202, end: 15.376 },
+        { text: "vendes", start: 15.376, end: 15.782 },
+        { text: "agencia", start: 15.782, end: 16.245 },
+        { text: "de", start: 16.245, end: 16.419 },
+        { text: "dise\u00f1o,", start: 16.419, end: 16.883 },
+        { text: "pero", start: 16.883, end: 17.172 },
+        { text: "buscan", start: 17.172, end: 17.578 },
+        { text: "agencia", start: 17.578, end: 18.042 },
+        { text: "de", start: 18.042, end: 18.215 },
+        { text: "dise\u00f1o", start: 18.215, end: 18.621 },
+        { text: "barata.", start: 18.621, end: 19.085 },
+        { text: "Poca", start: 19.085, end: 19.352 },
+        { text: "autoridad", start: 19.352, end: 19.887 },
+        { text: "y", start: 19.887, end: 19.994 },
+        { text: "mucha", start: 19.994, end: 20.315 },
+        { text: "competencia:", start: 20.315, end: 21.01 },
+        { text: "no", start: 21.01, end: 21.17 },
+        { text: "puedes", start: 21.17, end: 21.545 },
+        { text: "improvisar.", start: 21.545, end: 22.186 },
+        { text: "Hay", start: 22.186, end: 22.4 },
+        { text: "que", start: 22.4, end: 22.614 },
+        { text: "ser", start: 22.614, end: 22.828 },
+        { text: "literal.", start: 22.828, end: 23.309 },
+        { text: "Palabra", start: 23.309, end: 23.754 },
+        { text: "clave", start: 23.754, end: 24.087 },
+        { text: "exacta", start: 24.087, end: 24.476 },
+        { text: "al", start: 24.476, end: 24.643 },
+        { text: "inicio", start: 24.643, end: 25.032 },
+        { text: "del", start: 25.032, end: 25.254 },
+        { text: "t\u00edtulo,", start: 25.254, end: 25.698 },
+        { text: "la", start: 25.698, end: 25.865 },
+        { text: "URL,", start: 25.865, end: 26.143 },
+        { text: "el", start: 26.143, end: 26.31 },
+        { text: "encabezado", start: 26.31, end: 26.921 },
+        { text: "y", start: 26.921, end: 27.032 },
+        { text: "el", start: 27.032, end: 27.199 },
+        { text: "primer", start: 27.199, end: 27.588 },
+        { text: "p\u00e1rrafo.", start: 27.588, end: 28.088 },
+        { text: "\u00bfYa", start: 28.088, end: 28.298 },
+        { text: "tienes", start: 28.298, end: 28.665 },
+        { text: "autoridad?", start: 28.665, end: 29.243 },
+        { text: "Puedes", start: 29.243, end: 29.61 },
+        { text: "jugar:", start: 29.61, end: 29.978 },
+        { text: "pones", start: 29.978, end: 30.293 },
+        { text: "el", start: 30.293, end: 30.45 },
+        { text: "modificador", start: 30.45, end: 31.08 },
+        { text: "al", start: 31.08, end: 31.238 },
+        { text: "principio", start: 31.238, end: 31.763 },
+        { text: "y", start: 31.763, end: 31.868 },
+        { text: "sigues", start: 31.868, end: 32.235 },
+        { text: "subiendo.", start: 32.235, end: 32.76 },
+        { text: "El", start: 32.76, end: 32.927 },
+        { text: "n\u00famero", start: 32.927, end: 33.317 },
+        { text: "uno", start: 33.317, end: 33.54 },
+        { text: "escribe:", start: 33.54, end: 34.041 },
+        { text: "las", start: 34.041, end: 34.263 },
+        { text: "agencias", start: 34.263, end: 34.765 },
+        { text: "de", start: 34.765, end: 34.932 },
+        { text: "dise\u00f1o", start: 34.932, end: 35.321 },
+        { text: "m\u00e1s", start: 35.321, end: 35.544 },
+        { text: "baratas.", start: 35.544, end: 36.045 },
+        { text: "T\u00fa", start: 36.045, end: 36.22 },
+        { text: "necesitas:", start: 36.22, end: 36.863 },
+        { text: "agencias", start: 36.863, end: 37.389 },
+        { text: "de", start: 37.389, end: 37.565 },
+        { text: "dise\u00f1o", start: 37.565, end: 37.974 },
+        { text: "baratas.", start: 37.974, end: 38.5 },
+        { text: "Exacto.", start: 38.5, end: 38.968 },
+        { text: "Mira", start: 39.045, end: 39.321 },
+        { text: "tu", start: 39.321, end: 39.486 },
+        { text: "autoridad", start: 39.486, end: 40.038 },
+        { text: "antes", start: 40.038, end: 40.369 },
+        { text: "de", start: 40.369, end: 40.535 },
+        { text: "copiar", start: 40.535, end: 40.921 },
+        { text: "un", start: 40.921, end: 41.086 },
+        { text: "t\u00edtulo.", start: 41.086, end: 41.528 },
+        { text: "Guarda", start: 41.528, end: 41.914 },
+        { text: "esto.", start: 41.914, end: 42.245 }
+      ];
+
+      function normalizeWords(rawWords) {
+        return rawWords
+          .map(function (item) {
+            var text = String(item.word || item.text || "").trim();
+            return {
+              text: text,
+              start: Math.max(0, Number(item.start) || 0),
+              end: Math.min(DURATION, Math.max(Number(item.start) || 0, Number(item.end) || 0)),
+            };
+          })
+          .filter(function (w) { return w.text.length > 0; });
+      }
+
+      var measureCanvas = document.createElement("canvas");
+      var measureContext = measureCanvas.getContext("2d");
+      function measureWordWidth(text, fontSize) {
+        measureContext.font = FONT_WEIGHT + " " + fontSize + "px " + FONT_FAMILY;
+        return measureContext.measureText(text).width * FONT_WIDTH_SAFETY;
+      }
+      function measureLineWidth(words, fontSize) {
+        return words.reduce(function (total, word, index) {
+          return total + measureWordWidth(word.text.toLowerCase(), fontSize) + (index ? WORD_SPACING : 0);
+        }, 0);
+      }
+      function splitLinesForGroup(words, fontSize) {
+        var maxLineWidth = PILL_MAX_WIDTH - PILL_MIN_PADDING_X * 2;
+        if (words.some(function (w) { return measureWordWidth(w.text.toLowerCase(), fontSize) > maxLineWidth; })) return null;
+        if (measureLineWidth(words, fontSize) <= maxLineWidth) return [words];
+        var bestSplit = null, bestImbalance = Infinity;
+        for (var split = 1; split < words.length; split++) {
+          var firstLine = words.slice(0, split), secondLine = words.slice(split);
+          var fw = measureLineWidth(firstLine, fontSize), sw = measureLineWidth(secondLine, fontSize);
+          if (fw <= maxLineWidth && sw <= maxLineWidth) {
+            var imbalance = Math.abs(fw - sw);
+            if (imbalance < bestImbalance) { bestSplit = [firstLine, secondLine]; bestImbalance = imbalance; }
+          }
+        }
+        return bestSplit;
+      }
+      function fitsInTwoLinesAtSize(words, fontSize) { return splitLinesForGroup(words, fontSize) !== null; }
+      function planPillLayout(words, fontSize) {
+        var lines = splitLinesForGroup(words, fontSize) || [words];
+        var widestLine = lines.reduce(function (max, lineWords) { return Math.max(max, measureLineWidth(lineWords, fontSize)); }, 0);
+        var availablePadding = Math.floor((PILL_MAX_WIDTH - widestLine) / 2);
+        var padX = Math.max(PILL_MIN_PADDING_X, Math.min(PILL_MAX_PADDING_X, availablePadding));
+        var pillWidth = Math.min(PILL_MAX_WIDTH, Math.ceil(widestLine + padX * 2));
+        return { lines: lines, padX: padX, pillWidth: pillWidth };
+      }
+      function makeGroups(words) {
+        var groups = [], current = [];
+        words.forEach(function (word, index) {
+          var testGroup = current.concat([word]);
+          var nextWord = words[index + 1];
+          var wouldExceedMaxWords = testGroup.length > MAX_WORDS_PER_GROUP;
+          var wouldExceedTwoLines = !fitsInTwoLinesAtSize(testGroup, BASE_FONT_SIZE);
+          if (wouldExceedMaxWords || wouldExceedTwoLines) {
+            if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [word];
+            return;
+          }
+          current.push(word);
+          var hasPunctuation = /[,.:!?]$/.test(word.text);
+          var pauseDuration = nextWord ? nextWord.start - word.end : 0;
+          var hasNaturalPause = pauseDuration >= PAUSE_THRESHOLD;
+          var maxWordsReached = current.length >= MAX_WORDS_PER_GROUP;
+          if (maxWordsReached || !nextWord || hasPunctuation || hasNaturalPause) {
+            groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [];
+          }
+        });
+        if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+        return groups;
+      }
+      function fontSizeForGroup(words) {
+        var size = BASE_FONT_SIZE;
+        while (size > MIN_FONT_SIZE && !fitsInTwoLinesAtSize(words, size)) size -= 2;
+        return size;
+      }
+      function buildCaptions(groups) {
+        var stage = document.getElementById("caption-stage");
+        groups.forEach(function (group, groupIndex) {
+          var groupEl = document.createElement("div"), pillEl = document.createElement("div"), copyEl = document.createElement("div");
+          var fontSize = fontSizeForGroup(group.words);
+          groupEl.id = "caption-group-" + groupIndex;
+          groupEl.className = "caption-group";
+          pillEl.className = "caption-pill";
+          copyEl.className = "caption-copy";
+          copyEl.style.fontSize = fontSize + "px";
+          var indexedWords = group.words.map(function (word, wordIndex) {
+            return { text: word.text, start: word.start, end: word.end, wordIndex: wordIndex };
+          });
+          var layout = planPillLayout(indexedWords, fontSize);
+          pillEl.style.width = layout.pillWidth + "px";
+          pillEl.style.paddingLeft = layout.padX + "px";
+          pillEl.style.paddingRight = layout.padX + "px";
+          layout.lines.slice(0, 2).forEach(function (lineWords) {
+            var lineEl = document.createElement("div");
+            lineEl.className = "caption-line";
+            lineWords.forEach(function (word) {
+              var wordEl = document.createElement("span");
+              wordEl.id = "caption-word-" + groupIndex + "-" + word.wordIndex;
+              wordEl.className = "caption-word";
+              wordEl.textContent = word.text.toLowerCase();
+              lineEl.appendChild(wordEl);
+            });
+            copyEl.appendChild(lineEl);
+          });
+          pillEl.appendChild(copyEl);
+          groupEl.appendChild(pillEl);
+          stage.appendChild(groupEl);
+        });
+      }
+
+      var WORDS = normalizeWords(TRANSCRIPT);
+      var GROUPS = makeGroups(WORDS);
+      buildCaptions(GROUPS);
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      GROUPS.forEach(function (group, groupIndex) {
+        var groupEl = document.getElementById("caption-group-" + groupIndex);
+        var nextGroup = GROUPS[groupIndex + 1];
+        var isLastGroup = groupIndex === GROUPS.length - 1;
+        var effectiveEnd = isLastGroup ? DURATION : Math.min(nextGroup.start, group.end + GROUP_END_BUFFER);
+        var visibleStart = Math.max(0, group.start);
+        var visibleEnd = Math.max(visibleStart + 0.01, effectiveEnd);
+        tl.set(groupEl, { opacity: 1 }, visibleStart);
+        tl.set(groupEl, { opacity: 0 }, visibleEnd);
+        group.words.forEach(function (word, wordIndex) {
+          var wordEl = document.getElementById("caption-word-" + groupIndex + "-" + wordIndex);
+          tl.set(wordEl, { color: wordIndex === 0 ? COLOR_ACTIVE : COLOR_INACTIVE }, visibleStart);
+          if (wordIndex === 0) return;
+          tl.to(wordEl, { color: COLOR_ACTIVE, duration: COLOR_FADE_DURATION, ease: "none" }, Math.max(visibleStart, word.start - WORD_FADE_LEAD));
+        });
+      });
+      window.__timelines["caption-pill-karaoke"] = tl;
+    })();
+  </script>
+</template>

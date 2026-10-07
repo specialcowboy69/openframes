@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Por qué copiar el título del nº1 no funciona</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --ink: #f5f5f7;
+        --muted: #8b8b99;
+        --accent: #c8ff3d;
+        --panel: #14141a;
+        --line: #26262e;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--ink);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        background: var(--bg);
+        overflow: hidden;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 340px 74px 500px;
+      }
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .kicker .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .head {
+        margin-top: 30px;
+        font-size: 92px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+      }
+      .head .accent-line {
+        color: var(--accent);
+        display: block;
+      }
+      .head .word {
+        display: inline-block;
+      }
+      .rule {
+        height: 10px;
+        width: 100%;
+        margin-top: 34px;
+        background: var(--accent);
+        transform-origin: left center;
+      }
+      .sub {
+        margin-top: 30px;
+        font-size: 42px;
+        font-weight: 500;
+        line-height: 1.25;
+      }
+      .sub.muted {
+        color: var(--muted);
+      }
+      /* progress */
+      .progress {
+        position: absolute;
+        left: 74px;
+        right: 74px;
+        top: 300px;
+        height: 6px;
+        background: #1e1e26;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        width: 100%;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+      /* mock google result card */
+      .serp {
+        margin-top: 34px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 24px 26px;
+        background: #eef1f5;
+        border-radius: 16px;
+        color: #16181c;
+      }
+      .serp .rank {
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        background: var(--accent);
+        color: #0a0a0f;
+        font-size: 32px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .serp .meta {
+        flex: 1;
+      }
+      .serp .url {
+        font-size: 24px;
+        font-weight: 600;
+        color: #4b5563;
+      }
+      .serp .ttl {
+        margin-top: 6px;
+        font-size: 34px;
+        font-weight: 700;
+      }
+      /* search pill */
+      .searchbar {
+        margin-top: 36px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 26px 30px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+        border-radius: 999px;
+      }
+      .searchbar svg {
+        flex: 0 0 40px;
+      }
+      .searchbar .q {
+        font-size: 44px;
+        font-weight: 700;
+      }
+      /* crossing out "palabras" */
+      .cross {
+        position: relative;
+        color: var(--muted);
+      }
+      .cross .strike {
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        top: 52%;
+        height: 6px;
+        background: #ff5a5a;
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+      .bigword {
+        margin-top: 24px;
+        font-size: 118px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+      /* ingredient rows */
+      .ing {
+        margin-top: 26px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 24px 28px;
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 16px;
+      }
+      .ing svg {
+        flex: 0 0 46px;
+      }
+      .ing .lbl {
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+      .meter {
+        margin-top: 30px;
+        height: 16px;
+        width: 100%;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .meter-fill {
+        height: 100%;
+        width: 100%;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+      /* modifier */
+      .slot {
+        display: inline-block;
+        min-width: 150px;
+        height: 58px;
+        border-radius: 12px;
+        border: 3px dashed var(--accent);
+        vertical-align: middle;
+        margin-left: 14px;
+      }
+      .mod-chip {
+        display: inline-block;
+        padding: 6px 22px;
+        border-radius: 12px;
+        background: var(--accent);
+        color: #0a0a0f;
+        font-weight: 900;
+      }
+      .qpill {
+        margin-top: 26px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 22px 28px;
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 999px;
+        font-size: 40px;
+        font-weight: 700;
+      }
+      .qpill .who {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-right: 6px;
+      }
+      .qpill.on {
+        border-color: var(--accent);
+      }
+      .mod-label {
+        margin-top: 16px;
+        align-self: flex-end;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: 0.24em;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+      /* mode rows + badges */
+      .mode-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+      }
+      .badge {
+        padding: 14px 26px;
+        border-radius: 12px;
+        border: 2px solid var(--line);
+        background: var(--panel);
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .badge.accent {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #0a0a0f;
+      }
+      .mode-arrow {
+        font-size: 40px;
+        font-weight: 900;
+        color: var(--muted);
+      }
+      .note-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-top: 8px;
+      }
+      .note-row svg {
+        flex: 0 0 52px;
+      }
+      .note-row .note {
+        font-size: 40px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      /* checklist rows */
+      .rows {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 22px 26px;
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 16px;
+      }
+      .row .rlabel {
+        font-size: 25px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        text-transform: uppercase;
+        min-width: 200px;
+      }
+      .row .rval {
+        flex: 1;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .row .rval b {
+        color: var(--accent);
+        font-weight: 900;
+      }
+      .check {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+      }
+      /* title demo */
+      .title-demo {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 8px;
+        font-size: 60px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+      .pos {
+        margin-top: 34px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 34px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .pos .stepper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .pos .p-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+      .pos .p-dot.on {
+        background: var(--accent);
+      }
+      /* panels */
+      .ab {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .panel {
+        padding: 34px 32px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+        border-radius: 20px;
+      }
+      .panel .tag {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .panel p {
+        margin-top: 16px;
+        font-size: 50px;
+        font-weight: 700;
+        line-height: 1.15;
+      }
+      .panel.accent-panel {
+        border-color: var(--accent);
+      }
+      .panel.accent-panel .tag {
+        color: var(--accent);
+      }
+      .panel.accent-panel p b {
+        color: var(--accent);
+        font-weight: 900;
+      }
+      .cta {
+        margin-top: 50px;
+        align-self: flex-start;
+        padding: 26px 46px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #0a0a0f;
+        font-size: 46px;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .handle {
+        margin-top: 24px;
+        font-size: 34px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      /* animatable initial states */
+      .fade-in {
+        opacity: 0;
+      }
+      .fade-up {
+        opacity: 0;
+        transform: translateY(64px);
+      }
+      .fade-up-sm {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      .pop {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+      .word {
+        opacity: 0;
+        transform: translateY(70px);
+      }
+      .slide-in {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      .shift-right {
+        opacity: 0;
+        transform: translateX(150px);
+      }
+      .grow {
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="42.55"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- ===== FRAME 1 — HOOK ===== -->
+      <section class="scene clip" id="s1" data-start="0" data-duration="4.693" data-track-index="0">
+        <div class="kicker fade-in" id="s1-kicker"><span class="dot"></span>SEO · TÍTULOS</div>
+        <h1 class="head">
+          <span class="word">COPIAR</span> <span class="word">AL</span>
+          <span class="word" id="s1-n1">Nº1</span>
+          <span class="accent-line"><span class="word">NO</span> <span class="word">FUNCIONA</span></span>
+        </h1>
+        <div class="serp fade-up" id="s1-serp">
+          <span class="rank">1</span>
+          <span class="meta">
+            <span class="url">mejores-agencias.com</span>
+            <span class="ttl">Las mejores agencias de diseño</span>
+          </span>
+        </div>
+        <div class="rule grow" id="s1-rule"></div>
+        <p class="sub muted fade-up-sm" id="s1-sub">Y no es tu contenido.</p>
+      </section>
+
+      <!-- ===== FRAME 2 — PALABRAS ≠ AUTORIDAD ===== -->
+      <section class="scene clip" id="s2" data-start="4.693" data-duration="3.0" data-track-index="0">
+        <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>CONCEPTO</div>
+        <div class="searchbar slide-in" id="s2-bar">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="#8b8b99" stroke-width="2.5" />
+            <path d="M16.5 16.5L21 21" stroke="#8b8b99" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+          <span class="q">agencia de diseño</span>
+        </div>
+        <div class="sub muted fade-up-sm" id="s2-line">Google no mira solo <span class="cross">palabras<span class="strike" id="s2-strike"></span></span></div>
+        <div class="bigword fade-up" id="s2-word">AUTORIDAD</div>
+      </section>
+
+      <!-- ===== FRAME 3 — LOS 3 INGREDIENTES ===== -->
+      <section class="scene clip" id="s3" data-start="7.693" data-duration="3.776" data-track-index="0">
+        <div class="kicker fade-in" id="s3-kicker"><span class="dot"></span>AUTORIDAD =</div>
+        <div class="ing fade-up-sm" data-ing="0">
+          <svg viewBox="0 0 24 24" width="46" height="46" fill="none">
+            <path d="M9 15l6-6M8 12l-2 2a3.5 3.5 0 105 5l2-2M16 12l2-2a3.5 3.5 0 10-5-5l-2 2" stroke="#c8ff3d" stroke-width="2.4" stroke-linecap="round" />
+          </svg>
+          <span class="lbl">ENLACES</span>
+        </div>
+        <div class="ing fade-up-sm" data-ing="1">
+          <svg viewBox="0 0 24 24" width="46" height="46" fill="none">
+            <circle cx="12" cy="12" r="8.5" stroke="#c8ff3d" stroke-width="2.4" />
+            <path d="M12 7.5V12l3 2" stroke="#c8ff3d" stroke-width="2.4" stroke-linecap="round" />
+          </svg>
+          <span class="lbl">HISTORIAL</span>
+        </div>
+        <div class="ing fade-up-sm" data-ing="2">
+          <svg viewBox="0 0 24 24" width="46" height="46" fill="none">
+            <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" stroke="#c8ff3d" stroke-width="2.4" />
+            <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" stroke="#c8ff3d" stroke-width="2.4" />
+            <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" stroke="#c8ff3d" stroke-width="2.4" />
+            <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" stroke="#c8ff3d" stroke-width="2.4" />
+          </svg>
+          <span class="lbl">TAMAÑO</span>
+        </div>
+        <div class="meter"><div class="meter-fill grow" id="s3-meter"></div></div>
+      </section>
+
+      <!-- ===== FRAME 4 — QUÉ ES EL MODIFICADOR ===== -->
+      <section class="scene clip" id="s4" data-start="11.469" data-duration="3.733" data-track-index="0">
+        <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>EL MODIFICADOR</div>
+        <div class="searchbar slide-in" id="s4-bar">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="#8b8b99" stroke-width="2.5" />
+            <path d="M16.5 16.5L21 21" stroke="#8b8b99" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+          <span class="q">agencia de diseño <span class="slot pop" id="s4-slot"></span></span>
+        </div>
+        <p class="sub muted fade-up-sm" id="s4-sub">La palabra extra que añades a tu búsqueda.</p>
+      </section>
+
+      <!-- ===== FRAME 5 — EJEMPLO REAL ===== -->
+      <section class="scene clip" id="s5" data-start="15.202" data-duration="3.883" data-track-index="0">
+        <div class="qpill fade-up-sm" id="s5-p1"><span class="who">tú vendes</span> agencia de diseño</div>
+        <div class="qpill on fade-up-sm" id="s5-p2">
+          <span class="who">pero buscan</span> agencia de diseño
+          <span class="mod-chip pop" id="s5-chip">barata</span>
+        </div>
+        <div class="mod-label fade-in" id="s5-label">▲ MODIFICADOR</div>
+      </section>
+
+      <!-- ===== FRAME 6 — POCA AUTORIDAD = LITERAL ===== -->
+      <section class="scene clip" id="s6" data-start="19.085" data-duration="4.224" data-track-index="0">
+        <div class="mode-row">
+          <span class="badge fade-up-sm" id="s6-b1">POCA AUTORIDAD</span>
+          <span class="mode-arrow fade-in" id="s6-ar">→</span>
+          <span class="badge accent pop" id="s6-b2">LITERAL</span>
+        </div>
+        <div class="note-row fade-up-sm" id="s6-note">
+          <svg viewBox="0 0 24 24" width="52" height="52" fill="none">
+            <rect x="5" y="10" width="14" height="10" rx="2" stroke="#ff5a5a" stroke-width="2.4" />
+            <path d="M8 10V7a4 4 0 018 0v3" stroke="#ff5a5a" stroke-width="2.4" stroke-linecap="round" />
+          </svg>
+          <span class="note">No puedes improvisar.</span>
+        </div>
+      </section>
+
+      <!-- ===== FRAME 7 — LAS 4 POSICIONES ===== -->
+      <section class="scene clip" id="s7" data-start="23.309" data-duration="4.779" data-track-index="0">
+        <div class="rows">
+          <div class="row fade-up-sm" data-row="0">
+            <span class="rlabel">Título</span>
+            <span class="rval"><b>agencia de diseño</b> barata</span>
+            <svg class="check pop" data-check="0" viewBox="0 0 24 24" fill="none"><path d="M4 13l5 5L20 6" stroke="#c8ff3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+          <div class="row fade-up-sm" data-row="1">
+            <span class="rlabel">URL</span>
+            <span class="rval">/<b>agencia-de-diseno</b>-barata</span>
+            <svg class="check pop" data-check="1" viewBox="0 0 24 24" fill="none"><path d="M4 13l5 5L20 6" stroke="#c8ff3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+          <div class="row fade-up-sm" data-row="2">
+            <span class="rlabel">Encabezado</span>
+            <span class="rval"><b>agencia de diseño</b> barata</span>
+            <svg class="check pop" data-check="2" viewBox="0 0 24 24" fill="none"><path d="M4 13l5 5L20 6" stroke="#c8ff3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+          <div class="row fade-up-sm" data-row="3">
+            <span class="rlabel">Párrafo 1</span>
+            <span class="rval">Empieza con <b>agencia de diseño</b>…</span>
+            <svg class="check pop" data-check="3" viewBox="0 0 24 24" fill="none"><path d="M4 13l5 5L20 6" stroke="#c8ff3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== FRAME 8 — MUCHA AUTORIDAD = LIBRE ===== -->
+      <section class="scene clip" id="s8" data-start="28.088" data-duration="4.672" data-track-index="0">
+        <div class="mode-row">
+          <span class="badge fade-up-sm" id="s8-b1">MUCHA AUTORIDAD</span>
+          <span class="mode-arrow fade-in" id="s8-ar">→</span>
+          <span class="badge accent pop" id="s8-b2">LIBRE</span>
+        </div>
+        <div class="title-demo" id="s8-demo">
+          <span class="mod-chip shift-right" id="s8-chip">barata</span>
+          <span>agencia de diseño</span>
+        </div>
+        <div class="pos fade-up-sm" id="s8-pos">
+          <span>posición</span>
+          <span class="stepper">
+            <span class="p-dot" id="s8-d1"></span><span class="p-dot" id="s8-d2"></span><span class="p-dot on" id="s8-d3"></span>
+          </span>
+          <span>sube</span>
+        </div>
+      </section>
+
+      <!-- ===== FRAME 9 — EL EJEMPLO DEL Nº1 ===== -->
+      <section class="scene clip" id="s9" data-start="32.760" data-duration="3.285" data-track-index="0">
+        <div class="kicker fade-in" id="s9-kicker"><span class="dot"></span>EJEMPLO</div>
+        <div class="serp fade-up" id="s9-serp">
+          <span class="rank">1</span>
+          <span class="meta">
+            <span class="url">el-numero-uno.com</span>
+            <span class="ttl">Las agencias de diseño más baratas</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- ===== FRAME 10 — TU VERSIÓN ===== -->
+      <section class="scene clip" id="s10" data-start="36.045" data-duration="3.0" data-track-index="0">
+        <div class="panel accent-panel fade-up" id="s10-panel">
+          <span class="tag">Tú</span>
+          <p><b>agencias de diseño baratas</b></p>
+        </div>
+        <div class="note-row fade-up-sm" id="s10-note" style="margin-top: 30px">
+          <svg viewBox="0 0 24 24" width="52" height="52" fill="none"><path d="M4 13l5 5L20 6" stroke="#c8ff3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <span class="note">Exacto.</span>
+        </div>
+      </section>
+
+      <!-- ===== FRAME 11 — CTA ===== -->
+      <section class="scene clip" id="s11" data-start="39.045" data-duration="3.505" data-track-index="0">
+        <h2 class="head" id="s11-title">
+          <span class="fade-up-sm" style="display: block">Mira tu autoridad</span>
+          <span class="fade-up-sm accent-line" style="display: block">antes de copiar un título</span>
+        </h2>
+        <div class="cta pop" id="s11-cta">Guarda esto</div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="42.55" data-track-index="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== SUBTÍTULOS KARAOKE ===== -->
+      <div
+        class="clip"
+        data-composition-id="caption-pill-karaoke"
+        data-composition-src="compositions/components/caption-pill-karaoke.html"
+        data-start="0"
+        data-duration="42.55"
+        data-track-index="2"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+
+      <!-- ===== MÚSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="42.55" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== VOZ EN OFF ===== -->
+      <audio id="vo-01" class="clip" data-start="0" data-duration="4.693" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="4.693" data-duration="2.517" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="7.693" data-duration="3.776" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="11.469" data-duration="3.733" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="15.202" data-duration="3.883" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="19.085" data-duration="4.224" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="23.309" data-duration="4.779" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="28.088" data-duration="4.672" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="32.760" data-duration="3.285" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="36.045" data-duration="2.923" data-track-index="1" src="assets/voice/10.wav"></audio>
+      <audio id="vo-11" class="clip" data-start="39.045" data-duration="3.200" data-track-index="1" src="assets/voice/11.wav"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+
+      const S = [0, 4.693, 7.693, 11.469, 15.202, 19.085, 23.309, 28.088, 32.76, 36.045, 39.045];
+      const at = (n, local) => S[n - 1] + local; // n = frame number 1..11
+
+      // progress bar over the whole video
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 42.55, ease: "none" }, 0);
+
+      // ---- F1 Hook ----
+      tl.to("#s1-kicker", { opacity: 1, duration: 0.4 }, at(1, 0.05));
+      tl.to("#s1 .word", { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, at(1, 0.15));
+      tl.to("#s1-serp", { opacity: 1, y: 0, duration: 0.5 }, at(1, 0.95));
+      tl.fromTo("#s1-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, at(1, 1.5));
+      tl.to("#s1-sub", { opacity: 1, y: 0, duration: 0.5 }, at(1, 1.9));
+      tl.to("#s1-n1", { x: -8, duration: 0.05 }, at(1, 3.3));
+      tl.to("#s1-n1", { x: 8, duration: 0.05 }, at(1, 3.38));
+      tl.to("#s1-n1", { x: 0, duration: 0.05 }, at(1, 3.46));
+
+      // ---- F2 Palabras ≠ autoridad ----
+      tl.to("#s2-kicker", { opacity: 1, duration: 0.35 }, at(2, 0.05));
+      tl.to("#s2-bar", { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, at(2, 0.1));
+      tl.to("#s2-line", { opacity: 1, y: 0, duration: 0.4 }, at(2, 0.6));
+      tl.fromTo("#s2-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(2, 0.9));
+      tl.to("#s2-word", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(2, 1.05));
+
+      // ---- F3 Los 3 ingredientes ----
+      tl.to("#s3-kicker", { opacity: 1, duration: 0.35 }, at(3, 0.05));
+      tl.to('#s3 [data-ing="0"]', { opacity: 1, y: 0, duration: 0.4 }, at(3, 0.5));
+      tl.to('#s3 [data-ing="1"]', { opacity: 1, y: 0, duration: 0.4 }, at(3, 1.1));
+      tl.to('#s3 [data-ing="2"]', { opacity: 1, y: 0, duration: 0.4 }, at(3, 1.7));
+      tl.fromTo("#s3-meter", { scaleX: 0 }, { scaleX: 0.72, duration: 1.2, ease: "power2.out" }, at(3, 0.7));
+
+      // ---- F4 Qué es el modificador ----
+      tl.to("#s4-kicker", { opacity: 1, duration: 0.35 }, at(4, 0.05));
+      tl.to("#s4-bar", { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, at(4, 0.1));
+      tl.to("#s4-slot", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, at(4, 1.1));
+      tl.to("#s4-sub", { opacity: 1, y: 0, duration: 0.45 }, at(4, 1.7));
+
+      // ---- F5 Ejemplo real ----
+      tl.to("#s5-p1", { opacity: 1, y: 0, duration: 0.45 }, at(5, 0.1));
+      tl.to("#s5-p2", { opacity: 1, y: 0, duration: 0.45 }, at(5, 0.9));
+      tl.to("#s5-chip", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(5, 1.6));
+      tl.to("#s5-label", { opacity: 1, duration: 0.4 }, at(5, 2.0));
+
+      // ---- F6 Poca autoridad = literal ----
+      tl.to("#s6-b1", { opacity: 1, y: 0, duration: 0.4 }, at(6, 0.1));
+      tl.to("#s6-ar", { opacity: 1, duration: 0.3 }, at(6, 0.5));
+      tl.to("#s6-b2", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(6, 0.65));
+      tl.to("#s6-note", { opacity: 1, y: 0, duration: 0.5 }, at(6, 1.6));
+
+      // ---- F7 Las 4 posiciones ----
+      [0, 1, 2, 3].forEach((i) => {
+        const t = at(7, 1.1 + i * 0.75);
+        tl.to(`#s7 [data-row="${i}"]`, { opacity: 1, y: 0, duration: 0.4 }, t);
+        tl.to(`#s7 [data-check="${i}"]`, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, t + 0.3);
+      });
+
+      // ---- F8 Mucha autoridad = libre ----
+      tl.to("#s8-b1", { opacity: 1, y: 0, duration: 0.4 }, at(8, 0.1));
+      tl.to("#s8-ar", { opacity: 1, duration: 0.3 }, at(8, 0.5));
+      tl.to("#s8-b2", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(8, 0.65));
+      tl.to("#s8-demo", { opacity: 1, duration: 0.3 }, at(8, 1.0));
+      tl.fromTo("#s8-chip", { x: 150, opacity: 1 }, { x: 0, duration: 0.7, ease: "power3.inOut" }, at(8, 1.3));
+      tl.to("#s8-pos", { opacity: 1, y: 0, duration: 0.5 }, at(8, 2.5));
+      tl.fromTo("#s8-d1", { scale: 1 }, { backgroundColor: "#c8ff3d", duration: 0.3 }, at(8, 3.0));
+      tl.to("#s8-d2", { backgroundColor: "#c8ff3d", duration: 0.3 }, at(8, 3.3));
+
+      // ---- F9 El ejemplo del nº1 ----
+      tl.to("#s9-kicker", { opacity: 1, duration: 0.35 }, at(9, 0.05));
+      tl.to("#s9-serp", { opacity: 1, y: 0, duration: 0.5 }, at(9, 0.3));
+
+      // ---- F10 Tu versión ----
+      tl.to("#s10-panel", { opacity: 1, y: 0, duration: 0.5 }, at(10, 0.1));
+      tl.to("#s10-note", { opacity: 1, y: 0, duration: 0.4 }, at(10, 0.8));
+
+      // ---- F11 CTA ----
+      tl.to("#s11-title .fade-up-sm", { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, at(11, 0.1));
+      tl.to("#s11-cta", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, at(11, 0.9));
+
+      tl.seek(0);
+    </script>
+  </body>
+</html>
