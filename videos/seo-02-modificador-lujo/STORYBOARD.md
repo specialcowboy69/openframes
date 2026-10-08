@@ -18,6 +18,26 @@ aparición de cada elemento.
 resultado, iconos SVG, cursor). El texto en pantalla queda reducido al mínimo: solo el que
 es el propio tema del vídeo (la URL, el título) y los subtítulos karaoke.
 
+**Regla de movimiento:** entradas con `fromTo` y asentamiento **`power3.out`** (nunca rebote);
+cada elemento aparece **cuando la voz lo nombra** (tiempos por palabra del karaoke); el
+**escenario entra con la escena**. Detalle en `DESIGN.md` §4.
+
+**Transiciones:** una primaria (`push-slide`) + dos acentos (`zoom-through` en el giro,
+`blur-crossfade` en el lujo). Animan la capa interna `#sN-in` y extienden la cola de la escena
+saliente; **el audio no se toca** → cero silencios.
+
+| Corte | `transition_in` | Dur. | Por qué |
+|---|---|---|---|
+| F1→F2 | `push-slide` ↑ | 0,45 s | primaria |
+| F2→F3 | `push-slide` ↑ | 0,40 s | primaria |
+| F3→F4 | `crossfade` | 0,40 s | mismo contexto (URL → título) |
+| F4→F5 | `push-slide` ↑ | 0,40 s | punto nuevo |
+| F5→F6 | `zoom-through` | 0,50 s | clímax: el giro |
+| F6→F7 | `blur-crossfade` | 0,50 s | el lujo: contención |
+| F7→F8 | `push-slide` ↓ | 0,30 s | la caída (F8 dura 1,2 s) |
+| F8→F9 | `crossfade` | 0,35 s | continuidad |
+| F9→F10 | `crossfade` | 0,50 s | outro |
+
 ## Frame 1 — Hook (0,000 – 4,226 s)
 
 - scene: ventana de navegador con `tutienda.com/zapatillas-baratas` y dos veredictos (↑ verde / ↓ rojo)

@@ -20,7 +20,7 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 
 | ID | Tema | De dónde sale | Por qué se dejó para otro vídeo | Ángulo propuesto | Formato | Estado |
 |----|------|---------------|--------------------------------|------------------|---------|--------|
-| V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 29,8 s · 10 frames | Guion reescrito + voz oficial Fish Audio `Pablo` + rediseño gráfico (ventana de navegador, cursor) y efectos de sonido |
+| V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 29,8 s · 10 frames | **Publicado en Instagram** (2026-10-08; Facebook dio error de permisos). **v7: remontaje** — transiciones, `power3.out`, revelado sincronizado con la voz |
 | V3 | Qué es la autoridad y cómo saber la tuya | Implícito en V1 | Es un vídeo base por sí solo; en V1 solo se define de pasada | "Tu web no sube aunque hagas SEO: mira tu autoridad" | 9:16 · ~40 s | Idea |
 | V4 | Modificadores cortos y lectura rápida en Google | Detalle de V2 (la palabra "barato" se procesa de un vistazo) | Es un dato, no una idea completa | Por qué las palabras cortas ganan clics en la SERP | 9:16 · ~25 s (motion-graphics) | Idea |
 | V5 | Intención de búsqueda | Extensión natural de V1 | Tema grande; merece su propio vídeo | "Misma palabra, intención distinta, página distinta" | 9:16 · ~40 s | Idea |
@@ -80,3 +80,16 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
   por n8n** (`jobs: []`); la Action de estado confirmó `not_found`, se **reconcilió la
   reserva** y el reintento **sin portada** fue aceptado (`ok: true, created: 1`, job
   `reel-seo-02-modificador-lujo-37786555312`). La portada queda guardada en la cola.
+- **V2 v7 (remontaje: nivel de montaje)** — petición del usuario: subir el nivel de montaje.
+  Tres capas, según la doctrina del framework:
+  1. **Transiciones** en los 9 cortes (`push-slide` primaria; `zoom-through` en el giro;
+     `blur-crossfade` en el lujo; `crossfade` en continuidad y outro). Animan una **capa
+     interna** nueva (`#sN-in`) y **extienden la cola** de la escena saliente; los `<audio>`
+     no se tocan → **cero silencios**.
+  2. **Doctrina de movimiento**: fuera el rebote (`back.out(2)` → **`power3.out`**) y entradas
+     con `fromTo` explícito.
+  3. **Revelado sincronizado con la voz**: cada elemento aparece cuando el karaoke dice su
+     palabra, y el **escenario (el marco) entra con la escena** en lugar de a los 0,3-0,4 s.
+  Verificado sin ojos: cobertura del lienzo ≥ 8 % en todos los cruces (antes caía al 3,1 % con
+  la escena entrando vacía), perfil de bandas confirmando el desplazamiento, `check` en verde
+  y **0 huecos** de silencio en el audio.

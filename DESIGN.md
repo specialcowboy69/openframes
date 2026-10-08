@@ -84,13 +84,80 @@ lupa. Todos inline; el color lo hereda del contenedor (así el mismo icono sirve
 
 ## 4. Movimiento
 
-- **Seek-safe siempre:** estado inicial en CSS y animación con GSAP `.to()`; los rellenos con
-  `fromTo` explícito. Nunca `.from()`, ni contadores numéricos, ni `Date.now()`/`Math.random()`.
-- Entradas disponibles: `fade-up` / `fade-up-sm` (subida suave), `pop` (`scale .7→1`, `back.out(2)`),
-  `slide-x` (deslizamiento lateral), `fill` (`scaleX 0→1`), `fade-in`.
-- **Una aparición = un gesto.** Nada de animaciones decorativas que no acompañen a un elemento.
-- **La animación no puede durar más que su escena** (escena = clip): el último cambio termina
-  ~0,35 s antes del corte.
+Fuente autoritativa: las skills de HyperFrames (`hyperframes-animation` → `motion-language.md`,
+`transitions/` y `rules/`). La doctrina es dura: no es cuestión de gusto.
+
+### 4.1 Doctrina
+
+- **Suave gana a rebotón.** El asentamiento por defecto es **`power3.out`** (cola larga, sin
+  sobrepasar). `back.out` / `bounce` / `elastic` están **prohibidos** como entrada: son el
+  *turn-off nº 1* de los vídeos hechos por agentes. Para una llegada rápida, `expo.out`.
+  (V2 usaba `back.out(2)` en el `pop`: corregido.)
+- **Revelado secuencial, sincronizado con la voz.** Cada elemento aparece **cuando la voz lo
+  nombra**, no todo al principio. Volcar la escena en el primer 25 % es *el* fallo
+  "PowerPoint". Los tiempos por palabra salen del karaoke (`TRANSCRIPT` del componente de
+  subtítulos): es la fuente de verdad de cuándo se dice cada cosa.
+- **El escenario entra con la escena.** El marco (la ventana de navegador) es el suelo de la
+  escena, no un revelado. Si entra tarde, la escena **llega vacía** durante el cruce —
+  medido: la cobertura del lienzo caía a ~3 %. Lo que va a la voz es el contenido (URL,
+  modificador, veredictos, barras), no el marco.
+- **Nada de "breathing"** (escalar en bucle para fingir vida) ni pan/zoom lentos en la segunda
+  mitad: marean y abaratan. *Antes nada de movimiento que mal movimiento.* La única vivacidad
+  permitida es un *subtle jitter* de baja amplitud.
+- **Entradas con `fromTo`** (estado inicial explícito), nunca confiando solo en un CSS oculto.
+  Prohibido CSS `transition`/`@keyframes` y `repeat`/`yoyo`: se desincronizan del reloj del render.
+- **La animación no dura más que su escena** y el último cambio cierra antes del corte.
+
+Clases CSS de estado inicial (la animación las sobrescribe): `fade-in`, `fade-up`,
+`fade-up-sm`, `pop`, `slide-x`, `fill`.
+
+### 4.2 Transiciones entre escenas
+
+*Toda* composición multi-escena lleva transiciones: sin ellas las escenas se sienten como
+cortes secos. Y **la transición ES la salida**: no se anima nada hacia fuera (salvo el último
+frame, que sí puede cerrar).
+
+Registro disponible (Tier-B: solo transform/opacidad/filtro sobre el envoltorio, sin DOM extra):
+
+| Transición | Energía | Cuándo |
+|---|---|---|
+| `push-slide` (↑ ↓ ← →) | media | **primaria**: "siguiente punto" |
+| `crossfade` | cualquiera | continuidad: "esto sigue" |
+| `blur-crossfade` | calma | fondos que chocan; registro *premium* |
+| `zoom-through` | alta | **clímax**: lo más audaz |
+| `squeeze` | media | cambio de sección |
+| `cut` | — | saltar (excepcional) |
+
+Reglas de reparto: **una primaria (60-70 %)** + 1-2 acentos. La apertura, la más distintiva;
+el clímax, la más audaz; el outro, la más simple. Duración 0,3-0,5 s (máx. 2 s) **ajustada a la
+longitud de la escena**: en una escena de 1,2 s, 0,3 s.
+
+Cómo se implementa en `index.html`:
+
+1. Cada escena envuelve su contenido en `<div class="s-in" id="sN-in">`. **Las transiciones
+   animan esa capa interna, nunca el clip**, que es de quien manda la visibilidad.
+2. La cola del saliente se extiende: `data-duration += duración de la transición`.
+3. El array `TR` del script declara cada cruce; el bucle emite los dos tweens en `T = S[n]`.
+4. Los `<audio>` **no se tocan nunca** → las transiciones no crean silencios.
+
+Mapa de V2 (10 escenas):
+
+| Corte | Transición | Dur. | Por qué |
+|---|---|---|---|
+| F1→F2 | `push-slide` ↑ | 0,45 s | primaria: siguiente punto |
+| F2→F3 | `push-slide` ↑ | 0,40 s | primaria |
+| F3→F4 | `crossfade` | 0,40 s | F3 y F4 son el mismo contexto (URL → título) |
+| F4→F5 | `push-slide` ↑ | 0,40 s | punto nuevo |
+| F5→F6 | **`zoom-through`** | 0,50 s | **clímax**: el giro del aviso |
+| F6→F7 | `blur-crossfade` | 0,50 s | el caso de lujo: contención, *premium* |
+| F7→F8 | `push-slide` ↓ | 0,30 s | la caída; corta, porque F8 dura 1,2 s |
+| F8→F9 | `crossfade` | 0,35 s | continuidad |
+| F9→F10 | `crossfade` | 0,50 s | outro: cierre suave |
+
+**Verificación sin ojos** (obligatoria antes de dar un montaje por bueno): `check` en verde,
+cobertura de contenido ≥ ~8 % en todo el cruce (si cae a ~3 %, la escena llega vacía),
+perfil de bandas por filas para ver que el contenido se desplaza, y envolvente RMS del audio
+para confirmar **cero huecos** de silencio.
 
 ## 5. Sonido
 

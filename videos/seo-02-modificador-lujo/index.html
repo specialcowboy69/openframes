@@ -27,7 +27,10 @@
         background: var(--bg); font-family: "Inter", system-ui, sans-serif; color: var(--ink);
       }
       #root { position: relative; width: 1080px; height: 1920px; background: var(--bg); overflow: hidden; }
-      .scene {
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      /* Capa interna: las transiciones animan esta, nunca el clip del
+         framework (que es quien manda la visibilidad). */
+      .s-in {
         position: absolute; inset: 0; display: flex; flex-direction: column;
         justify-content: center; padding: 300px 74px 470px;
       }
@@ -179,170 +182,190 @@
     <div data-hf-id="hf-z7h2" id="root" data-composition-id="main" data-start="0" data-duration="29.779" data-width="1080" data-height="1920">
 
       <!-- ===== F1 — HOOK: el mismo modificador, dos destinos ===== -->
-      <section data-hf-id="hf-sa7i" class="scene clip" id="s1" data-start="0.0" data-duration="4.226" data-track-index="0">
-        <div data-hf-id="hf-hu55" class="kicker fade-in" id="s1-kicker"><span data-hf-id="hf-9gry" class="dot"></span>EL MODIFICADOR</div>
-        <div data-hf-id="hf-narc" class="browser fade-up" id="s1-browser" style="margin-top: 34px">
-          <div data-hf-id="hf-6ex2" class="chrome">
-            <span data-hf-id="hf-42yy" class="lights"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></span>
-            <span data-hf-id="hf-hky0" class="addr">
-              <span data-hf-id="hf-0ig8" class="lock"><svg data-hf-id="hf-fwsu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-1bkv" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-xqka" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
-              <span data-hf-id="hf-vfkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-22mt" class="mod" id="s1-chip">-baratas</span>
-            </span>
+      <section data-hf-id="hf-sa7i" class="scene clip" id="s1" data-start="0.0" data-duration="4.676" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div data-hf-id="hf-hu55" class="kicker fade-in" id="s1-kicker"><span data-hf-id="hf-9gry" class="dot"></span>EL MODIFICADOR</div>
+          <div data-hf-id="hf-narc" class="browser fade-up" id="s1-browser" style="margin-top: 34px">
+            <div data-hf-id="hf-6ex2" class="chrome">
+              <span data-hf-id="hf-42yy" class="lights"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></span>
+              <span data-hf-id="hf-hky0" class="addr">
+                <span data-hf-id="hf-0ig8" class="lock"><svg data-hf-id="hf-fwsu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-1bkv" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-xqka" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span data-hf-id="hf-vfkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-22mt" class="mod" id="s1-chip">-baratas</span>
+              </span>
+            </div>
           </div>
-        </div>
-        <div data-hf-id="hf-lh6a" class="verdicts">
-          <span data-hf-id="hf-hivu" class="verdict up pop" id="s1-up"><svg data-hf-id="hf-085v" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-qc3g" d="M12 19.5V5" /><path data-hf-id="hf-b92o" d="M5.5 11.5 12 5l6.5 6.5" /></svg></span>
-          <span data-hf-id="hf-cyw4" class="verdict down pop" id="s1-down"><svg data-hf-id="hf-s9f7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-79u3" d="M12 4.5V19" /><path data-hf-id="hf-bq5a" d="M18.5 12.5 12 19l-6.5-6.5" /></svg></span>
+          <div data-hf-id="hf-lh6a" class="verdicts">
+            <span data-hf-id="hf-hivu" class="verdict up pop" id="s1-up"><svg data-hf-id="hf-085v" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-qc3g" d="M12 19.5V5" /><path data-hf-id="hf-b92o" d="M5.5 11.5 12 5l6.5 6.5" /></svg></span>
+            <span data-hf-id="hf-cyw4" class="verdict down pop" id="s1-down"><svg data-hf-id="hf-s9f7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-79u3" d="M12 4.5V19" /><path data-hf-id="hf-bq5a" d="M18.5 12.5 12 19l-6.5-6.5" /></svg></span>
+          </div>
         </div>
       </section>
 
       <!-- ===== F2 — EL MODIFICADOR VA AL FINAL ===== -->
-      <section data-hf-id="hf-7x0v" class="scene clip" id="s2" data-start="4.226" data-duration="3.755" data-track-index="0">
-        <div data-hf-id="hf-tkyi" class="kicker fade-in" id="s2-kicker"><span data-hf-id="hf-zcc2" class="dot"></span>COMERCIO ELECTRÓNICO</div>
-        <div data-hf-id="hf-ulll" class="browser fade-up" id="s2-browser" style="margin-top: 34px">
-          <div data-hf-id="hf-ujgq" class="chrome">
-            <span data-hf-id="hf-atou" class="lights"><i data-hf-id="hf-ylp6"></i><i data-hf-id="hf-0l8b"></i><i data-hf-id="hf-0zjc"></i></span>
-            <span data-hf-id="hf-wmv4" class="addr">
-              <span data-hf-id="hf-t468" class="lock"><svg data-hf-id="hf-8p1u" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-k9jz" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-3rz2" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
-              <span data-hf-id="hf-yjkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-u3hi" class="plus pop" id="s2-plus"><svg data-hf-id="hf-q9mt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-sah3" d="M12 4.5v15" /><path data-hf-id="hf-8lpz" d="M4.5 12h15" /></svg></span>
-            </span>
-          </div>
-          <div data-hf-id="hf-slsm" class="serpbody">
-            <div data-hf-id="hf-ycrv" class="result">
-              <span data-hf-id="hf-5knw" class="fav">t</span>
-              <span data-hf-id="hf-uckh">
-                <span data-hf-id="hf-0aid" class="crumb">tutienda.com</span>
-                <div data-hf-id="hf-q5hp" class="skeleton"><i data-hf-id="hf-zsm9"></i><i data-hf-id="hf-06xa"></i></div>
+      <section data-hf-id="hf-7x0v" class="scene clip" id="s2" data-start="4.226" data-duration="4.155" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div data-hf-id="hf-tkyi" class="kicker fade-in" id="s2-kicker"><span data-hf-id="hf-zcc2" class="dot"></span>COMERCIO ELECTRÓNICO</div>
+          <div data-hf-id="hf-ulll" class="browser fade-up" id="s2-browser" style="margin-top: 34px">
+            <div data-hf-id="hf-ujgq" class="chrome">
+              <span data-hf-id="hf-atou" class="lights"><i data-hf-id="hf-ylp6"></i><i data-hf-id="hf-0l8b"></i><i data-hf-id="hf-0zjc"></i></span>
+              <span data-hf-id="hf-wmv4" class="addr">
+                <span data-hf-id="hf-t468" class="lock"><svg data-hf-id="hf-8p1u" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-k9jz" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-3rz2" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span data-hf-id="hf-yjkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-u3hi" class="plus pop" id="s2-plus"><svg data-hf-id="hf-q9mt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-sah3" d="M12 4.5v15" /><path data-hf-id="hf-8lpz" d="M4.5 12h15" /></svg></span>
               </span>
             </div>
+            <div data-hf-id="hf-slsm" class="serpbody">
+              <div data-hf-id="hf-ycrv" class="result">
+                <span data-hf-id="hf-5knw" class="fav">t</span>
+                <span data-hf-id="hf-uckh">
+                  <span data-hf-id="hf-0aid" class="crumb">tutienda.com</span>
+                  <div data-hf-id="hf-q5hp" class="skeleton"><i data-hf-id="hf-zsm9"></i><i data-hf-id="hf-06xa"></i></div>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div data-hf-id="hf-c1jf" class="lux" style="margin-top: 40px; justify-content: center">
-          <span data-hf-id="hf-qzbi" class="tag slide-x" id="s2-mod" style="border-color: var(--accent); color: var(--accent)">-baratas</span>
+          <div data-hf-id="hf-c1jf" class="lux" style="margin-top: 40px; justify-content: center">
+            <span data-hf-id="hf-qzbi" class="tag slide-x" id="s2-mod" style="border-color: var(--accent); color: var(--accent)">-baratas</span>
+          </div>
         </div>
       </section>
 
       <!-- ===== F3 — EN LA URL ENTRA TAL CUAL ===== -->
-      <section data-hf-id="hf-h6er" class="scene clip" id="s3" data-start="7.981" data-duration="3.645" data-track-index="0">
-        <div data-hf-id="hf-aepg" class="kicker fade-in" id="s3-kicker"><span data-hf-id="hf-zqn3" class="dot"></span>EN LA URL</div>
-        <div data-hf-id="hf-dr1i" class="browser fade-up" id="s3-browser" style="margin-top: 34px">
-          <div data-hf-id="hf-uxrr" class="chrome">
-            <span data-hf-id="hf-b7zv" class="lights"><i data-hf-id="hf-26gf"></i><i data-hf-id="hf-2krg"></i><i data-hf-id="hf-oz7w"></i></span>
-            <span data-hf-id="hf-vfy1" class="addr">
-              <span data-hf-id="hf-rx95" class="lock"><svg data-hf-id="hf-93cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jv8y" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-46a3" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
-              <span data-hf-id="hf-y59y" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-9mb3" class="mod fade-in" id="s3-mod">-baratas</span><span data-hf-id="hf-yoo2" class="caret fade-in" id="s3-caret"></span>
-            </span>
-          </div>
-          <div data-hf-id="hf-r41m" class="serpbody">
-            <div data-hf-id="hf-qarv" class="result">
-              <span data-hf-id="hf-clgc" class="fav pop" id="s3-ok"><svg data-hf-id="hf-98k7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-okxw" d="M4 12.5l5.5 5.5L20 6.5" /></svg></span>
-              <span data-hf-id="hf-nyx6" style="flex:1">
-                <div data-hf-id="hf-dsht" class="skeleton"><i data-hf-id="hf-okwv"></i><i data-hf-id="hf-o6lu"></i></div>
+      <section data-hf-id="hf-h6er" class="scene clip" id="s3" data-start="7.981" data-duration="4.045" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div data-hf-id="hf-aepg" class="kicker fade-in" id="s3-kicker"><span data-hf-id="hf-zqn3" class="dot"></span>EN LA URL</div>
+          <div data-hf-id="hf-dr1i" class="browser fade-up" id="s3-browser" style="margin-top: 34px">
+            <div data-hf-id="hf-uxrr" class="chrome">
+              <span data-hf-id="hf-b7zv" class="lights"><i data-hf-id="hf-26gf"></i><i data-hf-id="hf-2krg"></i><i data-hf-id="hf-oz7w"></i></span>
+              <span data-hf-id="hf-vfy1" class="addr">
+                <span data-hf-id="hf-rx95" class="lock"><svg data-hf-id="hf-93cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jv8y" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-46a3" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span data-hf-id="hf-y59y" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-9mb3" class="mod fade-in" id="s3-mod">-baratas</span><span data-hf-id="hf-yoo2" class="caret fade-in" id="s3-caret"></span>
               </span>
+            </div>
+            <div data-hf-id="hf-r41m" class="serpbody">
+              <div data-hf-id="hf-qarv" class="result">
+                <span data-hf-id="hf-clgc" class="fav pop" id="s3-ok"><svg data-hf-id="hf-98k7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-okxw" d="M4 12.5l5.5 5.5L20 6.5" /></svg></span>
+                <span data-hf-id="hf-nyx6" style="flex:1">
+                  <div data-hf-id="hf-dsht" class="skeleton"><i data-hf-id="hf-okwv"></i><i data-hf-id="hf-o6lu"></i></div>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ===== F4 — EL TÍTULO SUENA NATURAL ===== -->
-      <section data-hf-id="hf-lk87" class="scene clip" id="s4" data-start="11.626" data-duration="3.566" data-track-index="0">
-        <div data-hf-id="hf-b5he" class="kicker fade-in" id="s4-kicker"><span data-hf-id="hf-04y4" class="dot"></span>EL TÍTULO</div>
-        <div data-hf-id="hf-sb1z" class="browser fade-up" id="s4-browser" style="margin-top: 34px">
-          <div data-hf-id="hf-vc2s" class="chrome">
-            <span data-hf-id="hf-bmaw" class="lights"><i data-hf-id="hf-jqbp"></i><i data-hf-id="hf-qkg0"></i><i data-hf-id="hf-q64z"></i></span>
-            <span data-hf-id="hf-vu92" class="addr">
-              <span data-hf-id="hf-sbk6" class="lock"><svg data-hf-id="hf-9hnw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jgxx" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-4kl4" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
-              <span data-hf-id="hf-v086" class="dim">google.com/search</span>
-            </span>
-          </div>
-          <div data-hf-id="hf-ricn" class="serpbody">
-            <div data-hf-id="hf-4m46" class="result fade-up" id="s4-result">
-              <span data-hf-id="hf-oono" class="fav">t</span>
-              <span data-hf-id="hf-l73p">
-                <span data-hf-id="hf-8krp" class="crumb">tutienda.com › zapatillas-baratas</span>
-                <div data-hf-id="hf-smng" class="rtitle">Zapatillas <b data-hf-id="hf-6925" id="s4-mark">baratas</b> para correr</div>
-                <div data-hf-id="hf-ezew" class="skeleton"><i data-hf-id="hf-prty"></i><i data-hf-id="hf-pdix"></i></div>
+      <section data-hf-id="hf-lk87" class="scene clip" id="s4" data-start="11.626" data-duration="3.966" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div data-hf-id="hf-b5he" class="kicker fade-in" id="s4-kicker"><span data-hf-id="hf-04y4" class="dot"></span>EL TÍTULO</div>
+          <div data-hf-id="hf-sb1z" class="browser fade-up" id="s4-browser" style="margin-top: 34px">
+            <div data-hf-id="hf-vc2s" class="chrome">
+              <span data-hf-id="hf-bmaw" class="lights"><i data-hf-id="hf-jqbp"></i><i data-hf-id="hf-qkg0"></i><i data-hf-id="hf-q64z"></i></span>
+              <span data-hf-id="hf-vu92" class="addr">
+                <span data-hf-id="hf-sbk6" class="lock"><svg data-hf-id="hf-9hnw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jgxx" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-4kl4" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span data-hf-id="hf-v086" class="dim">google.com/search</span>
               </span>
+            </div>
+            <div data-hf-id="hf-ricn" class="serpbody">
+              <div data-hf-id="hf-4m46" class="result fade-up" id="s4-result">
+                <span data-hf-id="hf-oono" class="fav">t</span>
+                <span data-hf-id="hf-l73p">
+                  <span data-hf-id="hf-8krp" class="crumb">tutienda.com › zapatillas-baratas</span>
+                  <div data-hf-id="hf-smng" class="rtitle">Zapatillas <b data-hf-id="hf-6925" id="s4-mark">baratas</b> para correr</div>
+                  <div data-hf-id="hf-ezew" class="skeleton"><i data-hf-id="hf-prty"></i><i data-hf-id="hf-pdix"></i></div>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ===== F5 — ES CORTO, SE LEE RÁPIDO ===== -->
-      <section data-hf-id="hf-jlw6" class="scene clip" id="s5" data-start="15.192" data-duration="3.249" data-track-index="0">
-        <div data-hf-id="hf-fmxi" class="kicker fade-in" id="s5-kicker"><span data-hf-id="hf-0j95" class="dot"></span>¿POR QUÉ AL FINAL?</div>
-        <div data-hf-id="hf-umx2" class="bars">
-          <div data-hf-id="hf-6ls5" class="bar short">
-            <b data-hf-id="hf-af0t" class="fill" id="s5-short"></b>
-            <span data-hf-id="hf-92w8" class="eye"><svg data-hf-id="hf-zwc0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path data-hf-id="hf-atjc" d="M1.8 12S5.5 5.5 12 5.5 22.2 12 22.2 12 18.5 18.5 12 18.5 1.8 12 1.8 12z" /><circle data-hf-id="hf-nouh" cx="12" cy="12" r="3.2" /></svg></span>
+      <section data-hf-id="hf-jlw6" class="scene clip" id="s5" data-start="15.192" data-duration="3.749" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div data-hf-id="hf-fmxi" class="kicker fade-in" id="s5-kicker"><span data-hf-id="hf-0j95" class="dot"></span>¿POR QUÉ AL FINAL?</div>
+          <div data-hf-id="hf-umx2" class="bars">
+            <div data-hf-id="hf-6ls5" class="bar short">
+              <b data-hf-id="hf-af0t" class="fill" id="s5-short"></b>
+              <span data-hf-id="hf-92w8" class="eye"><svg data-hf-id="hf-zwc0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path data-hf-id="hf-atjc" d="M1.8 12S5.5 5.5 12 5.5 22.2 12 22.2 12 18.5 18.5 12 18.5 1.8 12 1.8 12z" /><circle data-hf-id="hf-nouh" cx="12" cy="12" r="3.2" /></svg></span>
+            </div>
+            <div data-hf-id="hf-pst7" class="bar long">
+              <b data-hf-id="hf-gwmb" class="fill" id="s5-long"></b>
+            </div>
           </div>
-          <div data-hf-id="hf-pst7" class="bar long">
-            <b data-hf-id="hf-gwmb" class="fill" id="s5-long"></b>
+          <div data-hf-id="hf-3h70" class="speedrow pop" id="s5-eye">
+            <svg data-hf-id="hf-xr9g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path data-hf-id="hf-y4ot" d="M4 18.5a9 9 0 1 1 16 0" /><path data-hf-id="hf-kak7" d="M12 18.5 16.6 12.5" /></svg>
+            <span data-hf-id="hf-17ar" style="font-size: 34px; font-weight: 700; letter-spacing: 0.02em">-baratas · lectura instantánea</span>
           </div>
-        </div>
-        <div data-hf-id="hf-3h70" class="speedrow pop" id="s5-eye">
-          <svg data-hf-id="hf-xr9g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path data-hf-id="hf-y4ot" d="M4 18.5a9 9 0 1 1 16 0" /><path data-hf-id="hf-kak7" d="M12 18.5 16.6 12.5" /></svg>
-          <span data-hf-id="hf-17ar" style="font-size: 34px; font-weight: 700; letter-spacing: 0.02em">-baratas · lectura instantánea</span>
         </div>
       </section>
 
       <!-- ===== F6 — HAY UN CASO DONDE NO ===== -->
-      <section data-hf-id="hf-2k54" class="scene clip" id="s6" data-start="18.441" data-duration="2.258" data-track-index="0">
-        <div data-hf-id="hf-459c" class="warnwrap">
-          <svg data-hf-id="hf-zv5m" class="tri pop" id="s6-tri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path data-hf-id="hf-tqun" d="M12 3.1 1.7 20.6h20.6L12 3.1z" /><path data-hf-id="hf-xez5" d="M12 9.4v5.1" /><path data-hf-id="hf-pmcd" d="M12 17.6h.01" /></svg>
-          <span data-hf-id="hf-k2b9" class="ring" id="s6-ring"></span>
-        </div>
-        <div data-hf-id="hf-u73c" style="margin-top: 54px; display: flex; justify-content: center">
-          <span data-hf-id="hf-20bx" class="cta pop" id="s6-chip" style="margin-top: 0; font-size: 40px; background: var(--warn); color: #14141a">NUNCA</span>
+      <section data-hf-id="hf-2k54" class="scene clip" id="s6" data-start="18.441" data-duration="2.758" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div data-hf-id="hf-459c" class="warnwrap">
+            <svg data-hf-id="hf-zv5m" class="tri pop" id="s6-tri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path data-hf-id="hf-tqun" d="M12 3.1 1.7 20.6h20.6L12 3.1z" /><path data-hf-id="hf-xez5" d="M12 9.4v5.1" /><path data-hf-id="hf-pmcd" d="M12 17.6h.01" /></svg>
+            <span data-hf-id="hf-k2b9" class="ring" id="s6-ring"></span>
+          </div>
+          <div data-hf-id="hf-u73c" style="margin-top: 54px; display: flex; justify-content: center">
+            <span data-hf-id="hf-20bx" class="cta pop" id="s6-chip" style="margin-top: 0; font-size: 40px; background: var(--warn); color: #14141a">NUNCA</span>
+          </div>
         </div>
       </section>
 
       <!-- ===== F7 — EN LUJO, BARATO ES MALA SEÑAL ===== -->
-      <section data-hf-id="hf-0qxl" class="scene clip" id="s7" data-start="20.699" data-duration="2.791" data-track-index="0">
-        <div data-hf-id="hf-hfrk" class="kicker fade-in" id="s7-kicker"><span data-hf-id="hf-gcvu" class="dot warn"></span>EXCEPCIÓN · LUJO</div>
-        <div data-hf-id="hf-b1br" class="lux" style="margin-top: 44px; justify-content: center">
-          <span data-hf-id="hf-o9w1" class="gem pop" id="s7-gem"><svg data-hf-id="hf-gegz" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-kggo" d="M6.4 2.6h11.2l4.2 5.6L12 21.6 2.2 8.2 6.4 2.6z" /></svg></span>
-          <span data-hf-id="hf-r7ve" class="tag fade-up-sm" id="s7-tag">barato<span data-hf-id="hf-qvl2" class="strike" id="s7-strike"></span></span>
-          <span data-hf-id="hf-rso7" class="nope pop" id="s7-x"><svg data-hf-id="hf-2eft" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-f1gn" d="M6 6l12 12" /><path data-hf-id="hf-pdkr" d="M18 6 6 18" /></svg></span>
+      <section data-hf-id="hf-0qxl" class="scene clip" id="s7" data-start="20.699" data-duration="3.091" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div data-hf-id="hf-hfrk" class="kicker fade-in" id="s7-kicker"><span data-hf-id="hf-gcvu" class="dot warn"></span>EXCEPCIÓN · LUJO</div>
+          <div data-hf-id="hf-b1br" class="lux" style="margin-top: 44px; justify-content: center">
+            <span data-hf-id="hf-o9w1" class="gem pop" id="s7-gem"><svg data-hf-id="hf-gegz" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-kggo" d="M6.4 2.6h11.2l4.2 5.6L12 21.6 2.2 8.2 6.4 2.6z" /></svg></span>
+            <span data-hf-id="hf-r7ve" class="tag fade-up-sm" id="s7-tag">barato<span data-hf-id="hf-qvl2" class="strike" id="s7-strike"></span></span>
+            <span data-hf-id="hf-rso7" class="nope pop" id="s7-x"><svg data-hf-id="hf-2eft" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-f1gn" d="M6 6l12 12" /><path data-hf-id="hf-pdkr" d="M18 6 6 18" /></svg></span>
+          </div>
         </div>
       </section>
 
       <!-- ===== F8 — EL CURSOR PASA DE LARGO ===== -->
-      <section data-hf-id="hf-yc1v" class="scene clip" id="s8" data-start="23.49" data-duration="1.203" data-track-index="0">
-        <div data-hf-id="hf-igqu" class="scroller fade-in" id="s8-scroller">
-          <div data-hf-id="hf-qok4" class="inner" id="s8-inner">
-            <div data-hf-id="hf-j5iq" class="res"><span data-hf-id="hf-aatc" class="fav"></span><span data-hf-id="hf-kbha" class="lines"><i data-hf-id="hf-hqsk"></i><i data-hf-id="hf-hchj"></i></span></div>
-            <div data-hf-id="hf-pcwc" class="res ours" id="s8-ours"><span data-hf-id="hf-z514" class="fav"></span><span data-hf-id="hf-w936" class="lines"><i data-hf-id="hf-8d0n"></i><i data-hf-id="hf-8rbo"></i></span></div>
-            <div data-hf-id="hf-l6ra" class="res"><span data-hf-id="hf-xy41" class="fav"></span><span data-hf-id="hf-wne7" class="lines"><i data-hf-id="hf-7kel"></i><i data-hf-id="hf-7ypm"></i></span></div>
-            <div data-hf-id="hf-ll2b" class="res"><span data-hf-id="hf-ycf2" class="fav"></span><span data-hf-id="hf-x1p8" class="lines"><i data-hf-id="hf-9y8r"></i><i data-hf-id="hf-acjs"></i></span></div>
-            <div data-hf-id="hf-lzdc" class="res"><span data-hf-id="hf-x5hz" class="fav"></span><span data-hf-id="hf-xg09" class="lines"><i data-hf-id="hf-95mp"></i><i data-hf-id="hf-9jxq"></i></span></div>
+      <section data-hf-id="hf-yc1v" class="scene clip" id="s8" data-start="23.49" data-duration="1.553" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div data-hf-id="hf-igqu" class="scroller fade-in" id="s8-scroller">
+            <div data-hf-id="hf-qok4" class="inner" id="s8-inner">
+              <div data-hf-id="hf-j5iq" class="res"><span data-hf-id="hf-aatc" class="fav"></span><span data-hf-id="hf-kbha" class="lines"><i data-hf-id="hf-hqsk"></i><i data-hf-id="hf-hchj"></i></span></div>
+              <div data-hf-id="hf-pcwc" class="res ours" id="s8-ours"><span data-hf-id="hf-z514" class="fav"></span><span data-hf-id="hf-w936" class="lines"><i data-hf-id="hf-8d0n"></i><i data-hf-id="hf-8rbo"></i></span></div>
+              <div data-hf-id="hf-l6ra" class="res"><span data-hf-id="hf-xy41" class="fav"></span><span data-hf-id="hf-wne7" class="lines"><i data-hf-id="hf-7kel"></i><i data-hf-id="hf-7ypm"></i></span></div>
+              <div data-hf-id="hf-ll2b" class="res"><span data-hf-id="hf-ycf2" class="fav"></span><span data-hf-id="hf-x1p8" class="lines"><i data-hf-id="hf-9y8r"></i><i data-hf-id="hf-acjs"></i></span></div>
+              <div data-hf-id="hf-lzdc" class="res"><span data-hf-id="hf-x5hz" class="fav"></span><span data-hf-id="hf-xg09" class="lines"><i data-hf-id="hf-95mp"></i><i data-hf-id="hf-9jxq"></i></span></div>
+            </div>
+            <span data-hf-id="hf-x22d" class="cursor fade-in" id="s8-cursor"><svg data-hf-id="hf-qldv" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-jocj" d="M5 2.4 19.2 13.3l-6.2 1 3.3 6.7-2.7 1.3-3.3-6.7-4.8 4.1z" /></svg></span>
           </div>
-          <span data-hf-id="hf-x22d" class="cursor fade-in" id="s8-cursor"><svg data-hf-id="hf-qldv" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-jocj" d="M5 2.4 19.2 13.3l-6.2 1 3.3 6.7-2.7 1.3-3.3-6.7-4.8 4.1z" /></svg></span>
         </div>
       </section>
 
       <!-- ===== F9 — SUMA O RESTA CLIENTES ===== -->
-      <section data-hf-id="hf-1uly" class="scene clip" id="s9" data-start="24.693" data-duration="2.853" data-track-index="0">
-        <div data-hf-id="hf-zsgm" class="kicker fade-in" id="s9-kicker"><span data-hf-id="hf-0xk6" class="dot"></span>EL MISMO MODIFICADOR</div>
-        <div data-hf-id="hf-y4bg" class="duo">
-          <div data-hf-id="hf-wce2" class="p good pop" id="s9-a">
-            <svg data-hf-id="hf-n0vi" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-l6w2" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-tsee" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-93qj" cx="17.6" cy="20" r="1.8" /></svg>
-            <svg data-hf-id="hf-eqm2" class="arw pop" id="s9-aup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-b390" d="M12 19.5V5" /><path data-hf-id="hf-wryg" d="M5.5 11.5 12 5l6.5 6.5" /></svg>
-          </div>
-          <div data-hf-id="hf-x2qv" class="p bad pop" id="s9-b">
-            <svg data-hf-id="hf-y78y" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-k5qe" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-6j2i" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-ftaj" cx="17.6" cy="20" r="1.8" /></svg>
-            <svg data-hf-id="hf-o8ly" class="arw pop" id="s9-bdown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-i297" d="M12 4.5V19" /><path data-hf-id="hf-beo2" d="M18.5 12.5 12 19l-6.5-6.5" /></svg>
+      <section data-hf-id="hf-1uly" class="scene clip" id="s9" data-start="24.693" data-duration="3.353" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div data-hf-id="hf-zsgm" class="kicker fade-in" id="s9-kicker"><span data-hf-id="hf-0xk6" class="dot"></span>EL MISMO MODIFICADOR</div>
+          <div data-hf-id="hf-y4bg" class="duo">
+            <div data-hf-id="hf-wce2" class="p good pop" id="s9-a">
+              <svg data-hf-id="hf-n0vi" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-l6w2" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-tsee" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-93qj" cx="17.6" cy="20" r="1.8" /></svg>
+              <svg data-hf-id="hf-eqm2" class="arw pop" id="s9-aup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-b390" d="M12 19.5V5" /><path data-hf-id="hf-wryg" d="M5.5 11.5 12 5l6.5 6.5" /></svg>
+            </div>
+            <div data-hf-id="hf-x2qv" class="p bad pop" id="s9-b">
+              <svg data-hf-id="hf-y78y" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-k5qe" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-6j2i" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-ftaj" cx="17.6" cy="20" r="1.8" /></svg>
+              <svg data-hf-id="hf-o8ly" class="arw pop" id="s9-bdown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-i297" d="M12 4.5V19" /><path data-hf-id="hf-beo2" d="M18.5 12.5 12 19l-6.5-6.5" /></svg>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- ===== F10 — CTA ===== -->
       <section data-hf-id="hf-qnys" class="scene clip" id="s10" data-start="27.546" data-duration="2.233" data-track-index="0">
-        <div data-hf-id="hf-stvb" class="savewrap">
-          <svg data-hf-id="hf-vvnw" class="book pop" id="s10-mark" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-afr0" d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
-          <span data-hf-id="hf-vdv2" class="ring" id="s10-ring" style="border-color: var(--accent)"></span>
+        <div class="s-in" id="s10-in">
+          <div data-hf-id="hf-stvb" class="savewrap">
+            <svg data-hf-id="hf-vvnw" class="book pop" id="s10-mark" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-afr0" d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+            <span data-hf-id="hf-vdv2" class="ring" id="s10-ring" style="border-color: var(--accent)"></span>
+          </div>
+          <div data-hf-id="hf-op2v" class="cta pop" id="s10-cta">Guarda esto</div>
         </div>
-        <div data-hf-id="hf-op2v" class="cta pop" id="s10-cta">Guarda esto</div>
       </section>
 
       <!-- ===== PROGRESO ===== -->
@@ -383,68 +406,110 @@
 
       tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 29.779, ease: "none" }, 0);
 
-      // F1 — hook: misma URL, dos destinos
-      tl.to("#s1-kicker", { opacity: 1, duration: 0.35 }, at(1, 0.05));
-      tl.to("#s1-browser", { opacity: 1, y: 0, duration: 0.5 }, at(1, 0.15));
-      tl.to("#s1-chip", { opacity: 1, duration: 0.25 }, at(1, 0.7));
-      tl.to("#s1-up", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(1, 1.3));
-      tl.to("#s1-down", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(1, 1.85));
+      // ── Transiciones ──────────────────────────────────────────────
+      // Animan la capa interna (#sN-in): el clip del framework sigue
+      // mandando la visibilidad y el AUDIO no se toca → cero silencios.
+      // La cola del saliente se extiende (data-duration) para que ambos
+      // convivan durante el cruce. Primaria (push) + 2 acentos: el
+      // zoom es el clímax (F6) y el blur el lujo (F7).
+      const TR = [
+        [1, "push-up", 0.45],
+        [2, "push-up", 0.4],
+        [3, "crossfade", 0.4],
+        [4, "push-up", 0.4],
+        [5, "zoom", 0.5],
+        [6, "blur-x", 0.5],
+        [7, "push-down", 0.3],
+        [8, "crossfade", 0.35],
+        [9, "crossfade", 0.5],
+      ];
+      const CH = 1920;
+      for (let i = 0; i < TR.length; i++) {
+        const n = TR[i][0], kind = TR[i][1], d = TR[i][2];
+        const T = S[n], out = "#s" + n + "-in", inc = "#s" + (n + 1) + "-in";
+        if (kind === "push-up" || kind === "push-down") {
+          const dy = kind === "push-up" ? -CH : CH;
+          tl.to(out, { y: dy, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: -dy, opacity: 1 }, { y: 0, opacity: 1, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "crossfade") {
+          tl.to(out, { opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { opacity: 0 }, { opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "blur-x") {
+          tl.to(out, { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        } else {
+          tl.to(out, { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: d, ease: "power3.in" }, T);
+          tl.fromTo(inc, { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out" }, T);
+        }
+      }
 
-      // F2 — el modificador entra al final de la URL
-      tl.to("#s2-kicker", { opacity: 1, duration: 0.35 }, at(2, 0.05));
-      tl.to("#s2-browser", { opacity: 1, y: 0, duration: 0.45 }, at(2, 0.1));
-      tl.to("#s2-plus", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, at(2, 0.6));
-      tl.to("#s2-mod", { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, at(2, 1.3));
+      // ── Entradas ──────────────────────────────────────────────────
+      // Doctrina: asentamiento largo (power3.out), NUNCA rebote; y cada
+      // elemento entra cuando la VOZ lo nombra (tiempos por palabra del
+      // karaoke), no todo de golpe en el primer tramo de la escena.
 
-      // F3 — tal cual se escribe
-      tl.to("#s3-kicker", { opacity: 1, duration: 0.35 }, at(3, 0.05));
-      tl.to("#s3-browser", { opacity: 1, y: 0, duration: 0.45 }, at(3, 0.1));
-      tl.to("#s3-caret", { opacity: 1, duration: 0.2 }, at(3, 0.45));
-      tl.to("#s3-mod", { opacity: 1, duration: 0.25 }, at(3, 1.0));
-      tl.to("#s3-ok", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(3, 1.6));
+      // F1 — "El mismo modificador de la URL suma o resta."
+      tl.fromTo("#s1-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(1, 0.06));
+      tl.fromTo("#s1-browser", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, at(1, 0.0));
+      tl.fromTo("#s1-chip", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(1, 0.6));
+      tl.fromTo("#s1-up", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, at(1, 1.65));
+      tl.fromTo("#s1-down", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, at(1, 2.03));
 
-      // F4 — el título suena natural
-      tl.to("#s4-kicker", { opacity: 1, duration: 0.35 }, at(4, 0.05));
-      tl.to("#s4-browser", { opacity: 1, y: 0, duration: 0.45 }, at(4, 0.1));
-      tl.to("#s4-result", { opacity: 1, y: 0, duration: 0.45 }, at(4, 0.45));
-      tl.to("#s4-mark", { duration: 0.3 }, at(4, 1.4));
+      // F2 — "…el modificador se coloca al final de la URL."
+      tl.fromTo("#s2-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(2, 0.06));
+      tl.fromTo("#s2-browser", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(2, 0.0));
+      tl.fromTo("#s2-plus", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, at(2, 2.55));
+      tl.fromTo("#s2-mod", { opacity: 0, x: -120 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, at(2, 2.9));
 
-      // F5 — es corto, se lee de un vistazo
-      tl.to("#s5-kicker", { opacity: 1, duration: 0.35 }, at(5, 0.05));
-      tl.fromTo("#s5-short", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(5, 0.45));
-      tl.fromTo("#s5-long", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "none" }, at(5, 1.05));
-      tl.to("#s5-eye", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(5, 0.9));
+      // F3 — "…la búsqueda entra tal cual: zapatillas baratas."
+      tl.fromTo("#s3-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(3, 0.06));
+      tl.fromTo("#s3-browser", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(3, 0.0));
+      tl.fromTo("#s3-caret", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power3.out" }, at(3, 0.55));
+      tl.fromTo("#s3-mod", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power3.out" }, at(3, 1.55));
+      tl.fromTo("#s3-ok", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, at(3, 2.3));
 
-      // F6 — aviso
-      tl.to("#s6-tri", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(6, 0.2));
-      tl.fromTo("#s6-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(6, 0.5));
-      tl.to("#s6-chip", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(6, 1.05));
+      // F4 — "El título… suena natural: zapatillas baratas para correr."
+      tl.fromTo("#s4-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(4, 0.06));
+      tl.fromTo("#s4-browser", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(4, 0.0));
+      tl.fromTo("#s4-result", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(4, 1.15));
+      tl.fromTo("#s4-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.out" }, at(4, 2.4));
 
-      // F7 — lujo
-      tl.to("#s7-kicker", { opacity: 1, duration: 0.35 }, at(7, 0.05));
-      tl.to("#s7-gem", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(7, 0.1));
-      tl.to("#s7-tag", { opacity: 1, y: 0, duration: 0.4 }, at(7, 0.45));
-      tl.fromTo("#s7-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(7, 1.25));
-      tl.to("#s7-x", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(7, 1.75));
+      // F5 — "¿Por qué el modificador al final? Es corto, se lee rápido."
+      tl.fromTo("#s5-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(5, 0.06));
+      tl.fromTo("#s5-short", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(5, 1.85));
+      tl.fromTo("#s5-long", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "none" }, at(5, 2.3));
+      tl.fromTo("#s5-eye", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, at(5, 2.55));
 
-      // F8 — el cursor pasa de largo
-      tl.to("#s8-scroller", { opacity: 1, duration: 0.15 }, at(8, 0.0));
-      tl.to("#s8-cursor", { opacity: 1, duration: 0.15 }, at(8, 0.05));
-      tl.to("#s8-inner", { y: -340, duration: 0.7, ease: "power2.inOut" }, at(8, 0.15));
-      tl.to("#s8-cursor", { y: 380, duration: 0.7, ease: "power2.inOut" }, at(8, 0.15));
-      tl.to("#s8-ours", { opacity: 0.35, duration: 0.25 }, at(8, 0.75));
+      // F6 — "Pero hay un caso donde no lo deberías usar nunca."
+      tl.fromTo("#s6-tri", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, at(6, 0.5));
+      tl.fromTo("#s6-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(6, 1.0));
+      tl.fromTo("#s6-chip", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, at(6, 1.85));
 
-      // F9 — suma o resta
-      tl.to("#s9-kicker", { opacity: 1, duration: 0.35 }, at(9, 0.05));
-      tl.to("#s9-a", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(9, 0.25));
-      tl.to("#s9-aup", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(9, 0.65));
-      tl.to("#s9-b", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(9, 1.25));
-      tl.to("#s9-bdown", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(9, 1.65));
+      // F7 — "En el lujo, el comprador ve barato como mala calidad."
+      tl.fromTo("#s7-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(7, 0.06));
+      tl.fromTo("#s7-gem", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, at(7, 0.2));
+      tl.fromTo("#s7-tag", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, at(7, 1.45));
+      tl.fromTo("#s7-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, at(7, 2.0));
+      tl.fromTo("#s7-x", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, at(7, 2.25));
 
-      // F10 — guarda esto
-      tl.to("#s10-mark", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(10, 0.2));
-      tl.fromTo("#s10-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(10, 0.55));
-      tl.to("#s10-cta", { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, at(10, 1.15));
+      // F8 — "Por eso pierdes el clic." (sin una palabra en pantalla)
+      tl.fromTo("#s8-scroller", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" }, at(8, 0.0));
+      tl.fromTo("#s8-cursor", { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.15, ease: "none" }, at(8, 0.22));
+      tl.fromTo("#s8-inner", { y: 0 }, { y: -340, duration: 0.7, ease: "power2.inOut" }, at(8, 0.38));
+      tl.fromTo("#s8-cursor", { y: 0 }, { y: 380, duration: 0.7, ease: "power2.inOut" }, at(8, 0.38));
+      tl.fromTo("#s8-ours", { opacity: 1 }, { opacity: 0.35, duration: 0.25, ease: "power2.out" }, at(8, 0.85));
+
+      // F9 — "Ese mismo modificador te suma o te quita clientes."
+      tl.fromTo("#s9-kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, at(9, 0.06));
+      tl.fromTo("#s9-a", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, at(9, 0.15));
+      tl.fromTo("#s9-aup", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, at(9, 1.3));
+      tl.fromTo("#s9-b", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, at(9, 1.55));
+      tl.fromTo("#s9-bdown", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, at(9, 1.9));
+
+      // F10 — "Guarda esto antes de tu próxima optimización."
+      tl.fromTo("#s10-mark", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, at(10, 0.1));
+      tl.fromTo("#s10-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(10, 0.65));
+      tl.fromTo("#s10-cta", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, at(10, 1.05));
 
       tl.seek(0);
     </script>
