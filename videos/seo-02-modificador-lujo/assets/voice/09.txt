@@ -1,1 +1,1 @@
-La misma palabra te trae clientes o te los quita.
+Ese mismo modificador te suma o te quita clientes.

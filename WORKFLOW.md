@@ -2,31 +2,39 @@
 
 Proceso estándar, paso a paso, para producir un vídeo de la serie. Repetible.
 Herramienta: **HyperFrames** (`npx hyperframes@0.8.138`), HTML → vídeo.
+Sistema visual y sonoro: **`DESIGN.md`** (léelo antes de tocar una composición).
 
 ---
 
-## 0. Entorno (una sola vez)
+## 0. Entorno (una sola vez por sesión)
 
 ```bash
-sudo apt-get install -y ffmpeg unzip espeak-ng          # ffmpeg es obligatorio
-pip install kokoro-onnx soundfile                        # voz en off local (español)
-pip install transformers torch numpy                     # música local (MusicGen)
-npx hyperframes browser ensure                           # navegador para el render
+sudo apt-get update && sudo apt-get install -y ffmpeg unzip    # ffmpeg obligatorio; unzip para el navegador del render
+npx hyperframes browser ensure                                  # navegador para el render
 ```
+
+- El sandbox **se reconstruye entre sesiones**: `apt`/`pip` se pierden (ffmpeg, unzip, Chrome).
+  El workspace (`/workspace/...`) sí persiste.
+- La toolchain propia vive en **`.openhands/tools/`** (sin trackear): `voice_pipeline.py`,
+  `retime.py`, `sfx.py`, `diag_one.py` y `music_bed.wav`.
+- Sin `unzip`, el render falla con un `▲ Something went wrong` **sin detalle** (la descarga de
+  Chrome no puede descomprimirse). Con `--debug` sí se ve la causa.
 
 ## 1. Ruta
 
-Todo vídeo de la serie es **faceless-explainer**: sin cámara, sin web, visuales
-inventados. Formato 9:16, español, voz en off.
+Todo vídeo de la serie es **faceless-explainer**: sin cámara, sin web, visuales inventados.
+Formato 9:16, español, voz en off.
 
 ## 2. Guion
 
 - **Hook en los primeros segundos.** Sin intro, sin logo.
 - **Una sola idea por vídeo.** Si hay más, se parte en otro vídeo.
-- **Definir la jerga antes de usarla** ("esto es el modificador: la palabra extra…").
+- **Definir la jerga antes de usarla.**
 - Frases cortas (6-10 palabras), ritmo hablado.
 - **Sin datos inventados**; los números salen del material del usuario.
 - CTA de **guardar**.
+- **Piensa en gráfico, no en rótulo**: cada línea del guion debería poder ilustrarse con una
+  forma (D25). Si no se te ocurre el gráfico, la línea probablemente sobra.
 
 Documentos: `BRIEF.md` (qué/para quién), `SCRIPT.md` (guion por líneas),
 `STORYBOARD.md` (plan frame a frame).
@@ -34,80 +42,101 @@ Documentos: `BRIEF.md` (qué/para quién), `SCRIPT.md` (guion por líneas),
 ## 3. Crear el proyecto
 
 ```bash
-npx hyperframes init "content/videos/<proyecto>" --non-interactive \
+npx hyperframes init "videos/<proyecto>" --non-interactive \
   --example=blank --skill=faceless-explainer
 ```
 
-## 4. Voz en off (Kokoro, local)
+## 4. Voz en off (Fish Audio, voz oficial `Pablo`)
 
-Una línea por bloque; se genera un `.wav` por línea:
+Un `.wav` por línea de `SCRIPT.md` (líneas con 4 espacios de sangría):
 
 ```bash
-npx hyperframes tts assets/voice/01.txt --voice ef_dora --lang es --speed 1.08 \
-  -o assets/voice/01.wav
+FISH_API_KEY="$FISH_API_KEY" python3 .openhands/tools/voice_pipeline.py \
+  --dir videos/<proyecto> --ref 1bd666ea8ada44c789e0fec21cf78f33 \
+  --tail 0.08 --min-frame 0
 ```
 
-- Voz en español disponible: **`ef_dora`**. Siempre `--lang es`.
-- `--speed 1.08` para ritmo de redes.
-- Medir duración de cada clip: `ffprobe -v error -show_entries format=duration -of csv=p=0 <wav>`.
+- Voz en uso: **`Pablo`** (oficial de Fish Audio, es-ES, masculina, *brisk*). Otra voz = otro `--ref`.
+- `--tail 0.08`: recorta la cola de silencio para que la voz vaya continua.
+- `--min-frame 0`: **escena = clip**, sin relleno.
+- El script deja los timings en `.openhands/tools/voice-timing.json`.
+- Endpoint por si hay que depurar a mano: `POST https://api.fish.audio/v1/tts` con
+  `{"text","reference_id","format":"wav","model":"s2.1-pro"}`.
 
 ## 5. Timings y frames
 
-- Cada frame dura **3-5 s**; si un clip de voz es más corto, se **rellena con pausa**
-  (el texto se queda en pantalla) para no bajar de 3 s.
-- Cada frame de voz empieza donde empieza su frame visual.
-- Duración total = suma de los frames. Objetivo 30-40 s.
+- **Escena = clip**: cada escena dura exactamente lo que dura su frase. **No hay silencios.**
+  (Decisión D23, pedido explícito del usuario.)
+- Como la voz es rápida, las escenas salen de **1,2 a 4,2 s**. Antes eran 3-5 s con relleno mudo.
+- Duración total = suma de los clips. Objetivo 30-40 s (V2 quedó en 29,8 s; se acepta).
+- La animación de cada escena **no puede durar más que la escena**.
 
 ## 6. Montaje de la composición (`index.html`)
 
-- Raíz: `data-composition-id="main"`, `data-duration="<total>"`, `data-width="1080"`
-  `data-height="1920"`.
-- Cada escena: `<section class="scene clip" data-start data-duration>` con CSS propio
+- Raíz: `data-composition-id="main"`, `data-duration="<total>"`, `data-width="1080"`, `data-height="1920"`.
+- Cada escena: `<section class="scene clip" id="sN" data-start data-duration>` con CSS propio
   `position:absolute; inset:0`. (La clase `.clip` sola **no** da caja completa.)
 - **Todo `<audio>` con `data-start` necesita `id`**, o el render sale **mudo**.
-- Animación **seek-safe**: estado inicial en CSS + GSAP `.to()`. Nada de `.from()` ni
-  contadores. Nada de `Date.now()`/`Math.random()`.
-- Registrar: `window.__timelines = window.__timelines || {};` antes de asignar.
-- Zonas seguras 9:16: nada crítico en el 15% superior ni el 25% inferior.
+- Animación **seek-safe**: estado inicial en CSS + GSAP `.to()`. Nada de `.from()`, contadores,
+  `Date.now()` ni `Math.random()`. Registrar `window.__timelines = window.__timelines || {}` antes de asignar.
+- Componentes y clases: **`DESIGN.md` §3**. Nada de URLs sueltas: siempre dentro de la ventana de
+  navegador.
+- Zonas seguras 9:16: nada crítico en el 15 % superior ni el 25 % inferior.
 
-## 7. Subtítulos karaoke
+## 7. Efectos de sonido
+
+```bash
+python3 .openhands/tools/sfx.py --dir videos/<proyecto>
+```
+
+- 9 efectos sintetizados (whoosh, pop, tick, click, swoosh, ding, thud, buzz) mezclados en
+  `assets/sfx/sfx.wav`, anclados a la aparición de cada elemento. Vocabulario: `DESIGN.md` §5.
+- Entra en la composición como un único `<audio id="sfx">` (track 4, `data-volume="0.5"`).
+- Determinista (PRNG con semilla): el mismo vídeo suena igual siempre.
+
+## 8. Subtítulos karaoke
 
 ```bash
 npx hyperframes add caption-pill-karaoke
 ```
 
-El bloque viene como documento completo 1920×1080. Hay que:
-- convertirlo en sub-composición `<template>` (CSS con selector
-  `[data-composition-id="caption-pill-karaoke"]`, script dentro de un **IIFE** para que
-  su `var tl` no choque con el `const tl` del host);
-- ajustar a 1080×1920 y a la paleta (píldora oscura, palabra activa en acento);
-- meter su `TRANSCRIPT` con timings **por palabra** (se aproximan repartiendo la
-  duración de cada línea proporcional a `len(palabra)+1`);
-- montarlo en `index.html` con `data-composition-src`.
+- Montado como sub-composición (`<template>` + CSS con selector `[data-composition-id=...]`,
+  script en IIFE, registra su propio `window.__timelines`), montado con `data-composition-src`.
+- El `TRANSCRIPT` por palabra lo genera `retime.py` con los timings **anclados a las pausas reales**
+  de cada clip (mejor que el reparto proporcional a ciegas).
 
-## 8. Música
+## 9. Música
 
-```bash
-python3 music_gen.py <segundos> /tmp/seg.wav "prompt de estilo"
-```
+- Cama en `assets/music/track.wav`, `<audio id="music" data-volume="0.18">`. Nunca por encima de la voz.
+- `retime.py` la reconstruye a la duración total partiendo de la copia intacta
+  (`.openhands/tools/music_bed.wav`, extraída de git): bucle con `acrossfade=d=1.5` + `afade` de salida.
+- El modelo local `facebook/musicgen-small` tiene un **límite duro de ~30 s** por generación; para
+  más, generar ≤28 s y empalmar.
 
-- Modelo local `facebook/musicgen-small`. **Límite ~30 s por generación**; para más,
-  generar ≤28 s y empalmar con `ffmpeg ... acrossfade=d=1.5`, luego `atrim` + `afade`.
-- Guardar como `assets/music/track.wav` y añadir en la composición:
-  `<audio id="music" data-volume="0.18" data-start="0" data-duration="<total>" src=...>`.
-- Volumen 0.18: se oye, pero **nunca tapa la voz**.
-
-## 9. Verificar
+## 10. Re-timar todo de una vez
 
 ```bash
-npx hyperframes check          # lint + runtime + layout + motion + contraste WCAG
+python3 .openhands/tools/retime.py --dir videos/<proyecto>
 ```
 
-- **Cero errores** antes de renderizar; los avisos de "sub-composiciones" son esperados
+Reescribe **de golpe**: raíz, escenas, pistas de voz, `prog`, karaoke, música, sfx, el array `S` y
+el `prog-fill`; reconstruye la música; y regenera el `TRANSCRIPT` del karaoke.
+No re-timarlo a mano: son 30 valores que se desincronizan.
+
+## 11. Verificar
+
+```bash
+npm run check      # lint + runtime + layout + motion + contraste WCAG
+```
+
+- **Cero errores** antes de renderizar. Los avisos de "sub-composiciones" son esperados
   (composición en un solo archivo, decisión D10).
-- Opcional: `npx hyperframes snapshot --at t1,t2` para revisar frames concretos.
+- **No hay revisión visual directa**: comprobar con `check` (layout a 9 muestras) y, si hace falta,
+  contar píxeles por escena para confirmar que ninguna sale en negro:
+  `ffmpeg -i frame.png -f rawvideo -pix_fmt rgb24 - | <clasificar por color>`.
+- Opcional: `npx hyperframes snapshot --at t1,t2`.
 
-## 10. Render y preview
+## 12. Render y preview
 
 ```bash
 npx hyperframes render -o renders/video.mp4
@@ -115,23 +144,51 @@ HYPERFRAMES_PREVIEW_HOST=0.0.0.0 npx hyperframes preview --background --port 120
 ```
 
 - El preview **debe** escuchar en `0.0.0.0` o el proxy externo da **502**.
+- Los renders largos, **en primer plano**: en segundo plano el navegador del render falla.
+- **Parar el preview antes de editar el HTML** (`preview --stop`): el Studio reescribe
+  `index.html` (mete `data-hf-id`, redondea duraciones y trocea elementos). Relanzarlo al terminar.
 
-## 11. Publicar y guardar
+## 13. Publicar
 
-- Publicar la serie **en orden** cuando un vídeo depende del anterior.
-- Commit + push del contenido a `openframes` (repo propio, privado).
+Se publica en orden cuando un vídeo depende del anterior (V2 va después de V1).
+
+1. **Commit + push** del contenido a `openframes` (repo público; `content` de git = este repo).
+2. **Alojar el MP4**: Release pública en `openframes`, tag `video-<slug>`, assets
+   `<slug>.mp4` + `<slug>-cover.png` (portada = fotograma representativo). Esa URL es la que
+   consume Instagram; **no** se usa R2/Cloudflare para este camino.
+3. **Cola**: añadir la entrada en `specialcowboy69/hypervideo`
+   (`content/video-queue/queue.json` + `video-queue.csv`) con `status: needs_review`,
+   `outputs.render` (URL del .mp4), `outputs.cover` y el `caption`. Push a `main`.
+4. **Disparar** la Action manual **`HyperFrames publish Reel (manual)`** (`publish-reel.yml`) con
+   `slug`, `caption`, `publish_at` (`now` o ISO futuro), `platforms` y
+   `confirmation: PUBLICAR <slug>`. La Action reserva el job en `main` (dedupe) y luego llama a n8n.
+   **Nunca llamar al webhook a mano.**
+5. Verificar: run de la Action + `reel_status` en la cola.
 
 ---
+
+## Ciclo de cambio (una vez el vídeo ya existe)
+
+```bash
+npx hyperframes preview --stop                 # 1. el Studio no debe tocar el fichero
+# 2. editar index.html / guion / assets
+python3 .openhands/tools/voice_pipeline.py ...  # 3. si cambia el guion
+python3 .openhands/tools/sfx.py --dir ...       # 4. si cambian los tiempos
+python3 .openhands/tools/retime.py --dir ...    # 5. re-timar
+npm run check && npx hyperframes render -o renders/video.mp4
+npx hyperframes preview --background --port 12000 --no-open   # 6. devolver el preview
+```
 
 ## Checklist final
 
 - [ ] Guion con hook, una idea, jerga definida, CTA de guardar.
-- [ ] Frames de 3-5 s; total 30-40 s (o justificado).
-- [ ] Voz en off en español, ritmo de redes.
-- [ ] Texto en pantalla: se entiende **sin sonido**.
-- [ ] Karaoke con la palabra activa resaltada.
-- [ ] Música por debajo de la voz.
+- [ ] **Escena = clip**: sin silencios; total 30-40 s (o justificado).
+- [ ] Voz Fish Audio (`Pablo`) en español, ritmo de redes.
+- [ ] **El peso lo llevan los gráficos** (ventana de navegador, iconos, cursor); el texto es mínimo.
+- [ ] Se entiende **sin sonido** (karaoke + gráficos).
+- [ ] **Efectos de sonido** en cada aparición; música por debajo de la voz.
+- [ ] Karaoke con la palabra activa resaltada y timings reales.
 - [ ] Zonas seguras respetadas.
 - [ ] `check` con **0 errores** y contraste WCAG AA.
 - [ ] MP4 renderizado y preview para revisión.
-- [ ] Backlog (`IDEAS.md`) y decisiones (`DECISIONS.md`) actualizados.
+- [ ] `DESIGN.md`, `DECISIONS.md`, `IDEAS.md` y `STORYBOARD.md` actualizados.

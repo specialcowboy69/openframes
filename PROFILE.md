@@ -26,15 +26,16 @@ que cualquier sesión futura lo tenga claro desde el principio.
 | Aspecto | Qué esperas |
 |---|---|
 | Formato | **9:16 vertical** (1080×1920), **faceless**, voz en off en español |
-| Duración | Objetivo **30-40 s**; se acepta algo más si el contenido lo justifica |
-| Ritmo | **Frames de 3-5 s** para mantener el dinamismo |
+| Duración | Objetivo **30-40 s**; se acepta algo menos si el contenido lo justifica |
+| Ritmo | **Escena = clip, sin silencios**: cada frase dura lo que dura y el vídeo nunca se queda mudo |
 | Estructura | **Hook en los primeros segundos**, **una sola idea por vídeo**, CTA de guardar |
 | Claridad | **Definir la jerga antes de usarla**; el espectador no es experto |
-| Mudo | Todo debe entenderse **sin sonido** (texto en pantalla siempre) |
+| Texto | **Mínimo**: el peso lo llevan los **gráficos** (ventana de navegador, iconos, cursor), no los rótulos |
+| Mudo | Se entiende **sin sonido** por los **subtítulos karaoke + los gráficos** |
 | Subtítulos | **Karaoke** (píldora inferior, palabra activa resaltada) |
-| Sonido | Voz en off clara + música discreta **por debajo** de la voz |
-| Visual | Fondo oscuro, **un solo acento**, tipografía fuerte, limpio |
-| Nada de | Logos de marca, `@handle` en pantalla, relleno, muletillas |
+| Sonido | Voz en off clara, música discreta por debajo y **efectos en cada aparición** |
+| Visual | Fondo oscuro, **un solo acento**, tipografía fuerte, limpio. Sistema completo en `DESIGN.md` |
+| Nada de | Logos de marca, `@handle` en pantalla, relleno, muletillas, silencios |
 
 ## Criterios de decisión
 

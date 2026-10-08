@@ -1,3 +1,11 @@
 **/snapshots/
 *.log
 .DS_Store
+
+# agente / artefactos generados
+.openhands/
+**/.thumbnails/
+**/.waveform-cache/
+**/.hyperframes/backup/
+**/.hyperframes/preview/
+**/.hyperframes/history-id

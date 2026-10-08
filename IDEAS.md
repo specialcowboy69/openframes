@@ -20,7 +20,7 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 
 | ID | Tema | De dónde sale | Por qué se dejó para otro vídeo | Ángulo propuesto | Formato | Estado |
 |----|------|---------------|--------------------------------|------------------|---------|--------|
-| V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 34,5 s · 10 frames | Renderizado — pendiente de revisar |
+| V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 29,8 s · 10 frames | Guion reescrito + voz oficial Fish Audio `Pablo` + rediseño gráfico (ventana de navegador, cursor) y efectos de sonido |
 | V3 | Qué es la autoridad y cómo saber la tuya | Implícito en V1 | Es un vídeo base por sí solo; en V1 solo se define de pasada | "Tu web no sube aunque hagas SEO: mira tu autoridad" | 9:16 · ~40 s | Idea |
 | V4 | Modificadores cortos y lectura rápida en Google | Detalle de V2 (la palabra "barato" se procesa de un vistazo) | Es un dato, no una idea completa | Por qué las palabras cortas ganan clics en la SERP | 9:16 · ~25 s (motion-graphics) | Idea |
 | V5 | Intención de búsqueda | Extensión natural de V1 | Tema grande; merece su propio vídeo | "Misma palabra, intención distinta, página distinta" | 9:16 · ~40 s | Idea |
@@ -49,3 +49,28 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 - **V1 v3** — añadidos **subtítulos karaoke** (`caption-pill-karaoke`) en píldora inferior,
   con la palabra activa en verde acento. Timings por palabra aproximados (sin transcripción).
   La barra de progreso se movió arriba (y=300) para no chocar con la píldora.
+- **V2 v2 (guion)** — reescritura de claridad tras el feedback ("críptico y poco claro"):
+  el hook ancla "modificador" a **"URL"** (el espectador puede no haber visto V1); el giro
+  L6→L7 se conecta ("…no lo deberías usar nunca." → "En el lujo, el comprador ve barato
+  como mala calidad."); "zapatillas barato" → **"zapatillas baratas"**; "e-commerce" →
+  **"comercio electrónico"**; fuera el "Y" inicial y el verbo comodín "va". 10 líneas.
+- **V2 v3 (voz + montaje)** — voz clonada de **Fish Audio** ("Consultor Digital",
+  `reference_id 694223d3f7ff42979a320307b1254a00`) en lugar de Kokoro; colas de silencio
+  recortadas a 0,18 s; composición **re-timada a 37,81 s** (frames 3,0–4,97 s) desde las
+  duraciones reales de los clips; karaoke con timings **anclados a las pausas reales**;
+  música extendida con crossfade. Rótulos en pantalla actualizados (kicker "COMERCIO
+  ELECTRÓNICO", slugs `-baratas`, F6 "donde no lo deberías usar nunca.", F9 "EL MISMO
+  MODIFICADOR").
+- **V2 v4 (voz definitiva)** — el clon propio ("Consultor Digital") se **descarta**: el
+  audio con el que se entrenó venía marcado `quality_passed: false` (*multi speaker*).
+  Se adopta la voz **oficial** de Fish Audio **`Pablo`**
+  (`1bd666ea8ada44c789e0fec21cf78f33`, masculina, es-ES, *brisk*, `state: trained`).
+  Regenerado todo el montaje: **34,09 s**, frames 3,0–4,18 s, karaoke y música re-timados
+  (los timings del clon ya no aplicaban).
+- **V2 v5 (gráficos + sonido, enfoque definitivo)** — petición del usuario: quitar los
+  silencios entre frases, poner efectos de sonido al aparecer cada elemento y **sustituir
+  texto por gráficos**. Cambios: escena = clip (voz continua, **29,78 s**); ventana de
+  navegador con barra de direcciones en F1–F4; F8 pasa a ser un SERP que se desplaza con
+  el cursor pasando de largo (sin una palabra); iconos SVG en lugar de rótulos; fuera los
+  textos que repetían la voz. Capa de audio nueva: `assets/sfx/sfx.wav` (34 efectos de 9
+  tipos, sintetizados con `tools/sfx.py`).

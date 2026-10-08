@@ -1,104 +1,79 @@
 ---
 format: 1080x1920
-duration: 34.5s
-message: "Dónde va el modificador depende de tu autoridad; y en lujo, nunca se usa"
+duration: 29.8s
+message: "Dónde va el modificador depende del tipo de tienda; y en lujo, nunca se usa"
 arc: Hook → Regla → Ejemplo → Razón → Giro → Advertencia → CTA
 audience: gente que hace SEO o marketing digital en redes
 mode: collaborative
 ---
 
-## Frame 1 — Hook
+**Regla de montaje:** cada escena dura exactamente lo que dura su clip de voz
+(**escena = clip**). No hay silencios entre frases: la voz va continua de principio a fin.
 
-- scene: "MISMO MODIFICADOR, OTRO RESULTADO" + chip con flechas ← →
-- duration: 4.25s
-- poster: 3.5s
-- transition_in: cut
-- status: animated
-- voiceover: "El mismo modificador puede ayudarte o hundirte. Depende de dónde lo coloques."
+**Capa de sonido:** música de fondo (`assets/music/track.wav`, volumen 0.18) + pista de
+efectos `assets/sfx/sfx.wav` (volumen 0.5), generada con `tools/sfx.py` y anclada a la
+aparición de cada elemento.
 
-## Frame 2 — Regla de e-commerce
+**Regla de diseño:** el peso lo llevan los gráficos (ventana de navegador, tarjeta de
+resultado, iconos SVG, cursor). El texto en pantalla queda reducido al mínimo: solo el que
+es el propio tema del vídeo (la URL, el título) y los subtítulos karaoke.
 
-- scene: ALTO VOLUMEN + AUTORIDAD ALTA → modificador al final de la URL
-- duration: 4.25s
-- poster: 3.5s
-- transition_in: cut
-- status: animated
-- voiceover: "En e-commerce de alto volumen, con autoridad acumulada, va al final de la URL."
+## Frame 1 — Hook (0,000 – 4,226 s)
 
-Barra de URL con el modificador resaltado al final.
+- scene: ventana de navegador con `tutienda.com/zapatillas-baratas` y dos veredictos (↑ verde / ↓ rojo)
+- sfx: whoosh + 3 pops (ventana, chip, cada veredicto)
+- voiceover: "El mismo modificador de la URL suma o resta. Depende de dónde lo pongas."
 
-## Frame 3 — Ejemplo de URL
+## Frame 2 — La regla (4,226 – 7,981 s)
 
-- scene: "/zapatillas-barato" con el modificador en acento
-- duration: 3.0s
-- poster: 2.5s
-- transition_in: cut
-- status: animated
-- voiceover: "Por ejemplo: zapatillas barato, en la URL."
+- scene: la misma ventana; un marcador `+` señala el final de la barra de direcciones y la etiqueta `-baratas` entra deslizándose hasta ahí
+- sfx: whoosh, tick (marcador), pop (etiqueta)
+- voiceover: "En comercio electrónico, el modificador se coloca al final de la URL."
 
-## Frame 4 — El título
+## Frame 3 — Ejemplo (7,981 – 11,626 s)
 
-- scene: Tarjeta de resultado con "Zapatillas baratas para correr"
-- duration: 4.1s
-- poster: 3.5s
-- transition_in: cut
-- status: animated
-- voiceover: "El título, en cambio, natural y claro: zapatillas baratas para correr."
+- scene: se escribe la URL (cursor parpadeante) y aparece `-baratas` tal cual; un check confirma que entra sin retocar
+- sfx: whoosh + 2 ticks + ding (check)
+- voiceover: "En la URL, la búsqueda entra tal cual: zapatillas baratas."
 
-El título va natural; el modificador vive en la URL. "baratas" resaltado.
+## Frame 4 — El título (11,626 – 15,192 s)
 
-## Frame 5 — Por qué al final
+- scene: tarjeta de resultado dentro de la ventana (google.com/search): título azul con "baratas" resaltado en acento
+- sfx: whoosh, pop (tarjeta), tick (resaltado)
+- voiceover: "El título, en cambio, suena natural: zapatillas baratas para correr."
 
-- scene: "barato" con un barrido de escáner
-- duration: 3.56s
-- poster: 3s
-- transition_in: cut
-- status: animated
-- voiceover: "¿Por qué al final? Porque barato es corto: el ojo lo lee de un vistazo."
+## Frame 5 — Por qué al final (15,192 – 18,441 s)
 
-## Frame 6 — Giro
+- scene: dos barras comparadas: la corta (`-baratas`) se llena de golpe, la larga se arrastra; un ojo y una aguja las interpretan
+- sfx: whoosh + 2 swoosh (llenado rápido y lento)
+- voiceover: "¿Por qué el modificador al final? Es corto, se lee rápido."
 
-- scene: "Pero hay un caso / donde no lo uses nunca" (rojo)
-- duration: 3.0s
-- poster: 2.5s
-- transition_in: cut
-- status: animated
-- voiceover: "Pero hay un caso donde no lo uses nunca."
+## Frame 6 — Giro (18,441 – 20,699 s)
 
-## Frame 7 — Lujo
+- scene: triángulo de aviso rojo a gran tamaño, con onda expansiva y el sello NUNCA
+- sfx: thud (golpe grave) + pop + buzz
+- voiceover: "Pero hay un caso donde no lo deberías usar nunca."
 
-- scene: LUJO + "BARATO = MALA CALIDAD" con tachado rojo
-- duration: 3.03s
-- poster: 2.5s
-- transition_in: cut
-- status: animated
-- voiceover: "Lujo. Quien compra caro lee barato como mala calidad."
+## Frame 7 — Lujo (20,699 – 23,490 s)
 
-## Frame 8 — Consecuencia
+- scene: gema dorada + etiqueta "barato" tachada en rojo + ✕
+- sfx: ding (lujo), tick, thud (tachado), pop (✕)
+- voiceover: "En el lujo, el comprador ve barato como mala calidad."
 
-- scene: "PIERDES EL CLIC" en rojo
-- duration: 3.0s
-- poster: 2.5s
-- transition_in: cut
-- status: animated
-- voiceover: "Y pierdes el clic."
+## Frame 8 — Consecuencia (23,490 – 24,693 s)
 
-Frame corto con pausa dramática: el texto se queda en pantalla.
+- scene: resultados de búsqueda que se desplazan hacia arriba mientras el cursor baja de largo; nuestro resultado se apaga. Sin una sola palabra
+- sfx: whoosh, swoosh (scroll), click (clic perdido)
+- voiceover: "Por eso pierdes el clic."
 
-## Frame 9 — Resumen
+## Frame 9 — Resumen (24,693 – 27,546 s)
 
-- scene: Dos paneles: "+ CLIENTES" (acento) / "− CLIENTES" (rojo)
-- duration: 3.0s
-- poster: 2.5s
-- transition_in: cut
-- status: animated
-- voiceover: "La misma palabra te trae clientes o te los quita."
+- scene: dos paneles con carrito de compra: flecha verde arriba / flecha roja abajo
+- sfx: pop, swoosh arriba, pop, swoosh abajo
+- voiceover: "Ese mismo modificador te suma o te quita clientes."
 
-## Frame 10 — CTA
+## Frame 10 — CTA (27,546 – 29,779 s)
 
-- scene: "Guarda esto antes de tu próxima optimización" + GUARDA ESTO
-- duration: 3.29s
-- poster: 2.8s
-- transition_in: cut
-- status: animated
+- scene: marcador de guardado grande con onda + botón GUARDA ESTO
+- sfx: pop, ding, pop (botón)
 - voiceover: "Guarda esto antes de tu próxima optimización."

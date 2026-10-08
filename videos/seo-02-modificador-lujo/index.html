@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     <style>
       :root {
         --bg: #0a0a0f;
@@ -15,467 +15,361 @@
         --muted: #8b8b99;
         --accent: #c8ff3d;
         --warn: #ff5a5a;
+        --gold: #ffd166;
         --panel: #14141a;
         --line: #26262e;
+        --chrome: #1c1c24;
+        --field: #0e0e14;
       }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px; height: 1920px; overflow: hidden;
+        background: var(--bg); font-family: "Inter", system-ui, sans-serif; color: var(--ink);
       }
-      html,
-      body {
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: var(--bg);
-        font-family: "Inter", system-ui, sans-serif;
-        color: var(--ink);
-      }
-      #root {
-        position: relative;
-        width: 1080px;
-        height: 1920px;
-        background: var(--bg);
-        overflow: hidden;
-      }
+      #root { position: relative; width: 1080px; height: 1920px; background: var(--bg); overflow: hidden; }
       .scene {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 340px 74px 500px;
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        justify-content: center; padding: 300px 74px 470px;
       }
       .kicker {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 0.28em;
-        color: var(--muted);
-        text-transform: uppercase;
+        display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 700;
+        letter-spacing: 0.28em; color: var(--muted); text-transform: uppercase;
       }
-      .kicker .dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: var(--accent);
+      .kicker .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+      .kicker .dot.warn { background: var(--warn); }
+      .kicker .dot.gold { background: var(--gold); }
+      /* ---------- ventana de navegador ---------- */
+      .browser {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        overflow: hidden; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
       }
-      .kicker .dot.warn {
-        background: var(--warn);
+      .chrome {
+        display: flex; align-items: center; gap: 18px; padding: 20px 26px;
+        background: var(--chrome); border-bottom: 2px solid var(--line);
       }
-      .head {
-        margin-top: 30px;
-        font-size: 88px;
-        font-weight: 900;
-        line-height: 1.02;
-        letter-spacing: -0.03em;
-        text-transform: uppercase;
+      .lights { display: flex; gap: 10px; flex: 0 0 auto; }
+      .lights i { display: block; width: 18px; height: 18px; border-radius: 50%; }
+      .lights i:nth-child(1) { background: #ff5f57; }
+      .lights i:nth-child(2) { background: #febc2e; }
+      .lights i:nth-child(3) { background: #28c840; }
+      .addr {
+        flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+        padding: 14px 22px; background: var(--field); border: 2px solid var(--line);
+        border-radius: 14px; font-family: "JetBrains Mono", monospace;
+        font-size: 34px; font-weight: 800; white-space: nowrap; overflow: hidden;
       }
-      .head .accent-line {
-        color: var(--accent);
-        display: block;
+      .addr .lock { display: flex; flex: 0 0 auto; color: var(--muted); }
+      .addr .lock svg { width: 30px; height: 30px; }
+      .addr .base { color: var(--ink); }
+      .addr .dim { color: var(--muted); }
+      .addr .mod { color: var(--accent); }
+      .caret { display: block; width: 4px; height: 38px; background: var(--accent); flex: 0 0 auto; }
+      .addr .plus {
+        display: flex; flex: 0 0 auto; color: var(--accent);
+        border: 3px dashed var(--accent); border-radius: 10px; padding: 0 8px;
       }
-      .head .warn-line {
-        color: var(--warn);
-        display: block;
+      .addr .plus svg { width: 30px; height: 30px; }
+      /* ---------- cuerpo claro (SERP) ---------- */
+      .serpbody { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .result { display: flex; gap: 20px; align-items: flex-start; }
+      .fav {
+        flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%;
+        background: var(--accent); display: flex; align-items: center; justify-content: center;
+        color: #0a0a0f; font-weight: 900; font-size: 30px;
       }
-      .head .word {
-        display: inline-block;
+      .crumb { font-size: 25px; font-weight: 600; color: #4b5563; }
+      .rtitle { margin-top: 8px; font-size: 38px; font-weight: 700; color: #1a0dab; line-height: 1.2; }
+      .rtitle b { background: var(--accent); color: #16181c; border-radius: 8px; padding: 0 8px; }
+      .skeleton { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+      .skeleton i { display: block; height: 16px; border-radius: 8px; background: #c9ced6; }
+      .skeleton i:nth-child(2) { width: 74%; }
+      /* ---------- veredicto (+ / −) ---------- */
+      .verdicts { margin-top: 46px; display: flex; gap: 34px; justify-content: center; }
+      .verdict {
+        width: 170px; height: 170px; border-radius: 36px; border: 5px solid var(--line);
+        display: flex; align-items: center; justify-content: center; background: var(--panel);
       }
-      .sub {
-        margin-top: 30px;
-        font-size: 40px;
-        font-weight: 500;
-        line-height: 1.25;
+      .verdict svg { width: 84px; height: 84px; }
+      .verdict.up { border-color: var(--accent); color: var(--accent); }
+      .verdict.down { border-color: var(--warn); color: var(--warn); }
+      /* ---------- barras de velocidad de lectura ---------- */
+      .bars { margin-top: 40px; display: flex; flex-direction: column; gap: 30px; }
+      .bar { height: 86px; border-radius: 20px; background: #1e1e26; overflow: hidden; position: relative; }
+      .bar b { display: block; height: 100%; width: 100%; transform-origin: left center; }
+      .bar.short b { background: var(--accent); }
+      .bar.long b { background: #45454f; }
+      .bar .eye { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #0a0a0f; }
+      .bar .eye svg { width: 46px; height: 46px; }
+      .speedrow { margin-top: 34px; display: flex; align-items: center; gap: 22px; color: var(--muted); }
+      .speedrow svg { width: 60px; height: 60px; color: var(--accent); }
+      /* ---------- aviso ---------- */
+      .warnwrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .warnwrap svg.tri { width: 340px; height: 340px; color: var(--warn); }
+      .ring {
+        position: absolute; width: 340px; height: 340px; border-radius: 50%;
+        border: 6px solid var(--warn); opacity: 0;
       }
-      .sub.muted {
-        color: var(--muted);
+      /* ---------- lujo ---------- */
+      .lux { display: flex; align-items: center; gap: 40px; }
+      .lux .gem { color: var(--gold); }
+      .lux .gem svg { width: 190px; height: 190px; }
+      .tag {
+        position: relative; background: var(--panel); border: 4px solid var(--line);
+        border-radius: 20px; padding: 22px 34px; font-size: 54px; font-weight: 900;
+        font-family: "JetBrains Mono", monospace;
       }
-      .progress {
-        position: absolute;
-        left: 74px;
-        right: 74px;
-        top: 300px;
-        height: 6px;
-        background: #1e1e26;
-        border-radius: 3px;
-        overflow: hidden;
+      .tag .strike {
+        position: absolute; left: -8px; right: -8px; top: 50%; height: 12px;
+        background: var(--warn); transform: scaleX(0); transform-origin: left center;
       }
-      .progress-fill {
-        height: 100%;
-        width: 100%;
-        background: var(--accent);
-        transform: scaleX(0);
-        transform-origin: left center;
+      .lux .nope { color: var(--warn); }
+      .lux .nope svg { width: 130px; height: 130px; }
+      /* ---------- resultados que se desplazan ---------- */
+      .scroller {
+        position: relative; height: 560px; overflow: hidden;
+        background: #eef1f5; border-radius: 20px; padding: 22px;
       }
-      .mod-chip {
-        display: inline-block;
-        padding: 6px 22px;
-        border-radius: 12px;
-        background: var(--accent);
-        color: #0a0a0f;
-        font-weight: 900;
+      .scroller .inner { position: absolute; left: 22px; right: 22px; top: 22px; }
+      .res { display: flex; gap: 18px; align-items: center; padding: 20px 22px; border-radius: 14px; margin-bottom: 16px; }
+      .res .fav { width: 46px; height: 46px; font-size: 0; }
+      .res .lines { flex: 1; display: flex; flex-direction: column; gap: 11px; }
+      .res .lines i { display: block; height: 15px; border-radius: 8px; background: #c3c9d2; }
+      .res .lines i:nth-child(1) { width: 58%; background: #aab2bd; }
+      .res .lines i:nth-child(2) { width: 88%; }
+      .res.ours { background: #dff2b0; box-shadow: inset 0 0 0 4px var(--accent); }
+      .res.ours .lines i { background: #9db363; }
+      .res.ours .lines i:nth-child(1) { width: 86%; background: #7d9440; }
+      .cursor { position: absolute; left: 90px; top: 26px; width: 74px; height: 74px; color: #fff; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7)); }
+      .miss { position: absolute; color: var(--warn); }
+      .miss svg { width: 96px; height: 96px; }
+      /* ---------- iconos grandes (resumen) ---------- */
+      .duo { display: flex; gap: 30px; margin-top: 44px; }
+      .duo .p {
+        flex: 1; padding: 40px 0 34px; border-radius: 26px; border: 5px solid var(--line);
+        background: var(--panel); display: flex; flex-direction: column; align-items: center; gap: 20px;
       }
-      .pos-hint {
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        font-size: 40px;
-      }
-      .pos-hint .arrow {
-        font-size: 48px;
-        font-weight: 900;
-        color: var(--muted);
-      }
-      /* mode badges */
-      .mode-row {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-bottom: 34px;
-      }
-      .badge {
-        padding: 14px 24px;
-        border-radius: 12px;
-        border: 2px solid var(--line);
-        background: var(--panel);
-        font-size: 32px;
-        font-weight: 800;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-      .badge.accent {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #0a0a0f;
-      }
-      .badge.warn {
-        background: var(--warn);
-        border-color: var(--warn);
-        color: #0a0a0f;
-      }
-      .mode-arrow {
-        font-size: 38px;
-        font-weight: 900;
-        color: var(--muted);
-      }
-      /* url bar */
-      .urlbar {
-        margin-top: 8px;
-        display: flex;
-        align-items: center;
-        padding: 28px 30px;
-        background: var(--panel);
-        border: 3px solid var(--line);
-        border-radius: 16px;
-        font-family: monospace;
-        font-size: 46px;
-        font-weight: 700;
-      }
-      .urlbar .base {
-        color: var(--ink);
-      }
-      .urlbar .mod {
-        display: inline-block;
-        color: var(--accent);
-      }
-      .urlbar.big {
-        font-size: 54px;
-        justify-content: center;
-      }
-      /* light serp card */
-      .serp {
-        margin-top: 34px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 26px 28px;
-        background: #eef1f5;
-        border-radius: 16px;
-        color: #16181c;
-      }
-      .serp .rank {
-        flex: 0 0 54px;
-        width: 54px;
-        height: 54px;
-        border-radius: 12px;
-        background: var(--accent);
-        color: #0a0a0f;
-        font-size: 32px;
-        font-weight: 900;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .serp .meta {
-        flex: 1;
-      }
-      .serp .url {
-        font-size: 24px;
-        font-weight: 600;
-        color: #4b5563;
-      }
-      .serp .ttl {
-        margin-top: 6px;
-        font-size: 36px;
-        font-weight: 700;
-      }
-      .serp .ttl b {
-        background: #c8ff3d;
-        border-radius: 6px;
-        padding: 0 8px;
-      }
-      /* scan */
-      .scan {
-        position: relative;
-        align-self: flex-start;
-        overflow: hidden;
-        margin-top: 10px;
-        padding: 10px 14px;
-      }
-      .scan .word {
-        font-size: 96px;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-      }
-      .scan .scanline {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 8px;
-        background: var(--accent);
-        box-shadow: 0 0 24px rgba(200, 255, 61, 0.8);
-        transform: translateX(-30px);
-      }
-      /* strike */
-      .cross {
-        position: relative;
-      }
-      .cross .strike {
-        position: absolute;
-        left: -6px;
-        right: -6px;
-        top: 52%;
-        height: 10px;
-        background: var(--warn);
-        transform: scaleX(0);
-        transform-origin: left center;
-      }
-      /* two panels */
-      .two {
-        display: flex;
-        gap: 18px;
-        margin-top: 34px;
-      }
-      .two .p {
-        flex: 1;
-        padding: 30px 24px;
-        border-radius: 18px;
-        border: 3px solid var(--line);
-        background: var(--panel);
-        text-align: center;
-      }
-      .two .p .big {
-        font-size: 54px;
-        font-weight: 900;
-        line-height: 1.05;
-      }
-      .two .p .lbl {
-        margin-top: 14px;
-        font-size: 26px;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .two .p.good {
-        border-color: var(--accent);
-      }
-      .two .p.good .big {
-        color: var(--accent);
-      }
-      .two .p.bad {
-        border-color: var(--warn);
-      }
-      .two .p.bad .big {
-        color: var(--warn);
-      }
+      .duo .p svg.cart { width: 120px; height: 120px; }
+      .duo .p svg.arw { width: 96px; height: 96px; }
+      .duo .p.good { border-color: var(--accent); color: var(--accent); }
+      .duo .p.bad { border-color: var(--warn); color: var(--warn); }
+      /* ---------- CTA ---------- */
+      .savewrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .savewrap svg.book { width: 260px; height: 260px; color: var(--accent); }
       .cta {
-        margin-top: 50px;
-        align-self: flex-start;
-        padding: 26px 46px;
-        border-radius: 999px;
-        background: var(--accent);
-        color: #0a0a0f;
-        font-size: 46px;
-        font-weight: 900;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+        margin-top: 60px; align-self: center; padding: 26px 52px; border-radius: 999px;
+        background: var(--accent); color: #0a0a0f; font-size: 48px; font-weight: 900;
+        letter-spacing: 0.08em; text-transform: uppercase;
       }
-      /* initial states */
-      .fade-in {
-        opacity: 0;
+      /* ---------- progreso ---------- */
+      .progress {
+        position: absolute; left: 74px; right: 74px; top: 300px; height: 6px;
+        background: #1e1e26; border-radius: 3px; overflow: hidden;
       }
-      .fade-up {
-        opacity: 0;
-        transform: translateY(60px);
-      }
-      .fade-up-sm {
-        opacity: 0;
-        transform: translateY(28px);
-      }
-      .pop {
-        opacity: 0;
-        transform: scale(0.7);
-      }
-      .word {
-        opacity: 0;
-        transform: translateY(64px);
-      }
-      .slide-in {
-        opacity: 0;
-        transform: translateX(-60px);
-      }
+      .progress-fill { height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+      /* ---------- estados iniciales ---------- */
+      .fade-in { opacity: 0; }
+      .fade-up { opacity: 0; transform: translateY(60px); }
+      .fade-up-sm { opacity: 0; transform: translateY(28px); }
+      .pop { opacity: 0; transform: scale(0.7); }
+      .slide-x { opacity: 0; transform: translateX(-150px); }
+      .fill { transform: scaleX(0); }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-8x6y" id="root" data-composition-id="main" data-start="0" data-duration="34.47" data-width="1080" data-height="1920">
-      <!-- ===== F1 — HOOK ===== -->
-      <section data-hf-id="hf-7s6h" class="scene clip" id="s1" data-start="0" data-duration="4.245" data-track-index="0">
-        <div data-hf-id="hf-fs9e" class="kicker fade-in" id="s1-kicker"><span data-hf-id="hf-9gry" class="dot"></span>SEO · MODIFICADOR</div>
-        <h1 data-hf-id="hf-4l24" class="head">
-          <span data-hf-id="hf-kg4k" class="word">MISMO</span> <span data-hf-id="hf-sjfg" class="word">MODIFICADOR,</span>
-          <span data-hf-id="hf-jbxq" class="accent-line"><span data-hf-id="hf-3hd1" class="word">OTRO</span> <span data-hf-id="hf-qvz4" class="word">RESULTADO.</span></span>
-        </h1>
-        <div data-hf-id="hf-1vew" class="pos-hint">
-          <span data-hf-id="hf-3xpd" class="arrow fade-in" id="s1-a1">←</span>
-          <span data-hf-id="hf-b17x" class="mod-chip pop" id="s1-chip">barato</span>
-          <span data-hf-id="hf-fvkm" class="arrow fade-in" id="s1-a2">→</span>
-        </div>
-      </section>
+    <div data-hf-id="hf-z7h2" id="root" data-composition-id="main" data-start="0" data-duration="29.779" data-width="1080" data-height="1920">
 
-      <!-- ===== F2 — REGLA E-COMMERCE ===== -->
-      <section data-hf-id="hf-gid5" class="scene clip" id="s2" data-start="4.245" data-duration="4.245" data-track-index="0">
-        <div data-hf-id="hf-phs3" class="kicker fade-in" id="s2-kicker"><span data-hf-id="hf-zcc2" class="dot"></span>E-COMMERCE</div>
-        <div data-hf-id="hf-10b5" class="mode-row" style="margin-top: 30px">
-          <span data-hf-id="hf-gbuk" class="badge fade-up-sm" id="s2-b1">ALTO VOLUMEN</span>
-          <span data-hf-id="hf-hmyv" class="mode-arrow fade-in" id="s2-ar1">+</span>
-          <span data-hf-id="hf-txf8" class="badge fade-up-sm" id="s2-b2">AUTORIDAD ALTA</span>
-        </div>
-        <div data-hf-id="hf-rsh6" class="urlbar slide-in" id="s2-url">
-          <span data-hf-id="hf-motm" class="base">tutienda.com/</span><span data-hf-id="hf-r77j" class="base">zapatillas</span><span data-hf-id="hf-tlb1" class="mod" id="s2-mod">-barato</span>
-        </div>
-        <p data-hf-id="hf-doja" class="sub muted fade-up-sm" id="s2-note">El modificador va al final de la URL.</p>
-      </section>
-
-      <!-- ===== F3 — EJEMPLO URL ===== -->
-      <section data-hf-id="hf-zx3s" class="scene clip" id="s3" data-start="8.49" data-duration="3.0" data-track-index="0">
-        <div data-hf-id="hf-x9pl" class="kicker fade-in" id="s3-kicker"><span data-hf-id="hf-zqn3" class="dot"></span>EJEMPLO</div>
-        <div data-hf-id="hf-f6c5" class="urlbar big slide-in" id="s3-url">
-          <span data-hf-id="hf-wof2" class="base">/zapatillas</span><span data-hf-id="hf-591d" class="mod pop" id="s3-mod">-barato</span>
-        </div>
-      </section>
-
-      <!-- ===== F4 — EL TÍTULO ===== -->
-      <section data-hf-id="hf-emh5" class="scene clip" id="s4" data-start="11.49" data-duration="4.096" data-track-index="0">
-        <div data-hf-id="hf-b5he" class="kicker fade-in" id="s4-kicker"><span data-hf-id="hf-04y4" class="dot"></span>EL TÍTULO</div>
-        <div data-hf-id="hf-ro6c" class="serp fade-up" id="s4-serp">
-          <span data-hf-id="hf-l1ci" class="rank">1</span>
-          <span data-hf-id="hf-2eim" class="meta">
-            <span data-hf-id="hf-508t" class="url">tutienda.com/zapatillas-barato</span>
-            <span data-hf-id="hf-7z4h" class="ttl">Zapatillas <b data-hf-id="hf-jsaj">baratas</b> para correr</span>
-          </span>
-        </div>
-        <p data-hf-id="hf-bfjz" class="sub muted fade-up-sm" id="s4-note">Natural y claro. Que se lea de un vistazo.</p>
-      </section>
-
-      <!-- ===== F5 — POR QUÉ AL FINAL ===== -->
-      <section data-hf-id="hf-p28a" class="scene clip" id="s5" data-start="15.586" data-duration="3.563" data-track-index="0">
-        <div data-hf-id="hf-fmxi" class="kicker fade-in" id="s5-kicker"><span data-hf-id="hf-0j95" class="dot"></span>¿POR QUÉ AL FINAL?</div>
-        <div data-hf-id="hf-k8ai" class="scan" data-layout-allow-overflow="">
-          <span data-hf-id="hf-3j49" class="word" id="s5-word">barato</span>
-          <span data-hf-id="hf-8hl0" class="scanline" id="s5-scan"></span>
-        </div>
-        <p data-hf-id="hf-bxix" class="sub muted fade-up-sm" id="s5-note">Es corto: el ojo lo lee de un vistazo.</p>
-      </section>
-
-      <!-- ===== F6 — GIRO ===== -->
-      <section data-hf-id="hf-xfp8" class="scene clip" id="s6" data-start="19.149" data-duration="3.0" data-track-index="0">
-        <h1 data-hf-id="hf-ays4" class="head" id="s6-head">
-          <span data-hf-id="hf-ibby" class="fade-up-sm" style="display: block">Pero hay un caso</span>
-          <span data-hf-id="hf-wren" class="warn-line fade-up-sm" style="display: block">donde no lo uses nunca.</span>
-        </h1>
-      </section>
-
-      <!-- ===== F7 — LUJO ===== -->
-      <section data-hf-id="hf-pc2m" class="scene clip" id="s7" data-start="22.149" data-duration="3.029" data-track-index="0">
-        <div data-hf-id="hf-001l" class="kicker fade-in" id="s7-kicker"><span data-hf-id="hf-gcvu" class="dot warn"></span>EXCEPCIÓN</div>
-        <div data-hf-id="hf-dfet" class="mode-row" style="margin-top: 30px">
-          <span data-hf-id="hf-ob69" class="badge warn pop" id="s7-badge">LUJO</span>
-        </div>
-        <h2 data-hf-id="hf-wzib" class="head" style="font-size: 76px">
-          <span data-hf-id="hf-5yvm" class="cross fade-up-sm" id="s7-cross">BARATO<span data-hf-id="hf-qvl2" class="strike" id="s7-strike"></span></span>
-          <span data-hf-id="hf-dbs9" class="warn-line fade-up-sm">= MALA CALIDAD</span>
-        </h2>
-      </section>
-
-      <!-- ===== F8 — CONSECUENCIA ===== -->
-      <section data-hf-id="hf-2s0h" class="scene clip" id="s8" data-start="25.178" data-duration="3.0" data-track-index="0">
-        <h1 data-hf-id="hf-dr4m" class="head fade-up" id="s8-head" style="margin-top: 0; color: var(--warn)">Pierdes el clic.</h1>
-        <p data-hf-id="hf-j9nr" class="sub muted fade-up-sm" id="s8-note">Quien compra caro no quiere "barato".</p>
-      </section>
-
-      <!-- ===== F9 — RESUMEN ===== -->
-      <section data-hf-id="hf-9ts7" class="scene clip" id="s9" data-start="28.178" data-duration="3.0" data-track-index="0">
-        <div data-hf-id="hf-r0ia" class="kicker fade-in" id="s9-kicker"><span data-hf-id="hf-0xk6" class="dot"></span>LA MISMA PALABRA</div>
-        <div data-hf-id="hf-9yku" class="two">
-          <div data-hf-id="hf-kvvw" class="p good fade-up-sm" id="s9-good">
-            <div data-hf-id="hf-hive" class="big">+ CLIENTES</div>
-            <div data-hf-id="hf-uvxk" class="lbl">si encaja</div>
+      <!-- ===== F1 — HOOK: el mismo modificador, dos destinos ===== -->
+      <section data-hf-id="hf-sa7i" class="scene clip" id="s1" data-start="0.0" data-duration="4.226" data-track-index="0">
+        <div data-hf-id="hf-hu55" class="kicker fade-in" id="s1-kicker"><span data-hf-id="hf-9gry" class="dot"></span>EL MODIFICADOR</div>
+        <div data-hf-id="hf-narc" class="browser fade-up" id="s1-browser" style="margin-top: 34px">
+          <div data-hf-id="hf-6ex2" class="chrome">
+            <span data-hf-id="hf-42yy" class="lights"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></span>
+            <span data-hf-id="hf-hky0" class="addr">
+              <span data-hf-id="hf-0ig8" class="lock"><svg data-hf-id="hf-fwsu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-1bkv" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-xqka" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+              <span data-hf-id="hf-vfkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-22mt" class="mod" id="s1-chip">-baratas</span>
+            </span>
           </div>
-          <div data-hf-id="hf-75pe" class="p bad fade-up-sm" id="s9-bad">
-            <div data-hf-id="hf-47lj" class="big">− CLIENTES</div>
-            <div data-hf-id="hf-5kdh" class="lbl">si no</div>
+        </div>
+        <div data-hf-id="hf-lh6a" class="verdicts">
+          <span data-hf-id="hf-hivu" class="verdict up pop" id="s1-up"><svg data-hf-id="hf-085v" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-qc3g" d="M12 19.5V5" /><path data-hf-id="hf-b92o" d="M5.5 11.5 12 5l6.5 6.5" /></svg></span>
+          <span data-hf-id="hf-cyw4" class="verdict down pop" id="s1-down"><svg data-hf-id="hf-s9f7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-79u3" d="M12 4.5V19" /><path data-hf-id="hf-bq5a" d="M18.5 12.5 12 19l-6.5-6.5" /></svg></span>
+        </div>
+      </section>
+
+      <!-- ===== F2 — EL MODIFICADOR VA AL FINAL ===== -->
+      <section data-hf-id="hf-7x0v" class="scene clip" id="s2" data-start="4.226" data-duration="3.755" data-track-index="0">
+        <div data-hf-id="hf-tkyi" class="kicker fade-in" id="s2-kicker"><span data-hf-id="hf-zcc2" class="dot"></span>COMERCIO ELECTRÓNICO</div>
+        <div data-hf-id="hf-ulll" class="browser fade-up" id="s2-browser" style="margin-top: 34px">
+          <div data-hf-id="hf-ujgq" class="chrome">
+            <span data-hf-id="hf-atou" class="lights"><i data-hf-id="hf-ylp6"></i><i data-hf-id="hf-0l8b"></i><i data-hf-id="hf-0zjc"></i></span>
+            <span data-hf-id="hf-wmv4" class="addr">
+              <span data-hf-id="hf-t468" class="lock"><svg data-hf-id="hf-8p1u" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-k9jz" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-3rz2" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+              <span data-hf-id="hf-yjkz" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-u3hi" class="plus pop" id="s2-plus"><svg data-hf-id="hf-q9mt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-sah3" d="M12 4.5v15" /><path data-hf-id="hf-8lpz" d="M4.5 12h15" /></svg></span>
+            </span>
+          </div>
+          <div data-hf-id="hf-slsm" class="serpbody">
+            <div data-hf-id="hf-ycrv" class="result">
+              <span data-hf-id="hf-5knw" class="fav">t</span>
+              <span data-hf-id="hf-uckh">
+                <span data-hf-id="hf-0aid" class="crumb">tutienda.com</span>
+                <div data-hf-id="hf-q5hp" class="skeleton"><i data-hf-id="hf-zsm9"></i><i data-hf-id="hf-06xa"></i></div>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-c1jf" class="lux" style="margin-top: 40px; justify-content: center">
+          <span data-hf-id="hf-qzbi" class="tag slide-x" id="s2-mod" style="border-color: var(--accent); color: var(--accent)">-baratas</span>
+        </div>
+      </section>
+
+      <!-- ===== F3 — EN LA URL ENTRA TAL CUAL ===== -->
+      <section data-hf-id="hf-h6er" class="scene clip" id="s3" data-start="7.981" data-duration="3.645" data-track-index="0">
+        <div data-hf-id="hf-aepg" class="kicker fade-in" id="s3-kicker"><span data-hf-id="hf-zqn3" class="dot"></span>EN LA URL</div>
+        <div data-hf-id="hf-dr1i" class="browser fade-up" id="s3-browser" style="margin-top: 34px">
+          <div data-hf-id="hf-uxrr" class="chrome">
+            <span data-hf-id="hf-b7zv" class="lights"><i data-hf-id="hf-26gf"></i><i data-hf-id="hf-2krg"></i><i data-hf-id="hf-oz7w"></i></span>
+            <span data-hf-id="hf-vfy1" class="addr">
+              <span data-hf-id="hf-rx95" class="lock"><svg data-hf-id="hf-93cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jv8y" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-46a3" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+              <span data-hf-id="hf-y59y" class="base">tutienda.com/zapatillas</span><span data-hf-id="hf-9mb3" class="mod fade-in" id="s3-mod">-baratas</span><span data-hf-id="hf-yoo2" class="caret fade-in" id="s3-caret"></span>
+            </span>
+          </div>
+          <div data-hf-id="hf-r41m" class="serpbody">
+            <div data-hf-id="hf-qarv" class="result">
+              <span data-hf-id="hf-clgc" class="fav pop" id="s3-ok"><svg data-hf-id="hf-98k7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-okxw" d="M4 12.5l5.5 5.5L20 6.5" /></svg></span>
+              <span data-hf-id="hf-nyx6" style="flex:1">
+                <div data-hf-id="hf-dsht" class="skeleton"><i data-hf-id="hf-okwv"></i><i data-hf-id="hf-o6lu"></i></div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F4 — EL TÍTULO SUENA NATURAL ===== -->
+      <section data-hf-id="hf-lk87" class="scene clip" id="s4" data-start="11.626" data-duration="3.566" data-track-index="0">
+        <div data-hf-id="hf-b5he" class="kicker fade-in" id="s4-kicker"><span data-hf-id="hf-04y4" class="dot"></span>EL TÍTULO</div>
+        <div data-hf-id="hf-sb1z" class="browser fade-up" id="s4-browser" style="margin-top: 34px">
+          <div data-hf-id="hf-vc2s" class="chrome">
+            <span data-hf-id="hf-bmaw" class="lights"><i data-hf-id="hf-jqbp"></i><i data-hf-id="hf-qkg0"></i><i data-hf-id="hf-q64z"></i></span>
+            <span data-hf-id="hf-vu92" class="addr">
+              <span data-hf-id="hf-sbk6" class="lock"><svg data-hf-id="hf-9hnw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect data-hf-id="hf-jgxx" x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path data-hf-id="hf-4kl4" d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+              <span data-hf-id="hf-v086" class="dim">google.com/search</span>
+            </span>
+          </div>
+          <div data-hf-id="hf-ricn" class="serpbody">
+            <div data-hf-id="hf-4m46" class="result fade-up" id="s4-result">
+              <span data-hf-id="hf-oono" class="fav">t</span>
+              <span data-hf-id="hf-l73p">
+                <span data-hf-id="hf-8krp" class="crumb">tutienda.com › zapatillas-baratas</span>
+                <div data-hf-id="hf-smng" class="rtitle">Zapatillas <b data-hf-id="hf-6925" id="s4-mark">baratas</b> para correr</div>
+                <div data-hf-id="hf-ezew" class="skeleton"><i data-hf-id="hf-prty"></i><i data-hf-id="hf-pdix"></i></div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F5 — ES CORTO, SE LEE RÁPIDO ===== -->
+      <section data-hf-id="hf-jlw6" class="scene clip" id="s5" data-start="15.192" data-duration="3.249" data-track-index="0">
+        <div data-hf-id="hf-fmxi" class="kicker fade-in" id="s5-kicker"><span data-hf-id="hf-0j95" class="dot"></span>¿POR QUÉ AL FINAL?</div>
+        <div data-hf-id="hf-umx2" class="bars">
+          <div data-hf-id="hf-6ls5" class="bar short">
+            <b data-hf-id="hf-af0t" class="fill" id="s5-short"></b>
+            <span data-hf-id="hf-92w8" class="eye"><svg data-hf-id="hf-zwc0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path data-hf-id="hf-atjc" d="M1.8 12S5.5 5.5 12 5.5 22.2 12 22.2 12 18.5 18.5 12 18.5 1.8 12 1.8 12z" /><circle data-hf-id="hf-nouh" cx="12" cy="12" r="3.2" /></svg></span>
+          </div>
+          <div data-hf-id="hf-pst7" class="bar long">
+            <b data-hf-id="hf-gwmb" class="fill" id="s5-long"></b>
+          </div>
+        </div>
+        <div data-hf-id="hf-3h70" class="speedrow pop" id="s5-eye">
+          <svg data-hf-id="hf-xr9g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path data-hf-id="hf-y4ot" d="M4 18.5a9 9 0 1 1 16 0" /><path data-hf-id="hf-kak7" d="M12 18.5 16.6 12.5" /></svg>
+          <span data-hf-id="hf-17ar" style="font-size: 34px; font-weight: 700; letter-spacing: 0.02em">-baratas · lectura instantánea</span>
+        </div>
+      </section>
+
+      <!-- ===== F6 — HAY UN CASO DONDE NO ===== -->
+      <section data-hf-id="hf-2k54" class="scene clip" id="s6" data-start="18.441" data-duration="2.258" data-track-index="0">
+        <div data-hf-id="hf-459c" class="warnwrap">
+          <svg data-hf-id="hf-zv5m" class="tri pop" id="s6-tri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path data-hf-id="hf-tqun" d="M12 3.1 1.7 20.6h20.6L12 3.1z" /><path data-hf-id="hf-xez5" d="M12 9.4v5.1" /><path data-hf-id="hf-pmcd" d="M12 17.6h.01" /></svg>
+          <span data-hf-id="hf-k2b9" class="ring" id="s6-ring"></span>
+        </div>
+        <div data-hf-id="hf-u73c" style="margin-top: 54px; display: flex; justify-content: center">
+          <span data-hf-id="hf-20bx" class="cta pop" id="s6-chip" style="margin-top: 0; font-size: 40px; background: var(--warn); color: #14141a">NUNCA</span>
+        </div>
+      </section>
+
+      <!-- ===== F7 — EN LUJO, BARATO ES MALA SEÑAL ===== -->
+      <section data-hf-id="hf-0qxl" class="scene clip" id="s7" data-start="20.699" data-duration="2.791" data-track-index="0">
+        <div data-hf-id="hf-hfrk" class="kicker fade-in" id="s7-kicker"><span data-hf-id="hf-gcvu" class="dot warn"></span>EXCEPCIÓN · LUJO</div>
+        <div data-hf-id="hf-b1br" class="lux" style="margin-top: 44px; justify-content: center">
+          <span data-hf-id="hf-o9w1" class="gem pop" id="s7-gem"><svg data-hf-id="hf-gegz" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-kggo" d="M6.4 2.6h11.2l4.2 5.6L12 21.6 2.2 8.2 6.4 2.6z" /></svg></span>
+          <span data-hf-id="hf-r7ve" class="tag fade-up-sm" id="s7-tag">barato<span data-hf-id="hf-qvl2" class="strike" id="s7-strike"></span></span>
+          <span data-hf-id="hf-rso7" class="nope pop" id="s7-x"><svg data-hf-id="hf-2eft" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path data-hf-id="hf-f1gn" d="M6 6l12 12" /><path data-hf-id="hf-pdkr" d="M18 6 6 18" /></svg></span>
+        </div>
+      </section>
+
+      <!-- ===== F8 — EL CURSOR PASA DE LARGO ===== -->
+      <section data-hf-id="hf-yc1v" class="scene clip" id="s8" data-start="23.49" data-duration="1.203" data-track-index="0">
+        <div data-hf-id="hf-igqu" class="scroller fade-in" id="s8-scroller">
+          <div data-hf-id="hf-qok4" class="inner" id="s8-inner">
+            <div data-hf-id="hf-j5iq" class="res"><span data-hf-id="hf-aatc" class="fav"></span><span data-hf-id="hf-kbha" class="lines"><i data-hf-id="hf-hqsk"></i><i data-hf-id="hf-hchj"></i></span></div>
+            <div data-hf-id="hf-pcwc" class="res ours" id="s8-ours"><span data-hf-id="hf-z514" class="fav"></span><span data-hf-id="hf-w936" class="lines"><i data-hf-id="hf-8d0n"></i><i data-hf-id="hf-8rbo"></i></span></div>
+            <div data-hf-id="hf-l6ra" class="res"><span data-hf-id="hf-xy41" class="fav"></span><span data-hf-id="hf-wne7" class="lines"><i data-hf-id="hf-7kel"></i><i data-hf-id="hf-7ypm"></i></span></div>
+            <div data-hf-id="hf-ll2b" class="res"><span data-hf-id="hf-ycf2" class="fav"></span><span data-hf-id="hf-x1p8" class="lines"><i data-hf-id="hf-9y8r"></i><i data-hf-id="hf-acjs"></i></span></div>
+            <div data-hf-id="hf-lzdc" class="res"><span data-hf-id="hf-x5hz" class="fav"></span><span data-hf-id="hf-xg09" class="lines"><i data-hf-id="hf-95mp"></i><i data-hf-id="hf-9jxq"></i></span></div>
+          </div>
+          <span data-hf-id="hf-x22d" class="cursor fade-in" id="s8-cursor"><svg data-hf-id="hf-qldv" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-jocj" d="M5 2.4 19.2 13.3l-6.2 1 3.3 6.7-2.7 1.3-3.3-6.7-4.8 4.1z" /></svg></span>
+        </div>
+      </section>
+
+      <!-- ===== F9 — SUMA O RESTA CLIENTES ===== -->
+      <section data-hf-id="hf-1uly" class="scene clip" id="s9" data-start="24.693" data-duration="2.853" data-track-index="0">
+        <div data-hf-id="hf-zsgm" class="kicker fade-in" id="s9-kicker"><span data-hf-id="hf-0xk6" class="dot"></span>EL MISMO MODIFICADOR</div>
+        <div data-hf-id="hf-y4bg" class="duo">
+          <div data-hf-id="hf-wce2" class="p good pop" id="s9-a">
+            <svg data-hf-id="hf-n0vi" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-l6w2" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-tsee" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-93qj" cx="17.6" cy="20" r="1.8" /></svg>
+            <svg data-hf-id="hf-eqm2" class="arw pop" id="s9-aup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-b390" d="M12 19.5V5" /><path data-hf-id="hf-wryg" d="M5.5 11.5 12 5l6.5 6.5" /></svg>
+          </div>
+          <div data-hf-id="hf-x2qv" class="p bad pop" id="s9-b">
+            <svg data-hf-id="hf-y78y" class="cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-k5qe" d="M2.5 3.5h3l2.6 11.2h10.5l2.4-8.2H6.2" /><circle data-hf-id="hf-6j2i" cx="9.6" cy="20" r="1.8" /><circle data-hf-id="hf-ftaj" cx="17.6" cy="20" r="1.8" /></svg>
+            <svg data-hf-id="hf-o8ly" class="arw pop" id="s9-bdown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-i297" d="M12 4.5V19" /><path data-hf-id="hf-beo2" d="M18.5 12.5 12 19l-6.5-6.5" /></svg>
           </div>
         </div>
       </section>
 
       <!-- ===== F10 — CTA ===== -->
-      <section data-hf-id="hf-tqhk" class="scene clip" id="s10" data-start="31.178" data-duration="3.292" data-track-index="0">
-        <h2 data-hf-id="hf-hdmo" class="head" id="s10-title">
-          <span data-hf-id="hf-rvn4" class="fade-up-sm" style="display: block">Guarda esto antes de</span>
-          <span data-hf-id="hf-qhr5" class="fade-up-sm accent-line" style="display: block">tu próxima optimización</span>
-        </h2>
+      <section data-hf-id="hf-qnys" class="scene clip" id="s10" data-start="27.546" data-duration="2.233" data-track-index="0">
+        <div data-hf-id="hf-stvb" class="savewrap">
+          <svg data-hf-id="hf-vvnw" class="book pop" id="s10-mark" viewBox="0 0 24 24" fill="currentColor"><path data-hf-id="hf-afr0" d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+          <span data-hf-id="hf-vdv2" class="ring" id="s10-ring" style="border-color: var(--accent)"></span>
+        </div>
         <div data-hf-id="hf-op2v" class="cta pop" id="s10-cta">Guarda esto</div>
       </section>
 
       <!-- ===== PROGRESO ===== -->
-      <div data-hf-id="hf-4urt" class="progress clip" id="prog" data-start="0" data-duration="34.47" data-track-index="0">
+      <div data-hf-id="hf-ao9g" class="progress clip" id="prog" data-start="0" data-duration="29.779" data-track-index="0" data-media-start="0">
         <div data-hf-id="hf-rgrv" class="progress-fill" id="prog-fill"></div>
       </div>
 
       <!-- ===== SUBTÍTULOS KARAOKE ===== -->
-      <div data-hf-id="hf-p8q7" class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="34.47" data-track-index="2" data-width="1080" data-height="1920"></div>
+      <div data-hf-id="hf-374x" class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="29.779" data-track-index="2" data-width="1080" data-height="1920"></div>
 
       <!-- ===== MÚSICA ===== -->
-      <audio data-hf-id="hf-5jk0" id="music" class="clip" data-start="0" data-duration="34.5" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+      <audio data-hf-id="hf-89zg" id="music" class="clip" data-start="0" data-duration="29.779" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS DE SONIDO ===== -->
+      <audio data-hf-id="hf-qp2d" id="sfx" class="clip" data-start="0" data-duration="29.779" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
 
       <!-- ===== VOZ EN OFF ===== -->
-      <audio data-hf-id="hf-r5dz" id="vo-01" class="clip" data-start="0" data-duration="4.245" data-track-index="1" src="assets/voice/01.wav"></audio>
-      <audio data-hf-id="hf-kz46" id="vo-02" class="clip" data-start="4.245" data-duration="4.245" data-track-index="1" src="assets/voice/02.wav"></audio>
-      <audio data-hf-id="hf-ncg6" id="vo-03" class="clip" data-start="8.490" data-duration="2.539" data-track-index="1" src="assets/voice/03.wav"></audio>
-      <audio data-hf-id="hf-9kpe" id="vo-04" class="clip" data-start="11.490" data-duration="4.096" data-track-index="1" src="assets/voice/04.wav"></audio>
-      <audio data-hf-id="hf-lqto" id="vo-05" class="clip" data-start="15.586" data-duration="3.563" data-track-index="1" src="assets/voice/05.wav"></audio>
-      <audio data-hf-id="hf-4gc3" id="vo-06" class="clip" data-start="19.149" data-duration="2.261" data-track-index="1" src="assets/voice/06.wav"></audio>
-      <audio data-hf-id="hf-y3xq" id="vo-07" class="clip" data-start="22.149" data-duration="3.029" data-track-index="1" src="assets/voice/07.wav"></audio>
-      <audio data-hf-id="hf-v0pj" id="vo-08" class="clip" data-start="25.178" data-duration="1.173" data-track-index="1" src="assets/voice/08.wav"></audio>
-      <audio data-hf-id="hf-a8m8" id="vo-09" class="clip" data-start="28.178" data-duration="2.709" data-track-index="1" src="assets/voice/09.wav"></audio>
-      <audio data-hf-id="hf-gsfe" id="vo-10" class="clip" data-start="31.178" data-duration="2.688" data-track-index="1" src="assets/voice/10.wav"></audio>
+      <audio data-hf-id="hf-378w" id="vo-01" class="clip" data-start="0.0" data-duration="4.224" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio data-hf-id="hf-ebby" id="vo-02" class="clip" data-start="4.226" data-duration="3.753" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio data-hf-id="hf-xuzx" id="vo-03" class="clip" data-start="7.981" data-duration="3.643" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio data-hf-id="hf-vldq" id="vo-04" class="clip" data-start="11.626" data-duration="3.564" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio data-hf-id="hf-nc6i" id="vo-05" class="clip" data-start="15.192" data-duration="3.247" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio data-hf-id="hf-rrzx" id="vo-06" class="clip" data-start="18.441" data-duration="2.256" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio data-hf-id="hf-gke0" id="vo-07" class="clip" data-start="20.699" data-duration="2.789" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio data-hf-id="hf-ikh4" id="vo-08" class="clip" data-start="23.49" data-duration="1.201" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio data-hf-id="hf-1f3e" id="vo-09" class="clip" data-start="24.693" data-duration="2.851" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio data-hf-id="hf-lpoi" id="vo-10" class="clip" data-start="27.546" data-duration="2.233" data-track-index="1" src="assets/voice/10.wav"></audio>
     </div>
 
     <script>
@@ -483,63 +377,74 @@
       const tl = gsap.timeline({ paused: true });
       window.__timelines["main"] = tl;
 
-      const S = [0, 4.245, 8.49, 11.49, 15.586, 19.149, 22.149, 25.178, 28.178, 31.178];
+      const TOTAL = 29.779;
+      const S = [0.0, 4.226, 7.981, 11.626, 15.192, 18.441, 20.699, 23.49, 24.693, 27.546];
       const at = (n, local) => S[n - 1] + local;
 
-      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 34.47, ease: "none" }, 0);
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 29.779, ease: "none" }, 0);
 
-      // F1 Hook
-      tl.to("#s1-kicker", { opacity: 1, duration: 0.4 }, at(1, 0.05));
-      tl.to("#s1 .word", { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, at(1, 0.15));
-      tl.to("#s1-a1", { opacity: 1, duration: 0.3 }, at(1, 1.2));
-      tl.to("#s1-chip", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(1, 1.4));
-      tl.to("#s1-a2", { opacity: 1, duration: 0.3 }, at(1, 1.9));
+      // F1 — hook: misma URL, dos destinos
+      tl.to("#s1-kicker", { opacity: 1, duration: 0.35 }, at(1, 0.05));
+      tl.to("#s1-browser", { opacity: 1, y: 0, duration: 0.5 }, at(1, 0.15));
+      tl.to("#s1-chip", { opacity: 1, duration: 0.25 }, at(1, 0.7));
+      tl.to("#s1-up", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(1, 1.3));
+      tl.to("#s1-down", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(1, 1.85));
 
-      // F2 Regla
-      tl.to("#s2-kicker", { opacity: 1, duration: 0.4 }, at(2, 0.05));
-      tl.to("#s2-b1", { opacity: 1, y: 0, duration: 0.4 }, at(2, 0.2));
-      tl.to("#s2-ar1", { opacity: 1, duration: 0.3 }, at(2, 0.6));
-      tl.to("#s2-b2", { opacity: 1, y: 0, duration: 0.4 }, at(2, 0.8));
-      tl.to("#s2-url", { opacity: 1, x: 0, duration: 0.5 }, at(2, 1.4));
-      tl.to("#s2-note", { opacity: 1, y: 0, duration: 0.45 }, at(2, 2.4));
+      // F2 — el modificador entra al final de la URL
+      tl.to("#s2-kicker", { opacity: 1, duration: 0.35 }, at(2, 0.05));
+      tl.to("#s2-browser", { opacity: 1, y: 0, duration: 0.45 }, at(2, 0.1));
+      tl.to("#s2-plus", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, at(2, 0.6));
+      tl.to("#s2-mod", { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, at(2, 1.3));
 
-      // F3 Ejemplo URL
+      // F3 — tal cual se escribe
       tl.to("#s3-kicker", { opacity: 1, duration: 0.35 }, at(3, 0.05));
-      tl.to("#s3-url", { opacity: 1, x: 0, duration: 0.45 }, at(3, 0.15));
-      tl.to("#s3-mod", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(3, 1.0));
+      tl.to("#s3-browser", { opacity: 1, y: 0, duration: 0.45 }, at(3, 0.1));
+      tl.to("#s3-caret", { opacity: 1, duration: 0.2 }, at(3, 0.45));
+      tl.to("#s3-mod", { opacity: 1, duration: 0.25 }, at(3, 1.0));
+      tl.to("#s3-ok", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(3, 1.6));
 
-      // F4 El título
+      // F4 — el título suena natural
       tl.to("#s4-kicker", { opacity: 1, duration: 0.35 }, at(4, 0.05));
-      tl.to("#s4-serp", { opacity: 1, y: 0, duration: 0.5 }, at(4, 0.3));
-      tl.to("#s4-note", { opacity: 1, y: 0, duration: 0.45 }, at(4, 1.6));
+      tl.to("#s4-browser", { opacity: 1, y: 0, duration: 0.45 }, at(4, 0.1));
+      tl.to("#s4-result", { opacity: 1, y: 0, duration: 0.45 }, at(4, 0.45));
+      tl.to("#s4-mark", { duration: 0.3 }, at(4, 1.4));
 
-      // F5 Por qué al final
+      // F5 — es corto, se lee de un vistazo
       tl.to("#s5-kicker", { opacity: 1, duration: 0.35 }, at(5, 0.05));
-      tl.to("#s5-word", { opacity: 1, y: 0, duration: 0.45 }, at(5, 0.15));
-      tl.fromTo("#s5-scan", { x: -30 }, { x: 500, duration: 0.9, ease: "power1.inOut" }, at(5, 0.9));
-      tl.to("#s5-note", { opacity: 1, y: 0, duration: 0.45 }, at(5, 1.9));
+      tl.fromTo("#s5-short", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(5, 0.45));
+      tl.fromTo("#s5-long", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "none" }, at(5, 1.05));
+      tl.to("#s5-eye", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(5, 0.9));
 
-      // F6 Giro
-      tl.to("#s6-head .fade-up-sm", { opacity: 1, y: 0, duration: 0.5, stagger: 0.18 }, at(6, 0.15));
+      // F6 — aviso
+      tl.to("#s6-tri", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(6, 0.2));
+      tl.fromTo("#s6-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(6, 0.5));
+      tl.to("#s6-chip", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(6, 1.05));
 
-      // F7 Lujo
+      // F7 — lujo
       tl.to("#s7-kicker", { opacity: 1, duration: 0.35 }, at(7, 0.05));
-      tl.to("#s7-badge", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(7, 0.2));
-      tl.to("#s7 .head .fade-up-sm", { opacity: 1, y: 0, duration: 0.4, stagger: 0.15 }, at(7, 0.9));
-      tl.fromTo("#s7-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(7, 1.7));
+      tl.to("#s7-gem", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(7, 0.1));
+      tl.to("#s7-tag", { opacity: 1, y: 0, duration: 0.4 }, at(7, 0.45));
+      tl.fromTo("#s7-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, at(7, 1.25));
+      tl.to("#s7-x", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(7, 1.75));
 
-      // F8 Consecuencia
-      tl.to("#s8-head", { opacity: 1, y: 0, duration: 0.5 }, at(8, 0.1));
-      tl.to("#s8-note", { opacity: 1, y: 0, duration: 0.45 }, at(8, 0.9));
+      // F8 — el cursor pasa de largo
+      tl.to("#s8-scroller", { opacity: 1, duration: 0.15 }, at(8, 0.0));
+      tl.to("#s8-cursor", { opacity: 1, duration: 0.15 }, at(8, 0.05));
+      tl.to("#s8-inner", { y: -340, duration: 0.7, ease: "power2.inOut" }, at(8, 0.15));
+      tl.to("#s8-cursor", { y: 380, duration: 0.7, ease: "power2.inOut" }, at(8, 0.15));
+      tl.to("#s8-ours", { opacity: 0.35, duration: 0.25 }, at(8, 0.75));
 
-      // F9 Resumen
+      // F9 — suma o resta
       tl.to("#s9-kicker", { opacity: 1, duration: 0.35 }, at(9, 0.05));
-      tl.to("#s9-good", { opacity: 1, y: 0, duration: 0.45 }, at(9, 0.4));
-      tl.to("#s9-bad", { opacity: 1, y: 0, duration: 0.45 }, at(9, 1.1));
+      tl.to("#s9-a", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(9, 0.25));
+      tl.to("#s9-aup", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(9, 0.65));
+      tl.to("#s9-b", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(9, 1.25));
+      tl.to("#s9-bdown", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at(9, 1.65));
 
-      // F10 CTA
-      tl.to("#s10-title .fade-up-sm", { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, at(10, 0.1));
-      tl.to("#s10-cta", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, at(10, 0.9));
+      // F10 — guarda esto
+      tl.to("#s10-mark", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(10, 0.2));
+      tl.fromTo("#s10-ring", { scale: 0.7, opacity: 0.9 }, { scale: 1.35, opacity: 0, duration: 0.7, ease: "power2.out" }, at(10, 0.55));
+      tl.to("#s10-cta", { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, at(10, 1.15));
 
       tl.seek(0);
     </script>
