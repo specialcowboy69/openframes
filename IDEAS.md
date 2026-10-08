@@ -74,3 +74,9 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
   el cursor pasando de largo (sin una palabra); iconos SVG en lugar de rótulos; fuera los
   textos que repetían la voz. Capa de audio nueva: `assets/sfx/sfx.wav` (34 efectos de 9
   tipos, sintetizados con `tools/sfx.py`).
+- **V2 v6 (publicación)** — subido a **Instagram y Facebook** el 2026-10-08. Alojado como
+  Release pública `video-seo-02-modificador-lujo` en `openframes` (MP4 + portada) y encolado
+  en `hypervideo` (`status: needs_review`). El primer intento, con portada, fue **rechazado
+  por n8n** (`jobs: []`); la Action de estado confirmó `not_found`, se **reconcilió la
+  reserva** y el reintento **sin portada** fue aceptado (`ok: true, created: 1`, job
+  `reel-seo-02-modificador-lujo-37786555312`). La portada queda guardada en la cola.

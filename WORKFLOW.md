@@ -165,6 +165,23 @@ Se publica en orden cuando un vídeo depende del anterior (V2 va después de V1)
    **Nunca llamar al webhook a mano.**
 5. Verificar: run de la Action + `reel_status` en la cola.
 
+### 13.1 Si falla
+
+- **La portada rompe n8n.** Con `include_cover=true` el webhook responde `{"jobs":[]}` y n8n dice
+  `not_found`; el último paso falla con *"The n8n response did not confirm this Reel job"*.
+  Reintentar con **`include_cover=false`** (la portada se queda en `outputs.cover`, solo se omite en
+  el envío). Le pasó a V1 y a V2. El MP4 de n8n no se revienta por la portada.
+- Un intento fallido deja el ítem en **`publishing`** y eso **bloquea duplicados** (el siguiente
+  intento falla en la reserva y se salta la llamada a n8n: salvaguarda correcta, **no insistir**).
+  Para reconciliar: consultar el `jobId` con **`HyperFrames check Reel status (manual)`**; si n8n
+  devuelve `not_found`, borrar `publish_attempt`, volver a `status: needs_review` y anotar el fallo
+  en `notes`; después ya se puede reintentar.
+- **El CSV de la cola usa LF.** Reescribirlo con `stringifyCsv` de
+  `scripts/schedule-instagram-reel.mjs`; con el `csv` de Python sale CRLF y el diff ensucia el
+  fichero entero.
+- `publish_at: now` solo pide publicación inmediata: la aceptación deja `reel_status: pending` y
+  Meta publica después. El estado final se lee con el workflow de estado.
+
 ---
 
 ## Ciclo de cambio (una vez el vídeo ya existe)

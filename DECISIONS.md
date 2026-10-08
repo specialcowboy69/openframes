@@ -39,3 +39,11 @@ Se añade al final; lo más reciente abajo. Fecha en formato AAAA-MM-DD.
   visibilidad (para eso hace falta un PAT).
 - El preview del Studio debe escuchar en `0.0.0.0`
   (`HYPERFRAMES_PREVIEW_HOST=0.0.0.0`) o el proxy externo devuelve **502**.
+- **La portada rompe el publicador de n8n**: con `include_cover=true` el webhook responde
+  sin ningún job (`{"jobs":[]}`) y la Action de estado devuelve `not_found`. Se publica con
+  `include_cover=false`; la portada se queda en `outputs.cover` para cuando el endpoint se
+  arregle. Le pasó a V1 y a V2.
+- **Un fallo posterior a la reserva bloquea el reintento**: el ítem queda en `publishing` y
+  el siguiente intento muere en la reserva (sin volver a llamar a n8n — la salvaguarda
+  funciona). Para reintentar hay que reconciliar antes: comprobar el `jobId` con la Action
+  de estado y, si está `not_found`, liberar la reserva (`publish_attempt`, `needs_review`).
