@@ -21,7 +21,7 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 | ID | Tema | De dónde sale | Por qué se dejó para otro vídeo | Ángulo propuesto | Formato | Estado |
 |----|------|---------------|--------------------------------|------------------|---------|--------|
 | V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 29,8 s · 10 frames | **Publicado en Instagram** (2026-10-08; Facebook dio error de permisos). **v7: remontaje** — transiciones, `power3.out`, revelado sincronizado con la voz |
-| V3 | Qué es la autoridad y cómo saber la tuya | Implícito en V1 | Es un vídeo base por sí solo; en V1 solo se define de pasada | "Tu web no sube aunque hagas SEO: mira tu autoridad" | 9:16 · ~40 s | Idea |
+| V3 | Qué es la autoridad y cómo saber la tuya | Implícito en V1 | Es un vídeo base por sí solo; en V1 solo se define de pasada | "Tu web no sube aunque hagas SEO: mira tu autoridad" | 9:16 · 32,0 s · 10 frames | **Hecho v1** — voz `Pablo`; medidor de autoridad, tarjetas de dominio e informe de Enlaces |
 | V4 | Modificadores cortos y lectura rápida en Google | Detalle de V2 (la palabra "barato" se procesa de un vistazo) | Es un dato, no una idea completa | Por qué las palabras cortas ganan clics en la SERP | 9:16 · ~25 s (motion-graphics) | Idea |
 | V5 | Intención de búsqueda | Extensión natural de V1 | Tema grande; merece su propio vídeo | "Misma palabra, intención distinta, página distinta" | 9:16 · ~40 s | Idea |
 | V6 | Canibalización de keywords | Extensión natural | No cabía sin romper el foco de V1 | Dos páginas tuyas compitiendo y ninguna gana | 9:16 · ~40 s | Idea |
@@ -93,3 +93,12 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
   Verificado sin ojos: cobertura del lienzo ≥ 8 % en todos los cruces (antes caía al 3,1 % con
   la escena entrando vacía), perfil de bandas confirmando el desplazamiento, `check` en verde
   y **0 huecos** de silencio en el audio.
+- **V3 v1 (autoridad: el vídeo que faltaba)** — primer vídeo construido **enteramente con el
+  sistema nuevo** (V2 lo estrenó a posteriori). Guion de 114 palabras con las reglas de claridad
+  (jerga definida antes de usarla, sin sujetos elididos, ninguna línea > 14 palabras): autoridad
+  = cuánto se fía Google de tu dominio, y se mide por los enlaces que otras webs te dan.
+  Voz Fish Audio `Pablo`, **32,05 s · 10 frames**. Kit nuevo: medidor de autoridad, tarjetas de
+  dominio, artículo tachado, flujo de enlaces, informe tipo Search Console, barras comparadas
+  (3 vs 118). Escena 7 (Enlaces) es el dato accionable del vídeo.
+  Verificado: `check` 0 errores · contraste 41/41 · **ningún cruce sin contenido más de 0,13 s**
+  · **0 huecos** de silencio.

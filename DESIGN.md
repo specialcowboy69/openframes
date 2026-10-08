@@ -97,10 +97,12 @@ Fuente autoritativa: las skills de HyperFrames (`hyperframes-animation` → `mot
   nombra**, no todo al principio. Volcar la escena en el primer 25 % es *el* fallo
   "PowerPoint". Los tiempos por palabra salen del karaoke (`TRANSCRIPT` del componente de
   subtítulos): es la fuente de verdad de cuándo se dice cada cosa.
-- **El escenario entra con la escena.** El marco (la ventana de navegador) es el suelo de la
-  escena, no un revelado. Si entra tarde, la escena **llega vacía** durante el cruce —
-  medido: la cobertura del lienzo caía a ~3 %. Lo que va a la voz es el contenido (URL,
-  modificador, veredictos, barras), no el marco.
+- **El escenario entra con la escena.** El marco (la ventana de navegador, la tarjeta) es el
+  suelo de la escena, no un revelado, y **toda escena necesita uno**: si su contenido es escaso
+  (unas barras finas), hay que envolverlo en una tarjeta. Si entra tarde —o si no existe— la
+  escena **llega vacía** durante el cruce: medido en V2 (marco a los 0,3-0,4 s → 3,1 % del lienzo
+  con contenido) y en V3 (F5/F8 sin tarjeta → 2-3 % en mitad del push). Lo que va a la voz es el
+  contenido (URL, modificador, veredictos, barras), no el marco.
 - **Nada de "breathing"** (escalar en bucle para fingir vida) ni pan/zoom lentos en la segunda
   mitad: marean y abaratan. *Antes nada de movimiento que mal movimiento.* La única vivacidad
   permitida es un *subtle jitter* de baja amplitud.
@@ -154,10 +156,11 @@ Mapa de V2 (10 escenas):
 | F8→F9 | `crossfade` | 0,35 s | continuidad |
 | F9→F10 | `crossfade` | 0,50 s | outro: cierre suave |
 
-**Verificación sin ojos** (obligatoria antes de dar un montaje por bueno): `check` en verde,
-cobertura de contenido ≥ ~8 % en todo el cruce (si cae a ~3 %, la escena llega vacía),
-perfil de bandas por filas para ver que el contenido se desplaza, y envolvente RMS del audio
-para confirmar **cero huecos** de silencio.
+**Verificación sin ojos** (obligatoria antes de dar un montaje por bueno):
+`check` en verde; **ningún tramo > 0,15 s sin contenido en los cruces**, medido **por fotograma
+a 30 fps con umbral de luminancia fijo (25)** — con umbral relativo a la media el propio fondo
+claro falsea el cálculo (D32); perfil de bandas por filas para ver que el contenido se desplaza;
+y envolvente RMS del audio para confirmar **cero huecos** de silencio.
 
 ## 5. Sonido
 

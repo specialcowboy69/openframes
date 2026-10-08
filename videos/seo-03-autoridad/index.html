@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>Qué es la autoridad y cómo medir la tuya</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --ink: #f5f5f7;
+        --muted: #8b8b99;
+        --accent: #c8ff3d;
+        --warn: #ff5a5a;
+        --gold: #ffd166;
+        --panel: #14141a;
+        --line: #26262e;
+        --chrome: #1c1c24;
+        --field: #0e0e14;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px; height: 1920px; overflow: hidden;
+        background: var(--bg); font-family: "Inter", system-ui, sans-serif; color: var(--ink);
+      }
+      #root { position: relative; width: 1080px; height: 1920px; background: var(--bg); overflow: hidden; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      /* Capa interna: las transiciones animan esta, nunca el clip del
+         framework (que es quien manda la visibilidad). */
+      .s-in {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        justify-content: center; padding: 300px 74px 470px;
+      }
+      .kicker {
+        display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 700;
+        letter-spacing: 0.28em; color: var(--muted); text-transform: uppercase;
+      }
+      .kicker .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+      .kicker .dot.warn { background: var(--warn); }
+      .kicker .dot.gold { background: var(--gold); }
+      /* ---------- ventana de navegador ---------- */
+      .browser {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        overflow: hidden; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .chrome {
+        display: flex; align-items: center; gap: 18px; padding: 20px 26px;
+        background: var(--chrome); border-bottom: 2px solid var(--line);
+      }
+      .lights { display: flex; gap: 10px; flex: 0 0 auto; }
+      .lights i { display: block; width: 18px; height: 18px; border-radius: 50%; }
+      .lights i:nth-child(1) { background: #ff5f57; }
+      .lights i:nth-child(2) { background: #febc2e; }
+      .lights i:nth-child(3) { background: #28c840; }
+      .addr {
+        flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+        padding: 14px 22px; background: var(--field); border: 2px solid var(--line);
+        border-radius: 14px; font-family: "JetBrains Mono", monospace;
+        font-size: 34px; font-weight: 800; white-space: nowrap; overflow: hidden;
+      }
+      .addr .lock { display: flex; flex: 0 0 auto; color: var(--muted); }
+      .addr .lock svg { width: 30px; height: 30px; }
+      .addr .base { color: var(--ink); }
+      .addr .dim { color: var(--muted); }
+      .addr .mod { color: var(--accent); }
+      .caret { display: block; width: 4px; height: 38px; background: var(--accent); flex: 0 0 auto; }
+      .addr .plus {
+        display: flex; flex: 0 0 auto; color: var(--accent);
+        border: 3px dashed var(--accent); border-radius: 10px; padding: 0 8px;
+      }
+      .addr .plus svg { width: 30px; height: 30px; }
+      /* ---------- cuerpo claro (SERP) ---------- */
+      .serpbody { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .result { display: flex; gap: 20px; align-items: flex-start; }
+      .fav {
+        flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%;
+        background: var(--accent); display: flex; align-items: center; justify-content: center;
+        color: #0a0a0f; font-weight: 900; font-size: 30px;
+      }
+      .crumb { font-size: 25px; font-weight: 600; color: #4b5563; }
+      .rtitle { margin-top: 8px; font-size: 38px; font-weight: 700; color: #1a0dab; line-height: 1.2; }
+      .rtitle b { background: var(--accent); color: #16181c; border-radius: 8px; padding: 0 8px; }
+      .skeleton { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+      .skeleton i { display: block; height: 16px; border-radius: 8px; background: #c9ced6; }
+      .skeleton i:nth-child(2) { width: 74%; }
+      /* ---------- veredicto (+ / −) ---------- */
+      .verdicts { margin-top: 46px; display: flex; gap: 34px; justify-content: center; }
+      .verdict {
+        width: 170px; height: 170px; border-radius: 36px; border: 5px solid var(--line);
+        display: flex; align-items: center; justify-content: center; background: var(--panel);
+      }
+      .verdict svg { width: 84px; height: 84px; }
+      .verdict.up { border-color: var(--accent); color: var(--accent); }
+      .verdict.down { border-color: var(--warn); color: var(--warn); }
+      /* ---------- barras de velocidad de lectura ---------- */
+      .bars { margin-top: 40px; display: flex; flex-direction: column; gap: 30px; }
+      .bar { height: 86px; border-radius: 20px; background: #1e1e26; overflow: hidden; position: relative; }
+      .bar b { display: block; height: 100%; width: 100%; transform-origin: left center; }
+      .bar.short b { background: var(--accent); }
+      .bar.long b { background: #45454f; }
+      .bar .eye { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #0a0a0f; }
+      .bar .eye svg { width: 46px; height: 46px; }
+      .speedrow { margin-top: 34px; display: flex; align-items: center; gap: 22px; color: var(--muted); }
+      .speedrow svg { width: 60px; height: 60px; color: var(--accent); }
+      /* ---------- aviso ---------- */
+      .warnwrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .warnwrap svg.tri { width: 340px; height: 340px; color: var(--warn); }
+      .ring {
+        position: absolute; width: 340px; height: 340px; border-radius: 50%;
+        border: 6px solid var(--warn); opacity: 0;
+      }
+      /* ---------- lujo ---------- */
+      .lux { display: flex; align-items: center; gap: 40px; }
+      .lux .gem { color: var(--gold); }
+      .lux .gem svg { width: 190px; height: 190px; }
+      .tag {
+        position: relative; background: var(--panel); border: 4px solid var(--line);
+        border-radius: 20px; padding: 22px 34px; font-size: 54px; font-weight: 900;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .tag .strike {
+        position: absolute; left: -8px; right: -8px; top: 50%; height: 12px;
+        background: var(--warn); transform: scaleX(0); transform-origin: left center;
+      }
+      .lux .nope { color: var(--warn); }
+      .lux .nope svg { width: 130px; height: 130px; }
+      /* ---------- resultados que se desplazan ---------- */
+      .scroller {
+        position: relative; height: 560px; overflow: hidden;
+        background: #eef1f5; border-radius: 20px; padding: 22px;
+      }
+      .scroller .inner { position: absolute; left: 22px; right: 22px; top: 22px; }
+      .res { display: flex; gap: 18px; align-items: center; padding: 20px 22px; border-radius: 14px; margin-bottom: 16px; }
+      .res .fav { width: 46px; height: 46px; font-size: 0; }
+      .res .lines { flex: 1; display: flex; flex-direction: column; gap: 11px; }
+      .res .lines i { display: block; height: 15px; border-radius: 8px; background: #c3c9d2; }
+      .res .lines i:nth-child(1) { width: 58%; background: #aab2bd; }
+      .res .lines i:nth-child(2) { width: 88%; }
+      .res.ours { background: #dff2b0; box-shadow: inset 0 0 0 4px var(--accent); }
+      .res.ours .lines i { background: #9db363; }
+      .res.ours .lines i:nth-child(1) { width: 86%; background: #7d9440; }
+      .cursor { position: absolute; left: 90px; top: 26px; width: 74px; height: 74px; color: #fff; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7)); }
+      .miss { position: absolute; color: var(--warn); }
+      .miss svg { width: 96px; height: 96px; }
+      /* ---------- iconos grandes (resumen) ---------- */
+      .duo { display: flex; gap: 30px; margin-top: 44px; }
+      .duo .p {
+        flex: 1; padding: 40px 0 34px; border-radius: 26px; border: 5px solid var(--line);
+        background: var(--panel); display: flex; flex-direction: column; align-items: center; gap: 20px;
+      }
+      .duo .p svg.cart { width: 120px; height: 120px; }
+      .duo .p svg.arw { width: 96px; height: 96px; }
+      .duo .p.good { border-color: var(--accent); color: var(--accent); }
+      .duo .p.bad { border-color: var(--warn); color: var(--warn); }
+      /* ---------- CTA ---------- */
+      .savewrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .savewrap svg.book { width: 260px; height: 260px; color: var(--accent); }
+      .cta {
+        margin-top: 60px; align-self: center; padding: 26px 52px; border-radius: 999px;
+        background: var(--accent); color: #0a0a0f; font-size: 48px; font-weight: 900;
+        letter-spacing: 0.08em; text-transform: uppercase;
+      }
+      /* ---------- progreso ---------- */
+      .progress {
+        position: absolute; left: 74px; right: 74px; top: 300px; height: 6px;
+        background: #1e1e26; border-radius: 3px; overflow: hidden;
+      }
+      .progress-fill { height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+      /* ---------- estados iniciales ---------- */
+      .fade-in { opacity: 0; }
+      .fade-up { opacity: 0; transform: translateY(60px); }
+      .fade-up-sm { opacity: 0; transform: translateY(28px); }
+      .pop { opacity: 0; transform: scale(0.7); }
+      .slide-x { opacity: 0; transform: translateX(-150px); }
+      .fill { transform: scaleX(0); }
+      /* ================= V3: autoridad ================= */
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+      /* ================= V3: autoridad ================= */
+      /* tarjeta generica: hace de ESCENARIO de la escena. Toda escena necesita
+         una superficie presente desde t=0, o durante un push llega vacia. */
+      .card {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+      /* ================= V3: autoridad ================= */
+      /* tarjeta generica: hace de ESCENARIO de la escena. Toda escena necesita
+         una superficie presente desde t=0, o durante un push llega vacia. */
+      .card {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-z7h2" id="root" data-composition-id="main" data-start="0" data-duration="32.047" data-width="1080" data-height="1920">
+
+      <!-- ===== F1 — Hook: tu web esta abajo ===== -->
+      <section class="scene clip" id="s1" data-start="0.0" data-duration="4.783" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div class="kicker fade-in" id="s1-kicker"><span class="dot"></span>AUTORIDAD</div>
+          <div class="browser fade-up" id="s1-browser">
+            <div class="chrome">
+              <div class="lights"><i></i><i></i><i></i></div>
+              <div class="addr">
+                <span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="9.5" rx="2" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span class="base">google.com</span><span class="dim">/search?q=</span><span class="mod">zapatillas</span>
+              </div>
+            </div>
+            <div class="serpbody">
+              <div class="result">
+                <div class="fav">M</div>
+                <div class="rb"><div class="crumb">medio.com</div><div class="skeleton"><i></i><i></i></div></div>
+              </div>
+              <div class="result mt26">
+                <div class="fav">O</div>
+                <div class="rb"><div class="crumb">otratienda.com</div><div class="skeleton"><i></i><i></i></div></div>
+              </div>
+              <div class="res ours faded pop" id="s1-ours">
+                <span class="pos" id="s1-pos">8</span>
+                <div class="lines"><i></i><i></i></div>
+                <svg class="down pop" id="s1-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5V19" /><path d="M18.5 12.5 12 19l-6.5-6.5" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F2 — Que es la autoridad ===== -->
+      <section class="scene clip" id="s2" data-start="4.333" data-duration="2.97" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>QUÉ ES</div>
+          <div class="authcard fade-up mt30" id="s2-card">
+            <div class="domain pop" id="s2-domain">
+              <span class="fav">T</span>
+              <span class="name">tuweb.com</span>
+            </div>
+            <div class="gauge">
+              <div class="track"><b class="fill" id="s2-fill"></b></div>
+              <div class="row">
+                <span class="lbl">Autoridad</span>
+                <span class="fig pop" id="s2-fig">22<small>/100</small></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F3 — Lo que NO cuenta: el texto ===== -->
+      <section class="scene clip" id="s3" data-start="6.903" data-duration="3.061" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div class="kicker fade-in" id="s3-kicker"><span class="dot warn"></span>QUÉ NO CUENTA</div>
+          <div class="doc fade-up mt30" id="s3-doc">
+            <div class="hline"></div>
+            <div class="body2"><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="badge-ok pop" id="s3-ok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5" /></svg>
+            </span>
+            <span class="xover pop" id="s3-x">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5" /><path d="M6.5 6.5l11 11" /><path d="M17.5 6.5l-11 11" /></svg>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F4 — Lo que SI cuenta: los enlaces ===== -->
+      <section class="scene clip" id="s4" data-start="9.564" data-duration="2.433" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>QUÉ SÍ CUENTA</div>
+          <div class="linkflow mt30">
+            <div class="sources">
+              <div class="src pop" id="s4-src"><span class="fav">M</span><span class="name">medio.com</span></div>
+              <div class="src pop" id="s4-src2"><span class="fav">B</span><span class="name">blog.com</span></div>
+              <div class="src pop" id="s4-src3"><span class="fav">F</span><span class="name">foro.com</span></div>
+            </div>
+            <div class="flow pop" id="s4-flow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v13a2 2 0 0 1-2 2h-6" /><path d="M3 4v16h7" /><path d="M12 14.5 15.5 19 12 23.5" /></svg>
+            </div>
+            <div class="authcard tight pop" id="s4-card">
+              <div class="domain"><span class="fav">T</span><span class="name">tuweb.com</span></div>
+              <div class="gauge">
+                <div class="track"><b class="fill" id="s4-fill"></b></div>
+                <div class="row"><span class="lbl">Autoridad</span><span class="fig">58<small>/100</small></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F5 — No todos los enlaces valen igual ===== -->
+      <section class="scene clip" id="s5" data-start="11.747" data-duration="3.138" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div class="kicker fade-in" id="s5-kicker"><span class="dot"></span>CALIDAD, NO CANTIDAD</div>
+          <div class="card fade-up mt30" id="s5-card">
+            <div class="cmp">
+              <div class="crow win fade-up" id="s5-win">
+                <div class="who"><span class="fav">M</span><span class="name">medio.com</span></div>
+                <div class="track"><b class="fill" id="s5-winbar"></b></div>
+                <span class="count">1</span>
+              </div>
+              <div class="crow lose fade-up" id="s5-lose">
+                <div class="who"><span class="fav">F</span><span class="name">foros</span></div>
+                <div class="track"><b class="fill" id="s5-losebar"></b></div>
+                <span class="count">100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F6 — La consecuencia: sin enlaces no hay posicion ===== -->
+      <section class="scene clip" id="s6" data-start="14.385" data-duration="3.791" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div class="kicker fade-in" id="s6-kicker"><span class="dot warn"></span>LA CONSECUENCIA</div>
+          <div class="browser fade-up mt30" id="s6-browser">
+            <div class="chrome">
+              <div class="lights"><i></i><i></i><i></i></div>
+              <div class="addr">
+                <span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="9.5" rx="2" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span class="base">google.com</span><span class="dim">/search?q=</span><span class="mod">tu+tienda</span>
+              </div>
+            </div>
+            <div class="serpbody">
+              <div class="result">
+                <div class="fav">M</div>
+                <div class="rb"><div class="crumb">medio.com</div><div class="skeleton"><i></i><i></i></div></div>
+              </div>
+              <div class="result mt26">
+                <div class="fav">O</div>
+                <div class="rb"><div class="crumb">otratienda.com</div><div class="skeleton"><i></i><i></i></div></div>
+              </div>
+              <div class="slot pop" id="s6-slot">
+                <svg id="s6-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14" /><path d="M19 5 5 19" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F7 — Compruebalo en Search Console ===== -->
+      <section class="scene clip" id="s7" data-start="17.676" data-duration="4.245" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div class="kicker fade-in" id="s7-kicker"><span class="dot"></span>COMPRUÉBALO</div>
+          <div class="browser fade-up mt30" id="s7-browser">
+            <div class="chrome">
+              <div class="lights"><i></i><i></i><i></i></div>
+              <div class="addr">
+                <span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="9.5" rx="2" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg></span>
+                <span class="base">search.google.com</span><span class="dim">/search-console</span>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="phead fade-in" id="s7-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3A5 5 0 0 0 13.5 3.5l-1.5 1.5" /><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3A5 5 0 0 0 10.5 20.5L12 19" /></svg>
+                <span class="name">Enlaces</span>
+              </div>
+              <div class="prow fade-in" id="s7-row1">
+                <span class="fav">M</span><span class="nm">medio.com</span>
+                <span class="tr"><b class="fill" id="s7-bar1"></b></span>
+              </div>
+              <div class="prow fade-in" id="s7-row2">
+                <span class="fav">B</span><span class="nm">blog.com</span>
+                <span class="tr"><b class="fill" id="s7-bar2"></b></span>
+              </div>
+              <div class="prow fade-in" id="s7-row3">
+                <span class="fav">F</span><span class="nm">foro.com</span>
+                <span class="tr"><b class="fill" id="s7-bar3"></b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F8 — Compara con tu competencia ===== -->
+      <section class="scene clip" id="s8" data-start="21.671" data-duration="4.132" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div class="kicker fade-in" id="s8-kicker"><span class="dot warn"></span>COMPARA</div>
+          <div class="card fade-up mt30" id="s8-card">
+            <div class="cmp">
+              <div class="crow lose fade-up" id="s8-you">
+                <div class="who"><span class="fav">T</span><span class="name">tuweb.com</span></div>
+                <div class="track"><b class="fill" id="s8-youbar"></b></div>
+                <span class="count">3</span>
+              </div>
+              <div class="crow warn fade-up" id="s8-rival">
+                <div class="who"><span class="fav">C</span><span class="name">competencia</span></div>
+                <div class="track"><b class="fill" id="s8-rivalbar"></b></div>
+                <span class="count">118</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F9 — Como se construye ===== -->
+      <section class="scene clip" id="s9" data-start="25.453" data-duration="4.726" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div class="kicker fade-in" id="s9-kicker"><span class="dot"></span>SE CONSTRUYE</div>
+          <div class="linkflow mt30">
+            <div class="sources">
+              <div class="src fade-up" id="s9-src1"><span class="fav">M</span><span class="name">medio.com</span></div>
+              <div class="src fade-up" id="s9-src2"><span class="fav">B</span><span class="name">blog.com</span></div>
+              <div class="src fade-up" id="s9-src3"><span class="fav">F</span><span class="name">foro.com</span></div>
+            </div>
+            <div class="flow pop" id="s9-flow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v13a2 2 0 0 1-2 2h-6" /><path d="M3 4v16h7" /><path d="M12 14.5 15.5 19 12 23.5" /></svg>
+            </div>
+            <div class="authcard tight pop" id="s9-card">
+              <div class="domain"><span class="fav">T</span><span class="name">tuweb.com</span></div>
+              <div class="gauge">
+                <div class="track"><b class="fill" id="s9-fill"></b></div>
+                <div class="row"><span class="lbl">Autoridad</span><span class="fig">83<small>/100</small></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F10 — CTA ===== -->
+      <section class="scene clip" id="s10" data-start="29.679" data-duration="2.368" data-track-index="0">
+        <div class="s-in" id="s10-in">
+          <div class="savewrap">
+            <svg class="book pop" id="s10-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+            <span class="ring" id="s10-ring" style="border-color: var(--accent)"></span>
+          </div>
+          <div class="cta pop" id="s10-cta">Guarda esto</div>
+        </div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="32.047" data-track-index="0" data-media-start="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== SUBTITULOS KARAOKE ===== -->
+      <div class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="32.047" data-track-index="2" data-width="1080" data-height="1920"></div>
+
+      <!-- ===== MUSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="32.047" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS ===== -->
+      <audio id="sfx" class="clip" data-start="0" data-duration="32.047" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
+
+      <!-- ===== VOZ ===== -->
+      <audio id="vo-01" class="clip" data-start="0.0" data-duration="4.331" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="4.333" data-duration="2.568" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="6.903" data-duration="2.659" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="9.564" data-duration="2.181" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="11.747" data-duration="2.636" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="14.385" data-duration="3.289" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="17.676" data-duration="3.993" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="21.671" data-duration="3.78" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="25.453" data-duration="4.224" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="29.679" data-duration="2.368" data-track-index="1" src="assets/voice/10.wav"></audio>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const S = [0.0, 4.333, 6.903, 9.564, 11.747, 14.385, 17.676, 21.671, 25.453, 29.679];
+      const TOTAL = 32.047;
+      const at = (n, t) => S[n - 1] + t;
+      const tl = gsap.timeline({ paused: true });
+
+      // Aparicion con estado inicial explicito. Asentamiento power3.out:
+      // el rebote (back/bounce/elastic) es el turn-off nº1 segun la doctrina.
+      function put(sel, t, o = {}) {
+        const { x = 0, y = 0, scale = 1, dur = 0.55, ease = "power3.out" } = o;
+        tl.fromTo(sel, { opacity: 0, x, y, scale },
+          { opacity: 1, x: 0, y: 0, scale: 1, duration: dur, ease }, t);
+      }
+      // Barra que se llena (scaleX). Las barras nacen con .fill (scaleX 0).
+      function bar(sel, t, to, o = {}) {
+        const { dur = 0.7, ease = "power3.out" } = o;
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: to, duration: dur, ease }, t);
+      }
+
+      // ---- F1 Hook: tu web esta abajo (el culpable cae en "tu autoridad")
+      put("#s1-browser", at(1, 0.0), { y: 60, dur: 0.6 });
+      put("#s1-kicker", at(1, 0.06), { dur: 0.4 });
+      put("#s1-ours", at(1, 1.15), { scale: 0.92, dur: 0.45 });
+      put("#s1-pos", at(1, 1.6), { scale: 0.6, dur: 0.4 });
+      put("#s1-down", at(1, 3.4), { scale: 0.6, dur: 0.4 });
+
+      // ---- F2 Que es: dominio + medidor que sube a 22
+      put("#s2-card", at(2, 0.0), { y: 60, dur: 0.55 });
+      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-domain", at(2, 0.6), { scale: 0.85, dur: 0.45 });
+      bar("#s2-fill", at(2, 0.85), 0.22, { dur: 0.9 });
+      put("#s2-fig", at(2, 1.6), { scale: 0.7, dur: 0.4 });
+
+      // ---- F3 Lo que NO cuenta: texto impecable, tachado
+      put("#s3-doc", at(3, 0.0), { y: 60, dur: 0.55 });
+      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-ok", at(3, 0.95), { scale: 0.5, dur: 0.45 });
+      put("#s3-x", at(3, 2.0), { scale: 0.5, dur: 0.45 });
+
+      // ---- F4 Lo que SI cuenta: tres webs enlazan, la autoridad sube a 58
+      put("#s4-card", at(4, 0.0), { scale: 0.94, dur: 0.5 });
+      put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
+      put("#s4-src", at(4, 0.5), { x: -40, dur: 0.4 });
+      put("#s4-src2", at(4, 0.78), { x: -40, dur: 0.4 });
+      put("#s4-src3", at(4, 1.06), { x: -40, dur: 0.4 });
+      put("#s4-flow", at(4, 1.3), { scale: 0.6, dur: 0.4 });
+      bar("#s4-fill", at(4, 1.3), 0.58, { dur: 0.85 });
+
+      // ---- F5 Calidad, no cantidad: un medio pesa mas que cien foros
+      put("#s5-card", at(5, 0.0), { y: 60, dur: 0.55 });
+      put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+      put("#s5-win", at(5, 0.2), { y: 40, dur: 0.5 });
+      bar("#s5-winbar", at(5, 0.45), 1.0, { dur: 0.7 });
+      put("#s5-lose", at(5, 1.95), { y: 40, dur: 0.5 });
+      bar("#s5-losebar", at(5, 2.1), 0.07, { dur: 0.5 });
+
+      // ---- F6 La consecuencia: en la SERP no hay hueco para ti
+      put("#s6-browser", at(6, 0.0), { y: 60, dur: 0.6 });
+      put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
+      put("#s6-slot", at(6, 0.65), { scale: 0.9, dur: 0.5 });
+      put("#s6-x", at(6, 1.9), { scale: 0.5, dur: 0.45 });
+
+      // ---- F7 Compruebalo: el informe de Enlaces se rellena con la frase
+      put("#s7-browser", at(7, 0.0), { y: 60, dur: 0.6 });
+      put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
+      put("#s7-head", at(7, 1.75), { dur: 0.45 });
+      put("#s7-row1", at(7, 2.35), { x: -40, dur: 0.45 });
+      bar("#s7-bar1", at(7, 2.5), 1.0, { dur: 0.6 });
+      put("#s7-row2", at(7, 2.78), { x: -40, dur: 0.45 });
+      bar("#s7-bar2", at(7, 2.92), 0.42, { dur: 0.6 });
+      put("#s7-row3", at(7, 3.2), { x: -40, dur: 0.45 });
+      bar("#s7-bar3", at(7, 3.34), 0.18, { dur: 0.6 });
+
+      // ---- F8 Compara: tu 3, la competencia 118
+      put("#s8-card", at(8, 0.0), { y: 60, dur: 0.55 });
+      put("#s8-kicker", at(8, 0.06), { dur: 0.4 });
+      put("#s8-you", at(8, 0.15), { y: 40, dur: 0.5 });
+      bar("#s8-youbar", at(8, 0.35), 0.03, { dur: 0.5 });
+      put("#s8-rival", at(8, 0.95), { y: 40, dur: 0.5 });
+      bar("#s8-rivalbar", at(8, 1.15), 1.0, { dur: 0.9 });
+
+      // ---- F9 Se construye: los enlaces van llegando y el medidor crece
+      put("#s9-card", at(9, 0.0), { scale: 0.94, dur: 0.5 });
+      put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
+      put("#s9-src1", at(9, 1.05), { y: 30, dur: 0.45 });
+      put("#s9-src2", at(9, 1.7), { y: 30, dur: 0.45 });
+      put("#s9-src3", at(9, 2.5), { y: 30, dur: 0.45 });
+      put("#s9-flow", at(9, 1.9), { scale: 0.6, dur: 0.4 });
+      bar("#s9-fill", at(9, 2.5), 0.83, { dur: 1.3 });
+
+      // ---- F10 CTA
+      put("#s10-mark", at(10, 0.1), { scale: 0.5, dur: 0.5 });
+      tl.fromTo("#s10-ring", { opacity: 0, scale: 0.6 },
+        { opacity: 1, scale: 1.35, duration: 0.6, ease: "power2.out" }, at(10, 0.45));
+      put("#s10-cta", at(10, 0.8), { scale: 0.85, dur: 0.5 });
+
+      // ---- barra de progreso (linea que re-tima retime.py)
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 32.047, ease: "none" }, 0);
+
+      // ---- TRANSICIONES: animan la capa interna .s-in, nunca el clip.
+      // La saliente ya tiene la cola extendida (data-duration += d).
+      const TR = [
+        [1, "up", 0.45], [2, "up", 0.40], [3, "fade", 0.40], [4, "up", 0.25],
+        [5, "zoom", 0.50], [6, "blur", 0.50], [7, "down", 0.25], [8, "fade", 0.35],
+        [9, "fade", 0.50]
+      ];
+      TR.forEach(([n, kind, d]) => {
+        const T = S[n];
+        const out = `#s${n}-in`, inc = `#s${n + 1}-in`;
+        if (kind === "up" || kind === "down") {
+          const dir = kind === "up" ? -1 : 1;
+          tl.fromTo(out, { y: 0 }, { y: dir * 1920, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: -dir * 1920 }, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "fade") {
+          tl.fromTo(out, { opacity: 1 }, { opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { opacity: 0 }, { opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "zoom") {
+          tl.fromTo(out, { scale: 1, opacity: 1 },
+            { scale: 1.25, opacity: 0, duration: d, ease: "power3.in" }, T);
+          tl.fromTo(inc, { scale: 0.82, opacity: 0 },
+            { scale: 1, opacity: 1, duration: d, ease: "power3.out" }, T);
+        } else if (kind === "blur") {
+          tl.fromTo(out, { filter: "blur(0px)", opacity: 1 },
+            { filter: "blur(26px)", opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { filter: "blur(26px)", opacity: 0 },
+            { filter: "blur(0px)", opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        }
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

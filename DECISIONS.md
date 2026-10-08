@@ -35,8 +35,17 @@ Se añade al final; lo más reciente abajo. Fecha en formato AAAA-MM-DD.
 | D28 | 2026-10-08 | **`power3.out` como asentamiento; fuera `back.out(2)`** | La doctrina del framework es explícita: el rebote es *"el turn-off nº 1 en vídeos hechos por agentes"* y casi nunca se ejecuta bien. V2 lo usaba en el `pop` | Mantener el rebote "porque da energía" |
 | D29 | 2026-10-08 | **Revelado sincronizado con la voz** (tiempos por palabra del karaoke) y **escenario desde t=0** | Medido: con el marco entrando a 0,3–0,4 s la escena **llegaba vacía** al cruce (cobertura del lienzo 3,1 % → 11,1 % tras el arreglo). Volcar todo al principio es el fallo "PowerPoint" | Meter todo en el primer 25 % |
 | D30 | 2026-10-08 | **No** usar `data-layout-allow-overflow` para silenciar los avisos de layout de las transiciones | El atributo es heredado: silenciaría también los chequeos de texto (`text-clipping`, `foreground-over-panel`) de toda la escena. Los avisos son `info` y `check` pasa | Silenciarlos y perder cobertura de QA |
+| D31 | 2026-10-08 | **Toda escena necesita un escenario** (una tarjeta o marco) presente desde `t=0`; el contenido revelado va a la voz | Medido en V3: F5 y F8 son solo barras finas sobre oscuro y durante su push el lienzo se quedaba sin contenido (2-3 %). Con tarjeta-contenedor el cruce aguanta. En V2 el fallo era el mismo (el marco entraba a 0,3-0,4 s) | Escenas sin superficie: entran vacías al cruce |
+| D32 | 2026-10-08 | Medir la cobertura del lienzo con **umbral fijo** (luminancia > 25) y **por fotograma**, y juzgar por el **tramo continuo sin contenido** (barra: ≤ 0,15 s) | La cobertura con umbral *relativo* engaña: una superficie grande y clara sube la media y descarta filas que sí tienen contenido (me hizo diagnosticar un hueco donde no lo había, y tapar uno donde sí) | Umbral relativo: falsos positivos y negativos |
+| D33 | 2026-10-08 | `tools/sfx.py` lee el array `S` del **`index.html` del proyecto** y los eventos de **`assets/sfx/events.json`**; si no existe, usa los de V2 | El tool tenía S y EVENTS cableados a V2: reutilizarlo en V3 habría reescrito la pista de V2 con los tiempos de V3. Verificado que V2 sigue dando la **misma pista byte a byte** (md5 igual) | Duplicar el tool por vídeo |
 
 ## Notas operativas aprendidas (no son decisiones de contenido)
+
+- **Orden obligatorio de la cadena de montaje**: `voice_pipeline.py` → `sfx.py` →
+  `retime.py` → **re-aplicar las colas de las transiciones** → `check` → `render`. `retime.py`
+  reescribe las duraciones de escena a `escena = clip`, así que **borra** la extensión de cola
+  que necesitan las transiciones: si no se re-aplica, la escena saliente desaparece en seco en
+  mitad del cruce.
 
 - El token del entorno es de la App **`openhands-ai`** y **solo escribe donde la App
   está instalada**. Hubo que instalar la App en `openframes` para poder hacer push.
