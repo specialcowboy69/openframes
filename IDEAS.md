@@ -39,7 +39,7 @@ Aquí solo el plan. **Ocho piezas en tres bloques**; una idea por vídeo, 30-40 
 
 | ID | Carpeta prevista | Idea | Bloque | Formato | Estado |
 |----|------------------|------|--------|---------|--------|
-| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | 37,5 s | **Hecho v2** (2026-10-09): 10 escenas con logos en pantalla, poco texto y más animación; `check` 0 errores, 0 cruces vacíos, 0 huecos. Pendiente de publicar |
+| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | 37,5 s | **Hecho v2 y publicado** (2026-10-09): 10 escenas con logos, poco texto y más animación; `check` 0 errores, 0 cruces vacíos, 0 huecos. Reel en Instagram y Facebook sin portada (job `reel-ga4-01-instalar-sin-duplicar-37944250517`, n8n `ok:true created:1`). TikTok y YouTube quedan bloqueados en n8n |
 | GA2 | `videos/ga4-02-comprobar-si-mide` | Cómo saber si GA4 mide de verdad (los informes tardan: no está roto) | 1 · instalar | ~30 s | **En producción** |
 | GA3 | `videos/ga4-03-que-mide-solo` | Lo que GA4 ya mide por ti (automáticos + medición mejorada, y qué revisar) | 2 · eventos | ~35 s | Idea |
 | GA4 | `videos/ga4-04-eventos-recomendados` | No inventes nombres: usa los recomendados (`generate_lead`, `purchase`…) | 2 · eventos | ~35 s | Idea |
