@@ -10,11 +10,13 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 - **CTA:** de guardar (contenido de referencia).
 - **Regla de oro:** si un término necesita explicación, o se define en el vídeo o va a otro vídeo.
 
-## Idea en producción
+## En producción
+
+Estado de la **serie SEO**: V1 publicado (voz Kokoro) · V2 publicado (2026-10-08; Facebook dio error de permisos) · V3 publicado (2026-10-08).
 
 | ID | Tema | Ángulo | Formato | Estado |
 |----|------|--------|---------|--------|
-| V1 | Por qué copiar el título del nº1 no funciona | La autoridad decide cómo de rígido escribes (poca = literal / mucha = libre) | 9:16 · 42,5 s · 11 frames de 3-5 s | Renderizado (v2) — pendiente de revisar |
+| GA1 | Instalar GA4 sin duplicar las visitas | El error de instalar por dos vías (plugin + Tag Manager) | 9:16 · ~35 s · faceless | **En producción** |
 
 ## Ideas para próximos vídeos
 
@@ -29,6 +31,24 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
 | V8 | Aparecer en las respuestas de la IA (AI Overviews) | Enfoque sugerido al inicio | Es un tema actual y potente; pide su propio vídeo | Cómo entra tu marca en la respuesta que ya da Google | 9:16 · ~40 s | Idea |
 | V9 | Long-tail vs head terms según autoridad | Derivado de V1/V2 | Detalle de estrategia, no de escritura de títulos | "Si tienes poca autoridad, empieza por lo específico" | 9:16 · ~40 s | Idea |
 | V10 | Título, H1 y URL: qué es cada cosa | Jerga usada en V1 | Vídeo 101; solo si el público lo pide | "El título, el encabezado y la URL no son lo mismo" | 9:16 · ~30 s | Idea |
+
+## Serie GA4 — Google Analytics 4
+
+Material completo (briefs, hooks, visuales y listas de referencia) en **`fuentes/ga4-configuracion.md`**.
+Aquí solo el plan. **Ocho piezas en tres bloques**; una idea por vídeo, 30-40 s.
+
+| ID | Carpeta prevista | Idea | Bloque | Formato | Estado |
+|----|------------------|------|--------|---------|--------|
+| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | ~35 s | **En producción** |
+| GA2 | `videos/ga4-02-comprobar-si-mide` | Cómo saber si GA4 mide de verdad (los informes tardan: no está roto) | 1 · instalar | ~30 s | Idea |
+| GA3 | `videos/ga4-03-que-mide-solo` | Lo que GA4 ya mide por ti (automáticos + medición mejorada, y qué revisar) | 2 · eventos | ~35 s | Idea |
+| GA4 | `videos/ga4-04-eventos-recomendados` | No inventes nombres: usa los recomendados (`generate_lead`, `purchase`…) | 2 · eventos | ~35 s | Idea |
+| GA5 | `videos/ga4-05-eventos-clave` | El evento que vale dinero: eventos clave y medir la confirmación real | 2 · eventos | ~35 s | Idea |
+| GA6 | `videos/ga4-06-ajustes-que-se-olvidan` | Los ajustes que casi nadie hace (14 meses, tráfico interno, Search Console, Consent Mode) | 3 · ajustar | ~40 s | Idea |
+| GA7 | `videos/ga4-07-utm-campanas` | Saber qué publicación trae clientes (UTM; nunca en enlaces internos) | 3 · ajustar | ~35 s | Idea |
+| GA8 | `videos/ga4-08-informes-que-importan` | Los siete informes que sí importan | 3 · ajustar | ~40 s | Idea |
+
+Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
 
 ## Historial
 
@@ -102,3 +122,12 @@ Una idea = un vídeo. Antes de montar: definir la jerga en pantalla antes de usa
   (3 vs 118). Escena 7 (Enlaces) es el dato accionable del vídeo.
   Verificado: `check` 0 errores · contraste 41/41 · **ningún cruce sin contenido más de 0,13 s**
   · **0 huecos** de silencio.
+- **Serie GA4 (planificación)** — el resumen de Google Analytics 4 que trajo el dueño (2026-10-09)
+  queda guardado como **fuente** en `fuentes/ga4-configuracion.md`: material completo, brief por
+  pieza, hooks, visuales sugeridos y las listas de referencia (eventos recomendados, parámetros,
+  UTM, informes, ajustes), para no tener que releer nada de la web. De ahí salen **8 piezas en 3
+  bloques**: instalar (GA1-GA2), eventos y conversiones (GA3-GA5) y leer y ajustar (GA6-GA8). Su
+  intuición de "tres vídeos" se mantiene como **bloques**; en el formato de 30-40 s cada bloque son
+  2-3 piezas, porque aquí **una idea = un vídeo**. Se empieza por **GA1** (instalar sin duplicar
+  visitas), que además planta la tesis de la serie: tener Analytics instalado no es tenerlo bien
+  configurado. Los `V*` siguen siendo la serie SEO.
