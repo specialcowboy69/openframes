@@ -39,7 +39,7 @@ Aquí solo el plan. **Ocho piezas en tres bloques**; una idea por vídeo, 30-40 
 
 | ID | Carpeta prevista | Idea | Bloque | Formato | Estado |
 |----|------------------|------|--------|---------|--------|
-| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | 37,5 s | **Hecho v1** (2026-10-09): 10 escenas, `check` 0 errores, contraste 40/40, 0 cruces vacíos, 0 huecos. Pendiente de publicar |
+| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | 37,5 s | **Hecho v2** (2026-10-09): 10 escenas con logos en pantalla, poco texto y más animación; `check` 0 errores, 0 cruces vacíos, 0 huecos. Pendiente de publicar |
 | GA2 | `videos/ga4-02-comprobar-si-mide` | Cómo saber si GA4 mide de verdad (los informes tardan: no está roto) | 1 · instalar | ~30 s | **En producción** |
 | GA3 | `videos/ga4-03-que-mide-solo` | Lo que GA4 ya mide por ti (automáticos + medición mejorada, y qué revisar) | 2 · eventos | ~35 s | Idea |
 | GA4 | `videos/ga4-04-eventos-recomendados` | No inventes nombres: usa los recomendados (`generate_lead`, `purchase`…) | 2 · eventos | ~35 s | Idea |
@@ -138,3 +138,11 @@ Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
   quedan sin contenido (el peor tramo llegó a 0,40 s); ahora nace visible y solo se asienta con
   `rise()`, que mueve en Y; (2) el verificador mide **píxeles claros**, así que los paneles suben a
   `#20202a` y el tipo crece. La escena 2 (5,24 s) va en dos tiempos. Render en `renders/video.mp4`.
+- **GA1 v2 (menos texto, logos y más animación)** — feedback del dueño tras ver la v1. Los tres
+  caminos pasan a **logos** (Google, Analytics 4, Tag Manager, WordPress, Shopify y Wix, SVG en
+  línea sobre tarjeta clara), se retira casi todo el rótulo (quedan 4 palabras del diagrama, una
+  línea de código, el chip y el CTA) y se añade montaje: **trazos que se dibujan**, entradas
+  escalonadas, sellos `x2` y un pulso de aviso. **Aviso de proceso:** al reconstruir la región de
+  escenas se pierden las colas que añade `transiciones.py`, la escena saliente desaparece al
+  empezar el cruce y el lienzo queda negro — hay que rehacer `retime.py` → `transiciones.py`
+  antes de renderizar. Verificado: `check` 0 errores, contraste 23/23, 0,00 s de tramo vacío.

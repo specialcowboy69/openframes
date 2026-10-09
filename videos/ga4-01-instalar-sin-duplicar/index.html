@@ -549,6 +549,53 @@
       .cta-label { font-size: 96px; font-weight: 900; letter-spacing: -0.02em; }
       /* Estado inicial seek-safe: lo que anima el timeline nace oculto. */
       .kicker { font-size: 32px; }
+      .s-in { padding: 280px 74px 560px; }
+      .pop, .fade-up, .fade-in { opacity: 0; }
+      .pop { transform: translateY(24px) scale(0.96); }
+      .fade-up { transform: translateY(40px); }
+          /* ===== GA1 v2: logos, diagramas, trazos y sellos ===== */
+      .tile {
+        flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+        width: 200px; height: 200px; border-radius: 52px; background: #f4f6f8;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+      .tile svg { width: 118px; height: 118px; }
+      .tile.stroke { width: 164px; height: 164px; border-radius: 44px; }
+      .tile.stroke svg { width: 92px; height: 92px; }
+      .tile.mk svg path { fill: #16181d; }
+      .tile.sm { width: 132px; height: 132px; border-radius: 34px; }
+      .tile.sm svg { width: 60px; height: 60px; }
+      .tile.lg { width: 260px; height: 260px; border-radius: 68px; }
+      .tile.lg svg { width: 128px; height: 128px; }
+      .tile.ghost { opacity: 0.4; }
+      .tile.stroke svg { stroke: #16181d; }
+      .tile.warn-tile { background: var(--warn); }
+      .tile.warn-tile svg { stroke: #fff; }
+      .tile.ok-tile { background: var(--accent); }
+      .tile.ok-tile svg { stroke: #0a0a0f; }
+      .pg {
+        position: relative; background: #26262e; border: 2px solid var(--line); border-radius: 32px;
+        padding: 44px 46px; min-height: 900px; display: flex; flex-direction: column;
+        justify-content: center; gap: 34px;
+      }
+      .rowt { display: flex; align-items: center; gap: 28px; }
+      .rowt.mid { justify-content: center; }
+      .node { display: flex; align-items: center; gap: 26px; }
+      .node .lbl { font-size: 40px; font-weight: 800; letter-spacing: -0.01em; }
+      .wire { stroke: var(--line); stroke-width: 6; fill: none; stroke-linecap: round; }
+      .wire.on { stroke: var(--accent); }
+      .stamp {
+        align-self: center; font-size: 132px; font-weight: 900; line-height: 1;
+        color: var(--warn); border: 9px solid var(--warn); border-radius: 32px; padding: 4px 34px;
+      }
+      .cline {
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800; color: #e7eaf0;
+        background: #16161e; border: 2px solid var(--line); border-radius: 20px; padding: 26px 34px;
+      }
+      .cline b { color: var(--accent); }
+      .kicker { font-size: 32px; }
+      .kicker .tile { width: 68px; height: 68px; border-radius: 18px; margin-right: 4px; box-shadow: none; }
+      .kicker .tile svg { width: 42px; height: 42px; }
       .pop, .fade-up, .fade-in { opacity: 0; }
       .pop { transform: translateY(24px) scale(0.96); }
       .fade-up { transform: translateY(40px); }
@@ -557,132 +604,146 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="37.468" data-width="1080" data-height="1920">
 
-            <!-- ===== F1 — HOOK: el paso facil y el error ===== -->
+                  <!-- ===== F1 — HOOK: una etiqueta esta bien; dos, no ===== -->
       <section class="scene clip" id="s1" data-start="0.0" data-duration="4.676" data-track-index="0">
         <div class="s-in" id="s1-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s1-kicker"><span class="dot"></span>GOOGLE ANALYTICS 4</div>
-          <div class="gcard" id="s1-card">
-            <div class="grow" id="s1-r1">
-              <span class="ico">1</span><span class="txt">método</span>
-              <span class="arrow"><span class="pill ok">ok</span></span>
+          <div class="kicker fade-in" id="s1-kicker"><span class="tile sm"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 	 viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve"> <rect x="0" y="0" fill="none" width="192" height="192"/> <g> 	<g> 		<path fill="#F9AB00" d="M130,29v132c0,14.77,10.19,23,21,23c10,0,21-7,21-23V30c0-13.54-10-22-21-22S130,17.33,130,29z"/> 	</g> 	<g> 		<path fill="#E37400" d="M75,96v65c0,14.77,10.19,23,21,23c10,0,21-7,21-23V97c0-13.54-10-22-21-22S75,84.33,75,96z"/> 	</g> 	<g> 		<circle fill="#E37400" cx="41" cy="163" r="21"/> 	</g> </g> </svg> </span>GOOGLE ANALYTICS 4</div>
+          <div class="pg" id="s1-pg">
+            <div class="rowt mid" id="s1-page">
+              <span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+              <span class="rowt" id="s1-tags">
+                <span class="tile "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg></span>
+                <span class="tile ghost pop"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg></span>
+              </span>
             </div>
-            <div class="grow" id="s1-r2">
-              <span class="ico">2</span><span class="txt">métodos</span>
-              <span class="arrow"><span class="pill bad">x2</span></span>
-            </div>
+            <div class="stamp pop" id="s1-stamp">x2</div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F2 — LA ESTRUCTURA (dos tiempos: arbol y luego el identificador) ===== -->
+      <!-- ===== F2 — LA ESTRUCTURA: diagrama con trazos ===== -->
       <section class="scene clip" id="s2" data-start="4.226" data-duration="5.64" data-track-index="0">
         <div class="s-in" id="s2-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s2-kicker"><span class="dot"></span>LA ESTRUCTURA</div>
-          <div class="gcard" id="s2-card">
-            <div class="grow" id="s2-r1"><span class="ico">A</span><span class="txt">Cuenta</span><span class="arrow">1</span></div>
-            <div class="grow" id="s2-r2"><span class="ico">B</span><span class="txt">Propiedad</span><span class="arrow">2</span></div>
-            <div class="grow" id="s2-r3"><span class="ico">C</span><span class="txt">Flujo de datos</span><span class="arrow">3</span></div>
-            <div class="grow" id="s2-r4">
-              <span class="ico">D</span><span class="txt">Identificador</span>
-              <span class="arrow"><span class="chip accent">G-XXXXXXXXXX</span></span>
+          <div class="kicker fade-in" id="s2-kicker"><span class="tile sm"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 	 viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve"> <rect x="0" y="0" fill="none" width="192" height="192"/> <g> 	<g> 		<path fill="#F9AB00" d="M130,29v132c0,14.77,10.19,23,21,23c10,0,21-7,21-23V30c0-13.54-10-22-21-22S130,17.33,130,29z"/> 	</g> 	<g> 		<path fill="#E37400" d="M75,96v65c0,14.77,10.19,23,21,23c10,0,21-7,21-23V97c0-13.54-10-22-21-22S75,84.33,75,96z"/> 	</g> 	<g> 		<circle fill="#E37400" cx="41" cy="163" r="21"/> 	</g> </g> </svg> </span>LA ESTRUCTURA</div>
+          <div class="pg" id="s2-pg">
+            <div class="node fade-up" id="s2-n1"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6l7-3v18"/><path d="M11 10h9v11"/><path d="M14.5 13h2M14.5 16.5h2M7 10h1M7 13.5h1M7 17h1"/></svg></span><span class="lbl">Cuenta</span></div>
+            <svg class="wire" id="s2-w1" width="6" height="30" viewBox="0 0 6 30"><path d="M3 0v30"/></svg>
+            <div class="node fade-up" id="s2-n2"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 3 2.6 15 0 18"/><path d="M12 3c-2.6 3-2.6 15 0 18"/></svg></span><span class="lbl">Propiedad</span></div>
+            <svg class="wire" id="s2-w2" width="6" height="30" viewBox="0 0 6 30"><path d="M3 0v30"/></svg>
+            <div class="node fade-up" id="s2-n3"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h6l3 5h9"/><path d="M3 17h6l3-5"/><circle cx="20" cy="12" r="1.6"/></svg></span><span class="lbl">Flujo</span></div>
+            <svg class="wire" id="s2-w3" width="6" height="30" viewBox="0 0 6 30"><path d="M3 0v30"/></svg>
+            <div class="node fade-up" id="s2-n4" style="margin-top: 6px">
+              <span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5V4.5A1.5 1.5 0 0 1 4.5 3h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.6"/></svg></span><span class="chip accent">G-XXXXXXXXXX</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F3 — EL IDENTIFICADOR CONECTA ===== -->
+      <!-- ===== F3 — EL IDENTIFICADOR: el logo conecta con la web ===== -->
       <section class="scene clip" id="s3" data-start="9.466" data-duration="4.23" data-track-index="0">
         <div class="s-in" id="s3-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s3-kicker"><span class="dot"></span>EL IDENTIFICADOR</div>
-          <div class="gcard" id="s3-card">
-            <div class="grow" id="s3-chip"><span class="chip accent big">G-XXXXXXXXXX</span></div>
-            <div class="grow" id="s3-note">
-              <span class="ico">&gt;</span><span class="txt"><small>conecta tu web con Analytics</small></span>
+          <div class="kicker fade-in" id="s3-kicker"><span class="tile sm"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 	 viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve"> <rect x="0" y="0" fill="none" width="192" height="192"/> <g> 	<g> 		<path fill="#F9AB00" d="M130,29v132c0,14.77,10.19,23,21,23c10,0,21-7,21-23V30c0-13.54-10-22-21-22S130,17.33,130,29z"/> 	</g> 	<g> 		<path fill="#E37400" d="M75,96v65c0,14.77,10.19,23,21,23c10,0,21-7,21-23V97c0-13.54-10-22-21-22S75,84.33,75,96z"/> 	</g> 	<g> 		<circle fill="#E37400" cx="41" cy="163" r="21"/> 	</g> </g> </svg> </span>EL IDENTIFICADOR</div>
+          <div class="pg" id="s3-pg">
+            <div class="rowt mid">
+              <span class="tile lg"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 	 viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve"> <rect x="0" y="0" fill="none" width="192" height="192"/> <g> 	<g> 		<path fill="#F9AB00" d="M130,29v132c0,14.77,10.19,23,21,23c10,0,21-7,21-23V30c0-13.54-10-22-21-22S130,17.33,130,29z"/> 	</g> 	<g> 		<path fill="#E37400" d="M75,96v65c0,14.77,10.19,23,21,23c10,0,21-7,21-23V97c0-13.54-10-22-21-22S75,84.33,75,96z"/> 	</g> 	<g> 		<circle fill="#E37400" cx="41" cy="163" r="21"/> 	</g> </g> </svg> </span>
+              <svg class="wire on" id="s3-wire" width="190" height="6" viewBox="0 0 190 6"><path d="M0 3h190"/></svg>
+              <span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
             </div>
+            <div class="rowt mid"><span class="chip accent" id="s3-chip">G-XXXXXXXXXX</span></div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F4 — CAMINO 1: EL GESTOR DE CONTENIDOS ===== -->
+      <!-- ===== F4 — CAMINO 1: los gestores (solo logos) ===== -->
       <section class="scene clip" id="s4" data-start="13.296" data-duration="4.475" data-track-index="0">
         <div class="s-in" id="s4-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s4-kicker"><span class="dot"></span>1 &middot; TU GESTOR DE CONTENIDOS</div>
-          <div class="gcard" id="s4-card">
-            <div class="grow" id="s4-wp"><span class="ico">W</span><span class="txt">WordPress</span></div>
-            <div class="grow" id="s4-shopify"><span class="ico">S</span><span class="txt">Shopify</span></div>
-            <div class="grow" id="s4-wix"><span class="ico">W</span><span class="txt">Wix</span></div>
-            <div class="grow" id="s4-paste">
-              <span class="chip">G-XXXXXXXXXX</span><span class="arrow"><span class="pill ok">pegar</span></span>
+          <div class="kicker fade-in" id="s4-kicker">1 &middot; TU GESTOR DE CONTENIDOS</div>
+          <div class="pg" id="s4-pg">
+            <div class="rowt mid">
+              <span class="pop" id="s4-t1"><span class="tile mk"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>WordPress</title><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg></span></span>
+              <span class="pop" id="s4-t2"><span class="tile mk"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Shopify</title><path d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"/></svg></span></span>
+              <span class="pop" id="s4-t3"><span class="tile mk"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Wix</title><path d="m0 7.354 2.113 9.292h.801a1.54 1.54 0 0 0 1.506-1.218l1.351-6.34a.171.171 0 0 1 .167-.137c.08 0 .15.058.167.137l1.352 6.34a1.54 1.54 0 0 0 1.506 1.218h.805l2.113-9.292h-.565c-.62 0-1.159.43-1.296 1.035l-1.26 5.545-1.106-5.176a1.76 1.76 0 0 0-2.19-1.324c-.639.176-1.113.716-1.251 1.365l-1.094 5.127-1.26-5.537A1.33 1.33 0 0 0 .563 7.354H0zm13.992 0a.951.951 0 0 0-.951.95v8.342h.635a.952.952 0 0 0 .951-.95V7.353h-.635zm1.778 0 3.158 4.66-3.14 4.632h1.325c.368 0 .712-.181.918-.486l1.756-2.59a.12.12 0 0 1 .197 0l1.754 2.59c.206.305.55.486.918.486h1.326l-3.14-4.632L24 7.354h-1.326c-.368 0-.712.181-.918.486l-1.772 2.617a.12.12 0 0 1-.197 0L18.014 7.84a1.108 1.108 0 0 0-.918-.486H15.77z"/></svg></span></span>
+            </div>
+            <div class="rowt mid pop" id="s4-gtag">
+              <svg class="wire on" width="120" height="6" viewBox="0 0 120 6"><path d="M0 3h120"/></svg>
+              <span class="chip accent">G-XXXXXXXXXX</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F5 — CAMINO 2: LA ETIQUETA EN LA CABECERA ===== -->
+      <!-- ===== F5 — CAMINO 2: la etiqueta en la cabecera ===== -->
       <section class="scene clip" id="s5" data-start="17.521" data-duration="4.329" data-track-index="0">
         <div class="s-in" id="s5-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s5-kicker"><span class="dot"></span>2 &middot; LA ETIQUETA</div>
-          <div data-layout-allow-overlap class="code" id="s5-code">&lt;<i>head</i>&gt;
-  &lt;<i>script</i> src=<b>"...gtag/js?id=G-XXXXXXXXXX"</b>&gt;&lt;/<i>script</i>&gt;
-&lt;/<i>head</i>&gt;</div>
+          <div class="kicker fade-in" id="s5-kicker">2 &middot; LA ETIQUETA</div>
+          <div class="pg" id="s5-pg">
+            <div class="rowt mid" id="s5-g"><span class="tile lg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg></span></div>
+            <div class="rowt mid pop" id="s5-code"><span class="cline">&lt;script src=<b>"gtag/js?id=G-XXXX"</b>&gt;</span></div>
+          </div>
         </div>
       </section>
 
       <!-- ===== F6 — LO QUE CUESTA MANTENERLA A MANO ===== -->
       <section class="scene clip" id="s6" data-start="21.35" data-duration="3.919" data-track-index="0">
         <div class="s-in" id="s6-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s6-kicker"><span class="dot gold"></span>OJO CON LA ETIQUETA</div>
-          <div class="gcard" id="s6-card">
-            <div class="grow"><span class="ico">i</span><span class="txt">La etiqueta vive dentro del código</span></div>
-            <div class="grow"><span class="ico">2</span><span class="txt"><small>y cada cambio futuro pasa por ahí</small></span></div>
-          </div>
-          <div class="grow pop" id="s6-warn" style="margin-top: 34px">
-            <span class="pill bad">cada cambio &rarr; tocar código</span>
+          <div class="kicker fade-in" id="s6-kicker">OJO CON LA ETIQUETA</div>
+          <div class="pg" id="s6-pg">
+            <div class="rowt mid" id="s6-code"><span class="cline">&lt;script src=<b>"gtag/js?id=G-XXXX"</b>&gt;</span></div>
+            <div class="rowt mid">
+              <span class="pop" id="s6-warn"><span class="tile warn-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19.5H3z"/><path d="M12 10v4.5M12 17.2h.01"/></svg></span></span>
+              <span class="pop" id="s6-x" style="font-size: 96px; font-weight: 900; color: var(--warn)">&times;</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F7 — CAMINO 3: TAG MANAGER ===== -->
+      <!-- ===== F7 — CAMINO 3: Tag Manager, tres pasos con trazos ===== -->
       <section class="scene clip" id="s7" data-start="24.769" data-duration="4.859" data-track-index="0">
         <div class="s-in" id="s7-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s7-kicker"><span class="dot"></span>3 &middot; TAG MANAGER</div>
-          <div class="gcard" id="s7-card">
-            <div class="steps">
-              <div class="step" id="s7-st1"><span class="n">1</span>Contenedor</div>
-              <div class="step" id="s7-st2"><span class="n">2</span>Etiqueta de Analytics</div>
-              <div class="step" id="s7-st3"><span class="n">3</span>Publicar</div>
+          <div class="kicker fade-in" id="s7-kicker">3 &middot; TAG MANAGER</div>
+          <div class="pg" id="s7-pg">
+            <div class="rowt mid" id="s7-gtm"><span class="tile mk lg"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Tag Manager</title><path d="M12.003 0a3 3 0 0 0-2.121 5.121l6.865 6.865-4.446 4.541 1.745 1.836a3.432 3.432 0 0 1 .7.739l.012.011-.001.002a3.432 3.432 0 0 1 .609 1.953 3.432 3.432 0 0 1-.09.78l7.75-7.647c.031-.029.067-.05.098-.08.023-.023.038-.052.06-.076a2.994 2.994 0 0 0-.06-4.166l-9-9A2.99 2.99 0 0 0 12.003 0zM8.63 2.133L.88 9.809a2.998 2.998 0 0 0 0 4.238l7.7 7.75a3.432 3.432 0 0 1-.077-.729 3.432 3.432 0 0 1 3.431-3.431 3.432 3.432 0 0 1 .826.101l-5.523-5.81 4.371-4.373-2.08-2.08c-.903-.904-1.193-2.183-.898-3.342zm3.304 16.004a2.932 2.932 0 0 0-2.931 2.931A2.932 2.932 0 0 0 11.934 24a2.932 2.932 0 0 0 2.932-2.932 2.932 2.932 0 0 0-2.932-2.931z"/></svg></span></div>
+            <div class="rowt mid">
+              <span class="pop" id="s7-i1"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 21 7.4v9.2L12 21.2 3 16.6V7.4z"/><path d="M3 7.4 12 12l9-4.6M12 12v9.2"/></svg></span></span>
+              <svg class="wire" id="s7-w1" width="76" height="6" viewBox="0 0 76 6"><path d="M0 3h76"/></svg>
+              <span class="pop" id="s7-i2"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5V4.5A1.5 1.5 0 0 1 4.5 3h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.6"/></svg></span></span>
+              <svg class="wire" id="s7-w2" width="76" height="6" viewBox="0 0 76 6"><path d="M0 3h76"/></svg>
+              <span class="pop" id="s7-i3"><span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.6 2.2 5.4 5.6 5.4 9.6L12 21l-5.4-8.4C6.6 8.6 8.4 5.2 12 3z"/><circle cx="12" cy="10" r="1.8"/></svg></span></span>
             </div>
-            <div class="grow pop" id="s7-done" style="margin-top: 30px">
-              <span class="pill ok">activado en todas las páginas</span>
-            </div>
+            <div class="rowt mid"><span class="pop" id="s7-check"><span class="tile ok-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span></span></div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F8 — EL ERROR: LAS DOS VIAS A LA VEZ ===== -->
+      <!-- ===== F8 — EL ERROR: los dos caminos a la vez ===== -->
       <section class="scene clip" id="s8" data-start="29.378" data-duration="2.626" data-track-index="0">
         <div class="s-in" id="s8-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s8-kicker"><span class="dot warn"></span>EL ERROR</div>
-          <div class="gcard" id="s8-card">
-            <div class="grow" id="s8-a"><span class="ico">1</span><span class="txt">Gestor de contenidos</span></div>
-            <div class="grow" id="s8-b"><span class="ico">3</span><span class="txt">Tag Manager</span></div>
-            <div class="grow pop" id="s8-pill" style="margin-top: 22px">
-              <span class="pill bad">las dos a la vez = x2</span>
+          <div class="kicker fade-in" id="s8-kicker">EL ERROR</div>
+          <div class="pg" id="s8-pg">
+            <div class="rowt mid">
+              <span class="pop" id="s8-a"><span class="tile mk sm"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>WordPress</title><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg></span></span>
+              <span class="pop" id="s8-b"><span class="tile mk sm"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Tag Manager</title><path d="M12.003 0a3 3 0 0 0-2.121 5.121l6.865 6.865-4.446 4.541 1.745 1.836a3.432 3.432 0 0 1 .7.739l.012.011-.001.002a3.432 3.432 0 0 1 .609 1.953 3.432 3.432 0 0 1-.09.78l7.75-7.647c.031-.029.067-.05.098-.08.023-.023.038-.052.06-.076a2.994 2.994 0 0 0-.06-4.166l-9-9A2.99 2.99 0 0 0 12.003 0zM8.63 2.133L.88 9.809a2.998 2.998 0 0 0 0 4.238l7.7 7.75a3.432 3.432 0 0 1-.077-.729 3.432 3.432 0 0 1 3.431-3.431 3.432 3.432 0 0 1 .826.101l-5.523-5.81 4.371-4.373-2.08-2.08c-.903-.904-1.193-2.183-.898-3.342zm3.304 16.004a2.932 2.932 0 0 0-2.931 2.931A2.932 2.932 0 0 0 11.934 24a2.932 2.932 0 0 0 2.932-2.932 2.932 2.932 0 0 0-2.932-2.931z"/></svg></span></span>
+              <svg class="wire" id="s8-w" width="60" height="6" viewBox="0 0 60 6"><path d="M0 3h60"/></svg>
+              <span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
             </div>
+            <div class="stamp pop" id="s8-stamp">x2</div>
           </div>
         </div>
       </section>
 
-      <!-- ===== F9 — LA CONSECUENCIA: LA VISITA SE CUENTA DOS VECES ===== -->
+      <!-- ===== F9 — LA CONSECUENCIA: dos etiquetas, dos visitas ===== -->
       <section class="scene clip" id="s9" data-start="31.654" data-duration="3.685" data-track-index="0">
         <div class="s-in" id="s9-in">
-          <div data-layout-allow-overlap class="kicker fade-in" id="s9-kicker"><span class="dot warn"></span>LA CONSECUENCIA</div>
-          <div class="gcard" id="s9-card">
-            <div class="visit" id="s9-v1"><span class="fav">G</span>Analytics 1</div>
-            <div class="visit" id="s9-v2"><span class="fav">T</span>Analytics 1</div>
-            <div class="visit bad pop" id="s9-total" style="margin-top: 26px">
-              <span class="fav">!</span>Total 2 visitas
+          <div class="kicker fade-in" id="s9-kicker">LA CONSECUENCIA</div>
+          <div class="pg" id="s9-pg">
+            <div class="rowt mid">
+              <span class="tile stroke"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+              <span class="rowt">
+                <span class="pop" id="s9-g1"><span class="tile sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg></span></span>
+                <span class="pop" id="s9-g2"><span class="tile sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg></span></span>
+              </span>
             </div>
+            <div class="stamp pop" id="s9-stamp">x2</div>
           </div>
         </div>
       </section>
@@ -690,23 +751,25 @@
       <!-- ===== F10 — CTA ===== -->
       <section class="scene clip" id="s10" data-start="34.839" data-duration="2.629" data-track-index="0">
         <div class="s-in" id="s10-in">
-          <div class="cta-box">
-            <div class="cta-mark pop" id="s10-mark">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+          <div class="pg" id="s10-pg">
+            <div class="rowt mid">
+              <div class="cta-mark pop" id="s10-mark">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+              </div>
             </div>
-            <div class="cta-label pop" id="s10-label">Guarda esto</div>
-            <div class="grow pop" id="s10-pill"><span class="pill ok">solo una etiqueta</span></div>
+            <div class="rowt mid"><div class="cta-label pop" id="s10-label">Guarda esto</div></div>
+            <div class="rowt mid"><span class="pop" id="s10-tile"><span class="tile sm"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 	 viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve"> <rect x="0" y="0" fill="none" width="192" height="192"/> <g> 	<g> 		<path fill="#F9AB00" d="M130,29v132c0,14.77,10.19,23,21,23c10,0,21-7,21-23V30c0-13.54-10-22-21-22S130,17.33,130,29z"/> 	</g> 	<g> 		<path fill="#E37400" d="M75,96v65c0,14.77,10.19,23,21,23c10,0,21-7,21-23V97c0-13.54-10-22-21-22S75,84.33,75,96z"/> 	</g> 	<g> 		<circle fill="#E37400" cx="41" cy="163" r="21"/> 	</g> </g> </svg> </span></span></div>
           </div>
         </div>
       </section>
 
-      <!-- ===== PROGRESO ===== -->
+<!-- ===== PROGRESO ===== -->
       <div class="progress clip" id="prog" data-start="0" data-duration="37.468" data-track-index="0" data-media-start="0">
         <div class="progress-fill" id="prog-fill"></div>
       </div>
 
       <!-- ===== SUBTITULOS KARAOKE ===== -->
-      <div class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="37.468" data-track-index="2" data-width="1080" data-height="1920"></div>
+      <div data-layout-allow-overlap class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="37.468" data-track-index="2" data-width="1080" data-height="1920"></div>
 
       <!-- ===== MUSICA ===== -->
       <audio id="music" class="clip" data-start="0" data-duration="37.468" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
@@ -745,74 +808,97 @@
         const { y = 40, dur = 0.5, ease = "power3.out" } = o;
         tl.fromTo(sel, { y }, { y: 0, duration: dur, ease }, t);
       }
+      // Trazo que se dibuja: stroke-dashoffset de L a 0 (determinista).
+      function draw(sel, t, dur = 0.4) {
+        let el = document.querySelector(sel);
+        if (el && el.tagName.toLowerCase() === "svg") el = el.querySelector("path");
+        if (!el) return;
+        const L = el.getTotalLength();
+        el.style.strokeDasharray = L;
+        tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+      }
       function bar(sel, t, to, o = {}) {
         const { dur = 0.7, ease = "power3.out" } = o;
         tl.fromTo(sel, { scaleX: 0 }, { scaleX: to, duration: dur, ease }, t);
       }
 
-      // ---- F1 Hook: un metodo vale, dos metodos duplican
-      rise("#s1-card", at(1, 0.0));
+      // ---- F1 Hook: una etiqueta bien; la segunda cae y sella x2
+      rise("#s1-pg", at(1, 0.0));
       put("#s1-kicker", at(1, 0.06), { dur: 0.4 });
-      put("#s1-r1", at(1, 0.75), { x: -40, dur: 0.45 });
-      put("#s1-r2", at(1, 1.75), { x: -40, dur: 0.45 });
+      put("#s1-page", at(1, 0.4), { y: 40, dur: 0.5 });
+      put("#s1-tags > .tile:nth-child(1)", at(1, 0.9), { scale: 0.7, dur: 0.45 });
+      put("#s1-tags > .tile:nth-child(2)", at(1, 1.9), { scale: 0.7, dur: 0.45 });
+      put("#s1-stamp", at(1, 2.7), { scale: 2.1, dur: 0.42 });
 
-      // ---- F2 Estructura: primero el arbol, luego el identificador
-      rise("#s2-card", at(2, 0.0));
+      // ---- F2 Estructura: los trazos se dibujan y luego entra el identificador
+      rise("#s2-pg", at(2, 0.0));
       put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
-      put("#s2-r1", at(2, 0.35), { x: -40, dur: 0.45 });
-      put("#s2-r2", at(2, 0.95), { x: -40, dur: 0.45 });
-      put("#s2-r3", at(2, 1.55), { x: -40, dur: 0.45 });
-      put("#s2-r4", at(2, 2.85), { x: -40, dur: 0.45 });
+      put("#s2-n1", at(2, 0.3), { x: -40, dur: 0.45 });
+      draw("#s2-w1", at(2, 0.6), 0.35);
+      put("#s2-n2", at(2, 0.85), { x: -40, dur: 0.45 });
+      draw("#s2-w2", at(2, 1.15), 0.35);
+      put("#s2-n3", at(2, 1.4), { x: -40, dur: 0.45 });
+      draw("#s2-w3", at(2, 1.7), 0.35);
+      put("#s2-n4", at(2, 2.9), { x: -40, dur: 0.5 });
 
-      // ---- F3 El identificador: el chip G- y lo que conecta
-      rise("#s3-card", at(3, 0.0));
+      // ---- F3 El identificador conecta con la web
+      rise("#s3-pg", at(3, 0.0));
       put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
-      put("#s3-chip", at(3, 0.5), { scale: 0.86, dur: 0.5 });
-      put("#s3-note", at(3, 1.9), { x: -40, dur: 0.45 });
+      put("#s3-pg .tile.lg", at(3, 0.35), { scale: 0.72, dur: 0.5 });
+      draw("#s3-wire", at(3, 1.0), 0.45);
+      put("#s3-chip", at(3, 2.0), { scale: 0.86, dur: 0.45 });
 
-      // ---- F4 Camino 1: el gestor de contenidos
-      rise("#s4-card", at(4, 0.0));
+      // ---- F4 Gestores: los tres logos entran escalonados y el ID baja a ellos
+      rise("#s4-pg", at(4, 0.0));
       put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
-      put("#s4-wp", at(4, 0.35), { x: -40, dur: 0.4 });
-      put("#s4-shopify", at(4, 0.7), { x: -40, dur: 0.4 });
-      put("#s4-wix", at(4, 1.05), { x: -40, dur: 0.4 });
-      put("#s4-paste", at(4, 2.1), { scale: 0.9, dur: 0.5 });
+      put("#s4-t1", at(4, 0.35), { y: 46, dur: 0.42 });
+      put("#s4-t2", at(4, 0.75), { y: 46, dur: 0.42 });
+      put("#s4-t3", at(4, 1.15), { y: 46, dur: 0.42 });
+      put("#s4-gtag", at(4, 2.2), { y: 30, dur: 0.5 });
 
-      // ---- F5 Camino 2: la etiqueta en la cabecera
-      rise("#s5-code", at(5, 0.0));
+      // ---- F5 La etiqueta: el logo de Google y la linea de codigo
+      rise("#s5-pg", at(5, 0.0));
       put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+      put("#s5-g .tile", at(5, 0.3), { scale: 0.7, dur: 0.5 });
+      put("#s5-code", at(5, 1.1), { y: 34, dur: 0.5 });
 
-      // ---- F6 Lo que cuesta mantenerla
-      rise("#s6-card", at(6, 0.0));
+      // ---- F6 Lo que cuesta: el codigo se apaga y salta el aviso
+      rise("#s6-pg", at(6, 0.0));
       put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
-      put("#s6-warn", at(6, 1.7), { scale: 0.9, dur: 0.5 });
+      tl.fromTo("#s6-code", { opacity: 1 }, { opacity: 0.42, duration: 0.45, ease: "power2.out" }, at(6, 0.6));
+      put("#s6-warn", at(6, 1.5), { scale: 0.5, dur: 0.42 });
+      put("#s6-x", at(6, 2.0), { scale: 2.0, dur: 0.38 });
 
-      // ---- F7 Camino 3: Tag Manager, tres pasos y queda activado
-      rise("#s7-card", at(7, 0.0));
+      // ---- F7 Tag Manager: logo, tres pasos con trazos y check final
+      rise("#s7-pg", at(7, 0.0));
       put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
-      put("#s7-st1", at(7, 0.4), { x: -40, dur: 0.4 });
-      put("#s7-st2", at(7, 1.1), { x: -40, dur: 0.4 });
-      put("#s7-st3", at(7, 1.8), { x: -40, dur: 0.4 });
-      put("#s7-done", at(7, 2.7), { scale: 0.9, dur: 0.5 });
+      put("#s7-gtm .tile", at(7, 0.3), { scale: 0.72, dur: 0.5 });
+      put("#s7-i1", at(7, 0.95), { y: 34, dur: 0.4 });
+      draw("#s7-w1", at(7, 1.2), 0.3);
+      put("#s7-i2", at(7, 1.5), { y: 34, dur: 0.4 });
+      draw("#s7-w2", at(7, 1.75), 0.3);
+      put("#s7-i3", at(7, 2.05), { y: 34, dur: 0.4 });
+      put("#s7-check", at(7, 3.0), { scale: 0.5, dur: 0.45 });
 
-      // ---- F8 El error: las dos vias a la vez
-      rise("#s8-card", at(8, 0.0));
+      // ---- F8 El error: los dos caminos y el sello
+      rise("#s8-pg", at(8, 0.0));
       put("#s8-kicker", at(8, 0.06), { dur: 0.35 });
-      put("#s8-a", at(8, 0.3), { x: -40, dur: 0.35 });
-      put("#s8-b", at(8, 0.7), { x: -40, dur: 0.35 });
-      put("#s8-pill", at(8, 1.15), { scale: 0.9, dur: 0.4 });
+      put("#s8-a", at(8, 0.25), { x: -40, dur: 0.36 });
+      put("#s8-b", at(8, 0.6), { x: -40, dur: 0.36 });
+      draw("#s8-w", at(8, 0.9), 0.25);
+      put("#s8-stamp", at(8, 1.25), { scale: 2.0, dur: 0.4 });
 
-      // ---- F9 La consecuencia: la visita contada dos veces
-      rise("#s9-card", at(9, 0.0));
+      // ---- F9 La consecuencia: la segunda etiqueta y el sello
+      rise("#s9-pg", at(9, 0.0));
       put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
-      put("#s9-v1", at(9, 0.4), { x: -40, dur: 0.4 });
-      put("#s9-v2", at(9, 1.05), { x: -40, dur: 0.4 });
-      put("#s9-total", at(9, 1.9), { scale: 0.9, dur: 0.5 });
+      put("#s9-g1", at(9, 0.4), { scale: 0.6, dur: 0.4 });
+      put("#s9-g2", at(9, 1.05), { scale: 0.6, dur: 0.4 });
+      put("#s9-stamp", at(9, 1.9), { scale: 2.0, dur: 0.42 });
 
       // ---- F10 CTA
       put("#s10-mark", at(10, 0.05), { scale: 0.5, dur: 0.5 });
-      put("#s10-label", at(10, 0.7), { scale: 0.85, dur: 0.5 });
-      put("#s10-pill", at(10, 1.5), { scale: 0.9, dur: 0.45 });
+      put("#s10-label", at(10, 0.6), { scale: 0.85, dur: 0.5 });
+      put("#s10-tile", at(10, 1.4), { scale: 0.6, dur: 0.45 });
 
       // ---- barra de progreso (linea que re-tima retime.py)
       tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 37.468, ease: "none" }, 0);

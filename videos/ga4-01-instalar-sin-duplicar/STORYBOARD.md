@@ -31,3 +31,23 @@ interna `.s-in` (el clip nunca se anima) y con la cola de la escena saliente ext
 - F2 es la escena larga (5,24 s) y por eso va en **dos tiempos**: el árbol, y luego el identificador.
 - Estado inicial de todo lo animado: `opacity: 0` en CSS (`.pop`, `.fade-up`, `.fade-in`) + `fromTo`
   explícito en GSAP. Nada de `.from()`, contadores, `Date.now()` ni `Math.random()`.
+
+## v2 — feedback del dueño (2026-10-09)
+
+Petición: "hay demasiado texto, necesito menos texto y más elementos gráficos y más
+animaciones, y si cuando nombres Google o Analytics pudiera aparecer su logo".
+
+- **Logos en pantalla**, cada uno sobre una tarjeta clara: Google y Google Analytics 4 (logo
+  oficial), Tag Manager, WordPress, Shopify y Wix (marcas de simple-icons). Van **en línea**
+  (SVG incrustado), así el render no depende de la red.
+- **Fuera casi todo el texto**: el que queda son cuatro palabras del diagrama (Cuenta,
+  Propiedad, Flujo, ID), una línea de código, el chip `G-XXXXXXXXXX` y el CTA. Las escenas
+  de los tres caminos ya no llevan rótulos: hablan los logos.
+- **Más animación**: 3 trazos que se dibujan (el árbol, la conexión con la web y los pasos
+  de Tag Manager), entradas escalonadas de logos, sellos `x2` que caen y un pulso de aviso.
+- **Escenas rehechas**: F1 y F8/F9 pasan a página + etiquetas + sello `x2`; F2 es un diagrama
+  con iconos; F3 conecta el logo con la web; F4 son los tres gestores; F7 son tres iconos
+  (contenedor → etiqueta → publicar) con la marca verde final.
+- Verificado igual que la v1: `check` 0 errores, contraste 23/23 y **0,00 s de tramo vacío**
+  en los 9 cruces (mínimos de 43,8 % a 48,5 %).
+
