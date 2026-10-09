@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>Instalar GA4 sin duplicar las visitas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --ink: #f5f5f7;
+        --muted: #8b8b99;
+        --accent: #c8ff3d;
+        --warn: #ff5a5a;
+        --gold: #ffd166;
+        --panel: #14141a;
+        --line: #26262e;
+        --chrome: #1c1c24;
+        --field: #0e0e14;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px; height: 1920px; overflow: hidden;
+        background: var(--bg); font-family: "Inter", system-ui, sans-serif; color: var(--ink);
+      }
+      #root { position: relative; width: 1080px; height: 1920px; background: var(--bg); overflow: hidden; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      /* Capa interna: las transiciones animan esta, nunca el clip del
+         framework (que es quien manda la visibilidad). */
+      .s-in {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        justify-content: center; padding: 300px 74px 470px;
+      }
+      .kicker {
+        display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 700;
+        letter-spacing: 0.28em; color: var(--muted); text-transform: uppercase;
+      }
+      .kicker .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+      .kicker .dot.warn { background: var(--warn); }
+      .kicker .dot.gold { background: var(--gold); }
+      /* ---------- ventana de navegador ---------- */
+      .browser {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        overflow: hidden; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .chrome {
+        display: flex; align-items: center; gap: 18px; padding: 20px 26px;
+        background: var(--chrome); border-bottom: 2px solid var(--line);
+      }
+      .lights { display: flex; gap: 10px; flex: 0 0 auto; }
+      .lights i { display: block; width: 18px; height: 18px; border-radius: 50%; }
+      .lights i:nth-child(1) { background: #ff5f57; }
+      .lights i:nth-child(2) { background: #febc2e; }
+      .lights i:nth-child(3) { background: #28c840; }
+      .addr {
+        flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+        padding: 14px 22px; background: var(--field); border: 2px solid var(--line);
+        border-radius: 14px; font-family: "JetBrains Mono", monospace;
+        font-size: 34px; font-weight: 800; white-space: nowrap; overflow: hidden;
+      }
+      .addr .lock { display: flex; flex: 0 0 auto; color: var(--muted); }
+      .addr .lock svg { width: 30px; height: 30px; }
+      .addr .base { color: var(--ink); }
+      .addr .dim { color: var(--muted); }
+      .addr .mod { color: var(--accent); }
+      .caret { display: block; width: 4px; height: 38px; background: var(--accent); flex: 0 0 auto; }
+      .addr .plus {
+        display: flex; flex: 0 0 auto; color: var(--accent);
+        border: 3px dashed var(--accent); border-radius: 10px; padding: 0 8px;
+      }
+      .addr .plus svg { width: 30px; height: 30px; }
+      /* ---------- cuerpo claro (SERP) ---------- */
+      .serpbody { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .result { display: flex; gap: 20px; align-items: flex-start; }
+      .fav {
+        flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%;
+        background: var(--accent); display: flex; align-items: center; justify-content: center;
+        color: #0a0a0f; font-weight: 900; font-size: 30px;
+      }
+      .crumb { font-size: 25px; font-weight: 600; color: #4b5563; }
+      .rtitle { margin-top: 8px; font-size: 38px; font-weight: 700; color: #1a0dab; line-height: 1.2; }
+      .rtitle b { background: var(--accent); color: #16181c; border-radius: 8px; padding: 0 8px; }
+      .skeleton { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+      .skeleton i { display: block; height: 16px; border-radius: 8px; background: #c9ced6; }
+      .skeleton i:nth-child(2) { width: 74%; }
+      /* ---------- veredicto (+ / −) ---------- */
+      .verdicts { margin-top: 46px; display: flex; gap: 34px; justify-content: center; }
+      .verdict {
+        width: 170px; height: 170px; border-radius: 36px; border: 5px solid var(--line);
+        display: flex; align-items: center; justify-content: center; background: var(--panel);
+      }
+      .verdict svg { width: 84px; height: 84px; }
+      .verdict.up { border-color: var(--accent); color: var(--accent); }
+      .verdict.down { border-color: var(--warn); color: var(--warn); }
+      /* ---------- barras de velocidad de lectura ---------- */
+      .bars { margin-top: 40px; display: flex; flex-direction: column; gap: 30px; }
+      .bar { height: 86px; border-radius: 20px; background: #1e1e26; overflow: hidden; position: relative; }
+      .bar b { display: block; height: 100%; width: 100%; transform-origin: left center; }
+      .bar.short b { background: var(--accent); }
+      .bar.long b { background: #45454f; }
+      .bar .eye { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #0a0a0f; }
+      .bar .eye svg { width: 46px; height: 46px; }
+      .speedrow { margin-top: 34px; display: flex; align-items: center; gap: 22px; color: var(--muted); }
+      .speedrow svg { width: 60px; height: 60px; color: var(--accent); }
+      /* ---------- aviso ---------- */
+      .warnwrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .warnwrap svg.tri { width: 340px; height: 340px; color: var(--warn); }
+      .ring {
+        position: absolute; width: 340px; height: 340px; border-radius: 50%;
+        border: 6px solid var(--warn); opacity: 0;
+      }
+      /* ---------- lujo ---------- */
+      .lux { display: flex; align-items: center; gap: 40px; }
+      .lux .gem { color: var(--gold); }
+      .lux .gem svg { width: 190px; height: 190px; }
+      .tag {
+        position: relative; background: var(--panel); border: 4px solid var(--line);
+        border-radius: 20px; padding: 22px 34px; font-size: 54px; font-weight: 900;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .tag .strike {
+        position: absolute; left: -8px; right: -8px; top: 50%; height: 12px;
+        background: var(--warn); transform: scaleX(0); transform-origin: left center;
+      }
+      .lux .nope { color: var(--warn); }
+      .lux .nope svg { width: 130px; height: 130px; }
+      /* ---------- resultados que se desplazan ---------- */
+      .scroller {
+        position: relative; height: 560px; overflow: hidden;
+        background: #eef1f5; border-radius: 20px; padding: 22px;
+      }
+      .scroller .inner { position: absolute; left: 22px; right: 22px; top: 22px; }
+      .res { display: flex; gap: 18px; align-items: center; padding: 20px 22px; border-radius: 14px; margin-bottom: 16px; }
+      .res .fav { width: 46px; height: 46px; font-size: 0; }
+      .res .lines { flex: 1; display: flex; flex-direction: column; gap: 11px; }
+      .res .lines i { display: block; height: 15px; border-radius: 8px; background: #c3c9d2; }
+      .res .lines i:nth-child(1) { width: 58%; background: #aab2bd; }
+      .res .lines i:nth-child(2) { width: 88%; }
+      .res.ours { background: #dff2b0; box-shadow: inset 0 0 0 4px var(--accent); }
+      .res.ours .lines i { background: #9db363; }
+      .res.ours .lines i:nth-child(1) { width: 86%; background: #7d9440; }
+      .cursor { position: absolute; left: 90px; top: 26px; width: 74px; height: 74px; color: #fff; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7)); }
+      .miss { position: absolute; color: var(--warn); }
+      .miss svg { width: 96px; height: 96px; }
+      /* ---------- iconos grandes (resumen) ---------- */
+      .duo { display: flex; gap: 30px; margin-top: 44px; }
+      .duo .p {
+        flex: 1; padding: 40px 0 34px; border-radius: 26px; border: 5px solid var(--line);
+        background: var(--panel); display: flex; flex-direction: column; align-items: center; gap: 20px;
+      }
+      .duo .p svg.cart { width: 120px; height: 120px; }
+      .duo .p svg.arw { width: 96px; height: 96px; }
+      .duo .p.good { border-color: var(--accent); color: var(--accent); }
+      .duo .p.bad { border-color: var(--warn); color: var(--warn); }
+      /* ---------- CTA ---------- */
+      .savewrap { position: relative; display: flex; align-items: center; justify-content: center; }
+      .savewrap svg.book { width: 260px; height: 260px; color: var(--accent); }
+      .cta {
+        margin-top: 60px; align-self: center; padding: 26px 52px; border-radius: 999px;
+        background: var(--accent); color: #0a0a0f; font-size: 48px; font-weight: 900;
+        letter-spacing: 0.08em; text-transform: uppercase;
+      }
+      /* ---------- progreso ---------- */
+      .progress {
+        position: absolute; left: 74px; right: 74px; top: 300px; height: 6px;
+        background: #1e1e26; border-radius: 3px; overflow: hidden;
+      }
+      .progress-fill { height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+      /* ---------- estados iniciales ---------- */
+      .fade-in { opacity: 0; }
+      .fade-up { opacity: 0; transform: translateY(60px); }
+      .fade-up-sm { opacity: 0; transform: translateY(28px); }
+      .pop { opacity: 0; transform: scale(0.7); }
+      .slide-x { opacity: 0; transform: translateX(-150px); }
+      .fill { transform: scaleX(0); }
+      /* ================= V3: autoridad ================= */
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+      /* ================= V3: autoridad ================= */
+      /* tarjeta generica: hace de ESCENARIO de la escena. Toda escena necesita
+         una superficie presente desde t=0, o durante un push llega vacia. */
+      .card {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+      /* ================= V3: autoridad ================= */
+      /* tarjeta generica: hace de ESCENARIO de la escena. Toda escena necesita
+         una superficie presente desde t=0, o durante un push llega vacia. */
+      .card {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .authcard {
+        background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+        padding: 44px 40px; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+      }
+      .domain { display: flex; align-items: center; gap: 18px; }
+      .domain .fav { width: 62px; height: 62px; font-size: 34px; }
+      .domain .name {
+        font-family: "JetBrains Mono", monospace; font-size: 46px; font-weight: 800; color: var(--ink);
+      }
+      .gauge { margin-top: 40px; }
+      .gauge .track { height: 46px; border-radius: 12px; background: #1e1e26; overflow: hidden; }
+      .gauge .track b { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
+      .gauge .row { margin-top: 18px; display: flex; align-items: baseline; justify-content: space-between; }
+      .gauge .lbl {
+        font-size: 26px; font-weight: 700; letter-spacing: 0.24em;
+        color: var(--muted); text-transform: uppercase;
+      }
+      .gauge .fig {
+        font-family: "JetBrains Mono", monospace; font-size: 56px; font-weight: 800; color: var(--accent);
+      }
+      .gauge .fig small { font-size: 30px; color: var(--muted); }
+      .doc {
+        position: relative; background: #eef1f5; border-radius: 20px; padding: 34px 30px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+      }
+      .doc .hline { height: 34px; width: 68%; border-radius: 10px; background: #7d8590; margin-bottom: 24px; }
+      .doc .body2 { display: flex; flex-direction: column; gap: 15px; }
+      .doc .body2 i { display: block; height: 17px; border-radius: 8px; background: #c9ced6; }
+      .doc .body2 i:nth-child(2n) { width: 93%; }
+      .doc .body2 i:nth-child(3n) { width: 80%; }
+      .badge-ok {
+        position: absolute; right: -24px; top: -24px; width: 104px; height: 104px; border-radius: 50%;
+        background: var(--accent); color: #0a0a0f; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+      }
+      .badge-ok svg { width: 60px; height: 60px; }
+      .xover {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        color: var(--warn);
+      }
+      .xover svg { width: 300px; height: 300px; filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.6)); }
+      .linkflow { display: flex; align-items: center; gap: 24px; }
+      .sources { flex: 0 0 auto; display: flex; flex-direction: column; gap: 20px; }
+      .src {
+        display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+        border: 3px solid var(--line); border-radius: 16px; background: var(--panel);
+      }
+      .src .fav { width: 46px; height: 46px; font-size: 25px; }
+      .src .name { font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 800; color: var(--muted); }
+      .flow { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+      .flow svg { width: 84px; height: 84px; }
+      .authcard.tight { flex: 1; padding: 34px 30px; }
+      .authcard.tight .domain .name { font-size: 38px; }
+      .cmp { display: flex; flex-direction: column; gap: 34px; }
+      .crow { display: flex; align-items: center; gap: 24px; }
+      .crow .who { flex: 0 0 auto; width: 330px; display: flex; align-items: center; gap: 16px; }
+      .crow .who .fav { width: 52px; height: 52px; font-size: 28px; }
+      .crow .who .name { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 800; color: var(--muted); }
+      .crow .track { flex: 1; height: 54px; border-radius: 14px; background: #1e1e26; overflow: hidden; }
+      .crow .track b { display: block; height: 100%; transform-origin: left center; }
+      .crow.win .track b { background: var(--accent); }
+      .crow.lose .track b { background: #45454f; }
+      .crow .count {
+        flex: 0 0 auto; width: 160px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 48px; font-weight: 800;
+      }
+      .crow.win .count { color: var(--accent); }
+      .crow.lose .count { color: var(--muted); }
+      .slot {
+        margin-top: 26px; border: 5px dashed var(--warn); border-radius: 18px; padding: 34px;
+        display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--warn);
+      }
+      .slot svg { width: 76px; height: 76px; }
+      .panel { background: #eef1f5; color: #16181c; padding: 30px 30px 34px; }
+      .phead { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 2px solid #d3d8df; }
+      .phead svg { width: 44px; height: 44px; color: #2a6df4; }
+      .phead .name { font-size: 34px; font-weight: 800; }
+      .prow { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 2px solid #e2e6ec; }
+      .prow .fav { width: 46px; height: 46px; font-size: 24px; }
+      .prow .nm { flex: 0 0 auto; width: 320px; font-size: 28px; font-weight: 700; color: #2a2f36; }
+      .prow .tr { flex: 1; height: 32px; border-radius: 8px; background: #d7dce3; overflow: hidden; }
+      .prow .tr b { display: block; height: 100%; background: #2a6df4; transform-origin: left center; }
+      .prow .ct {
+        flex: 0 0 auto; width: 130px; text-align: right;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .res .pos {
+        flex: 0 0 auto; width: 62px; height: 62px; border-radius: 14px; background: #16181c; color: #f5f5f7;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 32px; font-weight: 800;
+      }
+      .res.faded { opacity: 0.45; }
+      .res .down { flex: 0 0 auto; width: 54px; height: 54px; color: var(--warn); }
+      .rb { flex: 1; min-width: 0; }
+      .mt26 { margin-top: 26px; }
+      .mt30 { margin-top: 30px; }
+      .crow.warn .track b { background: var(--warn); }
+      .crow.warn .count { color: var(--warn); }
+          /* ===== GA1: componentes propios ===== */
+      .gcard {
+        min-height: 980px; justify-content: center;
+        position: relative; background: #20202a; border: 2px solid var(--line);
+        border-radius: 30px; padding: 50px 48px; display: flex; flex-direction: column; gap: 26px;
+      }
+      .grow { display: flex; align-items: center; gap: 22px; }
+      .grow .ico {
+        flex: 0 0 auto; width: 78px; height: 78px; border-radius: 18px; background: var(--chrome);
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-weight: 800; font-size: 36px; color: var(--accent);
+      }
+      .grow .txt { font-size: 56px; font-weight: 700; letter-spacing: -0.01em; }
+      .grow .txt small { color: var(--muted); font-weight: 600; }
+      .grow .arrow { color: var(--muted); font-size: 34px; font-weight: 800; margin-left: auto; }
+      .chip {
+        display: inline-flex; align-items: center; gap: 16px; padding: 22px 32px; border-radius: 999px;
+        background: var(--field); border: 2px solid var(--line);
+        font-family: "JetBrains Mono", monospace; font-size: 44px; font-weight: 800; color: var(--ink);
+      }
+      .chip.accent { border-color: var(--accent); color: var(--accent); }
+      .chip.big { font-size: 60px; padding: 34px 48px; }
+      .pill {
+        display: inline-flex; align-items: center; gap: 12px; padding: 12px 26px; border-radius: 999px;
+        font-size: 34px; font-weight: 800; letter-spacing: 0.02em;
+      }
+      .pill.ok { background: rgba(200, 255, 61, 0.14); color: var(--accent); }
+      .pill.bad { background: rgba(255, 90, 90, 0.14); color: var(--warn); }
+      .code {
+        min-height: 980px; display: flex; flex-direction: column; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 26px; line-height: 1.8; color: #e7eaf0;
+        background: #20202a; border: 2px solid var(--line); border-radius: 24px; padding: 40px 46px;
+        white-space: pre;
+      }
+      .code b { color: var(--accent); font-weight: 800; }
+      .code i { color: var(--muted); font-style: normal; }
+      .steps { display: flex; flex-direction: column; gap: 24px; }
+      .step { display: flex; align-items: center; gap: 24px; font-size: 50px; font-weight: 700; }
+      .step .n {
+        flex: 0 0 auto; width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--line);
+        display: flex; align-items: center; justify-content: center;
+        font-family: "JetBrains Mono", monospace; font-size: 28px; color: var(--muted);
+      }
+      .step.done .n { border-color: var(--accent); color: var(--accent); }
+      .visit {
+        display: flex; align-items: center; gap: 20px;
+        font-family: "JetBrains Mono", monospace; font-size: 36px; font-weight: 800;
+      }
+      .visit .fav {
+        width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center;
+        justify-content: center; font-family: "Inter", sans-serif; font-size: 26px; font-weight: 800;
+        color: #0a0a0f; background: var(--muted);
+      }
+      .visit.bad { color: var(--warn); }
+      .visit.bad .fav { background: var(--warn); }
+      .cta-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 980px; gap: 36px; }
+      .cta-mark {
+        width: 152px; height: 152px; border-radius: 40px; background: var(--accent);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .cta-mark svg { width: 84px; height: 84px; color: #0a0a0f; }
+      .cta-label { font-size: 96px; font-weight: 900; letter-spacing: -0.02em; }
+      /* Estado inicial seek-safe: lo que anima el timeline nace oculto. */
+      .kicker { font-size: 32px; }
+      .pop, .fade-up, .fade-in { opacity: 0; }
+      .pop { transform: translateY(24px) scale(0.96); }
+      .fade-up { transform: translateY(40px); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37.468" data-width="1080" data-height="1920">
+
+            <!-- ===== F1 — HOOK: el paso facil y el error ===== -->
+      <section class="scene clip" id="s1" data-start="0.0" data-duration="4.676" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s1-kicker"><span class="dot"></span>GOOGLE ANALYTICS 4</div>
+          <div class="gcard" id="s1-card">
+            <div class="grow" id="s1-r1">
+              <span class="ico">1</span><span class="txt">método</span>
+              <span class="arrow"><span class="pill ok">ok</span></span>
+            </div>
+            <div class="grow" id="s1-r2">
+              <span class="ico">2</span><span class="txt">métodos</span>
+              <span class="arrow"><span class="pill bad">x2</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F2 — LA ESTRUCTURA (dos tiempos: arbol y luego el identificador) ===== -->
+      <section class="scene clip" id="s2" data-start="4.226" data-duration="5.64" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s2-kicker"><span class="dot"></span>LA ESTRUCTURA</div>
+          <div class="gcard" id="s2-card">
+            <div class="grow" id="s2-r1"><span class="ico">A</span><span class="txt">Cuenta</span><span class="arrow">1</span></div>
+            <div class="grow" id="s2-r2"><span class="ico">B</span><span class="txt">Propiedad</span><span class="arrow">2</span></div>
+            <div class="grow" id="s2-r3"><span class="ico">C</span><span class="txt">Flujo de datos</span><span class="arrow">3</span></div>
+            <div class="grow" id="s2-r4">
+              <span class="ico">D</span><span class="txt">Identificador</span>
+              <span class="arrow"><span class="chip accent">G-XXXXXXXXXX</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F3 — EL IDENTIFICADOR CONECTA ===== -->
+      <section class="scene clip" id="s3" data-start="9.466" data-duration="4.23" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s3-kicker"><span class="dot"></span>EL IDENTIFICADOR</div>
+          <div class="gcard" id="s3-card">
+            <div class="grow" id="s3-chip"><span class="chip accent big">G-XXXXXXXXXX</span></div>
+            <div class="grow" id="s3-note">
+              <span class="ico">&gt;</span><span class="txt"><small>conecta tu web con Analytics</small></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F4 — CAMINO 1: EL GESTOR DE CONTENIDOS ===== -->
+      <section class="scene clip" id="s4" data-start="13.296" data-duration="4.475" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s4-kicker"><span class="dot"></span>1 &middot; TU GESTOR DE CONTENIDOS</div>
+          <div class="gcard" id="s4-card">
+            <div class="grow" id="s4-wp"><span class="ico">W</span><span class="txt">WordPress</span></div>
+            <div class="grow" id="s4-shopify"><span class="ico">S</span><span class="txt">Shopify</span></div>
+            <div class="grow" id="s4-wix"><span class="ico">W</span><span class="txt">Wix</span></div>
+            <div class="grow" id="s4-paste">
+              <span class="chip">G-XXXXXXXXXX</span><span class="arrow"><span class="pill ok">pegar</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F5 — CAMINO 2: LA ETIQUETA EN LA CABECERA ===== -->
+      <section class="scene clip" id="s5" data-start="17.521" data-duration="4.329" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s5-kicker"><span class="dot"></span>2 &middot; LA ETIQUETA</div>
+          <div data-layout-allow-overlap class="code" id="s5-code">&lt;<i>head</i>&gt;
+  &lt;<i>script</i> src=<b>"...gtag/js?id=G-XXXXXXXXXX"</b>&gt;&lt;/<i>script</i>&gt;
+&lt;/<i>head</i>&gt;</div>
+        </div>
+      </section>
+
+      <!-- ===== F6 — LO QUE CUESTA MANTENERLA A MANO ===== -->
+      <section class="scene clip" id="s6" data-start="21.35" data-duration="3.919" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s6-kicker"><span class="dot gold"></span>OJO CON LA ETIQUETA</div>
+          <div class="gcard" id="s6-card">
+            <div class="grow"><span class="ico">i</span><span class="txt">La etiqueta vive dentro del código</span></div>
+            <div class="grow"><span class="ico">2</span><span class="txt"><small>y cada cambio futuro pasa por ahí</small></span></div>
+          </div>
+          <div class="grow pop" id="s6-warn" style="margin-top: 34px">
+            <span class="pill bad">cada cambio &rarr; tocar código</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F7 — CAMINO 3: TAG MANAGER ===== -->
+      <section class="scene clip" id="s7" data-start="24.769" data-duration="4.859" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s7-kicker"><span class="dot"></span>3 &middot; TAG MANAGER</div>
+          <div class="gcard" id="s7-card">
+            <div class="steps">
+              <div class="step" id="s7-st1"><span class="n">1</span>Contenedor</div>
+              <div class="step" id="s7-st2"><span class="n">2</span>Etiqueta de Analytics</div>
+              <div class="step" id="s7-st3"><span class="n">3</span>Publicar</div>
+            </div>
+            <div class="grow pop" id="s7-done" style="margin-top: 30px">
+              <span class="pill ok">activado en todas las páginas</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F8 — EL ERROR: LAS DOS VIAS A LA VEZ ===== -->
+      <section class="scene clip" id="s8" data-start="29.378" data-duration="2.626" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s8-kicker"><span class="dot warn"></span>EL ERROR</div>
+          <div class="gcard" id="s8-card">
+            <div class="grow" id="s8-a"><span class="ico">1</span><span class="txt">Gestor de contenidos</span></div>
+            <div class="grow" id="s8-b"><span class="ico">3</span><span class="txt">Tag Manager</span></div>
+            <div class="grow pop" id="s8-pill" style="margin-top: 22px">
+              <span class="pill bad">las dos a la vez = x2</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F9 — LA CONSECUENCIA: LA VISITA SE CUENTA DOS VECES ===== -->
+      <section class="scene clip" id="s9" data-start="31.654" data-duration="3.685" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div data-layout-allow-overlap class="kicker fade-in" id="s9-kicker"><span class="dot warn"></span>LA CONSECUENCIA</div>
+          <div class="gcard" id="s9-card">
+            <div class="visit" id="s9-v1"><span class="fav">G</span>Analytics 1</div>
+            <div class="visit" id="s9-v2"><span class="fav">T</span>Analytics 1</div>
+            <div class="visit bad pop" id="s9-total" style="margin-top: 26px">
+              <span class="fav">!</span>Total 2 visitas
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== F10 — CTA ===== -->
+      <section class="scene clip" id="s10" data-start="34.839" data-duration="2.629" data-track-index="0">
+        <div class="s-in" id="s10-in">
+          <div class="cta-box">
+            <div class="cta-mark pop" id="s10-mark">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z" /></svg>
+            </div>
+            <div class="cta-label pop" id="s10-label">Guarda esto</div>
+            <div class="grow pop" id="s10-pill"><span class="pill ok">solo una etiqueta</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="37.468" data-track-index="0" data-media-start="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== SUBTITULOS KARAOKE ===== -->
+      <div class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="37.468" data-track-index="2" data-width="1080" data-height="1920"></div>
+
+      <!-- ===== MUSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="37.468" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS ===== -->
+      <audio id="sfx" class="clip" data-start="0" data-duration="37.468" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
+
+      <!-- ===== VOZ ===== -->
+      <audio id="vo-01" class="clip" data-start="0.0" data-duration="4.224" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="4.226" data-duration="5.238" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="9.466" data-duration="3.828" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="13.296" data-duration="4.223" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="17.521" data-duration="3.827" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="21.35" data-duration="3.417" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="24.769" data-duration="4.607" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="29.378" data-duration="2.274" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="31.654" data-duration="3.183" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="34.839" data-duration="2.629" data-track-index="1" src="assets/voice/10.wav"></audio>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const S = [0.0, 4.226, 9.466, 13.296, 17.521, 21.35, 24.769, 29.378, 31.654, 34.839];
+      const TOTAL = 37.468;
+      const at = (n, t) => S[n - 1] + t;
+      const tl = gsap.timeline({ paused: true });
+
+      // Aparicion con estado inicial explicito. Asentamiento power3.out:
+      // el rebote (back/bounce/elastic) es el turn-off nº1 segun la doctrina.
+      function put(sel, t, o = {}) {
+        const { x = 0, y = 0, scale = 1, dur = 0.55, ease = "power3.out" } = o;
+        tl.fromTo(sel, { opacity: 0, x, y, scale },
+          { opacity: 1, x: 0, y: 0, scale: 1, duration: dur, ease }, t);
+      }
+      // El escenario no se oculta nunca: solo se asienta (sin tocar opacity).
+      function rise(sel, t, o = {}) {
+        const { y = 40, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { y }, { y: 0, duration: dur, ease }, t);
+      }
+      function bar(sel, t, to, o = {}) {
+        const { dur = 0.7, ease = "power3.out" } = o;
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: to, duration: dur, ease }, t);
+      }
+
+      // ---- F1 Hook: un metodo vale, dos metodos duplican
+      rise("#s1-card", at(1, 0.0));
+      put("#s1-kicker", at(1, 0.06), { dur: 0.4 });
+      put("#s1-r1", at(1, 0.75), { x: -40, dur: 0.45 });
+      put("#s1-r2", at(1, 1.75), { x: -40, dur: 0.45 });
+
+      // ---- F2 Estructura: primero el arbol, luego el identificador
+      rise("#s2-card", at(2, 0.0));
+      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-r1", at(2, 0.35), { x: -40, dur: 0.45 });
+      put("#s2-r2", at(2, 0.95), { x: -40, dur: 0.45 });
+      put("#s2-r3", at(2, 1.55), { x: -40, dur: 0.45 });
+      put("#s2-r4", at(2, 2.85), { x: -40, dur: 0.45 });
+
+      // ---- F3 El identificador: el chip G- y lo que conecta
+      rise("#s3-card", at(3, 0.0));
+      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-chip", at(3, 0.5), { scale: 0.86, dur: 0.5 });
+      put("#s3-note", at(3, 1.9), { x: -40, dur: 0.45 });
+
+      // ---- F4 Camino 1: el gestor de contenidos
+      rise("#s4-card", at(4, 0.0));
+      put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
+      put("#s4-wp", at(4, 0.35), { x: -40, dur: 0.4 });
+      put("#s4-shopify", at(4, 0.7), { x: -40, dur: 0.4 });
+      put("#s4-wix", at(4, 1.05), { x: -40, dur: 0.4 });
+      put("#s4-paste", at(4, 2.1), { scale: 0.9, dur: 0.5 });
+
+      // ---- F5 Camino 2: la etiqueta en la cabecera
+      rise("#s5-code", at(5, 0.0));
+      put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+
+      // ---- F6 Lo que cuesta mantenerla
+      rise("#s6-card", at(6, 0.0));
+      put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
+      put("#s6-warn", at(6, 1.7), { scale: 0.9, dur: 0.5 });
+
+      // ---- F7 Camino 3: Tag Manager, tres pasos y queda activado
+      rise("#s7-card", at(7, 0.0));
+      put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
+      put("#s7-st1", at(7, 0.4), { x: -40, dur: 0.4 });
+      put("#s7-st2", at(7, 1.1), { x: -40, dur: 0.4 });
+      put("#s7-st3", at(7, 1.8), { x: -40, dur: 0.4 });
+      put("#s7-done", at(7, 2.7), { scale: 0.9, dur: 0.5 });
+
+      // ---- F8 El error: las dos vias a la vez
+      rise("#s8-card", at(8, 0.0));
+      put("#s8-kicker", at(8, 0.06), { dur: 0.35 });
+      put("#s8-a", at(8, 0.3), { x: -40, dur: 0.35 });
+      put("#s8-b", at(8, 0.7), { x: -40, dur: 0.35 });
+      put("#s8-pill", at(8, 1.15), { scale: 0.9, dur: 0.4 });
+
+      // ---- F9 La consecuencia: la visita contada dos veces
+      rise("#s9-card", at(9, 0.0));
+      put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
+      put("#s9-v1", at(9, 0.4), { x: -40, dur: 0.4 });
+      put("#s9-v2", at(9, 1.05), { x: -40, dur: 0.4 });
+      put("#s9-total", at(9, 1.9), { scale: 0.9, dur: 0.5 });
+
+      // ---- F10 CTA
+      put("#s10-mark", at(10, 0.05), { scale: 0.5, dur: 0.5 });
+      put("#s10-label", at(10, 0.7), { scale: 0.85, dur: 0.5 });
+      put("#s10-pill", at(10, 1.5), { scale: 0.9, dur: 0.45 });
+
+      // ---- barra de progreso (linea que re-tima retime.py)
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 37.468, ease: "none" }, 0);
+
+      // ---- TRANSICIONES: animan la capa interna .s-in, nunca el clip.
+      const TR = [
+        [1, "up", 0.45], [2, "up", 0.40], [3, "fade", 0.40], [4, "up", 0.25],
+        [5, "zoom", 0.50], [6, "blur", 0.50], [7, "down", 0.25], [8, "fade", 0.35],
+        [9, "fade", 0.50]
+      ];
+      TR.forEach(([n, kind, d]) => {
+        const T = S[n];
+        const out = `#s${n}-in`, inc = `#s${n + 1}-in`;
+        if (kind === "up" || kind === "down") {
+          const dir = kind === "up" ? -1 : 1;
+          tl.fromTo(out, { y: 0 }, { y: dir * 1920, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: -dir * 1920 }, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "fade") {
+          tl.fromTo(out, { opacity: 1 }, { opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { opacity: 0 }, { opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "zoom") {
+          tl.fromTo(out, { scale: 1, opacity: 1 },
+            { scale: 1.25, opacity: 0, duration: d, ease: "power3.in" }, T);
+          tl.fromTo(inc, { scale: 0.82, opacity: 0 },
+            { scale: 1, opacity: 1, duration: d, ease: "power3.out" }, T);
+        } else if (kind === "blur") {
+          tl.fromTo(out, { filter: "blur(0px)", opacity: 1 },
+            { filter: "blur(26px)", opacity: 0, duration: d, ease: "power2.inOut" }, T);
+          tl.fromTo(inc, { filter: "blur(26px)", opacity: 0 },
+            { filter: "blur(0px)", opacity: 1, duration: d, ease: "power2.inOut" }, T);
+        }
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </div></body>
+</html>
+

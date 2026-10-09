@@ -1,0 +1,1 @@
+Elige un método y comprueba que solo hay una etiqueta.

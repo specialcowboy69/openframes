@@ -16,7 +16,7 @@ Estado de la **serie SEO**: V1 publicado (voz Kokoro) · V2 publicado (2026-10-0
 
 | ID | Tema | Ángulo | Formato | Estado |
 |----|------|--------|---------|--------|
-| GA1 | Instalar GA4 sin duplicar las visitas | El error de instalar por dos vías (plugin + Tag Manager) | 9:16 · ~35 s · faceless | **En producción** |
+| GA2 | Cómo saber si GA4 mide de verdad | Los informes tardan y casi nadie lo sabe: parece roto y no lo está | 9:16 · ~30 s · faceless | **En producción** |
 
 ## Ideas para próximos vídeos
 
@@ -39,8 +39,8 @@ Aquí solo el plan. **Ocho piezas en tres bloques**; una idea por vídeo, 30-40 
 
 | ID | Carpeta prevista | Idea | Bloque | Formato | Estado |
 |----|------------------|------|--------|---------|--------|
-| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | ~35 s | **En producción** |
-| GA2 | `videos/ga4-02-comprobar-si-mide` | Cómo saber si GA4 mide de verdad (los informes tardan: no está roto) | 1 · instalar | ~30 s | Idea |
+| GA1 | `videos/ga4-01-instalar-sin-duplicar` | Instalar GA4 sin duplicar las visitas (3 métodos, elige uno) | 1 · instalar | 37,5 s | **Hecho v1** (2026-10-09): 10 escenas, `check` 0 errores, contraste 40/40, 0 cruces vacíos, 0 huecos. Pendiente de publicar |
+| GA2 | `videos/ga4-02-comprobar-si-mide` | Cómo saber si GA4 mide de verdad (los informes tardan: no está roto) | 1 · instalar | ~30 s | **En producción** |
 | GA3 | `videos/ga4-03-que-mide-solo` | Lo que GA4 ya mide por ti (automáticos + medición mejorada, y qué revisar) | 2 · eventos | ~35 s | Idea |
 | GA4 | `videos/ga4-04-eventos-recomendados` | No inventes nombres: usa los recomendados (`generate_lead`, `purchase`…) | 2 · eventos | ~35 s | Idea |
 | GA5 | `videos/ga4-05-eventos-clave` | El evento que vale dinero: eventos clave y medir la confirmación real | 2 · eventos | ~35 s | Idea |
@@ -131,3 +131,10 @@ Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
   2-3 piezas, porque aquí **una idea = un vídeo**. Se empieza por **GA1** (instalar sin duplicar
   visitas), que además planta la tesis de la serie: tener Analytics instalado no es tenerlo bien
   configurado. Los `V*` siguen siendo la serie SEO.
+- **GA1 v1 (Instalar GA4 sin duplicar las visitas)** — primer vídeo de la serie GA4, montado con
+  la cadena completa. 10 escenas, **37,47 s**, voz `Pablo`. Verificado sin ojos: `check` 0 errores,
+  contraste 40/40, **0,00 s de tramo vacío** en los 9 cruces y **0 huecos** de audio. Dos lecciones
+  de montaje: (1) **el escenario no se anima con opacidad** — si nace en `opacity: 0`, los cruces se
+  quedan sin contenido (el peor tramo llegó a 0,40 s); ahora nace visible y solo se asienta con
+  `rise()`, que mueve en Y; (2) el verificador mide **píxeles claros**, así que los paneles suben a
+  `#20202a` y el tipo crece. La escena 2 (5,24 s) va en dos tiempos. Render en `renders/video.mp4`.

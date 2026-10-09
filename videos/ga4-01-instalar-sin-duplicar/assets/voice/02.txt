@@ -1,0 +1,1 @@
+Todo cuelga de una estructura: cuenta, propiedad, flujo de datos y un identificador.

@@ -1,0 +1,266 @@
+[
+  {
+    "scene": 1,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 1,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 1,
+    "local": 0.75,
+    "kind": "pop",
+    "gain": 0.55
+  },
+  {
+    "scene": 1,
+    "local": 1.75,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 2,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 2,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 2,
+    "local": 0.35,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 2,
+    "local": 0.95,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 2,
+    "local": 1.55,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 2,
+    "local": 2.85,
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 3,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 3,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 3,
+    "local": 0.5,
+    "kind": "ding",
+    "gain": 0.65
+  },
+  {
+    "scene": 3,
+    "local": 1.9,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 4,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 4,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 4,
+    "local": 0.35,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 4,
+    "local": 0.7,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 4,
+    "local": 1.05,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 4,
+    "local": 2.1,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 5,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.5
+  },
+  {
+    "scene": 5,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 6,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 6,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 6,
+    "local": 1.7,
+    "kind": "buzz",
+    "gain": 0.55
+  },
+  {
+    "scene": 7,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 7,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 7,
+    "local": 0.4,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 7,
+    "local": 1.1,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 7,
+    "local": 1.8,
+    "kind": "tick",
+    "gain": 0.5
+  },
+  {
+    "scene": 7,
+    "local": 2.7,
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 8,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 8,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 8,
+    "local": 0.3,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 8,
+    "local": 0.7,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 8,
+    "local": 1.15,
+    "kind": "buzz",
+    "gain": 0.6
+  },
+  {
+    "scene": 9,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 9,
+    "local": 0.06,
+    "kind": "pop",
+    "gain": 0.4
+  },
+  {
+    "scene": 9,
+    "local": 0.4,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 9,
+    "local": 1.05,
+    "kind": "pop",
+    "gain": 0.5
+  },
+  {
+    "scene": 9,
+    "local": 1.9,
+    "kind": "buzz",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "local": 0.05,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "local": 0.7,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "local": 1.5,
+    "kind": "ding",
+    "gain": 0.5
+  }
+]

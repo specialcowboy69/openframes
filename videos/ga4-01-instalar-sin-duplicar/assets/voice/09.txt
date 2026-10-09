@@ -1,0 +1,1 @@
+Si los dos envían la etiqueta, cada visita se cuenta dos veces.
