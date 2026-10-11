@@ -103,10 +103,20 @@ que es justo lo que orienta el brief). No es una excepción: es la escala de est
 Planificar las ventanas de visibilidad para que ninguna escena desaparezca antes de terminar la
 transición. La capa que atraviesa el cambio va por encima (z-index 40).
 
-**Aviso de implementación:** `transiciones.py` solo extiende las colas leyendo el array `TR`, y los
-tipos que existen hoy son `up/down/fade/zoom/blur`. El desplazamiento continuo en la misma dirección,
-el objeto que cubre el encuadre, el barrido de color y el revelado circular **no** salen de ese array:
-hay que escribirlos a mano en la línea de tiempo y extender las colas de esas escenas aparte.
+**Decisión del dueño (2026-10-11): opción B completa, sin limitar.** Las seis transiciones están
+disponibles y se usan donde aportan. Esto retira la doctrina antigua de «sin DOM extra», así que:
+
+- El **desplazamiento continuo**, el **objeto que cubre el encuadre**, el **barrido de color** y el
+  **revelado circular** necesitan código propio en la línea de tiempo: no salen del bucle de
+  transiciones actual, que solo conoce `up/down/fade/zoom/blur`.
+- La **extensión de colas sigue igual**: `transiciones.py` acepta cualquier nombre de tipo, así que
+  basta con declarar el corte en el array `TR` con su duración.
+- El objeto que cubre y el barrido son **piezas propias de la escena** (`.cover`, `.sweep`), por
+  encima del contenido (z-index 40). El revelado circular es un recorte sobre el envoltorio y no
+  añade piezas.
+- **Coste asumido:** cada uno de esos cortes se revisa a mano en su fotograma intermedio, con el
+  medidor de montaje (`verificar_montaje.py`) y una comprobación de fotogramas en los instantes
+  medios de la transición.
 
 ## 7. Implementación
 
@@ -154,9 +164,9 @@ El detalle por beat está en `STORYBOARD.md`.
    estaba propuesto.
 4. **Sobrepaso (resuelto):** manda el brief: `back.out` con sobrepaso moderado en entradas de
    objetos; el texto siempre con `power3.out`. `DESIGN.md` ya lo recoge.
-5. **Doctrina de transiciones:** la serie decía «solo transform, opacidad o filtro sobre el envoltorio,
-   sin DOM extra». El brief pide mecanismos que sí lo necesitan (objeto que cubre, barrido, revelado
-   circular). Se registra la excepción o se renuncia a esos tres y se queda con los cuatro actuales.
+5. **Doctrina de transiciones (resuelto):** opción B completa. Se permiten piezas propias de escena
+   y recortes, y las seis transiciones quedan disponibles. La doctrina antigua de «sin DOM extra»
+   queda retirada (recogido en `DESIGN.md`).
 6. **Tokens nuevos (resuelto):** la columna clara y la regla proporcional ya están registradas en
    `DESIGN.md`.
 

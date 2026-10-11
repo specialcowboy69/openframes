@@ -220,3 +220,23 @@ moderado en **entradas de objetos** (0,55-0,85 s). El texto sigue siempre con `p
 - un mecanismo de transición distinto cada **10-12 s** → 30-45 s: 3-4 · ~60 s: 5-6.
 
 No es una excepción: es la escala que corresponde a cada duración.
+
+## Transiciones con elemento propio (2026-10-11)
+
+La doctrina anterior («transiciones solo con transform, opacidad o filtro sobre el envoltorio, sin
+DOM extra») **queda retirada** por decisión del dueño. Ahora una transición puede:
+
+- usar una **pieza propia de la escena** que crezca o cruce hasta cubrir el encuadre (`.cover`) o una
+  banda de color a lo ancho (`.sweep`), por encima del contenido (`z-index: 40`);
+- aplicar un **recorte** sobre el envoltorio (revelado circular con `clip-path`, radio
+  `r ≥ √((w/2)² + (h/2)²)` para cubrir las esquinas).
+
+Consecuencias que hay que asumir en cada pieza:
+
+1. Esos cortes **no** salen del bucle `up/down/fade/zoom/blur`: hay que escribir su animación a mano
+   en la línea de tiempo.
+2. La extensión de colas sigue siendo automática: `transiciones.py` acepta cualquier nombre de tipo
+   en el array `TR`.
+3. Cada corte nuevo se revisa en su **fotograma intermedio** con el medidor de montaje, porque una
+   pieza que tapa o un recorte pueden dejar un instante sin masa clara si el cálculo no es exacto.
+4. El escenario de la escena **sigue sin animarse con opacidad**: se asienta con `rise()`.
