@@ -12,7 +12,7 @@ Estado: **guion v3** (dos pasadas de claridad). Pendiente de voz y montaje.
 
 | # | Texto | Pal. | Beat |
 |---|-------|------|------|
-| 1 | Google no te penaliza por esto, pero hay un error muy común que te cuesta clics. Y casi nadie te lo cuenta. | 22 | Gancho |
+| 1 | Este es el error que hace que aparezcas cada vez menos en Google. Y casi nadie te lo cuenta. | 18 | Gancho |
 | 2 | La intención de búsqueda es lo que alguien quiere conseguir cuando escribe una palabra en Google. | 17 | Definir |
 | 3 | La misma palabra sirve para búsquedas distintas: lo que cambia es qué quiere cada persona. | 15 | La palabra no basta |
 | 4 | Piensa en «cafetera»: quien quiere limpiar la suya espera una guía; quien quiere comprar una, una página de producto. | 19 | Ejemplo 1 |
@@ -26,7 +26,7 @@ Estado: **guion v3** (dos pasadas de claridad). Pendiente de voz y montaje.
 | 12 | Una palabra, una intención, una página. Decide qué página merece cada búsqueda. | 13 | El arreglo |
 | 13 | Guarda este vídeo antes de escribir tu próxima página. | 9 | CTA |
 
-**Total: 208 palabras ≈ 69 s a 2,8 pal./s · ≈ 63 s a 3,3 pal./s.** La tasa real la fija la voz.
+**Total: 204 palabras ≈ 73 s a 2,8 pal./s · ≈ 62 s a 3,3 pal./s.** La tasa real la fija la voz.
 
 ## Cómo acortar sin perder claridad (si algún día importa la duración)
 
@@ -40,7 +40,8 @@ Ninguno de los dos toca la definición, el truco ni la consecuencia.
 
 | Versión | Cambio | Por qué |
 |---|---|---|
-| v2 | Gancho nuevo: «Google no te penaliza por esto…» | Petición del dueño. Se niega la penalización (la creencia común) en lugar de afirmarla: engancha y no exige fuente. |
+| v2 | Gancho nuevo, negando la penalización | Petición del dueño. |
+| v4 | **Se retira la negación**: el gancho describe el efecto («aparecerás cada vez menos») | El dueño lo dejó claro: un vídeo no puede abrir negando algo. Y el efecto es real y progresivo. |
 | v2 | El truco se desdobla en regla (7) + dos líneas de lectura (8, 9) | El dueño se perdió con «guía, comparativa, ficha o mapa»: faltaba contexto. |
 | v2 | La consecuencia deja de ser «vuelve a Google» | Era ambiguo. Ahora se ve el gesto: cierra la pestaña y hace clic en el siguiente resultado. |
 | v3 | Se quitan los pronombres y demostrativos sueltos («esto», «esa persona», «la», «el mapa» sin antecedente) | La auditoría de comprensión los marcó: en voz en off y sin imagen previa no se sabe a qué apuntan. |
@@ -48,21 +49,22 @@ Ninguno de los dos toca la definición, el truco ni la consecuencia.
 | v3 | «Página de producto» en vez de «ficha de producto», y «búsqueda» en vez de «consulta» | Un solo término para cada cosa, y en castellano llano. |
 | v3 | Cierre: «Guarda este vídeo…» en vez de «Guarda esto…» | «Esto» no fijaba la acción. |
 
-## Por qué el gancho niega la penalización
+## Sobre la palabra «penaliza» (decisión del dueño, 2026-10-11)
 
-- Google penaliza el spam (acciones manuales por contenido engañoso o manipulado). Que una página no
-  encaje con la intención **no** es una penalización: simplemente no se elige, y quien busca se va.
-- Afirmar «te penaliza» sería un dato sin fuente y, además, falso. Negarlo engancha: corrige una
-  creencia muy extendida en el primer segundo.
-- Respaldo en `fuentes/intencion-de-busqueda.md`: si el contenido no encaja con la intención, quien
-  busca vuelve a los resultados y el ranking cae; Google solo habla de contenido útil para personas.
+El dueño tiene razón en el fondo: si tu página no responde a lo que pide la búsqueda, **pierdes
+relevancia de forma progresiva y acabas dejando de aparecer** para esas búsquedas. Eso es lo que
+cuenta el vídeo, y por eso el gancho describe el efecto y no una negación.
+
+Matiz que queda anotado en el proyecto: en la documentación de Google, «penalización» se refiere a
+acciones manuales por spam; el desajuste de intención no aparece ahí con ese nombre. Por eso el
+guion describe la consecuencia. Si se prefiere la palabra, la opción 4 la usa en coloquial.
 
 ### Alternativas del gancho
 
-1. **En uso:** «Google no te penaliza por esto, pero hay un error muy común que te cuesta clics. Y casi nadie te lo cuenta.»
-2. **Más directa:** «Este es el error que más clics te cuesta y casi nadie te cuenta.»
-3. **Contraste seco:** «Google no te penaliza por esto. Hace algo peor: deja de enseñarte.»
-4. **Afirmando la penalización** (no recomendada por inexacta): «Este es el error que te penaliza en Google y nadie te cuenta.»
+1. **En uso:** «Este es el error que hace que aparezcas cada vez menos en Google. Y casi nadie te lo cuenta.» (18 pal.)
+2. **Sin la palabra «error»:** «Si tu página no responde a lo que la gente busca, aparecerás cada vez menos en Google. Y nadie te lo cuenta.» (22 pal.)
+3. **Más seco, con el mecanismo:** «Misma palabra, intenciones distintas, una sola página: por eso vas perdiendo posiciones en Google.» (15 pal.)
+4. **Con «penaliza», en coloquial:** «Google te va penalizando poco a poco: primero apareces menos y acabas desapareciendo de esas búsquedas.» (16 pal.)
 
 ## Jerga que queda definida en pantalla
 

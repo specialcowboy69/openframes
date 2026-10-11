@@ -39,10 +39,10 @@ extiende con `transiciones.py`):
 
 **Elementos:** `.pg` oscuro · `.kicker` con `.tile.sm` (**logo Google**) · `.chip.big` con la
 lupa y la palabra **cafetera** · tres `.tile.stroke` **sin rótulo** (serán guía, comparativa y ficha: se etiquetan desde F4) · `.tile.stroke`
-de una sola página · `.xover` (aspa roja grande) encima.
+de una sola página · un número de posición que baja (3 → 12 → fuera) · `.xover` (aspa roja grande) encima.
 **Animación:** `rise(#s1-pg)` → kicker → chip (escala 0,82) → los tres iconos **escalonados**
-(1,00 / 1,25 / 1,50 s, suben 44 px) → la página única (escala 0,72) → **aspa a escala 2,0** con
-golpe de sonido.
+(1,00 / 1,25 / 1,50 s, suben 44 px) → la página única (escala 0,72) → el **número de posición baja y se apaga**
+(3 → 12 → fuera) → **aspa a escala 2,0** con golpe de sonido.
 **Texto mínimo:** kicker «LA PALABRA» + «cafetera» (el término «intención de búsqueda» no se rotula
 hasta F2, y las etiquetas de tipo no aparecen hasta F4: la jerga se define antes de usarla).
 
