@@ -1,7 +1,7 @@
 # STORYBOARD — V5 «Intención de búsqueda»
 
 **Sustituye al plan anterior**: la dirección de arte está en `DIRECCION.md` y el brief original en
-`DIRECCION-ARTE-BRIEF.md`. 12 beats · 188 palabras · ~47-52 s (ritmo medido de la voz: 3,98 pal./s).
+`DIRECCION-ARTE-BRIEF.md`. 12 beats · 188 palabras · ~53,041 s (medido con la voz).
 **Todos los tiempos son RELATIVOS al inicio de su beat**: los absolutos los fija la voz con `retime.py`.
 Las letras A-G remiten a las recetas de animación del brief (§5).
 
@@ -60,3 +60,24 @@ arriba, sin `Math.random`.
 Un fotograma de lectura de cada escena · los instantes intermedios de las cinco transiciones ·
 entradas, salidas y superposiciones · legibilidad a tamaño móvil · alineación de texto e interfaces ·
 sincronía con la voz · y el MP4 completo en movimiento.
+
+## Tiempos reales de la voz (medidos)
+
+Voz `Pablo` (`1bd666ea8ada44c789e0fec21cf78f33`), cola de silencio recortada a 0,08 s y escena = clip. **Total 53.041 s.** Son los tiempos que consume `retime.py`: sustituyen a cualquier estimación anterior.
+
+| Beat | Clip | Escena | Inicio | Fin |
+|---|---|---|---|---|
+| B1 | 4.287 | 4.287 | 0.000 | 4.287 |
+| B2 | 4.133 | 4.133 | 4.287 | 8.420 |
+| B3 | 4.598 | 4.598 | 8.420 | 13.018 |
+| B4 | 3.740 | 3.740 | 13.018 | 16.758 |
+| B5 | 5.201 | 5.201 | 16.758 | 21.959 |
+| B6 | 4.040 | 4.040 | 21.959 | 25.999 |
+| B7 | 7.941 | 7.941 | 25.999 | 33.940 |
+| B8 | 3.762 | 3.762 | 33.940 | 37.702 |
+| B9 | 2.467 | 2.467 | 37.702 | 40.169 |
+| B10 | 5.204 | 5.204 | 40.169 | 45.373 |
+| B11 | 5.082 | 5.082 | 45.373 | 50.455 |
+| B12 | 2.586 | 2.586 | 50.455 | 53.041 |
+
+Nota: **B7 dura 7,9 s** porque su línea tiene tres cláusulas; el plan ya lo resuelve con tres tiempos de animación dentro de la misma escena (etiqueta y verbo para guías, comparativas y producto), así que no hace falta partirla.

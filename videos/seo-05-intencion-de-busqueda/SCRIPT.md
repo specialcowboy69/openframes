@@ -25,9 +25,8 @@ Estado: **guion v5** (un ejemplo; la intención la fija la búsqueda completa). 
 | 11 | Una intención, una página. Decide qué página merece cada búsqueda antes de escribir. | 13 | El arreglo |
 | 12 | Guarda este vídeo antes de escribir tu próxima página. | 9 | CTA |
 
-**Total: 188 palabras.** **Ritmo medido con la voz real** (muestra de tres líneas, 2026-10-11): **3,98 palabras/s** →
-el guion completo (188 palabras) queda en **≈ 47 s** más las pausas entre líneas.
-Cuando estén generadas las 12 líneas, los tiempos definitivos de cada beat salen de ahí.
+**Total: 188 palabras.** **Voz generada y medida** (12 líneas, Fish Audio `Pablo`, 2026-10-11): total **53,041 s**, clips de 2,467 a 7,941 s.
+Los tiempos por línea están en `assets/voice/timing.json` y la tabla de escenas en `STORYBOARD.md`.
 
 ## Lo que corrige esta versión
 
@@ -79,3 +78,21 @@ cortos (V4) ni AI Overviews (V8).
 Tratamiento de tú · entrada en frío sin intro · **la claridad manda sobre la brevedad** · sin
 muletillas · sin cifras ni promesas · sin afirmaciones sin fuente · sin anglicismos · jerga definida
 antes de usarla · CTA de guardar · sin avisos de autoría ni menciones a IA.
+
+## Guion plano (para el pipeline de voz)
+
+Estas son las líneas que lee `voice_pipeline.py` (4 espacios de sangría). Las comillas
+de cita se quitan en la locución; en pantalla se muestran como citas.
+
+    Este es el error que hace que aparezcas cada vez menos en Google. Y casi nadie te lo cuenta.
+    La intención de búsqueda es lo que alguien quiere conseguir cuando escribe una palabra en Google.
+    La misma palabra sirve para búsquedas distintas: lo que cambia es qué quiere cada persona.
+    Cafetera no es lo mismo que cómo limpiar una cafetera o comprar una cafetera.
+    En una quieres aprender y en la otra quieres comprar; y Google enseña páginas distintas para cada una.
+    El truco es mirar los resultados que ya salen en Google antes de escribir la tuya.
+    Si los primeros resultados son guías, la gente quiere entender. Si son comparativas, quiere comparar. Si son páginas de producto, quiere comprar.
+    Y si ves varias de esas mezcladas, esa palabra tiene más de una intención.
+    El error es darle una sola página para todo eso.
+    Quien busca no encuentra lo que quería: cierra la pestaña de tu web y hace clic en el siguiente resultado.
+    Una intención, una página. Decide qué página merece cada búsqueda antes de escribir.
+    Guarda este vídeo antes de escribir tu próxima página.

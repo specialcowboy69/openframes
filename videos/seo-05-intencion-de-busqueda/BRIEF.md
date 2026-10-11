@@ -1,7 +1,7 @@
 # BRIEF — V5 «Intención de búsqueda»
 
 **Serie:** SEO · **Pieza:** V5 · **Carpeta:** `videos/seo-05-intencion-de-busqueda/`
-**Formato:** 9:16 · 1080×1920 · faceless · **12 beats · ~47-52 s** (ritmo medido de la voz: 3,98 pal./s) · voz en off es-ES (`Pablo`)
+**Formato:** 9:16 · 1080×1920 · faceless · **12 beats · ~53,041 s** (medido con la voz) · voz en off es-ES (`Pablo`)
 **Dirección de arte:** `DIRECCION.md` · **plan de escenas:** `STORYBOARD.md` · **brief del dueño:** `DIRECCION-ARTE-BRIEF.md`
 
 ## Objetivo
