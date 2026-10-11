@@ -25,7 +25,7 @@ Estado de la **serie SEO**: V1 publicado (voz Kokoro) · V2 publicado (2026-10-0
 | V2 | Dónde colocar el modificador | Resumen original (e-commerce + lujo) | Asume el concepto de "modificador" que explica V1 | Al final de la URL en alto volumen; nunca en lujo | 9:16 · 29,8 s · 10 frames | **Publicado en Instagram** (2026-10-08; Facebook dio error de permisos). **v7: remontaje** — transiciones, `power3.out`, revelado sincronizado con la voz |
 | V3 | Qué es la autoridad y cómo saber la tuya | Implícito en V1 | Es un vídeo base por sí solo; en V1 solo se define de pasada | "Tu web no sube aunque hagas SEO: mira tu autoridad" | 9:16 · 32,0 s · 10 frames | **Hecho v1** — voz `Pablo`; medidor de autoridad, tarjetas de dominio e informe de Enlaces |
 | V4 | Modificadores cortos y lectura rápida en Google | Detalle de V2 (la palabra "barato" se procesa de un vistazo) | Es un dato, no una idea completa | Por qué las palabras cortas ganan clics en la SERP | 9:16 · ~25 s (motion-graphics) | Idea |
-| V5 | Intención de búsqueda | Extensión natural de V1 | Tema grande; merece su propio vídeo | "Misma palabra, intención distinta, página distinta" | 9:16 · ~40 s | Idea |
+| V5 | Intención de búsqueda | Extensión natural de V1 | Tema grande; merece su propio vídeo | "Misma palabra, intención distinta, página distinta" | 9:16 · ~41 s | **Guion y plan visual hechos** (2026-10-11) en `videos/seo-05-intencion-de-busqueda/` (SCRIPT.md, BRIEF.md, STORYBOARD.md) + material con fuentes en `fuentes/intencion-de-busqueda.md`. 10 escenas · 123 palabras ≈ 41 s. Pendiente: voz `Pablo` y montaje |
 | V6 | Canibalización de keywords | Extensión natural | No cabía sin romper el foco de V1 | Dos páginas tuyas compitiendo y ninguna gana | 9:16 · ~40 s | Idea |
 | V7 | Contenido fino (thin content) | Extensión natural | Tema aparte | Por qué 500 palabras no posicionan (y 2.000 mal escritas tampoco) | 9:16 · ~40 s | Idea |
 | V8 | Aparecer en las respuestas de la IA (AI Overviews) | Enfoque sugerido al inicio | Es un tema actual y potente; pide su propio vídeo | Cómo entra tu marca en la respuesta que ya da Google | 9:16 · ~40 s | Idea |
@@ -146,3 +146,12 @@ Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
   escenas se pierden las colas que añade `transiciones.py`, la escena saliente desaparece al
   empezar el cruce y el lienzo queda negro — hay que rehacer `retime.py` → `transiciones.py`
   antes de renderizar. Verificado: `check` 0 errores, contraste 23/23, 0,00 s de tramo vacío.
+- **V5 (guion y plan visual)** — elaborado con una red de subagentes: contrato de estilo del
+  proyecto, investigación con fuentes (doctrina de Google frente a convención de industria),
+  continuidad con V1-V3, guion, diseño de pantalla y verificación adversarial. Tesis «una palabra,
+  una intención, una página». Cinco momentos de impacto: el aspa roja sobre la página única, los
+  trazos que se dibujan desde la palabra, la SERP con los cuatro tipos etiquetados, el castigo
+  visual del error y la cuadrícula 1:1:1 con tres checks. Nuevo en el sistema: etiqueta de tipo de
+  resultado dentro de la SERP, fila 1:1:1 e iconos propios (escobilla, diana, escudo, calculadora,
+  pin). El verificador detectó 9 defectos (recuentos, eje de tiempos fuera de banda, jerga rotulada
+  antes de definirse, F10 sin escenario) y se corrigieron antes de guardar.
