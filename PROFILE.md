@@ -35,8 +35,8 @@ que cualquier sesión futura lo tenga claro desde el principio.
 | Subtítulos | **Karaoke** (píldora inferior, palabra activa resaltada) |
 | Sonido | Voz en off clara, música discreta por debajo y **efectos en cada aparición** |
 | Visual | Fondo oscuro, **un solo acento**, tipografía fuerte, limpio. Sistema completo en `DESIGN.md` |
-| Nada de | Logos de marca, `@handle` en pantalla, relleno, muletillas, silencios |
-  (Actualizado 2026-10-11: **se autoriza el logo de la marca cuando se la nombra** — Google, Search Console, etc. — en línea sobre tarjeta clara. Sigue prohibido el @handle y cualquier adorno de autoría o de IA.)
+| Nada de | `@handle` en pantalla, relleno, muletillas, silencios |
+| Sí a | El **logo de la marca cuando se la nombra** (Google, Search Console…), en línea sobre tarjeta clara (actualizado 2026-10-11) |
 
 ## Criterios de decisión
 
