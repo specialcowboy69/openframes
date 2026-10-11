@@ -1,5 +1,12 @@
 # STORYBOARD — V5 «Intención de búsqueda»
 
+**Guion v5: 12 beats y un solo ejemplo.** El mapa fino de escenas y los tiempos se recalculan
+cuando se grabe la voz (`retime.py`). Cambios respecto al plan escrito: desaparecen las escenas
+de los ejemplos de «alojamiento web» y «seguro de coche»; el ejemplo de la cafetera pasa a mostrar
+**dos búsquedas completas** («cómo limpiar una cafetera» y «comprar una cafetera») con su resultado
+cada una; se añade una escena del **caso mezclado** (una palabra corta con las dos intenciones en
+la misma página de resultados); y la escena del arreglo pasa a «una intención, una página».
+
 **Guion v2: 13 beats.** El mapa de escenas y los tiempos se recalculan cuando se grabe la voz
 (`retime.py`). Cambios previstos: la SERP se reparte en dos escenas (la regla y la lectura de los
 cuatro tipos, cada uno con lo que quiere la persona), el error se separa de la consecuencia, y la
