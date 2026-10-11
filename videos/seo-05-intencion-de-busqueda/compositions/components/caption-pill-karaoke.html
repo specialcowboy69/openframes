@@ -1,0 +1,436 @@
+<template id="caption-pill-karaoke-template">
+  <div data-hf-id="hf-mh1y" data-composition-id="caption-pill-karaoke" data-timeline-locked="" data-start="0" data-duration="53.041" data-fps="30" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-9flp" class="caption-layer" aria-hidden="true">
+      <div data-hf-id="hf-s3tz" id="caption-stage" class="safe-zone"></div>
+    </div>
+  </div>
+
+  <style>
+    [data-composition-id="caption-pill-karaoke"] {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: transparent;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+    }
+    [data-composition-id="caption-pill-karaoke"] .safe-zone {
+      position: absolute;
+      bottom: 470px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-group {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-pill {
+      width: auto;
+      max-width: 1000px;
+      padding: 16px 40px 18px;
+      border-radius: 20px;
+      background: rgba(16, 16, 22, 0.86);
+      border: 2px solid #26262e;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      color: #8b8b99;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      word-break: normal;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-line {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: none;
+      line-height: 1.16;
+      white-space: nowrap;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-word {
+      display: inline-block;
+      color: #8b8b99;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var DURATION = 53.041;
+      var PILL_MAX_WIDTH = 940;
+      var PILL_MIN_PADDING_X = 30;
+      var PILL_MAX_PADDING_X = 40;
+      var FONT_WIDTH_SAFETY = 1.18;
+      var FONT_FAMILY = "Inter";
+      var FONT_WEIGHT = "800";
+      var BASE_FONT_SIZE = 56;
+      var MIN_FONT_SIZE = 38;
+      var MAX_WORDS_PER_GROUP = 4;
+      var WORD_SPACING = 12;
+      var PAUSE_THRESHOLD = 0.18;
+      var GROUP_END_BUFFER = 0.35;
+      var COLOR_INACTIVE = "#8b8b99";
+      var COLOR_ACTIVE = "#c8ff3d";
+      var COLOR_FADE_DURATION = 0.1;
+      var WORD_FADE_LEAD = 0.05;
+
+      var TRANSCRIPT = [
+        { text: "Este", start: 0.0, end: 0.211 },
+        { text: "es", start: 0.211, end: 0.338 },
+        { text: "el", start: 0.338, end: 0.465 },
+        { text: "error", start: 0.465, end: 0.718 },
+        { text: "que", start: 0.718, end: 0.887 },
+        { text: "hace", start: 0.887, end: 1.098 },
+        { text: "que", start: 1.098, end: 1.267 },
+        { text: "aparezcas", start: 1.267, end: 1.689 },
+        { text: "cada", start: 1.689, end: 1.901 },
+        { text: "vez", start: 1.901, end: 2.069 },
+        { text: "menos", start: 2.069, end: 2.323 },
+        { text: "en", start: 2.323, end: 2.45 },
+        { text: "Google.", start: 2.45, end: 2.787 },
+        { text: "Y", start: 2.787, end: 3.151 },
+        { text: "casi", start: 3.151, end: 3.362 },
+        { text: "nadie", start: 3.362, end: 3.616 },
+        { text: "te", start: 3.616, end: 3.742 },
+        { text: "lo", start: 3.742, end: 3.869 },
+        { text: "cuenta.", start: 3.869, end: 4.207 },
+        { text: "La", start: 4.287, end: 4.411 },
+        { text: "intención", start: 4.411, end: 4.825 },
+        { text: "de", start: 4.825, end: 4.949 },
+        { text: "búsqueda", start: 4.949, end: 5.321 },
+        { text: "es", start: 5.321, end: 5.445 },
+        { text: "lo", start: 5.445, end: 5.569 },
+        { text: "que", start: 5.569, end: 5.735 },
+        { text: "alguien", start: 5.735, end: 6.065 },
+        { text: "quiere", start: 6.065, end: 6.355 },
+        { text: "conseguir", start: 6.355, end: 6.769 },
+        { text: "cuando", start: 6.769, end: 7.058 },
+        { text: "escribe", start: 7.058, end: 7.389 },
+        { text: "una", start: 7.389, end: 7.554 },
+        { text: "palabra", start: 7.554, end: 7.885 },
+        { text: "en", start: 7.885, end: 8.009 },
+        { text: "Google.", start: 8.009, end: 8.34 },
+        { text: "La", start: 8.42, end: 8.56 },
+        { text: "misma", start: 8.56, end: 8.841 },
+        { text: "palabra", start: 8.841, end: 9.216 },
+        { text: "sirve", start: 9.216, end: 9.497 },
+        { text: "para", start: 9.497, end: 9.731 },
+        { text: "búsquedas", start: 9.731, end: 10.199 },
+        { text: "distintas:", start: 10.199, end: 10.713 },
+        { text: "lo", start: 10.713, end: 11.112 },
+        { text: "que", start: 11.112, end: 11.299 },
+        { text: "cambia", start: 11.299, end: 11.627 },
+        { text: "es", start: 11.627, end: 11.767 },
+        { text: "qué", start: 11.767, end: 11.955 },
+        { text: "quiere", start: 11.955, end: 12.282 },
+        { text: "cada", start: 12.282, end: 12.516 },
+        { text: "persona.", start: 12.516, end: 12.938 },
+        { text: "Cafetera", start: 13.018, end: 13.44 },
+        { text: "no", start: 13.44, end: 13.581 },
+        { text: "es", start: 13.581, end: 13.722 },
+        { text: "lo", start: 13.722, end: 13.863 },
+        { text: "mismo", start: 13.863, end: 14.144 },
+        { text: "que", start: 14.144, end: 14.332 },
+        { text: "cómo", start: 14.332, end: 14.566 },
+        { text: "limpiar", start: 14.566, end: 14.942 },
+        { text: "una", start: 14.942, end: 15.13 },
+        { text: "cafetera", start: 15.13, end: 15.552 },
+        { text: "o", start: 15.552, end: 15.646 },
+        { text: "comprar", start: 15.646, end: 16.021 },
+        { text: "una", start: 16.021, end: 16.209 },
+        { text: "cafetera.", start: 16.209, end: 16.678 },
+        { text: "En", start: 16.758, end: 16.892 },
+        { text: "una", start: 16.892, end: 17.071 },
+        { text: "quieres", start: 17.071, end: 17.429 },
+        { text: "aprender", start: 17.429, end: 17.832 },
+        { text: "y", start: 17.832, end: 18.108 },
+        { text: "en", start: 18.108, end: 18.242 },
+        { text: "la", start: 18.242, end: 18.377 },
+        { text: "otra", start: 18.377, end: 18.6 },
+        { text: "quieres", start: 18.6, end: 18.958 },
+        { text: "comprar;", start: 18.958, end: 19.361 },
+        { text: "y", start: 19.361, end: 19.776 },
+        { text: "Google", start: 19.776, end: 20.09 },
+        { text: "enseña", start: 20.09, end: 20.403 },
+        { text: "páginas", start: 20.403, end: 20.761 },
+        { text: "distintas", start: 20.761, end: 21.208 },
+        { text: "para", start: 21.208, end: 21.432 },
+        { text: "cada", start: 21.432, end: 21.656 },
+        { text: "una.", start: 21.656, end: 21.879 },
+        { text: "El", start: 21.959, end: 22.102 },
+        { text: "truco", start: 22.102, end: 22.388 },
+        { text: "es", start: 22.388, end: 22.532 },
+        { text: "mirar", start: 22.532, end: 22.818 },
+        { text: "los", start: 22.818, end: 23.009 },
+        { text: "resultados", start: 23.009, end: 23.534 },
+        { text: "que", start: 23.534, end: 23.724 },
+        { text: "ya", start: 23.724, end: 23.868 },
+        { text: "salen", start: 23.868, end: 24.154 },
+        { text: "en", start: 24.154, end: 24.297 },
+        { text: "Google", start: 24.297, end: 24.631 },
+        { text: "antes", start: 24.631, end: 24.917 },
+        { text: "de", start: 24.917, end: 25.06 },
+        { text: "escribir", start: 25.06, end: 25.49 },
+        { text: "la", start: 25.49, end: 25.633 },
+        { text: "tuya.", start: 25.633, end: 25.919 },
+        { text: "Si", start: 25.999, end: 26.132 },
+        { text: "los", start: 26.132, end: 26.31 },
+        { text: "primeros", start: 26.31, end: 26.711 },
+        { text: "resultados", start: 26.711, end: 27.2 },
+        { text: "son", start: 27.2, end: 27.378 },
+        { text: "guías,", start: 27.378, end: 27.689 },
+        { text: "la", start: 27.689, end: 27.985 },
+        { text: "gente", start: 27.985, end: 28.252 },
+        { text: "quiere", start: 28.252, end: 28.563 },
+        { text: "entender.", start: 28.563, end: 29.008 },
+        { text: "Si", start: 29.008, end: 29.614 },
+        { text: "son", start: 29.614, end: 29.792 },
+        { text: "comparativas,", start: 29.792, end: 30.414 },
+        { text: "quiere", start: 30.414, end: 30.904 },
+        { text: "comparar.", start: 30.904, end: 31.349 },
+        { text: "Si", start: 31.349, end: 31.851 },
+        { text: "son", start: 31.851, end: 32.029 },
+        { text: "páginas", start: 32.029, end: 32.385 },
+        { text: "de", start: 32.385, end: 32.518 },
+        { text: "producto,", start: 32.518, end: 32.963 },
+        { text: "quiere", start: 32.963, end: 33.46 },
+        { text: "comprar.", start: 33.46, end: 33.86 },
+        { text: "Y", start: 33.94, end: 34.035 },
+        { text: "si", start: 34.035, end: 34.176 },
+        { text: "ves", start: 34.176, end: 34.365 },
+        { text: "varias", start: 34.365, end: 34.696 },
+        { text: "de", start: 34.696, end: 34.838 },
+        { text: "esas", start: 34.838, end: 35.074 },
+        { text: "mezcladas,", start: 35.074, end: 35.594 },
+        { text: "esa", start: 35.594, end: 35.92 },
+        { text: "palabra", start: 35.92, end: 36.298 },
+        { text: "tiene", start: 36.298, end: 36.582 },
+        { text: "más", start: 36.582, end: 36.771 },
+        { text: "de", start: 36.771, end: 36.913 },
+        { text: "una", start: 36.913, end: 37.102 },
+        { text: "intención.", start: 37.102, end: 37.622 },
+        { text: "El", start: 37.702, end: 37.848 },
+        { text: "error", start: 37.848, end: 38.14 },
+        { text: "es", start: 38.14, end: 38.287 },
+        { text: "darle", start: 38.287, end: 38.579 },
+        { text: "una", start: 38.579, end: 38.774 },
+        { text: "sola", start: 38.774, end: 39.017 },
+        { text: "página", start: 39.017, end: 39.358 },
+        { text: "para", start: 39.358, end: 39.602 },
+        { text: "todo", start: 39.602, end: 39.845 },
+        { text: "eso.", start: 39.845, end: 40.089 },
+        { text: "Quien", start: 40.169, end: 40.425 },
+        { text: "busca", start: 40.425, end: 40.68 },
+        { text: "no", start: 40.68, end: 40.808 },
+        { text: "encuentra", start: 40.808, end: 41.234 },
+        { text: "lo", start: 41.234, end: 41.361 },
+        { text: "que", start: 41.361, end: 41.532 },
+        { text: "quería:", start: 41.532, end: 41.873 },
+        { text: "cierra", start: 41.873, end: 42.506 },
+        { text: "la", start: 42.506, end: 42.634 },
+        { text: "pestaña", start: 42.634, end: 42.975 },
+        { text: "de", start: 42.975, end: 43.103 },
+        { text: "tu", start: 43.103, end: 43.23 },
+        { text: "web", start: 43.23, end: 43.401 },
+        { text: "y", start: 43.401, end: 43.717 },
+        { text: "hace", start: 43.717, end: 43.93 },
+        { text: "clic", start: 43.93, end: 44.143 },
+        { text: "en", start: 44.143, end: 44.271 },
+        { text: "el", start: 44.271, end: 44.399 },
+        { text: "siguiente", start: 44.399, end: 44.825 },
+        { text: "resultado.", start: 44.825, end: 45.293 },
+        { text: "Una", start: 45.373, end: 45.565 },
+        { text: "intención,", start: 45.565, end: 46.094 },
+        { text: "una", start: 46.094, end: 46.492 },
+        { text: "página.", start: 46.492, end: 46.876 },
+        { text: "Decide", start: 46.876, end: 47.923 },
+        { text: "qué", start: 47.923, end: 48.116 },
+        { text: "página", start: 48.116, end: 48.452 },
+        { text: "merece", start: 48.452, end: 48.789 },
+        { text: "cada", start: 48.789, end: 49.029 },
+        { text: "búsqueda", start: 49.029, end: 49.462 },
+        { text: "antes", start: 49.462, end: 49.75 },
+        { text: "de", start: 49.75, end: 49.894 },
+        { text: "escribir.", start: 49.894, end: 50.375 },
+        { text: "Guarda", start: 50.455, end: 50.774 },
+        { text: "este", start: 50.774, end: 51.002 },
+        { text: "vídeo", start: 51.002, end: 51.275 },
+        { text: "antes", start: 51.275, end: 51.549 },
+        { text: "de", start: 51.549, end: 51.685 },
+        { text: "escribir", start: 51.685, end: 52.095 },
+        { text: "tu", start: 52.095, end: 52.232 },
+        { text: "próxima", start: 52.232, end: 52.596 },
+        { text: "página.", start: 52.596, end: 52.961 }
+      ];
+
+      function normalizeWords(rawWords) {
+        return rawWords
+          .map(function (item) {
+            var text = String(item.word || item.text || "").trim();
+            return {
+              text: text,
+              start: Math.max(0, Number(item.start) || 0),
+              end: Math.min(DURATION, Math.max(Number(item.start) || 0, Number(item.end) || 0)),
+            };
+          })
+          .filter(function (w) { return w.text.length > 0; });
+      }
+
+      var measureCanvas = document.createElement("canvas");
+      var measureContext = measureCanvas.getContext("2d");
+      function measureWordWidth(text, fontSize) {
+        measureContext.font = FONT_WEIGHT + " " + fontSize + "px " + FONT_FAMILY;
+        return measureContext.measureText(text).width * FONT_WIDTH_SAFETY;
+      }
+      function measureLineWidth(words, fontSize) {
+        return words.reduce(function (total, word, index) {
+          return total + measureWordWidth(word.text.toLowerCase(), fontSize) + (index ? WORD_SPACING : 0);
+        }, 0);
+      }
+      function splitLinesForGroup(words, fontSize) {
+        var maxLineWidth = PILL_MAX_WIDTH - PILL_MIN_PADDING_X * 2;
+        if (words.some(function (w) { return measureWordWidth(w.text.toLowerCase(), fontSize) > maxLineWidth; })) return null;
+        if (measureLineWidth(words, fontSize) <= maxLineWidth) return [words];
+        var bestSplit = null, bestImbalance = Infinity;
+        for (var split = 1; split < words.length; split++) {
+          var firstLine = words.slice(0, split), secondLine = words.slice(split);
+          var fw = measureLineWidth(firstLine, fontSize), sw = measureLineWidth(secondLine, fontSize);
+          if (fw <= maxLineWidth && sw <= maxLineWidth) {
+            var imbalance = Math.abs(fw - sw);
+            if (imbalance < bestImbalance) { bestSplit = [firstLine, secondLine]; bestImbalance = imbalance; }
+          }
+        }
+        return bestSplit;
+      }
+      function fitsInTwoLinesAtSize(words, fontSize) { return splitLinesForGroup(words, fontSize) !== null; }
+      function planPillLayout(words, fontSize) {
+        var lines = splitLinesForGroup(words, fontSize) || [words];
+        var widestLine = lines.reduce(function (max, lineWords) { return Math.max(max, measureLineWidth(lineWords, fontSize)); }, 0);
+        var availablePadding = Math.floor((PILL_MAX_WIDTH - widestLine) / 2);
+        var padX = Math.max(PILL_MIN_PADDING_X, Math.min(PILL_MAX_PADDING_X, availablePadding));
+        var pillWidth = Math.min(PILL_MAX_WIDTH, Math.ceil(widestLine + padX * 2));
+        return { lines: lines, padX: padX, pillWidth: pillWidth };
+      }
+      function makeGroups(words) {
+        var groups = [], current = [];
+        words.forEach(function (word, index) {
+          var testGroup = current.concat([word]);
+          var nextWord = words[index + 1];
+          var wouldExceedMaxWords = testGroup.length > MAX_WORDS_PER_GROUP;
+          var wouldExceedTwoLines = !fitsInTwoLinesAtSize(testGroup, BASE_FONT_SIZE);
+          if (wouldExceedMaxWords || wouldExceedTwoLines) {
+            if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [word];
+            return;
+          }
+          current.push(word);
+          var hasPunctuation = /[,.:!?]$/.test(word.text);
+          var pauseDuration = nextWord ? nextWord.start - word.end : 0;
+          var hasNaturalPause = pauseDuration >= PAUSE_THRESHOLD;
+          var maxWordsReached = current.length >= MAX_WORDS_PER_GROUP;
+          if (maxWordsReached || !nextWord || hasPunctuation || hasNaturalPause) {
+            groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [];
+          }
+        });
+        if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+        return groups;
+      }
+      function fontSizeForGroup(words) {
+        var size = BASE_FONT_SIZE;
+        while (size > MIN_FONT_SIZE && !fitsInTwoLinesAtSize(words, size)) size -= 2;
+        return size;
+      }
+      function buildCaptions(groups) {
+        var stage = document.getElementById("caption-stage");
+        groups.forEach(function (group, groupIndex) {
+          var groupEl = document.createElement("div"), pillEl = document.createElement("div"), copyEl = document.createElement("div");
+          var fontSize = fontSizeForGroup(group.words);
+          groupEl.id = "caption-group-" + groupIndex;
+          groupEl.className = "caption-group";
+          pillEl.className = "caption-pill";
+          copyEl.className = "caption-copy";
+          copyEl.style.fontSize = fontSize + "px";
+          var indexedWords = group.words.map(function (word, wordIndex) {
+            return { text: word.text, start: word.start, end: word.end, wordIndex: wordIndex };
+          });
+          var layout = planPillLayout(indexedWords, fontSize);
+          pillEl.style.width = layout.pillWidth + "px";
+          pillEl.style.paddingLeft = layout.padX + "px";
+          pillEl.style.paddingRight = layout.padX + "px";
+          layout.lines.slice(0, 2).forEach(function (lineWords) {
+            var lineEl = document.createElement("div");
+            lineEl.className = "caption-line";
+            lineWords.forEach(function (word) {
+              var wordEl = document.createElement("span");
+              wordEl.id = "caption-word-" + groupIndex + "-" + word.wordIndex;
+              wordEl.className = "caption-word";
+              wordEl.textContent = word.text.toLowerCase();
+              lineEl.appendChild(wordEl);
+            });
+            copyEl.appendChild(lineEl);
+          });
+          pillEl.appendChild(copyEl);
+          groupEl.appendChild(pillEl);
+          stage.appendChild(groupEl);
+        });
+      }
+
+      var WORDS = normalizeWords(TRANSCRIPT);
+      var GROUPS = makeGroups(WORDS);
+      buildCaptions(GROUPS);
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      GROUPS.forEach(function (group, groupIndex) {
+        var groupEl = document.getElementById("caption-group-" + groupIndex);
+        var nextGroup = GROUPS[groupIndex + 1];
+        var isLastGroup = groupIndex === GROUPS.length - 1;
+        var effectiveEnd = isLastGroup ? DURATION : Math.min(nextGroup.start, group.end + GROUP_END_BUFFER);
+        var visibleStart = Math.max(0, group.start);
+        var visibleEnd = Math.max(visibleStart + 0.01, effectiveEnd);
+        tl.set(groupEl, { opacity: 1 }, visibleStart);
+        tl.set(groupEl, { opacity: 0 }, visibleEnd);
+        group.words.forEach(function (word, wordIndex) {
+          var wordEl = document.getElementById("caption-word-" + groupIndex + "-" + wordIndex);
+          tl.set(wordEl, { color: wordIndex === 0 ? COLOR_ACTIVE : COLOR_INACTIVE }, visibleStart);
+          if (wordIndex === 0) return;
+          tl.to(wordEl, { color: COLOR_ACTIVE, duration: COLOR_FADE_DURATION, ease: "none" }, Math.max(visibleStart, word.start - WORD_FADE_LEAD));
+        });
+      });
+      window.__timelines["caption-pill-karaoke"] = tl;
+    })();
+  </script>
+</template>

@@ -12,20 +12,20 @@ Estado: **guion v5** (un ejemplo; la intención la fija la búsqueda completa). 
 
 | # | Texto | Pal. | Beat |
 |---|-------|------|------|
-| 1 | Este es el error que hace que aparezcas cada vez menos en Google. Y casi nadie te lo cuenta. | 18 | Gancho |
-| 2 | La intención de búsqueda es lo que alguien quiere conseguir cuando escribe una palabra en Google. | 17 | Definir |
+| 1 | Este es el error que hace que aparezcas cada vez menos en Google. Y casi nadie te lo cuenta. | 19 | Gancho |
+| 2 | La intención de búsqueda es lo que alguien quiere conseguir cuando escribe una palabra en Google. | 16 | Definir |
 | 3 | La misma palabra sirve para búsquedas distintas: lo que cambia es qué quiere cada persona. | 15 | La palabra no basta |
 | 4 | «Cafetera» no es lo mismo que «cómo limpiar una cafetera» o «comprar una cafetera». | 14 | El ejemplo |
 | 5 | En una quieres aprender y en la otra quieres comprar; y Google enseña páginas distintas para cada una. | 18 | Qué cambia |
 | 6 | El truco es mirar los resultados que ya salen en Google antes de escribir la tuya. | 16 | La regla |
-| 7 | Si los primeros resultados son guías, la gente quiere entender. Si son comparativas, quiere comparar. Si son páginas de producto, quiere comprar. | 24 | Leer la SERP |
+| 7 | Si los primeros resultados son guías, la gente quiere entender. Si son comparativas, quiere comparar. Si son páginas de producto, quiere comprar. | 22 | Leer la SERP |
 | 8 | Y si ves varias de esas mezcladas, esa palabra tiene más de una intención. | 14 | Caso mezclado |
 | 9 | El error es darle una sola página para todo eso. | 10 | El error |
 | 10 | Quien busca no encuentra lo que quería: cierra la pestaña de tu web y hace clic en el siguiente resultado. | 20 | La consecuencia |
 | 11 | Una intención, una página. Decide qué página merece cada búsqueda antes de escribir. | 13 | El arreglo |
 | 12 | Guarda este vídeo antes de escribir tu próxima página. | 9 | CTA |
 
-**Total: 188 palabras.** **Voz generada y medida** (12 líneas, Fish Audio `Pablo`, 2026-10-11): total **53,041 s**, clips de 2,467 a 7,941 s.
+**Total: 186 palabras.** **Voz generada y medida** (12 líneas, Fish Audio `Pablo`, 2026-10-11): total **53,041 s**, clips de 2,467 a 7,941 s.
 Los tiempos por línea están en `assets/voice/timing.json` y la tabla de escenas en `STORYBOARD.md`.
 
 ## Lo que corrige esta versión
