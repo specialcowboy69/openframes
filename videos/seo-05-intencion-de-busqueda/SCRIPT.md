@@ -1,6 +1,6 @@
 # V5 — Intención de búsqueda
 
-Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **12 líneas · ~60 s**
+Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **12 líneas · 53,07 s**
 Ángulo: **misma palabra, intención distinta, página distinta**.
 Estado: **guion v5** (un ejemplo; la intención la fija la búsqueda completa). Pendiente de voz y montaje.
 
