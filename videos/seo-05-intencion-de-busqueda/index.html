@@ -174,6 +174,29 @@
       .xmark { display: flex; align-items: center; justify-content: center; color: var(--warn); }
       .xmark svg { width: 200px; height: 200px; }
 
+      /* B1: la ventana de resultados y la caída de tu página (arranque en claro) */
+      .s1win { width: 760px; margin: 0 auto; background: var(--panel); border: 3px solid var(--line);
+               border-radius: 26px; padding: 24px 24px 0; }
+      .s1q { display: flex; align-items: center; gap: 14px; height: 74px; padding: 0 22px;
+             background: var(--line); border-radius: 18px; color: var(--muted);
+             font-family: "JetBrains Mono", monospace; font-size: 33px; font-weight: 600; }
+      .s1q svg { width: 32px; height: 32px; }
+      .s1list { overflow: hidden; height: 420px; margin-top: 20px; }
+      .s1res { height: 70px; margin-bottom: 16px; border-radius: 14px; background: var(--line); opacity: .45; }
+      .s1res.ours { display: flex; align-items: center; gap: 14px; padding: 0 20px; opacity: 1;
+                    background: var(--panel); border: 4px solid var(--ink);
+                    font-size: 33px; font-weight: 800; color: var(--ink); }
+      .s1dot { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); flex: none; }
+      .s1row { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 30px 0 6px; }
+      .s1pos { display: flex; align-items: center; justify-content: center; width: 150px; height: 150px;
+               border-radius: 32px; background: var(--accent); color: #0b0b10;
+               font-family: "JetBrains Mono", monospace; font-size: 84px; font-weight: 800; }
+      .s1cap { font-size: 40px; font-weight: 700; color: var(--muted); }
+      .s1err { display: flex; justify-content: center; gap: 30px; margin-top: 26px;
+               font-size: 132px; font-weight: 900; letter-spacing: -0.03em; color: var(--ink); }
+      .s1w { display: inline-block; overflow: hidden; line-height: 1.05; }
+      .s1w > span { display: inline-block; }
+
       /* B2: flujo consulta → diana */
       .b2flow { display: flex; justify-content: center; }
       .targetrow { display: flex; align-items: center; justify-content: center; gap: 28px; }
@@ -277,23 +300,26 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="53.041" data-width="1080" data-height="1920">
 
-      <!-- ===== B1 — GANCHO: una página, tres intenciones, posición que cae ===== -->
-      <section class="scene clip dark" id="s1" data-start="0.0" data-duration="4.587" data-track-index="0">
+      <!-- ===== B1 — GANCHO: tu página se cae de los resultados ===== -->
+      <section class="scene clip light" id="s1" data-start="0.0" data-duration="4.587" data-track-index="0">
         <div class="s-in" id="s1-in">
-          <div class="kicker fade-in" id="s1-kicker"><span class="dot warn"></span>EL ERROR</div>
           <div class="card" id="s1-card">
-            <div class="rowt" style="justify-content:center">
-              <span class="tile" id="s1-page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
-              <span class="stack" id="s1-intents">
-                <span class="ichip" id="s1-i1">comparar</span>
-                <span class="ichip" id="s1-i2">aprender</span>
-                <span class="ichip" id="s1-i3">comprar</span>
-              </span>
+            <div class="s1win" id="s1-win">
+              <div class="s1q" id="s1-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>cafetera</div>
+              <div class="s1list" id="s1-list">
+                <div class="s1res" id="s1-r1"></div>
+                <div class="s1res" id="s1-r2"></div>
+                <div class="s1res ours" id="s1-ours"><span class="s1dot"></span>tu página</div>
+                <div class="s1res" id="s1-r4"></div>
+                <div class="s1res" id="s1-r5"></div>
+                <div class="s1res" id="s1-r6"></div>
+              </div>
             </div>
-            <div class="posrow">
-              <span class="posbadge" id="s1-pos"><b id="s1-v3">3</b><b class="off" id="s1-v12">12</b></span>
-              <span class="poslbl">posición en Google</span>
+            <div class="s1row">
+              <span class="s1pos" id="s1-pos">3</span>
+              <span class="s1cap">tu posición en Google</span>
             </div>
+            <div class="s1err" id="s1-err"><span class="s1w"><span id="s1-e1">EL</span></span><span class="s1w"><span id="s1-e2">ERROR</span></span></div>
             <div class="xmark" id="s1-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></div>
           </div>
         </div>
@@ -604,18 +630,23 @@
         tl.set(b, { opacity: 1 }, t);
       }
 
-      // ---- B1 Gancho: página + intenciones amontonadas + posición + aspa
+      // ---- B1 Gancho: la página se cae de los resultados, y el error (tipografía + sello)
+      function setNum(txt, t) { tl.set("#s1-pos", { textContent: txt }, t); }
       rise("#s1-card", at(1, 0.0));
-      put("#s1-kicker", at(1, 0.06), { dur: 0.4 });
-      tl.fromTo("#s1-page", { opacity: 0, y: 160, rotation: -7 },
-        { opacity: 1, y: 0, rotation: 0, duration: 0.6, ease: "power3.out" }, at(1, 0.3));
-      put("#s1-i1", at(1, 0.9), { y: 40, dur: 0.45 });
-      put("#s1-i2", at(1, 1.15), { y: 40, dur: 0.45 });
-      put("#s1-i3", at(1, 1.4), { y: 40, dur: 0.45 });
-      put("#s1-pos", at(1, 1.85), { y: 30, dur: 0.42 });
-      swap("#s1-v3", "#s1-v12", at(1, 2.3));
-      tl.fromTo("#s1-pos", { opacity: 1, y: 0 }, { opacity: 0, y: 44, duration: 0.4, ease: "power2.in" }, at(1, 2.85));
-      grow("#s1-x", at(1, 3.15), 2.0, { dur: 0.4 });
+      tl.fromTo("#s1-q", { y: 14 }, { y: 0, duration: 0.3, ease: "power3.out" }, at(1, 0.35));
+      tl.fromTo("#s1-ours", { y: 22 }, { y: 0, duration: 0.34, ease: "power3.out" }, at(1, 0.55));
+      tl.fromTo("#s1-pos", { scale: 0.72 }, { scale: 1, duration: 0.4, ease: "power3.out" }, at(1, 0.72));
+      // baja en saltos: 3 → 8 → 19 → se sale de la lista (sin contar hacia arriba)
+      tl.to("#s1-ours", { y: 86, duration: 0.32, ease: "power2.inOut" }, at(1, 1.20));
+      setNum("8", at(1, 1.28));
+      tl.to("#s1-ours", { y: 172, duration: 0.32, ease: "power2.inOut" }, at(1, 1.78));
+      setNum("19", at(1, 1.86));
+      tl.to("#s1-ours", { y: 292, opacity: 0, duration: 0.44, ease: "power2.in" }, at(1, 2.30));
+      tl.to("#s1-pos", { scale: 0.86, opacity: 0, duration: 0.34, ease: "power2.in" }, at(1, 2.46));
+      // «EL ERROR» palabra por palabra, y el sello
+      ["#s1-e1", "#s1-e2"].forEach((sel, i) => tl.fromTo(sel, { yPercent: 112, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.44, ease: "power3.out" }, at(1, 2.58 + i * 0.09)));
+      grow("#s1-x", at(1, 3.30), 1.9, { dur: 0.4 });
 
       // ---- B2 Definición: consulta, trazo a la diana y pastilla
       rise("#s2-win", at(2, 0.1), { y: 34 });
