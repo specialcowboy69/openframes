@@ -49,8 +49,9 @@ encima. Todo lo valida `check` (WCAG AA).
 
 - **Inter** 400/600/700/800/900 + **JetBrains Mono** 600/800 para lo que se teclea (consulta, URL).
   Es el par que ya usa la serie.
-- **Local, no de red.** El brief pide guardar las fuentes localmente: hay que vendorizar los `woff2`
-  de Inter y JetBrains Mono en `assets/fonts/` con `@font-face`. Hoy la serie las carga de Google.
+- **Local, no de red (aprobado).** Se vendorizan los `woff2` de Inter y JetBrains Mono en
+  `assets/fonts/` con `@font-face` (las dos son de licencia abierta). Primer paso del montaje. Hoy la
+  serie las carga de Google.
 - **Reparto de tamaños del brief:** protagonista 110-180 (palabra, verbos, «una intención, una
   página»); frase principal 70-110 (rótulos grandes); contexto 38-56 (consulta, etiquetas de tipo,
   anotaciones). El kicker se queda en 32: es rótulo fijo del sistema.
@@ -86,8 +87,9 @@ encima. Todo lo valida `check` (WCAG AA).
 
 ## 6. Transiciones
 
-Se usan **seis** mecanismos. El brief orienta a tres para piezas de 30-45 s; esta dura ~60 s y se
-registra la excepción, igual que las seis familias de composición (el brief sugería cuatro).
+Se usan **seis** mecanismos, porque la pieza dura ~60 s y la regla es proporcional: una familia de
+composición cada 8-12 s y un mecanismo de transición cada 10-12 s (para 30-45 s serían cuatro y tres,
+que es justo lo que orienta el brief). No es una excepción: es la escala de esta duración.
 
 | Mecanismo | Dónde | Nota técnica |
 |---|---|---|
@@ -143,22 +145,20 @@ El detalle por beat está en `STORYBOARD.md`.
    1080×1920 → r ≥ 1102 px) para que cubra las esquinas.
 4. **Fuentes de red** → vendorizar en `assets/fonts/`; medir tras `document.fonts.ready`.
 
-## 10. Decisiones abiertas para el dueño
+## 10. Decisiones (1-4 y 6-7 resueltas; queda la 5, transiciones)
 
-1. **Logos de marca:** el perfil antiguo del proyecto los prohíbe, pero su criterio nuevo (y el brief,
-   que pide colores de marca) los admite. En esta pieza: logo de Google en tres escenas y chrome real
-   de Google como elemento gráfico. ¿Se actualiza el perfil?
-2. **Collage:** descartado por falta de material. Si quiere collage, hay que aportar los PNG.
-3. **Paleta de marca:** no hay ninguna documentada, así que se mantiene carbón + blanco roto + verde
-   ácido y se deriva la variante clara. Si existe una paleta oficial, se cambia.
-4. **Sobrepaso:** el brief admite `back.out` moderado; `DESIGN.md` lo prohíbe como entrada. Propuesta:
-   sobrepaso solo en objetos, texto siempre con `power3.out`; si se aprueba, hay que actualizar
-   `DESIGN.md`.
+1. **Logos de marca (resuelto):** el perfil se ha actualizado: se autoriza el logo de la marca cuando
+   se la nombra. En esta pieza, logo de Google en tres escenas y chrome real como elemento gráfico.
+2. **Collage (resuelto):** descartado por ahora. Si algún día se quiere, hay que aportar los PNG.
+3. **Paleta (resuelto):** se mantiene carbón + blanco roto + verde ácido con variante clara, como
+   estaba propuesto.
+4. **Sobrepaso (resuelto):** manda el brief: `back.out` con sobrepaso moderado en entradas de
+   objetos; el texto siempre con `power3.out`. `DESIGN.md` ya lo recoge.
 5. **Doctrina de transiciones:** la serie decía «solo transform, opacidad o filtro sobre el envoltorio,
    sin DOM extra». El brief pide mecanismos que sí lo necesitan (objeto que cubre, barrido, revelado
    circular). Se registra la excepción o se renuncia a esos tres y se queda con los cuatro actuales.
-6. **Tokens nuevos:** toda la columna clara (`#f4f1ea`, `#ffffff`, `#e0dbcf`, `#14141a`, `#6f6f78`,
-   `#b3161b`) es nueva y debe registrarse en `DESIGN.md`, que hoy solo tiene tokens oscuros.
+6. **Tokens nuevos (resuelto):** la columna clara y la regla proporcional ya están registradas en
+   `DESIGN.md`.
 
 ## 11. Preparación de recursos y sombras (brief §4 y §6)
 

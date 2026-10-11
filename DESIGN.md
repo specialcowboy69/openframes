@@ -195,3 +195,28 @@ efecto = añadir una línea a `EVENTS` en `tools/sfx.py` y regenerar la pista.
 
 Todos los vídeos terminan en CTA de **guardar**, con un gesto gráfico (marcador + onda),
 no con un titular. Ver `PROFILE.md`.
+
+## Variante clara y reglas nuevas (2026-10-11, V5)
+
+**Variante clara de la paleta** (misma familia que la oscura, para cambiar en los momentos
+narrativos):
+
+| token | oscuro | claro |
+|---|---|---|
+| fondo | `#0a0a0f` | `#f4f1ea` |
+| panel | `#20202a` (nunca por debajo: el medidor de montaje cuenta filas con luminancia > 25) | `#ffffff` |
+| línea | `#26262e` | `#e0dbcf` |
+| tinta | `#f5f5f7` | `#14141a` |
+| apagado | `#8b8b99` | `#6f6f78` |
+| acento | `#c8ff3d` | `#c8ff3d` (solo relleno, con `#0b0b10` encima) |
+| aviso | `#ff5a5a` | `#b3161b` |
+
+**Sobrepaso (corrige la prohibición anterior):** manda el brief. Se admite `back.out` con sobrepaso
+moderado en **entradas de objetos** (0,55-0,85 s). El texto sigue siempre con `power3.out`.
+
+**Regla proporcional de variedad** (sustituye a la cifra fija):
+
+- una familia de composición cada **8-12 s** → 30-45 s: 4-5 · ~60 s: 6;
+- un mecanismo de transición distinto cada **10-12 s** → 30-45 s: 3-4 · ~60 s: 5-6.
+
+No es una excepción: es la escala que corresponde a cada duración.

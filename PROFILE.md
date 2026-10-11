@@ -36,6 +36,7 @@ que cualquier sesión futura lo tenga claro desde el principio.
 | Sonido | Voz en off clara, música discreta por debajo y **efectos en cada aparición** |
 | Visual | Fondo oscuro, **un solo acento**, tipografía fuerte, limpio. Sistema completo en `DESIGN.md` |
 | Nada de | Logos de marca, `@handle` en pantalla, relleno, muletillas, silencios |
+  (Actualizado 2026-10-11: **se autoriza el logo de la marca cuando se la nombra** — Google, Search Console, etc. — en línea sobre tarjeta clara. Sigue prohibido el @handle y cualquier adorno de autoría o de IA.)
 
 ## Criterios de decisión
 
