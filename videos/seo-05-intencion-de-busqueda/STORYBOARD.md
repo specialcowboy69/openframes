@@ -1,5 +1,11 @@
 # STORYBOARD — V5 «Intención de búsqueda»
 
+**Guion v2: 13 beats.** El mapa de escenas y los tiempos se recalculan cuando se grabe la voz
+(`retime.py`). Cambios previstos: la SERP se reparte en dos escenas (la regla y la lectura de los
+cuatro tipos, cada uno con lo que quiere la persona), el error se separa de la consecuencia, y la
+escena de la consecuencia muestra el gesto concreto (el cursor cierra la pestaña y baja al
+siguiente resultado).
+
 10 escenas · 1080×1920 · Kinetic Type + Swiss Grid · subtítulos karaoke + barra de progreso.
 Duración total provisional **≈ 40 s**. Los tiempos reales salen de la voz con `retime.py`;
 el eje propuesto es `S = [0 · 4.0 · 8.0 · 11.7 · 15.7 · 19.7 · 24.0 · 28.0 · 32.7 · 37.0]`,
