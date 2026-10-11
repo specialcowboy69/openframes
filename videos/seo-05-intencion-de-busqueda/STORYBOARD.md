@@ -65,7 +65,7 @@ iconos entran desde la izquierda (-40 px).
 (icono → trazo → `.tile.lg` guía) y (icono → trazo → `.tile.lg` ficha) · dos `.pill.ok`.
 **Animación:** `rise` → kicker → chip → fila 1 (icono 0,50 · trazo 0,80 · guía 1,00 con escala 0,7)
 → fila 2 (icono 1,70 · trazo 2,00 · ficha 2,20) → pastillas.
-**Texto mínimo:** «cafetera» + «guía» / «ficha».
+**Texto mínimo:** «cafetera» + «guía» / «producto».
 
 ## F5 · Ejemplo alojamiento web · 3,4 s
 **Elementos:** `.pg` · kicker «EJEMPLO» · `.chip` «alojamiento web» · una tarjeta de
@@ -84,7 +84,7 @@ trazo → guía) y (calculadora → trazo → **mini-formulario** del simulador 
 ## F7 · El truco: la SERP · 4,8 s  ← clímax
 **Elementos:** `.browser` con barra de direcciones y candado (escenario, desde t=0) · kicker con
 **logo Google** · `.chip` con la consulta · `.serpbody` con **cuatro resultados**, cada uno con su
-favicon y su **etiqueta de tipo**: GUÍA · COMPARATIVA · FICHA · **MAPA** (el cuarto con
+favicon y su **etiqueta de tipo**: GUÍA · COMPARATIVA · PRODUCTO · **MAPA** (el cuarto con
 mini-mapa y pin) · un `.cursor` que baja por los resultados.
 **Animación:** `rise` al navegador → kicker → chip de la consulta → los resultados **escalonados**
 (0,75 / 1,25 / 1,75 s, suben 36 px) con su etiqueta +0,20 s → el resultado con mapa (2,30) →
