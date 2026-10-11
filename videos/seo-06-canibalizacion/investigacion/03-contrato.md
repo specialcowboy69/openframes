@@ -1,7 +1,7 @@
 # Contrato de producción — V6 «Canibalización de keywords»
 
 Pieza: **dos páginas tuyas compitiendo y ninguna gana** · 9:16 · 1080×1920 · faceless · voz es-ES
-(`Pablo`) · ~34 s (137 palabras / 3,98 pal./s; la fija `voice_pipeline.py`).
+(`Pablo`) · ~35,7 s (142 palabras / 3,98 pal./s; la fija `voice_pipeline.py`).
 Referencias montadas: **V5** `videos/seo-05-intencion-de-busqueda/index.html`
 (53,041 s) y `ga4-01` (37,468 s). Todo exigible salvo excepción anotada en `DECISIONS.md`.
 

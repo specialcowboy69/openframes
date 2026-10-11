@@ -1,7 +1,7 @@
 # 04 — Verificación adversarial de V6 «Canibalización de palabras clave»
 
 > **Nota de revisión (2026-10-11).** Este informe se ejecutó sobre la **revisión anterior** del guion
-> (**12 líneas · 166 palabras · 41,71 s**). El guion vigente es **11 líneas · 137 palabras · 34,44 s**
+> (**12 líneas · 166 palabras · 41,71 s**). El guion vigente es **11 líneas · 142 palabras · 35,68 s**
 > (`SCRIPT.md`), así que las referencias `Lx` de abajo (L9, L11, L12…) corresponden a aquella
 > revisión. Los defectos del BLOQUE 1 quedaron resueltos en el guion o en el plan visual actuales
 > (salvo las incoherencias de repositorio del B9, ajenas a V6).

@@ -1,6 +1,6 @@
 # Brief de dirección de arte — V6 «Canibalización de palabras clave»
 
-Pieza: **11 beats · 137 palabras · ~34,4 s** · 9:16 · 1080×1920 · faceless · voz en off es-ES
+Pieza: **11 beats · 142 palabras · ~35,7 s** · 9:16 · 1080×1920 · faceless · voz en off es-ES
 (`Pablo`) · subtítulos karaoke · barra de progreso. Guion cerrado: `SCRIPT.md` (no se toca).
 Contrato de producción: `investigacion/03-contrato.md`. Continuidad: `investigacion/02-continuidad.md`.
 

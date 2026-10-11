@@ -1,7 +1,7 @@
 # STORYBOARD — V6 «Canibalización de palabras clave»
 
 **Sustituye al plan anterior.** La dirección de arte está en `DIRECCION.md` y el brief en
-`DIRECCION-ARTE-BRIEF.md`. Pieza: **11 beats · 137 palabras · ~34,4 s** · 1080×1920 · voz `Pablo`.
+`DIRECCION-ARTE-BRIEF.md`. Pieza: **11 beats · 142 palabras · ~35,7 s** · 1080×1920 · voz `Pablo`.
 Formato calcado de `seo-05-intencion-de-busqueda/STORYBOARD.md`.
 
 **Todos los tiempos son RELATIVOS al inicio de su beat** (los absolutos los fija la voz con
@@ -38,7 +38,7 @@ precios (`01-fuentes.md` §6). No se repite «cafetera» ni ninguno de los ejemp
 - **Sonido:** whoosh 0,0 (entrada) · pop 0,45 (el aviso) · thud 1,05 (la flecha cae) · buzz 1,90.
 - **Salida:** **desplazamiento continuo ↑ 0,35 s**.
 
-## B2 · El fenómeno — «Dos páginas tuyas pueden estar compitiendo por la misma búsqueda.»
+## B2 · El fenómeno — «Dos páginas de tu sitio web pueden estar compitiendo por la misma búsqueda.»
 
 - **Qué se ve:** la **balanza de dos platos**: las dos fichas tuyas caen en los platos y, al competir
   por la misma búsqueda, el fiel bascula ±6° sin parar. Debajo, la **barra que se reparte**: dos
@@ -124,19 +124,21 @@ precios (`01-fuentes.md` §6). No se repite «cafetera» ni ninguno de los ejemp
 - **Sonido:** pop 0,2 · pop 0,5 y 0,75 · thud 1,3 (encaja el solape) · pop 1,7.
 - **Salida:** **desplazamiento continuo ↑ 0,40 s**.
 
-## B7 · El ejemplo — «Por ejemplo, tu página de servicio y un artículo tuyo compiten por lo mismo.»
+## B7 · El ejemplo — «Por ejemplo, tu página de servicio y un artículo de tu blog pueden estar compitiendo por lo mismo.»
 
-- **Qué se ve:** **dos ventanas de navegador** una frente a otra —la página de servicio y el artículo—
-  y una consulta común encima. Cada dirección se teclea (mono).
+- **Qué se ve:** **dos ventanas de navegador** una frente a otra —la página de servicio y el artículo
+  del blog— y una consulta común encima. Cada dirección se teclea (mono). Es la línea más larga del
+  guion (**18 palabras ≈ 4,52 s**): sigue siendo **un solo beat** (texto expreso del dueño), así que la
+  animación se reparte a lo largo de ese tiempo en vez de resolverse en el primer segundo.
 - **Elementos:** `#s7-in` · `#s7-kicker` · `#s7-card` (`.card`) · `#s7-q` (`.chip` mono) ·
   `#s7-winA` (`.browser`, `.addr` `/servicios/instalacion-de-luz`) · `#s7-winB` (`.browser`, `.addr`
   `/blog/precio-instalacion-de-luz`) · spans `.w` en cada `.addr`.
 - **Receta (rel):** `rise("#s7-card", at(7,0.0))` · `put("#s7-kicker", at(7,0.06),{dur:0.4})` ·
-  `put("#s7-q", at(7,0.20),{y:-24})` · `put("#s7-winA", at(7,0.50),{y:40})` ·
-  `put("#s7-winB", at(7,0.80),{y:40})` · `typeWords("#s7-winA .w", at(7,1.00), 0.05)` ·
-  `typeWords("#s7-winB .w", at(7,1.40), 0.05)`.
+  `put("#s7-q", at(7,0.25),{y:-24})` · `put("#s7-winA", at(7,0.60),{y:40})` ·
+  `put("#s7-winB", at(7,1.00),{y:40})` · `typeWords("#s7-winA .w", at(7,1.30), 0.05)` ·
+  `typeWords("#s7-winB .w", at(7,1.90), 0.05)`.
 - **Rótulo en pantalla:** kicker **«EL EJEMPLO»**; las dos direcciones (mono).
-- **Sonido:** pop 0,2 · pop 0,5 y 0,8 · tick 1,1.
+- **Sonido:** pop 0,25 · pop 0,60 y 1,00 · tick 1,30.
 - **Salida:** **barrido de color (`.sweep`) 0,45 s** — banda de acento sesgada con `x:0` explícito;
   entra el panel oscuro de Search Console (claro → oscuro).
 
@@ -156,10 +158,10 @@ precios (`01-fuentes.md` §6). No se repite «cafetera» ni ninguno de los ejemp
 - **Sonido:** pop 0,1 · pop 0,50 y 0,68 · ding 1,15.
 - **Salida:** **desplazamiento continuo ↑ 0,40 s** (se sigue en oscuro: B9 mantiene el panel).
 
-## B9 · Cómo verlo (2/2) — «Mira para qué consultas apareces y qué página tuya sale en los resultados.»
+## B9 · Cómo verlo (2/2) — «Mira para qué consultas apareces y qué página sale en los resultados.»
 
 - **Qué se ve:** el mismo panel de Search Console, ahora con la **consulta** y **dos URLs tuyas** que
-  **se alternan** en la tabla: el resalte pasa de una fila a la otra para ver qué página tuya sale en
+  **se alternan** en la tabla: el resalte pasa de una fila a la otra para ver qué página sale en
   cada momento.
 - **Elementos:** `#s9-in` · `#s9-kicker` · `#s9-panel` (`.panel`) › `#s9-tabs` (`.sctabs`, activa
   Consultas) · `#s9-q` (`.chip` mono) · `#s9-rA`, `#s9-rB` (`.prow`, dos URLs tuyas) · `#s9-ta`,
@@ -173,7 +175,7 @@ precios (`01-fuentes.md` §6). No se repite «cafetera» ni ninguno de los ejemp
 - **Sonido:** pop 0,1 · pop 0,40 · pop 0,70 y 0,95 · tick 1,50 / 2,10 / 2,60.
 - **Salida:** **desplazamiento continuo ↑ 0,40 s** (oscuro → claro; revisar el fotograma medio).
 
-## B10 · El arreglo — «Se arregla separando bien las dos intenciones o fusionando las dos páginas en una.»
+## B10 · El arreglo — «Arréglalo separando bien las dos intenciones o fusionando las dos páginas en una.»
 
 - **Qué se ve:** dos fichas y una **flecha de fusión** que se **dibuja** hacia una **ficha única
   firme** (lo que aportaba el beat eliminado de «la regla», absorbido aquí); la otra se **atenúa**.
@@ -236,7 +238,7 @@ precios (`01-fuentes.md` §6). No se repite «cafetera» ni ninguno de los ejemp
 | B4 | Lectura | 0,0-0,3 | 0,3-1,7 | 1,7-fin | 0,40 | pop 0,3 y 0,9 · ding 1,7 |
 | B5 | Movimiento | 0,0-0,5 | 0,5-1,6 | 1,6-fin | 0,35 | pop 0,5 · 0,95 · 1,25 · 1,55 · ding 1,85 |
 | B6 | Movimiento | 0,0-0,5 | 0,5-2,0 | 2,0-fin | 0,40 | pop 0,2 y 0,5 y 0,75 · thud 1,3 · pop 1,7 |
-| B7 | Lectura | 0,0-0,5 | 0,5-1,6 | 1,6-fin | 0,45 | pop 0,2 · 0,5 · 0,8 · tick 1,1 |
+| B7 | Lectura | 0,0-0,5 | 0,5-2,5 | 2,5-fin | 0,45 | pop 0,25 · 0,60 y 1,00 · tick 1,30 |
 | B8 | Movimiento | 0,0-0,4 | 0,4-1,1 | 1,1-fin | 0,40 | pop 0,1 · pop 0,50 y 0,68 · ding 1,15 |
 | B9 | Lectura | 0,0-0,5 | 0,5-2,0 | 2,0-fin | 0,40 | pop 0,1 · 0,40 · 0,70 y 0,95 · tick 1,50 / 2,10 / 2,60 |
 | B10 | Movimiento | 0,0-0,4 | 0,4-2,0 | 2,0-fin | 0,35 | pop 0,20 y 0,35 · swoosh_up 0,75 · thud 1,35 · ding 2,35 |
@@ -249,27 +251,29 @@ B8 mov · B9 lec · B10 mov · B11 lec. **Un efecto por aparición**, nunca por 
 
 ## Ritmo — tiempos estimados por beat
 
-Estimación de planificación: **137 palabras / 3,98 palabras por segundo = 34,44 s** (velocidad de la
+Estimación de planificación: **142 palabras / 3,98 palabras por segundo = 35,68 s** (velocidad de la
 voz oficial; los recuentos por línea están en la tabla de `SCRIPT.md`). Las líneas de 14 palabras
-≈ 3,52 s; las de 13 ≈ 3,27 s; la de 8 ≈ 2,01 s. `retime.py` sustituirá estos valores por los reales
-de `voice_pipeline.py`; el total objetivo es **~34-35 s**.
+≈ 3,52 s; las de 13 ≈ 3,27 s; las de 12 ≈ 3,02 s; la de 8 ≈ 2,01 s; la de 18 (B7) ≈ 4,52 s.
+`retime.py` sustituirá estos valores por los reales de `voice_pipeline.py`; el total objetivo es
+**~35-36 s**.
 
 | Beat | Pal. | Dur. estimada | Inicio estimado | Fin estimado |
 |---|---|---|---|---|
 | B1 | 11 | 2,76 | 0,00 | 2,76 |
-| B2 | 10 | 2,51 | 2,76 | 5,27 |
-| B3 | 12 | 3,02 | 5,27 | 8,29 |
-| B4 | 14 | 3,52 | 8,29 | 11,81 |
-| B5 | 14 | 3,52 | 11,81 | 15,33 |
-| B6 | 13 | 3,27 | 15,33 | 18,60 |
-| B7 | 14 | 3,52 | 18,60 | 22,12 |
-| B8 | 8 | 2,01 | 22,12 | 24,13 |
-| B9 | 13 | 3,27 | 24,13 | 27,40 |
-| B10 | 14 | 3,52 | 27,40 | 30,92 |
-| B11 | 14 | 3,52 | 30,92 | **34,44** |
+| B2 | 13 | 3,27 | 2,76 | 6,03 |
+| B3 | 12 | 3,02 | 6,03 | 9,05 |
+| B4 | 14 | 3,52 | 9,05 | 12,57 |
+| B5 | 14 | 3,52 | 12,57 | 16,09 |
+| B6 | 13 | 3,27 | 16,09 | 19,36 |
+| B7 | 18 | 4,52 | 19,36 | 23,88 |
+| B8 | 8 | 2,01 | 23,88 | 25,89 |
+| B9 | 12 | 3,02 | 25,89 | 28,91 |
+| B10 | 13 | 3,27 | 28,91 | 32,18 |
+| B11 | 14 | 3,52 | 32,18 | **35,70** |
 
-**Total estimado: 34,44 s** (margen hasta ~34-35 s). Ninguna escena baja de 2,0 s (mínimo del
-contrato: 1,2 s) ni supera 4,2 s, así que no hay que partir ni repartir ninguna línea.
+**Total estimado: 35,70 s** (dentro de la banda 30-40 s). Ninguna escena baja de 2,0 s (mínimo del
+contrato: 1,2 s). La línea 7 es la única que supera los 4,2 s de referencia: **18 palabras, 4,52 s**,
+**un solo beat** por texto expreso del dueño; no se parte ni se reparte.
 
 ## Reparto de rótulos
 

@@ -1,7 +1,7 @@
 # BRIEF — V6 «Canibalización de palabras clave»
 
 **Serie:** SEO · **Pieza:** V6 · **Carpeta:** `videos/seo-06-canibalizacion/`
-**Formato:** 9:16 · 1080×1920 · faceless · **11 beats · 137 palabras · ~34,4 s** (dentro de la banda
+**Formato:** 9:16 · 1080×1920 · faceless · **11 beats · 142 palabras · ~35,7 s** (dentro de la banda
 30-40 s de la serie) · voz en off es-ES (`Pablo`)
 **Fuente de datos:** `investigacion/01-fuentes.md` · **continuidad:** `investigacion/02-continuidad.md` ·
 **contrato:** `investigacion/03-contrato.md` · **guion:** `SCRIPT.md`
@@ -44,7 +44,7 @@ Console (Rendimiento → Páginas), flecha de fusión y marcador de guardado con
 
 ## Duración (resuelto)
 
-El guion queda en **137 palabras / 3,98 pal./s = 34,44 s**, **dentro de la banda de 30-40 s** de la
+El guion queda en **142 palabras / 3,98 pal./s = 35,68 s**, **dentro de la banda de 30-40 s** de la
 serie (`PROFILE.md:29`, `IDEAS.md:8` y `investigacion/03-contrato.md` §5). Ya no hace falta la
 excepción de duración que pedían las 165 palabras / ~41,5 s de la versión anterior: la banda no se
 toca y el total entra sin recortar. La duración real la fija `voice_pipeline.py`.

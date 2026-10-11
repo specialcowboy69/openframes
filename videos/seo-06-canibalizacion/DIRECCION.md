@@ -1,7 +1,7 @@
 # DIRECCIÓN DE ARTE — V6 «Canibalización de palabras clave»
 
 Aplica el brief del dueño (`DIRECCION-ARTE-BRIEF.md`) y el contrato (`investigacion/03-contrato.md`).
-Pieza: **11 beats · 137 palabras · ~34,4 s** · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos
+Pieza: **11 beats · 142 palabras · ~35,7 s** · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos
 karaoke · barra de progreso. Formato calcado del de V5 (`seo-05-intencion-de-busqueda/DIRECCION.md`).
 
 ---
@@ -93,7 +93,8 @@ texto o trazo → el «tus páginas» de la SERP usa el **relleno tintado `#dff2
   - **Contexto 38-56**: títulos de ficha (38), consulta en mono (42), etiquetas y pastillas (44),
     anotaciones (44).
   - **Kicker 32 fijo** (rótulo del sistema), mayúsculas, `letter-spacing: 0.28em`, `muted` con punto.
-- **Frase larga no se encoge: se redistribuye.** Ninguna línea de V6 pasa de 14 palabras, así que no
+- **Frase larga no se encoge: se redistribuye.** Salvo la línea 7 (**18 palabras**, texto expreso del
+  dueño, que se mantiene como **un solo beat**), ninguna línea de V6 pasa de 14 palabras, así que no
   hace falta partir ningún beat; donde hay dos ideas (B10, «separar… o fusionar…») se resuelven como
   **dos pastillas en dos tiempos** dentro de la misma escena.
 - **Criterio de rótulos:** frases nominales en mayúsculas, **sin numerar** —como V5—, porque el
@@ -107,7 +108,7 @@ texto o trazo → el «tus páginas» de la SERP usa el **relleno tintado `#dff2
 ## 4. Familias de composición (5)
 
 Una familia de composición cada 8-12 s (regla proporcional de `DESIGN.md`: «30-45 s: 4-5»): para
-~34,4 s tocan **4-5**, y la pieza usa cinco.
+~35,7 s tocan **4-5**, y la pieza usa cinco.
 
 1. **La balanza del reparto** — `#sN-balance` con dos platos y un fiel que oscila; la barra partida
    (B2) cuelga de ella. · **B2, B4**.
@@ -151,7 +152,7 @@ B10(4) · B11(5). Cinco familias, ninguna escena con dos familias a la vez.
 Las **seis familias** están disponibles (decisión del dueño, `DESIGN.md`). Se usan **cuatro**; `cut`
 queda disponible como alternativa gratuita para B10→B11. La que necesita pieza propia está marcada
 con **(P)** y su coste se detalla debajo. `DESIGN.md` fija «un mecanismo distinto cada 10-12 s»
-(30-45 s: **3-4**): a ~34,4 s la pieza cae en la banda media, así que vuelve a la regla y usa cuatro.
+(30-45 s: **3-4**): a ~35,7 s la pieza cae en la banda media, así que vuelve a la regla y usa cuatro.
 La sexta familia (`forma`) **se retira**: unía la ventana de ejemplo con la SERP en el antiguo B7→B8,
 y ese beat desaparece con el guion nuevo. El barrido de acento (`sweep`) pasa a resolver el salto
 claro→oscuro de B7→B8 (la entrada en Search Console), que es la misma bisagra que antes cubría. Se
@@ -348,7 +349,7 @@ su `.cover` quede por encima de B3 durante el cruce.
 4. **La balanza se desborda o las fichas giran demasiado** → la balanza mide 760 px = 2 platos de
    340 px + 80 de aire; la rotación del beam se limita a ±6° (≤ 8° permitido) y las fichas viven
    dentro de `.seat` (340 px = ancho de `.pcard`), dentro de la banda segura.
-5. **Duraciones reales ≠ estimadas** → la estimación de ~34,4 s es de palabra/velocidad; los tiempos
+5. **Duraciones reales ≠ estimadas** → la estimación de ~35,7 s es de palabra/velocidad; los tiempos
    definitivos los fija `voice_pipeline.py` y los aplica `retime.py`. Toda la animación está en
    tiempos **relativos** al inicio de su beat.
 6. **Fuentes de red** → las `woff2` ya están vendorizadas; medir tras `document.fonts.ready`.
@@ -374,7 +375,7 @@ su `.cover` quede por encima de B3 durante el cruce.
    acentos; `cut` disponible pero no usada.
 6. **Ejemplo único (resuelto):** «instalación de luz» (página de servicio frente a artículo de
    precios), de `01-fuentes.md` §6 ejemplo 2 —nuevo, no repite el «cafetera» de V5.
-7. **Cuatro mecanismos de transición (resuelto):** dentro del «3-4» de `DESIGN.md` a ~34,4 s:
+7. **Cuatro mecanismos de transición (resuelto):** dentro del «3-4» de `DESIGN.md` a ~35,7 s:
    `slide` + acentos `cover`, `circle`, `sweep` (§6). La sexta familia (`forma`) se retira con el
    beat que la usaba.
 8. **Tamaño del término (resuelto):** `.title` se fija a **110 px** con `letter-spacing:-0.03em` en §8
