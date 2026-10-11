@@ -1,7 +1,8 @@
 # BRIEF — V5 «Intención de búsqueda»
 
 **Serie:** SEO · **Pieza:** V5 · **Carpeta:** `videos/seo-05-intencion-de-busqueda/`
-**Formato:** 9:16 · 1080×1920 · faceless · 10 escenas · ~40 s · voz en off es-ES (`Pablo`)
+**Formato:** 9:16 · 1080×1920 · faceless · **12 beats · ~57-67 s** · voz en off es-ES (`Pablo`)
+**Dirección de arte:** `DIRECCION.md` · **plan de escenas:** `STORYBOARD.md` · **brief del dueño:** `DIRECCION-ARTE-BRIEF.md`
 
 ## Objetivo
 
@@ -15,7 +16,7 @@ Puede no haber visto V1–V3, así que la pieza explica su término en el segund
 
 ## Tesis
 
-> Una palabra, una intención, una página.
+> Una intención, una página.
 
 Extensión natural de V1: allí se decide *cómo* se escribe; aquí se decide **qué página**
 merece cada consulta. Es el puente entre «cómo escribo» (V1/V2) y «cómo se mide mi dominio» (V3).

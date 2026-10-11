@@ -25,7 +25,8 @@ La complejidad sale de **coordinar** capas, no de acumular recursos. Un foco dom
 | token | oscuro | claro | uso |
 |---|---|---|---|
 | `bg` | `#0a0a0f` | `#f4f1ea` | lienzo |
-| `panel` | `#17171e` | `#ffffff` | paneles, ventana, tarjetas |
+| `panel` | `#20202a` | `#ffffff` | paneles, ventana, tarjetas (**nunca por debajo de `#20202a`
+ en oscuro: el medidor de montaje cuenta filas con luminancia media > 25 y `#17171e` se queda fuera**) |
 | `line` | `#26262e` | `#e0dbcf` | bordes 2-5 px |
 | `ink` | `#f5f5f7` | `#14141a` | texto principal |
 | `muted` | `#8b8b99` | `#6f6f78` | rótulos y anotaciones |
@@ -53,6 +54,11 @@ encima. Todo lo valida `check` (WCAG AA).
 - **Reparto de tamaños del brief:** protagonista 110-180 (palabra, verbos, «una intención, una
   página»); frase principal 70-110 (rótulos grandes); contexto 38-56 (consulta, etiquetas de tipo,
   anotaciones). El kicker se queda en 32: es rótulo fijo del sistema.
+- **Tallas de los textos que faltaban:** nota «antes de escribir» 44 · pastillas «QUIERE CONSEGUIR» y
+  «MÁS DE UNA INTENCIÓN» 44 · verbos «ENTENDER/COMPARAR/COMPRAR» 90 (y 140 en el clímax) ·
+  «Guarda esto» 96.
+- **El kicker se queda en 32**, por debajo del rango de contexto del brief: es el rótulo fijo del
+  sistema (28-32 en la serie). Se registra como excepción.
 - **La línea 7 (24 palabras) no se encoge: se redistribuye.** Tres cláusulas, tres tiempos dentro del
   mismo beat (guías→ENTENDER, comparativas→COMPARAR, producto→COMPRAR); el cuarto resultado se
   reserva para B8.
@@ -80,7 +86,8 @@ encima. Todo lo valida `check` (WCAG AA).
 
 ## 6. Transiciones
 
-Se usan **cinco** mecanismos (el brief sugiere tres para 30-45 s; la pieza es más larga):
+Se usan **seis** mecanismos. El brief orienta a tres para piezas de 30-45 s; esta dura ~60 s y se
+registra la excepción, igual que las seis familias de composición (el brief sugería cuatro).
 
 | Mecanismo | Dónde | Nota técnica |
 |---|---|---|
@@ -94,15 +101,23 @@ Se usan **cinco** mecanismos (el brief sugiere tres para 30-45 s; la pieza es m�
 Planificar las ventanas de visibilidad para que ninguna escena desaparezca antes de terminar la
 transición. La capa que atraviesa el cambio va por encima (z-index 40).
 
+**Aviso de implementación:** `transiciones.py` solo extiende las colas leyendo el array `TR`, y los
+tipos que existen hoy son `up/down/fade/zoom/blur`. El desplazamiento continuo en la misma dirección,
+el objeto que cubre el encuadre, el barrido de color y el revelado circular **no** salen de ese array:
+hay que escribirlos a mano en la línea de tiempo y extender las colas de esas escenas aparte.
+
 ## 7. Implementación
 
-- **Contenedores separados** para no pisar transformaciones: `.slot` (posición y tamaño) → `.move`
-  (movimiento principal) → `.sub` (movimiento secundario de 6-12 px o 1-2°) → `.mask` (recorte).
+- **Contenedores separados** para no pisar transformaciones. Ojo: `.slot` ya existe en la serie y es
+  otra cosa (la caja discontinua de hueco vacío), así que estos son **nuevos y con otro nombre**:
+  `.pos` (posición y tamaño) → `.move` (movimiento principal) → `.sub` (movimiento secundario de
+  6-12 px o 1-2°) → `.mask` (recorte).
 - **z-index:** 0 fondo · 1 retícula/halo · 2 gráficos de apoyo · 3 protagonista · 4 texto y
   anotaciones · 5 primer término · 25 barra de progreso · 30 karaoke · 40 capa de transición.
   (`data-track-index` no controla el orden de pintado: es solo carril del Studio.)
-- **Capa de transición:** `.cover` y `.sweep` son DOM de la escena; el envoltorio `.s-in` se sigue
-  animando solo con transform, opacidad o filtro. El revelado circular usa `clip-path` sobre `.s-in`.
+- **Capa de transición:** `.cover` y `.sweep` son **DOM nuevo de la escena**; el envoltorio `.s-in` se
+  sigue animando solo con transform o filtro, **nunca con opacidad** (el escenario no se desvanece).
+  El revelado circular usa `clip-path` sobre `.s-in`.
 - **Seek-safe:** estado inicial en CSS, animar con `fromTo`/`.to()`, sin `.from()`, sin contar hacia
   arriba (la posición baja en saltos discretos), sin `Math.random` (los efectos ya usan semilla fija).
 - **Karaoke y progreso se mantienen tal cual.** La píldora ya contrasta sobre claro (fondo oscuro
@@ -122,7 +137,10 @@ El detalle por beat está en `STORYBOARD.md`.
 2. **B7 se desborda** (24 palabras + 4 resultados + verbos) → repartir en tres tiempos, medir con
    `check`; si aprieta, dejar tres resultados y pasar el mapa a B8.
 3. **Cruces negros** si se retima y no se re-aplican las colas → cadena en orden y
-   `verificar_montaje.py` (tramo sin contenido ≤ 0,15 s).
+   `verificar_montaje.py` (tramo sin contenido ≤ 0,15 s). Los tres cruces de riesgo real son los que
+   salen de escena oscura (B1→B2, B8→B9, B9→B10): el push de B1→B2 se acorta a **0,30 s**, y el
+   revelado circular arranca sobre masa clara con radio `r ≥ √((w/2)² + (h/2)²)` (cuadrado de
+   1080×1920 → r ≥ 1102 px) para que cubra las esquinas.
 4. **Fuentes de red** → vendorizar en `assets/fonts/`; medir tras `document.fonts.ready`.
 
 ## 10. Decisiones abiertas para el dueño
@@ -133,5 +151,46 @@ El detalle por beat está en `STORYBOARD.md`.
 2. **Collage:** descartado por falta de material. Si quiere collage, hay que aportar los PNG.
 3. **Paleta de marca:** no hay ninguna documentada, así que se mantiene carbón + blanco roto + verde
    ácido y se deriva la variante clara. Si existe una paleta oficial, se cambia.
-4. **Sobrepaso:** el brief admite `back.out` moderado; la doctrina previa lo desaconsejaba. Propuesta:
-   sobrepaso solo en objetos, texto siempre con `power3.out`.
+4. **Sobrepaso:** el brief admite `back.out` moderado; `DESIGN.md` lo prohíbe como entrada. Propuesta:
+   sobrepaso solo en objetos, texto siempre con `power3.out`; si se aprueba, hay que actualizar
+   `DESIGN.md`.
+5. **Doctrina de transiciones:** la serie decía «solo transform, opacidad o filtro sobre el envoltorio,
+   sin DOM extra». El brief pide mecanismos que sí lo necesitan (objeto que cubre, barrido, revelado
+   circular). Se registra la excepción o se renuncia a esos tres y se queda con los cuatro actuales.
+6. **Tokens nuevos:** toda la columna clara (`#f4f1ea`, `#ffffff`, `#e0dbcf`, `#14141a`, `#6f6f78`,
+   `#b3161b`) es nueva y debe registrarse en `DESIGN.md`, que hoy solo tiene tokens oscuros.
+
+## 11. Preparación de recursos y sombras (brief §4 y §6)
+
+- **Bordes limpios y transparencia:** en esta pieza todo el material gráfico es **HTML/CSS y SVG en
+  línea**, así que no hay recortes con alfa que limpiar. No se descarga ni se genera ninguna imagen.
+  Si se aprueba el collage, cada PNG deberá llegar ya recortado, con alfa correcto y resolución
+  suficiente para el mayor acercamiento.
+- **Resolución:** los SVG escalan sin pérdida; los logos y el chrome de Google se incrustan como
+  trazados, nunca como capturas de pantalla.
+- **Color e iluminación compatibles:** el acento y las tintas son tokens únicos por tema, así que ningún
+  recurso arrastra su propia iluminación.
+- **Elementos independientes:** los que se mueven por separado se construyen por separado (consulta,
+  resultado, etiqueta, verbo, cursor, sombra).
+- **Texto siempre en HTML/SVG**, separado de cualquier imagen: es lo que permite medir con
+  `document.fonts.ready` y animar por palabras.
+- **Sombras de contacto:** en capa propia, con tamaño, desenfoque y opacidad según la proximidad
+  aparente del objeto al fondo (más cerca → sombra más grande, más difusa y más suave). Se usan en
+  B1, B3-B5 y B9.
+- **Movimiento secundario tras la entrada:** 6-12 px o 1-2°, duración finita y nunca en todos los
+  objetos a la vez. Agendado en B2 (diana), B5 (columnas) y B7 (resultados).
+
+## 12. Revisión (brief §9 y §10)
+
+- **Antes de escribir la composición**, consultar el contrato de la versión instalada
+  (`npx hyperframes@0.8.138 docs compositions` y `docs data-attributes`).
+- **Comprobar al saltar y al retroceder**: cada efecto se verifica con la línea de tiempo en pausa y
+  el salto a instantes intermedios, no solo reproduciendo.
+- **Semilla fija**: los efectos de sonido ya usan generador con semilla; nada aleatorio en el render.
+- **Legibilidad en móvil:** la valida `check` (contraste WCAG AA y desbordamiento con tolerancia de
+  2 px) y la revisión del MP4 en un móvil.
+- **Revisión final** (checklist en `STORYBOARD.md`): un fotograma de lectura por escena, los instantes
+  intermedios de las seis transiciones, entradas y salidas, alineación, sincronía con la voz y el MP4
+  completo en movimiento.
+- **Excepciones registradas:** seis familias de composición (el brief sugería cuatro) y seis
+  mecanismos de transición (sugería tres), justificadas por la duración de ~60 s.
