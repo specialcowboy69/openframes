@@ -1,35 +1,37 @@
 # V6 — Canibalización de palabras clave
 
-Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **12 líneas · ~41,5 s**
+Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **11 líneas · ~34,4 s**
 Ángulo: **dos páginas tuyas compitiendo por la misma búsqueda**.
 Tesis: **dos páginas tuyas compitiendo por la misma búsqueda: ninguna gana.**
 Estado: **propuesta de guion** (un solo ejemplo; la intención de búsqueda se da por sabida, es de V5).
 Pendiente de voz y montaje.
 
-> **Criterio:** el gancho describe el síntoma, no asusta. Primero se explica el fenómeno con palabras
-> normales y solo después se le pone el nombre. Un único ejemplo. Nada de cifras, promesas ni
-> penalizaciones: todo lo afirmado está en `investigacion/01-fuentes.md`.
+> **Criterio:** el gancho abre con la consecuencia y con un imperativo (decisión del dueño, 2026-10-11).
+> Después se explica el fenómeno con palabras normales y solo entonces se le pone el nombre. Un único
+> ejemplo. Nada de cifras inventadas.
 
 ## Guion (voz en off)
 
 | # | Texto | Pal. | Beat | Qué se ve |
 |---|-------|------|------|-----------|
-| 1 | Un día Google muestra una página tuya en los resultados y al siguiente, otra. | 14 | Gancho | Dos tarjetas de resultado tuyas que se turnan en la SERP |
-| 2 | Las dos compiten por la misma búsqueda y se acaban quitando fuerza entre ellas. | 14 | El fenómeno | Las dos tarjetas empujándose; una barra que se reparte |
-| 3 | Y el resultado es que ninguna de las dos consigue la posición que podría. | 14 | La consecuencia | Marcador de posición que no sube; la SERP se queda abajo |
+| 1 | Este error te hará bajar posiciones en Google. No lo hagas. | 11 | Gancho | Aviso grande en pantalla; la flecha de posición girando hacia abajo |
+| 2 | Dos páginas tuyas pueden estar compitiendo por la misma búsqueda. | 10 | El fenómeno | Dos tarjetas de resultado tuyas entrando por el mismo hueco |
+| 3 | El resultado es que ambas se hunden en los resultados de Google. | 12 | La consecuencia | Las dos tarjetas bajando a la vez; la SERP se queda abajo |
 | 4 | Eso es lo que llaman la canibalización de palabras clave, y sí tiene arreglo. | 14 | El nombre | Rótulo con el término; las dos fichas siguen empatadas |
 | 5 | Dos páginas tuyas pueden tratar el mismo tema sin competir, si buscan cosas distintas. | 14 | El matiz | Dos tarjetas separándose, cada una con su etiqueta |
 | 6 | Compiten cuando las dos páginas ofrecen la misma respuesta a la misma consulta. | 13 | La causa | Una pastilla de consulta con dos tarjetas solapadas |
-| 7 | Tu página de servicio y un artículo tuyo compiten por la misma búsqueda. | 13 | El ejemplo | Dos ventanas de navegador: tu página de servicio y tu artículo |
-| 8 | Google alterna entre las dos y ninguna de ellas acaba en la primera posición. | 14 | El resultado | La SERP resalta una y luego la otra; ninguna arriba |
-| 9 | En Search Console puedes ver dos páginas tuyas compitiendo por la misma búsqueda. | 13 | Cómo verlo | Search Console → Rendimiento → Páginas, dos filas iguales |
+| 7 | Por ejemplo, tu página de servicio y un artículo tuyo compiten por lo mismo. | 14 | El ejemplo | Dos ventanas de navegador: tu página de servicio y tu artículo |
+| 8 | Para comprobar si te pasa, abre Search Console. | 8 | Cómo verlo | Search Console → Rendimiento → Páginas, dos filas iguales |
+| 9 | Mira para qué consultas apareces y qué página tuya sale en los resultados. | 13 | Cómo verlo | La misma consulta con dos URLs tuyas alternándose en la tabla |
 | 10 | Se arregla separando bien las dos intenciones o fusionando las dos páginas en una. | 14 | El arreglo | Flecha de fusión hacia una tarjeta; la otra se atenúa |
-| 11 | Dos páginas tuyas compitiendo por lo mismo: ninguna gana, así que deja solo una. | 14 | La regla | Una sola tarjeta firme; rótulo con la regla |
-| 12 | Guarda esto antes de escribir o de revisar la próxima página de tu web. | 14 | CTA | Marcador de guardado con onda; rótulo «Guarda esto» |
+| 11 | Guarda esto antes de escribir o de revisar la próxima página de tu web. | 14 | CTA | Marcador de guardado con onda; rótulo «Guarda esto» |
 
-**Total: 165 palabras.** Objetivo 40-50 s a la velocidad de la voz oficial (**3,98 palabras/s**):
-**≈ 41,5 s**. La duración real la fija `voice_pipeline.py`. La banda 30-40 s de la serie queda como
-decisión abierta del dueño (ver `BRIEF.md`).
+**Total: 137 palabras.** A la velocidad de la voz oficial (**3,98 palabras/s**): **≈ 34,4 s**, dentro de
+la banda de 30-40 s de la serie. La duración real la fija `voice_pipeline.py`.
+
+**Nota de fuentes:** la línea 1 afirma una consecuencia (bajar posiciones) que las fuentes describen como
+«ninguna rinde lo que podría», no como una caída garantizada. Decisión del dueño: se mantiene el
+imperativo tal cual. Las líneas 2, 3, 5, 6 y 10 están respaldadas por `investigacion/01-fuentes.md`.
 
 ## Jerga que queda definida
 
@@ -39,8 +41,6 @@ decisión abierta del dueño (ver `BRIEF.md`).
 | Intención | 10 | Vocabulario ya sabido de V5: aquí no se re-explica, se usa |
 | Consulta | 6 | La búsqueda concreta que hace una persona (las líneas 2, 7 y 9 dicen «búsqueda») |
 
-No se presenta la taxonomía como doctrina de Google ni se afirma ningún efecto que no esté en las fuentes.
-
 ## Lo que NO se repite (continuidad)
 
 - **Con V5:** no se re-explica la intención de búsqueda ni se etiqueta la SERP (guía/comparativa/producto); «una intención, una página» es de V5, no la tesis de V6; nada de «cafetera».
@@ -49,32 +49,30 @@ No se presenta la taxonomía como doctrina de Google ni se afirma ningún efecto
 
 ## Alternativas del gancho
 
-1. **En uso:** «Un día Google muestra una página tuya en los resultados y al siguiente, otra.» (14 pal.)
-2. **Más directo:** «Dos páginas tuyas se turnan en Google y ninguna de las dos llega arriba.» (14 pal.)
-3. **Con el síntoma pegado a ti:** «Esa página que no arranca puede estar peleándose con otra tuya.» (11 pal.)
+1. **En uso (dictado por el dueño):** «Este error te hará bajar posiciones en Google. No lo hagas.» (11 pal.)
+2. **Sin repetir la apertura de V5:** «Hay un error que te está haciendo bajar posiciones en Google.» (11 pal.)
+3. **Más concreto:** «Dos páginas tuyas se turnan en Google y ninguna de las dos llega arriba.» (14 pal.)
 
 ## Reglas aplicadas
 
 Tratamiento de tú · entrada en frío sin intro · una idea por línea y **≤ 14 palabras** · jerga definida
 antes de usarla (el término «canibalización» llega en la línea 4, tras explicar el fenómeno) · **un solo
 ejemplo** (página de servicio frente a artículo propio; nada de «cafetera» ni de ejemplos de V1-V3) ·
-gancho que describe el síntoma, **sin miedo ni penalizaciones** · **sin cifras inventadas, promesas ni
-anglicismos** (Search Console es el nombre del producto) · CTA de guardar · sin avisos de autoría ni
-menciones a IA.
+**sin cifras inventadas ni anglicismos** (Search Console es el nombre del producto) · CTA de guardar ·
+sin avisos de autoría ni menciones a IA.
 
 ## Guion plano (para el pipeline de voz)
 
 Estas son las líneas que lee `voice_pipeline.py` (4 espacios de sangría), en el mismo orden que la tabla.
 
-    Un día Google muestra una página tuya en los resultados y al siguiente, otra.
-    Las dos compiten por la misma búsqueda y se acaban quitando fuerza entre ellas.
-    Y el resultado es que ninguna de las dos consigue la posición que podría.
+    Este error te hará bajar posiciones en Google. No lo hagas.
+    Dos páginas tuyas pueden estar compitiendo por la misma búsqueda.
+    El resultado es que ambas se hunden en los resultados de Google.
     Eso es lo que llaman la canibalización de palabras clave, y sí tiene arreglo.
     Dos páginas tuyas pueden tratar el mismo tema sin competir, si buscan cosas distintas.
     Compiten cuando las dos páginas ofrecen la misma respuesta a la misma consulta.
-    Tu página de servicio y un artículo tuyo compiten por la misma búsqueda.
-    Google alterna entre las dos y ninguna de ellas acaba en la primera posición.
-    En Search Console puedes ver dos páginas tuyas compitiendo por la misma búsqueda.
+    Por ejemplo, tu página de servicio y un artículo tuyo compiten por lo mismo.
+    Para comprobar si te pasa, abre Search Console.
+    Mira para qué consultas apareces y qué página tuya sale en los resultados.
     Se arregla separando bien las dos intenciones o fusionando las dos páginas en una.
-    Dos páginas tuyas compitiendo por lo mismo: ninguna gana, así que deja solo una.
     Guarda esto antes de escribir o de revisar la próxima página de tu web.

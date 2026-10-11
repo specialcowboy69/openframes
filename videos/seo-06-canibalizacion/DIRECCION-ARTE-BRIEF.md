@@ -1,6 +1,6 @@
 # Brief de dirección de arte — V6 «Canibalización de palabras clave»
 
-Pieza: **12 beats · 165 palabras · ~41,5 s** · 9:16 · 1080×1920 · faceless · voz en off es-ES
+Pieza: **11 beats · 137 palabras · ~34,4 s** · 9:16 · 1080×1920 · faceless · voz en off es-ES
 (`Pablo`) · subtítulos karaoke · barra de progreso. Guion cerrado: `SCRIPT.md` (no se toca).
 Contrato de producción: `investigacion/03-contrato.md`. Continuidad: `investigacion/02-continuidad.md`.
 
@@ -13,19 +13,21 @@ Contrato de producción: `investigacion/03-contrato.md`. Continuidad: `investiga
 
 Tres cosas, en este orden:
 
-1. **Reconocer el síntoma en el primer segundo.** Que quien lo vea entienda «estas dos son mis
-   páginas y se están turnando». El fotograma 0 es la miniatura del reel (se publica sin portada),
-   así que la idea tiene que estar montada y encendida desde el segundo cero.
+1. **Reconocer el error en el primer segundo.** Que quien lo vea entienda «esto me está costando
+   posiciones y no debo hacerlo». El fotograma 0 es la miniatura del reel (se publica sin portada),
+   así que el aviso —contenido desde el fotograma cero, sin desvanecidos— tiene que estar montado y
+   encendido desde el segundo cero.
 2. **Entender la tesis.** Dos páginas tuyas compitiendo por **la misma** búsqueda: **ninguna gana**.
    No es «tener dos páginas del mismo tema» ni «contenido duplicado»; es disputarse la misma
    consulta con la misma intención (`investigacion/01-fuentes.md`).
 3. **Llevarse una acción.** Antes de escribir o revisar la próxima página: **separar las
    intenciones o fusionar las dos en una**. Cierra con la CTA de guardar de la serie.
 
-**Tono:** el gancho cuenta el **síntoma, no asusta**. Primero el fenómeno con palabras normales
-(«un día una página tuya y al siguiente, otra»); el nombre —*canibalización*— llega en la línea 4.
-Sin cifras, sin promesas, sin hablar de penalizaciones. Un solo ejemplo (página de servicio frente
-a artículo propio).
+**Tono:** el gancho abre con la **consecuencia y un imperativo** («Este error te hará bajar posiciones
+en Google. No lo hagas.»), no con el síntoma. Después se explica el fenómeno con palabras normales
+(dos páginas compitiendo por la misma búsqueda) y solo entonces el nombre —*canibalización*— llega en
+la línea 4. Sin cifras, sin promesas de resultados y sin hablar de penalizaciones. Un solo ejemplo
+(página de servicio frente a artículo propio).
 
 **Promesa visual:** el vídeo se entiende en mudo, pero por **gráfico + karaoke**, no por texto
 recargado (`DESIGN.md` §0). La complejidad sale de coordinar capas, no de acumular recursos.

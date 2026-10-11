@@ -1,7 +1,7 @@
 # DIRECCIÓN DE ARTE — V6 «Canibalización de palabras clave»
 
 Aplica el brief del dueño (`DIRECCION-ARTE-BRIEF.md`) y el contrato (`investigacion/03-contrato.md`).
-Pieza: **12 beats · 165 palabras · ~41,5 s** · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos
+Pieza: **11 beats · 137 palabras · ~34,4 s** · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos
 karaoke · barra de progreso. Formato calcado del de V5 (`seo-05-intencion-de-busqueda/DIRECCION.md`).
 
 ---
@@ -10,16 +10,17 @@ karaoke · barra de progreso. Formato calcado del de V5 (`seo-05-intencion-de-bu
 
 **Metáfora central.** Una **balanza de dos platos** en la que van tus dos páginas. Google pone el
 peso en un plato y luego en el otro; **el fiel oscila, el empate no se resuelve y ninguna de las dos
-gana**. La balanza reaparece tres veces y da unidad a la pieza:
+gana**. La balanza reaparece **dos veces** y su resolución cierra el arreglo:
 
-- **B2** la presenta: las dos fichas caen en los platos y se empujan (el fenómeno).
+- **B2** la presenta: las dos fichas caen en los platos y compiten por la misma búsqueda (el fenómeno).
 - **B4** la deja **empatada** justo cuando llega el nombre del problema.
-- **B11** la **vacía**: un plato se queda sin ficha (la regla, «deja solo una»).
+- **B10** la **resuelve sin repetirla**: la fusión deja **una sola ficha firme** (lo que cerraba el
+  beat eliminado de «la regla», absorbido aquí).
 
 Por qué cuenta «**se turnan y ninguna gana**» de un vistazo: dos platos = dos páginas; un fiel que
-nunca se queda quieto = **alternancia**; el fiel inclinado = **nadie se queda arriba**; vaciar un
-plato = **deja solo una**. Y como *balanza*, añade la lectura de que Google **pesa / compara** tus
-dos páginas —justo el matiz de «empate» que pide la línea 4 («siguen empatadas»).
+nunca se queda quieto = **alternancia**; el fiel inclinado = **nadie se queda arriba**. Y como
+*balanza*, añade la lectura de que Google **pesa / compara** tus dos páginas —justo el matiz de
+«empate» que pide la línea 4 («siguen empatadas»).
 
 La metáfora se combina con los otros recursos del sistema, sin competir con ella:
 **demostración de producto** (ventana, SERP, panel de Search Console) y **animación tipográfica**
@@ -68,11 +69,10 @@ acento):
 | B5 matiz | claro | — |
 | B6 causa | claro | — |
 | B7 ejemplo | claro | las dos ventanas sobre papel |
-| B8 resultado | claro | la SERP es un bloque claro por naturaleza |
-| B9 cómo verlo | **oscuro** + panel claro `#ffffff` | el panel de Search Console destaca sobre oscuro |
-| B10 arreglo | claro | — |
-| B11 regla | claro | cierre luminoso antes del CTA |
-| B12 CTA | **oscuro** `#0a0a0f` | cierre de serie (marcador en acento) |
+| B8 cómo verlo (1/2) | **oscuro** + panel claro `#ffffff` | el panel de Search Console destaca sobre oscuro |
+| B9 cómo verlo (2/2) | **oscuro** + panel claro `#ffffff` | misma escena de panel; la tabla se lee sobre claro |
+| B10 arreglo | claro | la fusión sobre papel |
+| B11 CTA | **oscuro** `#0a0a0f` | cierre de serie (marcador en acento) |
 
 **Contrastes a vigilar** (los valida `check`, WCAG AA): verde sobre claro (≈1,3:1) **prohibido** como
 texto o trazo → el «tus páginas» de la SERP usa el **relleno tintado `#dff2b0`** con tinta
@@ -86,11 +86,10 @@ texto o trazo → el «tus páginas» de la SERP usa el **relleno tintado `#dff2
 - **Inter** (400/600/700/800/900) + **JetBrains Mono** (600/800) para lo que representa consulta,
   URL o identificador. Es el par del sistema.
 - **Niveles:**
-  - **Protagonista 110-180**: el término «CANIBALIZACIÓN» (B4) y la regla «NINGUNA GANA» (B11), ambos
-    a **110 px** con `letter-spacing:-0.03em` —el ancho real se fija midiendo tras `document.fonts.ready`,
-    con el override `.title` de §8 (la banda útil es 932 px y el término no puede partirse).
-  - **Frase principal 70-110**: «DE PALABRAS CLAVE» (B4, 78), «DEJA SOLO UNA» (B11, 96),
-    «Guarda esto» (B12, 96).
+  - **Protagonista 110-180**: el término «CANIBALIZACIÓN» (B4), a **110 px** con
+    `letter-spacing:-0.03em` —el ancho real se fija midiendo tras `document.fonts.ready`, con el
+    override `.title` de §8 (la banda útil es 932 px y el término no puede partirse).
+  - **Frase principal 70-110**: «DE PALABRAS CLAVE» (B4, 78), «Guarda esto» (B11, 96).
   - **Contexto 38-56**: títulos de ficha (38), consulta en mono (42), etiquetas y pastillas (44),
     anotaciones (44).
   - **Kicker 32 fijo** (rótulo del sistema), mayúsculas, `letter-spacing: 0.28em`, `muted` con punto.
@@ -107,64 +106,67 @@ texto o trazo → el «tus páginas» de la SERP usa el **relleno tintado `#dff2
 
 ## 4. Familias de composición (5)
 
-Una familia de composición cada 8-12 s (regla proporcional de `DESIGN.md`): para ~41,5 s tocan 4-5.
+Una familia de composición cada 8-12 s (regla proporcional de `DESIGN.md`: «30-45 s: 4-5»): para
+~34,4 s tocan **4-5**, y la pieza usa cinco.
 
 1. **La balanza del reparto** — `#sN-balance` con dos platos y un fiel que oscila; la barra partida
-   (B2) y el marcador de posición (B3, `.ladder` vertical, **sin** `.scale`) cuelgan de ella. ·
-   **B2, B4, B11**; **B3** se suma por el marcador de posición de la misma familia.
-   Es la familia de la metáfora; enmarca toda la pieza y la cierra. La balanza propiamente dicha solo
-   aparece en **B2, B4 y B11** —tres veces, como dice §1—; B1 no la usa (es el turno en la SERP).
-2. **El turno en la SERP** — dos resultados **tuyos** en la misma lista y un distintivo «TURNO»
-   que salta de uno a otro sin que ninguno suba. · **B1, B8**.
-   Se distingue de la SERP de V5 en que aquí no hay etiquetas de intención: el tema es el turno.
+   (B2) cuelga de ella. · **B2, B4**.
+   Es la familia de la metáfora; la presenta (B2) y la deja empatada (B4). El marcador de posición
+   (B3) es la **lectura** de la misma idea, pero su composición (escala vertical) la cuenta en la
+   familia 2. La tercera balanza de antes (antiguo B11) desaparece con el beat de «la regla»; su
+   resolución —una sola ficha firme— la recoge el arreglo (B10).
+2. **La pérdida de posición** — la flecha de posición que gira hacia abajo (B1) y la escala vertical
+   con las dos fichas hundiéndose (B3). · **B1, B3**.
+   Es la familia que abre la pieza por la consecuencia y la explica después.
 3. **Dos fichas, dos dueños** — dos tarjetas / dos ventanas colocadas una frente a otra, cada una
    con su consulta o su dirección. · **B5, B7**.
-4. **El solape de la consulta** — dos fichas que convergen hasta superponerse en la misma respuesta;
-   la flecha de fusión las vuelve a unir. · **B6, B10**.
-5. **El panel y el cierre** — el panel de datos (Search Console) con dos filas iguales y el cierre
-   del marcador de guardado. · **B9, B12**.
+4. **El solape y la fusión hasta la ficha firme** — dos fichas que convergen hasta superponerse en la
+   misma respuesta (B6); la flecha de fusión las vuelve a unir y deja una firme (B10). · **B6, B10**.
+5. **El panel y el cierre** — el panel de datos (Search Console) en dos tiempos (B8, B9) y el cierre
+   del marcador de guardado (B11). · **B8, B9, B11**.
 
-**Reparto por beat:** B1(2) · B2(1) · B3(1) · B4(1) · B5(3) · B6(4) · B7(3) · B8(2) · B9(5) ·
-B10(4) · B11(1) · B12(5). Cinco familias, ninguna escena con dos familias a la vez.
+**Reparto por beat:** B1(2) · B2(1) · B3(2) · B4(1) · B5(3) · B6(4) · B7(3) · B8(5) · B9(5) ·
+B10(4) · B11(5). Cinco familias, ninguna escena con dos familias a la vez.
 
 ---
 
 ## 5. Profundidad y encuadre
 
-- **Desplazamiento global con compensación por capas** (2,5D): en B9 el panel baja ~80 px mientras
+- **Desplazamiento global con compensación por capas** (2,5D): en B8 el panel baja ~80 px mientras
   el rótulo se queda (fondo 0 · panel +40 · detalle +80).
-- **Aproximación suave 1 → 1,04** al completar la idea: B5 (las fichas se separan) y B11 (una queda
+- **Aproximación suave 1 → 1,04** al completar la idea: B5 (las fichas se separan) y B10 (una queda
   firme).
-- **Cambio de foco (acercamiento fuerte):** B1 (el distintivo «TURNO» salta), B8 (el resalte pasa de
-  una ficha a la otra), B10 (la flecha de fusión se dibuja y atrae la mirada).
+- **Cambio de foco (acercamiento fuerte):** B1 (la flecha de posición gira hacia abajo), B9 (el
+  resalte pasa de una fila a la otra), B10 (la flecha de fusión se dibuja y atrae la mirada).
 - **El texto nunca rota y nunca pasa de 1,15×.** Las inclinaciones (≤ 8°) son para las fichas que
   cabalgan en los platos de la balanza (B2) y para las tarjetas que se colocan (B5). Las formas
   grandes fuera de cuadro solo existen en el barrido, con contraste menor que el contenido.
 - **Sombras de contacto** en las fichas y los platos (capa propia, más difusa cuanto más «cerca» del
-  fondo), en B1-B7 y B10-B11.
+  fondo), en B2, B4 y B10 (fichas y platos) y en B5-B7 (tarjetas).
 
 ---
 
 ## 6. Transiciones
 
-Las **seis familias** están disponibles (decisión del dueño, `DESIGN.md`). Se usan **cinco**; `cut`
-queda disponible como alternativa gratuita para B11→B12. La que necesita pieza propia está marcada
+Las **seis familias** están disponibles (decisión del dueño, `DESIGN.md`). Se usan **cuatro**; `cut`
+queda disponible como alternativa gratuita para B10→B11. La que necesita pieza propia está marcada
 con **(P)** y su coste se detalla debajo. `DESIGN.md` fija «un mecanismo distinto cada 10-12 s»
-(≈3-4 para 30-45 s); V6 usa cinco porque, al ir en el límite alto de la banda (~41,5 s), encadena
-cuatro cambios de tema (claro↔oscuro) y dos cambios de idea, y el barrido de acento es la única
-familia que resuelve el salto más grande (B8→B9). Se registra como excepción justificada en §10.
+(30-45 s: **3-4**): a ~34,4 s la pieza cae en la banda media, así que vuelve a la regla y usa cuatro.
+La sexta familia (`forma`) **se retira**: unía la ventana de ejemplo con la SERP en el antiguo B7→B8,
+y ese beat desaparece con el guion nuevo. El barrido de acento (`sweep`) pasa a resolver el salto
+claro→oscuro de B7→B8 (la entrada en Search Console), que es la misma bisagra que antes cubría. Se
+registra en §10.
 
 | familia | implementación | ¿pieza propia? | dónde |
 |---|---|---|---|
-| **Desplazamiento continuo** (`slide`) | tween `y` sobre las dos `.s-in`, misma dirección con solape | no | B1→B2, B4→B5, B5→B6, B6→B7, B9→B10, B10→B11, B11→B12 |
-| **Continuidad por forma** (`forma`) | tween `y`+`scale` sobre `.s-in` | no | B7→B8 |
-| **Barrido de color** (`sweep`) | banda de acento 40 % de alto, `skewX(-12deg)`, `z-index:40` | **(P) `.sweep`** | B8→B9 |
+| **Desplazamiento continuo** (`slide`) | tween `y` sobre las dos `.s-in`, misma dirección con solape | no | B1→B2, B4→B5, B5→B6, B6→B7, B8→B9, B9→B10, B10→B11 |
+| **Barrido de color** (`sweep`) | banda de acento 40 % de alto, `skewX(-12deg)`, `z-index:40` | **(P) `.sweep`** | B7→B8 |
 | **Objeto que cubre** (`cover`) | panel que crece hasta tapar y despeja | **(P) `.cover`** | B2→B3 |
 | **Revelado circular** (`circle`) | `clip-path` sobre `.s-in`, `r ≥ 1500` (cubre esquinas) | no (recorte) | B3→B4 |
-| **Corte directo** (`cut`) | sin cruce | no | *(disponible; no usada — alternativa para B11→B12)* |
+| **Corte directo** (`cut`) | sin cruce | no | *(disponible; no usada — alternativa para B10→B11)* |
 
-**Reparto:** primaria `slide` en **7 de 11** cortes (63,6 %); acentos: `forma`, `cover`, `circle`,
-`sweep` (4), cada uno en una bisagra (dos cambios de tema y dos cambios de idea). Duraciones 0,35-0,45 s.
+**Reparto:** primaria `slide` en **7 de 10** cortes (70 %); acentos: `cover`, `circle`, `sweep` (3),
+cada uno en una bisagra (dos cambios de tema y un salto a la escena del panel). Duraciones 0,35-0,45 s.
 
 **Plan de cortes (con duración):**
 
@@ -176,18 +178,17 @@ familia que resuelve el salto más grande (B8→B9). Se registra como excepción
 | B4→B5 | slide ↑ | 0,40 | — |
 | B5→B6 | slide ↑ | 0,35 | — |
 | B6→B7 | slide ↑ | 0,40 | — |
-| B7→B8 | forma | 0,45 | una ventana «se convierte» en la SERP |
-| B8→B9 | **sweep** (P) | 0,45 | **claro → oscuro**: banda de acento a lo ancho |
+| B7→B8 | **sweep** (P) | 0,45 | **claro → oscuro**: banda de acento a lo ancho; entra Search Console |
+| B8→B9 | slide ↑ | 0,40 | mismo tema oscuro; se sigue en el panel |
 | B9→B10 | slide ↑ | 0,40 | **oscuro → claro**; revisar el fotograma medio |
-| B10→B11 | slide ↑ | 0,35 | — |
-| B11→B12 | slide ↑ | 0,40 | **claro → oscuro**; `cut` 0,00 es alternativa |
+| B10→B11 | slide ↑ | 0,40 | **claro → oscuro**; `cut` 0,00 es alternativa |
 
 **Coste de las piezas propias (asumido):**
 
 - **`.cover` (B2→B3):** DOM nuevo de la escena B2 (`#s2-cover`), `inset:0`, `background:#20202a`,
   `z-index:40`, `transform:scale(0)` con origen en la balanza; crece `scale 0→1` y luego `1→1,3`
   (tween escrito a mano). Cada corte se revisa en su **fotograma intermedio**.
-- **`.sweep` (B8→B9):** DOM nuevo de la escena B9 (`#s9-sweep`), banda de 40 % de alto, sesgada,
+- **`.sweep` (B7→B8):** DOM nuevo de la escena B8 (`#s8-sweep`), banda de 40 % de alto, sesgada,
   `z-index:40`. **Trampa medida en V5:** el CSS arranca con `translateX(-130%)`, así que GSAP lo lee
   como `x`; hay que poner **`x: 0` explícito en el `fromTo`** o `xPercent` solo llega a
   `translateX(0)` y **la banda tapa el cuadro entero**. Un barrido es **una banda, nunca `inset:0`**.
@@ -204,8 +205,9 @@ ningún `<audio>` se toca.
 1. **El escenario nace visible.** La ventana / tarjeta / panel / balanza de cada escena existe desde
    `t=0` y solo se asienta con `rise()`; **nunca** se anima la opacidad del escenario.
 2. **Un foco dominante por escena.** Nada compite con el objeto que explica la línea.
-3. **El acento es relleno**, con `accent-ink` encima. **El rojo solo cuando algo pierde** (posición
-   que no sube, ficha que se descarta). Nunca dos acentos en la misma escena.
+3. **El acento es relleno**, con `accent-ink` encima; **nunca como texto ni trazo sobre fondo claro**.
+   **El rojo solo cuando algo pierde o para señalar un error real** (la posición que no sube en B3 y
+   la señal de aviso del gancho en B1). Nunca dos acentos en la misma escena.
 4. **Los números no suben.** La posición de B3 se escribe con `setNum` en saltos discretos
    (`setNum(sel, "8", t)`); prohibido contar hacia arriba. `setNum` se generaliza para aceptar
    selector (en V5 estaba fijado a `#s1-pos`).
@@ -234,14 +236,20 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 .title { font-size:110px; font-weight:900; letter-spacing:-0.03em; line-height:0.95; }
 .title .w { display:inline-block; }  /* spans que se teclean con typeWords(); nunca rotan */
 
-/* ---- B1/B8: el turno en la SERP ---- */
-.turnmark { display:inline-flex; align-items:center; padding:8px 20px; border-radius:999px;
-            background:var(--accent); color:var(--accent-ink);
-            font-size:30px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; }
+/* ---- B1: placa de aviso (relleno rojo) + flecha de posición ---- */
+.warnbadge { position:relative; display:flex; align-items:center; justify-content:center; gap:26px;
+             width:900px; margin:0 auto; padding:32px 44px; border-radius:28px;
+             background:#b3161b; color:#f5f5f7; }   /* relleno rojo (error real) + tinta clara encima;
+                                                       nunca el acento como texto o trazo */
+.warnbadge .warn { width:190px; height:190px; flex:0 0 auto; display:block;
+                   color:#f5f5f7; }                /* triángulo de aviso: tinta encima del relleno */
+.posarrow { width:132px; height:132px; color:#b3161b; }  /* trazo rojo sobre papel; gira hacia abajo
+                                                            con fromTo(rotation 90→-90) */
 .tint { position:absolute; inset:0; border-radius:inherit; background:#dff2b0; opacity:0;
-        pointer-events:none; }              /* resalte de «tus páginas» en claro (tinte, no acento) */
+        pointer-events:none; }              /* resalte de la fila activa en B9 (tinte, no acento) */
+.prow { position:relative; }                /* ancla de .tint dentro de las filas */
 
-/* ---- B1-B11: ficha de página / de resultado ---- */
+/* ---- B2, B4, B5, B6, B7, B10: ficha de página / de resultado ---- */
 .pcard { width:340px; background:var(--panel); border:3px solid var(--line); border-radius:22px;
          padding:26px 26px; display:flex; flex-direction:column; gap:14px;
          box-shadow:0 20px 50px rgba(0,0,0,0.45); }
@@ -254,7 +262,7 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 .pcard.ours .purl   { color:#4d5a29; }
 .pcard.faded { opacity:0.42; }
 
-/* ---- B2/B4/B11: la balanza de dos platos ---- */
+/* ---- B2/B4: la balanza de dos platos ---- */
 .scale { position:relative; width:760px; height:470px; margin:0 auto; }  /* 2·340 + 80 de aire */
 .scale .beam { position:absolute; left:0; right:0; top:150px; height:150px;
                display:flex; align-items:flex-start; justify-content:space-between;
@@ -294,18 +302,18 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 .fusearw { display:flex; justify-content:center; color:#4d5a29; }  /* trazo en tinta oscura: B10 es claro */
 .fusearw svg { width:560px; height:210px; display:block; }   /* se dibuja con draw() */
 
-/* ---- B9: panel de Search Console (sobre GA4 .panel/.phead/.prow) ---- */
+/* ---- B8/B9: panel de Search Console (sobre GA4 .panel/.phead/.prow) ---- */
 .sctabs { display:flex; gap:10px; padding:0 0 18px; border-bottom:2px solid #d3d8df; }
 .sctabs .t { padding:8px 22px; border-radius:999px; font-size:28px; font-weight:700;
              color:#5b6470; background:#e6eaf0; }
 .sctabs .t.on { background:#16181c; color:#f5f5f7; }
 .prow.dup { background:#dff2b0; color:#14141a;
             box-shadow:inset 4px 0 0 #4d5a29; }              /* relleno teñido + filo oscuro, nunca acento */
-#s9-dup { position:absolute; left:24px; top:50%; width:52px; height:230px; margin-top:-115px;
+#s8-dup { position:absolute; left:24px; top:50%; width:52px; height:230px; margin-top:-115px;
           border:6px solid #4d5a29; border-right:0; border-radius:12px 0 0 12px;
           transform-origin:left center; }                    /* corchete que une las dos filas duplicadas */
 
-/* ---- B12: onda del marcador ---- */
+/* ---- B11: onda del marcador ---- */
 .savewave { position:absolute; inset:-90px; color:var(--accent); }
 .savewave svg { width:100%; height:100%; display:block; }
 
@@ -333,17 +341,21 @@ su `.cover` quede por encima de B3 durante el cruce.
    tinte `#dff2b0`; validar con `check`.
 2. **El fiel de la balanza como trazo verde** → el fiel es `var(--ink)`, nunca acento (sería verde
    sobre papel). El acento solo aparece en rellenos (pastillas, tiles, `.fav`).
-3. **Cruces claros/oscuros (B2→B3, B8→B9, B9→B10, B11→B12)** → cada escena tiene escenario visible
-   desde `t=0`; B2→B3 cubre con panel `#20202a`; B8→B9 lleva la banda con `x:0` explícito;
-   B9 mantiene el panel claro sobre oscuro. Revisar los fotogramas medios con
-   `verificar_montaje.py` (tramo sin contenido ≤ 0,15 s).
+3. **Cruces claros/oscuros (B2→B3, B3→B4, B7→B8, B9→B10, B10→B11)** → cada escena tiene escenario
+   visible desde `t=0`; B2→B3 cubre con panel `#20202a`; B3→B4 revela con recorte circular desde la
+   marca; B7→B8 lleva la banda con `x:0` explícito; B8 y B9 mantienen el panel claro sobre oscuro.
+   Revisar los fotogramas medios con `verificar_montaje.py` (tramo sin contenido ≤ 0,15 s).
 4. **La balanza se desborda o las fichas giran demasiado** → la balanza mide 760 px = 2 platos de
    340 px + 80 de aire; la rotación del beam se limita a ±6° (≤ 8° permitido) y las fichas viven
    dentro de `.seat` (340 px = ancho de `.pcard`), dentro de la banda segura.
-5. **Duraciones reales ≠ estimadas** → la estimación de ~41,5 s es de palabra/velocidad; los tiempos
+5. **Duraciones reales ≠ estimadas** → la estimación de ~34,4 s es de palabra/velocidad; los tiempos
    definitivos los fija `voice_pipeline.py` y los aplica `retime.py`. Toda la animación está en
    tiempos **relativos** al inicio de su beat.
 6. **Fuentes de red** → las `woff2` ya están vendorizadas; medir tras `document.fonts.ready`.
+7. **El aviso del gancho como miniatura** → B1 es la miniatura del reel: la placa de aviso
+   (`.warnbadge`, relleno `#b3161b` con tinta `#f5f5f7` encima) y la flecha están visibles desde el
+   fotograma 0, sin desvanecidos; el rojo solo marca el error real. La banda segura no se toca: la
+   placa es el único foco dominante.
 
 ---
 
@@ -352,21 +364,24 @@ su `.cover` quede por encima de B3 durante el cruce.
 1. **Metáfora (resuelto):** la balanza de dos platos. Descartados el balancín y el ping-pong/relevos
    (§1).
 2. **Metáfora distinta de V5 (resuelto):** V5 usó la caída en los resultados y la SERP como examen;
-   aquí la metáfora es la balanza. La SERP aparece como **escenario de apoyo** (B8), no como imagen
+   aquí la metáfora es la balanza. La SERP aparece como **escenario de apoyo** (B3), no como imagen
    central.
 3. **Números de sección (resuelto):** los rótulos son nominales en mayúsculas, **sin numerar**,
    como en V5; el «1 · / 2 · / 3 ·» de GA4 numeraba un procedimiento que aquí no existe.
 4. **`setNum` generalizado (resuelto):** pasa a aceptar selector (`setNum(sel, txt, t)`), porque V6
    lo necesita en B3 y no solo en el gancho.
-5. **Transiciones (resuelto):** primaria `slide` (7/11, 63,6 %) + `forma`, `cover`, `circle`,
-   `sweep` como acentos; `cut` disponible pero no usada.
+5. **Transiciones (resuelto):** primaria `slide` (7/10, 70 %) + `cover`, `circle`, `sweep` como
+   acentos; `cut` disponible pero no usada.
 6. **Ejemplo único (resuelto):** «instalación de luz» (página de servicio frente a artículo de
    precios), de `01-fuentes.md` §6 ejemplo 2 —nuevo, no repite el «cafetera» de V5.
-7. **Cinco familias de transición (resuelto):** excepción justificada al «3-4» de `DESIGN.md` (§6):
-   la pieza va en el límite alto de la banda y encadena varios cambios de tema e idea.
+7. **Cuatro mecanismos de transición (resuelto):** dentro del «3-4» de `DESIGN.md` a ~34,4 s:
+   `slide` + acentos `cover`, `circle`, `sweep` (§6). La sexta familia (`forma`) se retira con el
+   beat que la usaba.
 8. **Tamaño del término (resuelto):** `.title` se fija a **110 px** con `letter-spacing:-0.03em` en §8
    (override del kit, que lo deja en 110 px por defecto): «CANIBALIZACIÓN» debe entrar en los 932 px
    de banda útil sin partirse; medir tras `document.fonts.ready`.
+9. **Ficha única firme en el arreglo (resuelto):** el beat de «la regla» se retira; su cierre —una
+   sola tarjeta firme— se absorbe en B10 sin duplicar el texto ni la balanza (§1, §4).
 
 ---
 
@@ -383,5 +398,5 @@ su `.cover` quede por encima de B3 durante el cruce.
 - **Orden obligatorio tras tocar escenas o línea de tiempo:**
   `retime.py` → `transiciones.py` → `check` → render. Después, `verificar_montaje.py`.
 - **Revisión final** (checklist en `STORYBOARD.md`): un fotograma de lectura por escena, los
-  instantes intermedios de `cover`, `circle`, `forma` y `sweep`, entradas y salidas, alineación,
+  instantes intermedios de `cover`, `circle` y `sweep`, entradas y salidas, alineación,
   sincronía con la voz y el MP4 completo en movimiento.

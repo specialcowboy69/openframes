@@ -1,8 +1,8 @@
 # BRIEF — V6 «Canibalización de palabras clave»
 
 **Serie:** SEO · **Pieza:** V6 · **Carpeta:** `videos/seo-06-canibalizacion/`
-**Formato:** 9:16 · 1080×1920 · faceless · **12 beats · ~41,5 s** (objetivo 40-50 s con la voz real) ·
-voz en off es-ES (`Pablo`)
+**Formato:** 9:16 · 1080×1920 · faceless · **11 beats · 137 palabras · ~34,4 s** (dentro de la banda
+30-40 s de la serie) · voz en off es-ES (`Pablo`)
 **Fuente de datos:** `investigacion/01-fuentes.md` · **continuidad:** `investigacion/02-continuidad.md` ·
 **contrato:** `investigacion/03-contrato.md` · **guion:** `SCRIPT.md`
 
@@ -38,23 +38,16 @@ web.» Rótulo en pantalla: **Guarda esto**.
 ## Sistema visual
 
 Kinetic Type + Swiss Grid, el sistema de la serie (`DESIGN.md`). Un solo acento: verde = lo correcto,
-rojo = lo que pierde. Gráficos reutilizados del kit: dos ventanas de navegador, dos tarjetas de
-resultado que se turnan en la SERP, pastilla de consulta, flecha de fusión y marcador de guardado con
-onda.
+rojo = lo que pierde o señala un error real. Gráficos reutilizados del kit: dos ventanas de navegador,
+dos tarjetas de resultado que compiten y se hunden juntas, pastilla de consulta, el panel de Search
+Console (Rendimiento → Páginas), flecha de fusión y marcador de guardado con onda.
 
-## Decisión abierta — duración (para el dueño)
+## Duración (resuelto)
 
-El guion y este brief fijan el objetivo en **40-50 s** (proyección **165 palabras / 3,98 pal./s =
-41,46 s**), pero `PROFILE.md:29`, `IDEAS.md:8` y el contrato de la serie
-(`investigacion/03-contrato.md` §5) fijan la banda en **30-40 s**. **No se cambia la banda de la
-serie**; queda como decisión del dueño:
-
-- **Opción A — aceptar 40-50 s (esta pieza).** Consecuencia: el guion cabe sin recortar ideas, pero
-  hay que anotar la excepción en `DECISIONS.md` y alinear `PROFILE.md` y `03-contrato.md` (como ya
-  se hizo con V5, 53,041 s).
-- **Opción B — respetar 30-40 s.** Consecuencia: hay que recortar ~2 beats (o acelerar el ritmo),
-  lo que obliga a rehacer `SCRIPT.md`, la tabla de jerga, el `## Guion plano`, la tabla de ritmo del
-  storyboard y los tiempos declarados.
+El guion queda en **137 palabras / 3,98 pal./s = 34,44 s**, **dentro de la banda de 30-40 s** de la
+serie (`PROFILE.md:29`, `IDEAS.md:8` y `investigacion/03-contrato.md` §5). Ya no hace falta la
+excepción de duración que pedían las 165 palabras / ~41,5 s de la versión anterior: la banda no se
+toca y el total entra sin recortar. La duración real la fija `voice_pipeline.py`.
 
 ## Barras de calidad
 
