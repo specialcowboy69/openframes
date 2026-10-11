@@ -1,7 +1,7 @@
 # DIRECCIÓN DE ARTE — V5 «Intención de búsqueda»
 
 Aplica el brief del dueño (`DIRECCION-ARTE-BRIEF.md`). Pieza: 12 beats · 188 palabras ·
-~53-58 s (ritmo medido de la voz: 3,57 pal./s) · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos karaoke · barra de progreso.
+~47-52 s (ritmo medido de la voz: 3,98 pal./s) · 1080×1920 · voz en off es-ES (`Pablo`) · subtítulos karaoke · barra de progreso.
 
 ## 1. Dirección elegida: «editorial de papel + demo de Google»
 

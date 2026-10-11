@@ -1,7 +1,7 @@
 # STORYBOARD — V5 «Intención de búsqueda»
 
 **Sustituye al plan anterior**: la dirección de arte está en `DIRECCION.md` y el brief original en
-`DIRECCION-ARTE-BRIEF.md`. 12 beats · 188 palabras · ~53-58 s (ritmo medido de la voz: 3,57 pal./s).
+`DIRECCION-ARTE-BRIEF.md`. 12 beats · 188 palabras · ~47-52 s (ritmo medido de la voz: 3,98 pal./s).
 **Todos los tiempos son RELATIVOS al inicio de su beat**: los absolutos los fija la voz con `retime.py`.
 Las letras A-G remiten a las recetas de animación del brief (§5).
 
