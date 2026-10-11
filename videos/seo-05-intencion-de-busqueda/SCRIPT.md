@@ -25,7 +25,9 @@ Estado: **guion v5** (un ejemplo; la intención la fija la búsqueda completa). 
 | 11 | Una intención, una página. Decide qué página merece cada búsqueda antes de escribir. | 13 | El arreglo |
 | 12 | Guarda este vídeo antes de escribir tu próxima página. | 9 | CTA |
 
-**Total: 188 palabras ≈ 67 s a 2,8 pal./s · ≈ 57 s a 3,3 pal./s.** La tasa real la fija la voz.
+**Total: 188 palabras.** **Ritmo medido con la voz real** (muestra de tres líneas, 2026-10-11): **3,57 palabras/s** →
+el guion completo (188 palabras) queda en **≈ 53 s** más las pausas entre líneas.
+Cuando estén generadas las 12 líneas, los tiempos definitivos de cada beat salen de ahí.
 
 ## Lo que corrige esta versión
 
