@@ -50,6 +50,12 @@ Aquí solo el plan. **Ocho piezas en tres bloques**; una idea por vídeo, 30-40 
 
 Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
 
+## Casos de estudio marketing
+
+| ID | Carpeta prevista | Tema | Gancho | Formato | Estado |
+|----|------------------|------|--------|---------|--------|
+| MK1 | `videos/mkt-01-responde-con-video` | Old Spice 2010: responder a comentarios con video (aplicado a una tienda de ropa) | "La estrategia que uso esta conocida marca, la puedes usar tu tambien" | 9:16 · ~34,6 s | **Guion y plan visual hechos** (2026-10-12): 11 lineas · 121 palabras ≈ 34,6 s, con fuentes en `investigacion/01-fuentes.md`. Hecho con red de subagentes (fuentes, continuidad, guion, plan visual y verificacion adversarial: 18 defectos, corregidos el alto y los medios). La cifra de los 65 millones de reproducciones **se descarta**: la fuente no dice que mide. Pendiente: voz `Pablo` y montaje |
+
 ## Historial
 
 - **V1** — guion aprobado (3ª iteración, más explicativo, jerga definida). Montado en
