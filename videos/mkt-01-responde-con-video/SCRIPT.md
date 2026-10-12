@@ -1,6 +1,6 @@
 # mkt-01 — Responde con vídeo (Old Spice 2010)
 
-Serie «Casos de estudio marketing» · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **11 líneas · ≈34,6 s**
+Serie «Casos de estudio marketing» · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **11 líneas · ≈37,5 s**
 Ángulo: **La marca que respondió a sus comentarios con vídeos personalizados, y cómo lo llevas a tu negocio.**
 Tesis: **Old Spice respondió a sus comentarios con 186 vídeos en en torno a dos días y medio: tú puedes hacer lo mismo, sin comprar anuncios.**
 Estado: **propuesta de guion** (un solo ejemplo: la tienda de ropa; se invita a probarlo, nunca se promete que funcione).
@@ -26,10 +26,9 @@ Pendiente de voz y montaje.
 | 10 | Tus clientes ya te dicen qué contenido quieren. | 8 | El cierre | Burbujas de comentarios con preguntas que ya han escrito tus clientes |
 | 11 | Guarda esto y responde al próximo comentario con un vídeo. | 10 | CTA | Marcador de guardado con onda; rótulo «Guarda esto» |
 
-**Total: 121 palabras.** A la velocidad real de la voz (**3,5 palabras/s**, derivada de `DECISIONS.md`
-D38: V6 se aceptó con 142 palabras en **≈40,27 s** → 142/40,27 ≈ 3,53) da **≈ 34,6 s**. Contado con
-comando: 121 palabras de verdad, suma de los recuentos de la tabla. Todas las líneas quedan en
-**14 palabras o menos**.
+**Total: 121 palabras.** La voz real (`Pablo`, sin tocar su ritmo) dura **37,52 s** → **≈3,22 palabras/s**
+(la estimación de 3,5 pal./s era la de V6, `DECISIONS.md` D38). Contado con comando: 121 palabras de
+verdad, suma de los recuentos de la tabla. Todas las líneas quedan en **14 palabras o menos**.
 
 **Nota de cifras:** se usan solo las cifras sólidas de `investigacion/01-fuentes.md`: **186 vídeos**,
 **en torno a dos días y medio** (línea 3) y **5,9 M de reproducciones el primer día** (línea 4, dicha como

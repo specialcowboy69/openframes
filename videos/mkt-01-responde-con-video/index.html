@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>Responde con vídeo (Old Spice 2010)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <style>
+      :root { --accent:#c8ff3d; --accent-ink:#0b0b10; --panel:#20202a; }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body {
+        width:1080px; height:1920px; overflow:hidden;
+        background:#0a0a0f; font-family:"Inter", system-ui, sans-serif; color:#f5f5f7;
+      }
+      #root { position:relative; width:1080px; height:1920px; background:#0a0a0f; overflow:hidden; }
+
+      /* ---------- escena + tema ---------- */
+      .scene { position:absolute; inset:0; overflow:hidden; z-index:1; isolation:isolate; }
+      .s-in {
+        position:absolute; inset:0; display:flex; flex-direction:column;
+        justify-content:center; align-items:stretch; gap:24px;
+        padding:300px 74px 700px;
+      }
+      .dark  { --bg:#0a0a0f; --panel:#20202a; --line:#26262e; --ink:#f5f5f7; --muted:#8b8b99; }
+      .light { --bg:#f4f1ea; --panel:#ffffff; --line:#e0dbcf; --ink:#14141a; --muted:#6f6f78; }
+      .dark  .s-in { background: radial-gradient(circle at 50% 42%, rgba(200,255,61,0.10), rgba(200,255,61,0) 54%), #0a0a0f; }
+      .light .s-in { background: radial-gradient(#ddd6c8 2.2px, rgba(0,0,0,0) 2.2px) 0 0 / 48px 48px, #f4f1ea; }
+
+      /* ---------- kicker ---------- */
+      .kicker {
+        display:flex; align-items:center; gap:14px; font-size:32px; font-weight:700;
+        letter-spacing:0.28em; color:var(--muted); text-transform:uppercase;
+      }
+      .kicker .dot { width:14px; height:14px; border-radius:50%; background:var(--accent); }
+
+      /* ---------- superficies (kit) ---------- */
+      .card {
+        position:relative; background:var(--panel); border:3px solid var(--line); border-radius:30px;
+        padding:40px 34px; box-shadow:0 26px 70px rgba(0,0,0,0.45);
+        min-height:700px; display:flex; flex-direction:column; justify-content:center; gap:24px;
+      }
+      .rowc { display:flex; align-items:center; justify-content:center; gap:26px; }
+      .rowline { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+      .chip {
+        display:inline-flex; align-items:center; gap:12px; padding:18px 30px; border-radius:999px;
+        background:var(--panel); border:2px solid var(--line); color:var(--ink);
+        font-family:"JetBrains Mono", monospace; font-size:36px; font-weight:800; white-space:nowrap;
+      }
+      .chip.accent { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+      .pill {
+        display:inline-flex; align-items:center; padding:14px 30px; border-radius:999px;
+        font-size:42px; font-weight:800; letter-spacing:0.02em; white-space:nowrap;
+      }
+      .pill.accent { background:var(--accent); color:var(--accent-ink); }
+
+      /* ---- B1/B6: el móvil con el hilo de comentarios ---- */
+      .stage { position:relative; height:800px; }
+      .phone {
+        position:relative; width:520px; height:780px; background:#20202a; border:6px solid #14141a;
+        border-radius:56px; padding:22px 20px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.5);
+      }
+      .phone::before {
+        content:""; position:absolute; left:50%; top:12px; width:150px; height:22px;
+        margin-left:-75px; border-radius:11px; background:#14141a;
+      }
+      .cthread {
+        position:absolute; left:20px; right:20px; top:64px; bottom:20px;
+        display:flex; flex-direction:column; gap:14px;
+      }
+      .cmsg { display:flex; align-items:flex-start; gap:14px; }
+      .cmsg .av {
+        flex:0 0 auto; width:56px; height:56px; border-radius:50%; background:#3a3a46;
+        color:#f5f5f7; font-size:22px; font-weight:800;
+        display:flex; align-items:center; justify-content:center;
+      }
+      .cbubble {
+        position:relative; flex:1; background:#2c2c38; border:2px solid #3f3f4c; border-radius:20px;
+        padding:18px 20px; font-size:30px; line-height:1.25; color:#f5f5f7;
+      }
+      .cbubble::after {
+        content:""; position:absolute; left:-10px; top:20px; width:0; height:0;
+        border-top:10px solid transparent; border-bottom:10px solid transparent; border-right:12px solid #2c2c38;
+      }
+      .cbubble.hot { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+      .cbubble.hot::after { border-right-color:var(--accent); }
+      .replyclip {
+        position:relative; width:230px; height:400px; border-radius:26px; overflow:hidden;
+        background:#20202a; border:4px solid #26262e; box-shadow:0 26px 64px rgba(0,0,0,0.5);
+      }
+      .replyclip .play {
+        position:absolute; left:50%; top:50%; width:84px; height:84px; margin:-42px 0 0 -42px;
+        border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;
+      }
+      .replyclip .play svg { width:38px; height:38px; color:var(--accent-ink); }
+      .replyclip .clipbar {
+        position:absolute; left:16px; right:16px; bottom:16px; height:10px; border-radius:5px; background:#3a3a46;
+      }
+      .callout {
+        position:relative; display:inline-flex; align-items:center; padding:10px 20px; border-radius:999px;
+        background:var(--accent); color:var(--accent-ink); font-size:34px; font-weight:800; letter-spacing:0.04em;
+      }
+      #s1-phone { position:absolute; left:0; top:20px; }
+      #s1-clip  { position:absolute; right:0; top:230px; }
+      #s1-label { position:absolute; left:-8px; top:-30px; }
+
+      /* ---- B2: la tarjeta del caso (año + logotipo) ---- */
+      .yearbadge { font-size:180px; font-weight:900; letter-spacing:-0.04em; line-height:1; color:var(--ink); }
+      .brandmark {
+        display:inline-flex; align-items:center; padding:18px 30px; border-radius:14px; background:#ffffff;
+        border:3px solid var(--line); font-size:64px; font-weight:900; letter-spacing:0.02em;
+        text-transform:uppercase; color:#14141a;
+      }
+
+      /* ---- B3: la cadena de producción ---- */
+      .chain { display:flex; align-items:center; justify-content:center; gap:8px; }
+      #s3-chain { flex-direction:column; }
+      .station {
+        position:relative; display:flex; flex-direction:column; align-items:center; gap:12px;
+        width:240px; padding:16px 14px; border-radius:22px; background:#20202a; border:3px solid #26262e;
+      }
+      .station .ic { width:80px; height:80px; display:flex; align-items:center; justify-content:center; color:#f5f5f7; }
+      .station .ic svg { width:64px; height:64px; }
+      .station .lb { font-size:26px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8b8b99; }
+      .chainarrow { width:40px; height:40px; flex:0 0 auto; color:#f5f5f7; }
+      .chainarrow svg { width:100%; height:100%; display:block; }
+      .chainarrow svg path { fill:none; stroke:currentColor; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+      .sheet { display:flex; flex-direction:column; gap:8px; width:84px; }
+      .sheet i { display:block; height:10px; border-radius:5px; background:#5a5a68; }
+      .sheet i:nth-child(2) { width:78%; }
+      .sheet i:nth-child(3) { width:60%; }
+      .prompter {
+        width:96px; height:74px; border-radius:12px; background:#20202a; border:3px solid #3a3a46;
+        display:flex; flex-direction:column; justify-content:center; gap:8px; padding:10px;
+      }
+      .prompter i { display:block; height:8px; border-radius:4px; background:#6f6f78; }
+
+      /* ---- B4: el muro de clips y la cifra 186 ---- */
+      .bignum { font-size:180px; font-weight:900; letter-spacing:-0.04em; line-height:1; color:var(--ink); min-height:180px; }
+      .statlab { font-size:38px; font-weight:700; letter-spacing:0.24em; text-transform:uppercase; color:var(--muted); }
+      .clipgrid { display:grid; grid-template-columns:repeat(8, 1fr); grid-auto-rows:84px; gap:14px; width:100%; }
+      .mini { position:relative; border-radius:14px; background:#20202a; border:2px solid #26262e; overflow:hidden; opacity:0; }
+      .mini::after {
+        content:""; position:absolute; left:50%; top:50%; width:0; height:0; margin:-12px 0 0 -8px;
+        border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:18px solid #f5f5f7;
+      }
+      .minifocus {
+        position:relative; width:280px; height:380px; margin:0 auto; border-radius:28px;
+        background:var(--accent); border:5px solid var(--accent-ink); overflow:hidden;
+      }
+      .minifocus::after {
+        content:""; position:absolute; left:50%; top:50%; width:0; height:0; margin:-18px 0 0 -12px;
+        border-top:18px solid transparent; border-bottom:18px solid transparent; border-left:26px solid var(--accent-ink);
+      }
+      #s4-focus { position:absolute; left:50%; top:50%; margin:-190px 0 0 -140px; }
+
+      /* ---- B5: las tres etiquetas de la lección ---- */
+      .lesstag {
+        display:inline-flex; align-items:center; gap:18px; padding:22px 30px; border-radius:22px;
+        background:#20202a; border:3px solid #26262e;
+      }
+      .lesstag .ic { width:64px; height:64px; color:#f5f5f7; }
+      .lesstag .ic svg { width:56px; height:56px; }
+      .lesstag .tx { font-size:54px; font-weight:900; letter-spacing:-0.01em; color:#f5f5f7; }
+      .lesstag.accent { background:var(--accent); border-color:var(--accent); }
+      .lesstag.accent .tx, .lesstag.accent .ic { color:var(--accent-ink); }
+
+      /* ---- B6: el set (trípode + móvil + cartel tachado) ---- */
+      .phone.mini { width:300px; height:440px; border-radius:34px; }
+      .phone.mini::before { width:96px; height:16px; margin-left:-48px; top:10px; }
+      .tripod { width:260px; height:220px; margin:0 auto; color:var(--ink); }
+      .tripod svg { width:100%; height:100%; display:block; }
+      .tripod svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }
+      .sign {
+        position:relative; display:inline-block; padding:18px 28px; border-radius:16px; background:#ffffff;
+        border:3px solid var(--line); font-size:40px; font-weight:800; letter-spacing:0.04em;
+        text-transform:uppercase; color:#14141a; line-height:1.15;
+      }
+      .strike { position:absolute; inset:0; color:var(--ink); }        /* tachado en tinta, no en rojo */
+      .strike svg { width:100%; height:100%; display:block; }
+      .strike svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; }
+
+      /* ---- B7: la tienda (percha + la pregunta de la clienta) ---- */
+      .store {
+        position:relative; width:100%; height:320px; border-radius:24px; background:#ffffff;
+        border:3px solid var(--line); overflow:hidden;
+      }
+      .store .hanger { position:absolute; left:50%; top:28px; width:220px; height:120px; margin-left:-110px; color:#14141a; }
+      .store .hanger svg { width:100%; height:100%; display:block; }
+      .store .hanger svg path { fill:none; stroke:currentColor; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+      .chatbar {
+        display:flex; align-items:center; gap:16px; padding:16px 22px; border-radius:999px;
+        background:#ffffff; border:3px solid var(--line);
+      }
+      .chatbar .av {
+        flex:0 0 auto; width:56px; height:56px; border-radius:50%; background:var(--accent);
+        color:var(--accent-ink); font-weight:800; display:flex; align-items:center; justify-content:center;
+      }
+      .chatbar .qt { font-family:"JetBrains Mono", monospace; font-size:34px; font-weight:600; color:var(--ink); white-space:pre-wrap; }
+
+      /* ---- B8: el reparto del clip a dos destinos ---- */
+      .fork { width:100%; height:160px; color:var(--muted); }
+      .fork svg { width:100%; height:100%; display:block; }
+      .fork svg path { fill:none; stroke:currentColor; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+      .destcard {
+        width:400px; padding:24px 26px; border-radius:22px; background:#20202a; border:3px solid #26262e;
+        display:flex; flex-direction:column; align-items:center; gap:14px;
+      }
+      .destcard .dl { font-size:30px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8b8b99; }
+      .avatars { display:flex; gap:8px; }
+      .avatars i { display:block; width:52px; height:52px; border-radius:50%; background:#3a3a46; border:2px solid #4a4a56; opacity:0; }
+
+      /* ---- B9: la lista de preguntas que se marcan en vídeo ---- */
+      .qlist { display:flex; flex-direction:column; gap:16px; }
+      .qrow {
+        position:relative; display:flex; align-items:center; justify-content:space-between; gap:20px;
+        padding:18px 24px; border-radius:18px; background:#20202a; border:3px solid #26262e;
+      }
+      .qrow .qt { font-family:"JetBrains Mono", monospace; font-size:36px; font-weight:600; color:#f5f5f7; }
+      .vmark {
+        display:flex; align-items:center; gap:12px; padding:8px 18px; border-radius:999px;
+        background:var(--accent); color:var(--accent-ink); font-size:28px; font-weight:800; letter-spacing:0.04em;
+      }
+      .vmark svg { width:34px; height:34px; color:var(--accent-ink); }
+
+      /* ---- B10: las burbujas que ya han escrito los clientes (sobre claro) ---- */
+      .bubbles { display:flex; flex-direction:column; gap:18px; }
+      .bubbles .cbubble {
+        background:#ffffff; border:3px solid var(--line); color:#14141a;
+        font-family:"JetBrains Mono", monospace; font-size:34px; white-space:pre-wrap;
+      }
+      .bubbles .cbubble::after { border-right-color:#ffffff; }
+      .bubbles .cmsg .av { background:#e0dbcf; color:#14141a; }
+
+      /* ---- B11: el motivo de la pieza junto al marcador ---- */
+      .cmotif { position:relative; width:320px; height:150px; margin:0 auto; }
+      .cmotif .cbubble {
+        position:absolute; left:0; top:20px; width:200px; flex:none; background:#2c2c38;
+        border:2px solid #3f3f4c; border-radius:18px; padding:14px; font-size:26px;
+      }
+      .cmotif .replyclip { position:absolute; right:0; top:0; width:130px; height:150px; }
+
+      /* ---- CTA (kit) ---- */
+      .cta-wrap { position:relative; align-self:center; }
+      .cta-mark { width:172px; height:172px; border-radius:46px; background:var(--accent); display:flex; align-items:center; justify-content:center; }
+      .cta-mark svg { width:96px; height:96px; color:var(--accent-ink); }
+      .cta-label { font-size:96px; font-weight:900; letter-spacing:-0.02em; color:var(--ink); text-align:center; }
+      .savewave { position:absolute; inset:-90px; color:var(--accent); }
+      .savewave svg { width:100%; height:100%; display:block; }
+      .savewave svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; }
+
+      /* ---------- barra de progreso ---------- */
+      .progress {
+        position:absolute; left:74px; right:74px; top:300px; height:6px;
+        background:#1e1e26; border-radius:3px; overflow:hidden; z-index:60;
+      }
+      .progress-fill { height:100%; width:100%; background:var(--accent); transform:scaleX(0); transform-origin:left center; }
+      [data-composition-id="caption-pill-karaoke"] { z-index:55; }
+
+      /* ---------- piezas propias de transición ---------- */
+      .cover { position:absolute; inset:0; z-index:40; background:#20202a; transform:scale(0); transform-origin:50% 62%; pointer-events:none; }
+      .sweep { position:absolute; left:0; right:0; top:30%; height:40%; z-index:40; background:var(--accent); transform:translateX(-130%) skewX(-12deg); pointer-events:none; }
+      #s2 { z-index:5; }
+
+      /* ---------- estados iniciales (seek-safe) ---------- */
+      .fade-in { opacity:0; }
+      .w { opacity:0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37.524" data-width="1080" data-height="1920">
+
+      <!-- ===== B1 · GANCHO — el hilo que se abre a clip (fotograma 0 = miniatura) ===== -->
+      <section class="scene clip light" id="s1" data-start="0.0" data-duration="3.926" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div class="kicker" id="s1-kicker"><span class="dot"></span>GANCHO</div>
+          <div class="stage" id="s1-stage">
+            <div class="phone" id="s1-phone">
+              <div class="cthread" id="s1-thread">
+                <div class="cmsg" id="s1-cm1"><span class="av">A</span><span class="cbubble">¿Cómo hueles tan bien?</span></div>
+                <div class="cmsg" id="s1-cm2"><span class="av">M</span><span class="cbubble">¿Responderías a mi pregunta?</span></div>
+                <div class="cmsg"><span class="av">O</span><span class="cbubble hot" id="s1-bubble">Respóndele con un vídeo</span></div>
+              </div>
+            </div>
+            <div class="replyclip" id="s1-clip">
+              <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+              <span class="clipbar"></span>
+            </div>
+            <div class="callout" id="s1-label">ESTA MARCA</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B2 · EL CASO — tarjeta 2010 + logotipo, y el comentario que se convierte ===== -->
+      <section class="scene clip light" id="s2" data-start="3.576" data-duration="5.001" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>EL CASO</div>
+          <div class="card" id="s2-card">
+            <div class="rowline" style="align-items:center; gap:40px">
+              <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:24px; align-items:flex-start">
+                <div class="yearbadge" id="s2-year">2010</div>
+                <div class="brandmark" id="s2-brand">Old&nbsp;Spice</div>
+              </div>
+              <div style="flex:1; display:flex; flex-direction:column; gap:20px; align-items:center">
+                <div class="replyclip" id="s2-clip">
+                  <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+                  <span class="clipbar"></span>
+                </div>
+                <div class="cmsg"><span class="av">F</span><span class="cbubble" id="s2-cm">¿Cuál es tu superpoder?</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="cover" id="s2-cover"></div>
+        </div>
+      </section>
+
+      <!-- ===== B3 · EL MECANISMO — la cadena de producción ===== -->
+      <section class="scene clip dark" id="s3" data-start="8.127" data-duration="4.305" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div class="kicker fade-in" id="s3-kicker"><span class="dot"></span>EL MECANISMO</div>
+          <div class="card" id="s3-card">
+            <div class="chain" id="s3-chain">
+              <div class="station" id="s3-st1">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16v10H9l-5 4z"/></svg></span>
+                <span class="lb">Comentario</span>
+              </div>
+              <div class="chainarrow" id="s3-a1"><svg viewBox="0 0 24 24"><path d="M12 3v14"/><path d="M6.5 12.5 12 18l5.5-5.5"/></svg></div>
+              <div class="station" id="s3-st2">
+                <span class="ic"><span class="sheet"><i></i><i></i><i></i></span></span>
+                <span class="lb">Guion</span>
+              </div>
+              <div class="chainarrow" id="s3-a2"><svg viewBox="0 0 24 24"><path d="M12 3v14"/><path d="M6.5 12.5 12 18l5.5-5.5"/></svg></div>
+              <div class="station" id="s3-st3">
+                <span class="ic"><span class="prompter"><i></i><i></i><i></i></span></span>
+                <span class="lb">Prompter</span>
+              </div>
+              <div class="chainarrow" id="s3-a3"><svg viewBox="0 0 24 24"><path d="M12 3v14"/><path d="M6.5 12.5 12 18l5.5-5.5"/></svg></div>
+              <div class="station" id="s3-st4">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="6.5" width="13" height="11" rx="2"/><path d="M15 10l6-3v10l-6-3z"/></svg></span>
+                <span class="lb">Cámara</span>
+              </div>
+            </div>
+            <div class="rowc"><span class="chip" id="s3-note">EN MINUTOS</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B4 · LA ESCALA — el muro de clips crece hasta 186 y el foco se cierra ===== -->
+      <section class="scene clip light" id="s4" data-start="11.982" data-duration="5.09" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>LA ESCALA</div>
+          <div class="card" id="s4-card">
+            <div class="rowline" style="justify-content:center; align-items:flex-end; gap:24px">
+              <div class="bignum" id="s4-num"></div>
+              <div class="statlab" id="s4-numlab">VÍDEOS</div>
+            </div>
+            <div class="clipgrid" id="s4-grid">
+              <span class="mini" id="s4-g1"></span><span class="mini" id="s4-g2"></span><span class="mini" id="s4-g3"></span><span class="mini" id="s4-g4"></span><span class="mini" id="s4-g5"></span><span class="mini" id="s4-g6"></span><span class="mini" id="s4-g7"></span><span class="mini" id="s4-g8"></span>
+              <span class="mini" id="s4-g9"></span><span class="mini" id="s4-g10"></span><span class="mini" id="s4-g11"></span><span class="mini" id="s4-g12"></span><span class="mini" id="s4-g13"></span><span class="mini" id="s4-g14"></span><span class="mini" id="s4-g15"></span><span class="mini" id="s4-g16"></span>
+              <span class="mini" id="s4-g17"></span><span class="mini" id="s4-g18"></span><span class="mini" id="s4-g19"></span><span class="mini" id="s4-g20"></span><span class="mini" id="s4-g21"></span><span class="mini" id="s4-g22"></span><span class="mini" id="s4-g23"></span><span class="mini" id="s4-g24"></span>
+              <span class="mini" id="s4-g25"></span><span class="mini" id="s4-g26"></span><span class="mini" id="s4-g27"></span><span class="mini" id="s4-g28"></span><span class="mini" id="s4-g29"></span><span class="mini" id="s4-g30"></span><span class="mini" id="s4-g31"></span><span class="mini" id="s4-g32"></span>
+            </div>
+            <div class="rowc"><span class="pill accent" id="s4-stat">6 M · EL DÍA 1</span></div>
+            <div class="rowc"><span class="chip" id="s4-plabel">UNA RESPUESTA, PERSONAL</span></div>
+            <div class="minifocus" id="s4-focus"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B5 · LA LECCIÓN — tres etiquetas ===== -->
+      <section class="scene clip light" id="s5" data-start="16.672" data-duration="3.926" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div class="kicker fade-in" id="s5-kicker"><span class="dot"></span>LA LECCIÓN</div>
+          <div class="card" id="s5-card">
+            <div class="lesstag" id="s5-t1">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+              <span class="tx">POR SU NOMBRE</span>
+            </div>
+            <div class="lesstag" id="s5-t2">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span>
+              <span class="tx">RÁPIDO</span>
+            </div>
+            <div class="lesstag accent" id="s5-t3">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14c1.2 1.5 2.5 2.2 4 2.2s2.8-.7 4-2.2"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+              <span class="tx">CON HUMOR</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B6 · TU VERSIÓN — el set: móvil en trípode y el presupuesto tachado ===== -->
+      <section class="scene clip light" id="s6" data-start="20.248" data-duration="3.001" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div class="kicker fade-in" id="s6-kicker"><span class="dot"></span>TU VERSIÓN</div>
+          <div class="card" id="s6-card">
+            <div class="rowline" style="align-items:flex-end; justify-content:center; gap:44px">
+              <div style="flex:0 0 auto; display:flex; flex-direction:column; align-items:center">
+                <div class="phone mini" id="s6-phone"></div>
+                <div class="tripod" id="s6-tripod"><svg viewBox="0 0 260 220"><path d="M70 14 H190 M130 14 V96 M130 96 L44 206 M130 96 L216 206 M130 96 V206 M76 150 H184"/></svg></div>
+              </div>
+              <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:28px; align-items:flex-start">
+                <div class="sign" id="s6-sign">Presupuesto<br>de anuncio
+                  <div class="strike" id="s6-strike"><svg viewBox="0 0 100 44" preserveAspectRatio="none"><path d="M3 36 L97 9"/></svg></div>
+                </div>
+                <span class="pill accent" id="s6-pill">SOLO UN MÓVIL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B7 · EL EJEMPLO — la tienda y la pregunta que se teclea ===== -->
+      <section class="scene clip light" id="s7" data-start="22.849" data-duration="4.537" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div class="kicker fade-in" id="s7-kicker"><span class="dot"></span>EL EJEMPLO</div>
+          <div class="card" id="s7-card">
+            <div class="store" id="s7-store">
+              <div class="hanger" id="s7-hanger"><svg viewBox="0 0 220 120"><path d="M122 6 a10 10 0 1 1 -10 10 M112 16 v8 M112 24 L20 84 H204 Z"/></svg></div>
+            </div>
+            <div class="chatbar" id="s7-chat">
+              <span class="av">C</span>
+              <span class="qt" id="s7-q">¿Cómo combino esta chaqueta?</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B8 · LA DOBLE GANANCIA — el clip se reparte a dos destinos ===== -->
+      <section class="scene clip dark" id="s8" data-start="26.936" data-duration="3.047" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div class="kicker fade-in" id="s8-kicker"><span class="dot"></span>LA DOBLE GANANCIA</div>
+          <div class="card" id="s8-card">
+            <div class="rowc">
+              <div class="replyclip" id="s8-clip">
+                <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+                <span class="clipbar"></span>
+              </div>
+            </div>
+            <div class="fork" id="s8-fork"><svg viewBox="0 0 864 200" preserveAspectRatio="none"><path d="M432 8 V56 M219 56 H645 M219 56 V150 M645 56 V150 M219 150 l-16 -20 M219 150 l16 -20 M645 150 l-16 -20 M645 150 l16 -20"/></svg></div>
+            <div class="rowc" style="align-items:flex-start; gap:26px">
+              <div class="destcard" id="s8-her">
+                <span class="avatars"><i></i></span>
+                <span class="dl">Para ella</span>
+              </div>
+              <div class="destcard" id="s8-others">
+                <span class="avatars"><i></i><i></i><i></i><i></i></span>
+                <span class="dl">Para el resto</span>
+              </div>
+            </div>
+          </div>
+          <div class="sweep" id="s8-sweep"></div>
+        </div>
+      </section>
+
+      <!-- ===== B9 · LA PRÁCTICA — la lista de preguntas que se marcan en vídeo ===== -->
+      <section class="scene clip light" id="s9" data-start="29.583" data-duration="2.861" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div class="kicker fade-in" id="s9-kicker"><span class="dot"></span>LA PRÁCTICA</div>
+          <div class="card" id="s9-card">
+            <div class="qlist" id="s9-list">
+              <div class="qrow" id="s9-r1">
+                <span class="qt">¿Cómo combino la chaqueta?</span>
+                <span class="vmark" id="s9-v1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>VÍDEO</span>
+              </div>
+              <div class="qrow" id="s9-r2">
+                <span class="qt">¿Qué talla me queda?</span>
+                <span class="vmark" id="s9-v2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>VÍDEO</span>
+              </div>
+              <div class="qrow" id="s9-r3">
+                <span class="qt">¿Cómo lavo la prenda?</span>
+                <span class="vmark" id="s9-v3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>VÍDEO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B10 · EL CIERRE — las burbujas que ya llegan escritas ===== -->
+      <section class="scene clip light" id="s10" data-start="32.044" data-duration="2.322" data-track-index="0">
+        <div class="s-in" id="s10-in">
+          <div class="kicker fade-in" id="s10-kicker"><span class="dot"></span>EL CIERRE</div>
+          <div class="card" id="s10-card">
+            <div class="bubbles" id="s10-bubbles">
+              <div class="cmsg" id="s10-b1" data-layout-allow-overlap><span class="av">R</span><span class="cbubble">¿Cómo combino la chaqueta?</span></div>
+              <div class="cmsg" id="s10-b2" data-layout-allow-overlap><span class="av">L</span><span class="cbubble">¿Qué talla me llevo?</span></div>
+              <div class="cmsg" id="s10-b3" data-layout-allow-overlap><span class="av">S</span><span class="cbubble">¿Hacéis envíos?</span></div>
+              <div class="cmsg" id="s10-b4" data-layout-allow-overlap><span class="av">P</span><span class="cbubble">¿Cuánto tarda?</span></div>
+            </div>
+            <div class="rowc"><span class="chip" id="s10-hint">TUS CLIENTES YA PREGUNTAN</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B11 · CTA — guarda esto ===== -->
+      <section class="scene clip dark" id="s11" data-start="34.366" data-duration="3.158" data-track-index="0">
+        <div class="s-in" id="s11-in">
+          <div class="card" id="s11-card" style="align-items:center">
+            <div class="cta-wrap" data-layout-allow-overflow>
+              <div class="savewave" id="s11-wave"><svg viewBox="0 0 320 320"><path d="M160 24 a136 136 0 1 1 -0.1 0"/></svg></div>
+              <div class="cta-mark" id="s11-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z"/></svg></div>
+            </div>
+            <div class="cta-label" id="s11-label">Guarda esto</div>
+            <div class="cmotif" id="s11-motif">
+              <div class="cmsg"><span class="cbubble">Un comentario</span></div>
+              <div class="replyclip">
+                <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="37.524" data-track-index="0" data-media-start="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== KARAOKE ===== -->
+      <div data-layout-allow-overlap class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="37.524" data-track-index="2" data-width="1080" data-height="1920"></div>
+
+      <!-- ===== MUSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="37.524" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS (sfx.wav lo genera sfx.py) ===== -->
+      <audio id="sfx" class="clip" data-start="0" data-duration="37.524" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
+
+      <!-- ===== VOZ ===== -->
+      <audio id="vo-01" class="clip" data-start="0.0" data-duration="3.574" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="3.576" data-duration="4.549" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="8.127" data-duration="3.853" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="11.982" data-duration="4.688" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="16.672" data-duration="3.574" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="20.248" data-duration="2.599" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="22.849" data-duration="4.085" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="26.936" data-duration="2.645" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="29.583" data-duration="2.459" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="32.044" data-duration="2.32" data-track-index="1" src="assets/voice/10.wav"></audio>
+      <audio id="vo-11" class="clip" data-start="34.366" data-duration="3.158" data-track-index="1" src="assets/voice/11.wav"></audio>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const S = [0.0, 3.576, 8.127, 11.982, 16.672, 20.248, 22.849, 26.936, 29.583, 32.044, 34.366];
+      const at = (n, t) => S[n - 1] + t;
+      const tl = gsap.timeline({ paused: true });
+
+      // Aparicion con estado inicial explicito. Asentamiento power3.out.
+      function put(sel, t, o = {}) {
+        const { x = 0, y = 0, scale = 1, rot = 0, dur = 0.55, ease = "power3.out" } = o;
+        tl.fromTo(sel, { opacity: 0, x, y, scale, rotation: rot },
+          { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: dur, ease }, t);
+      }
+      // El escenario no se oculta nunca: solo se asienta (sin tocar opacity).
+      function rise(sel, t, o = {}) {
+        const { y = 40, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { y }, { y: 0, duration: dur, ease }, t);
+      }
+      // Trazo que se dibuja: stroke-dashoffset de L a 0 (determinista).
+      function draw(sel, t, dur = 0.4) {
+        let el = document.querySelector(sel);
+        if (el && el.tagName.toLowerCase() !== "path") el = el.querySelector("path");
+        if (!el) return;
+        const L = el.getTotalLength();
+        el.style.strokeDasharray = L;
+        tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+      }
+      // Palabra por palabra (revelado tipografico).
+      function typeWords(sel, t, step = 0.05) {
+        document.querySelectorAll(sel).forEach((el, i) => {
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, t + i * step);
+        });
+      }
+      // Escritura: cada caracter es un span revelado por pasos. Determinista y
+      // seguro al buscar fotograma a fotograma.
+      function typeChars(sel, t, step = 0.065) {
+        const holder = document.querySelector(sel);
+        if (!holder) return;
+        const text = holder.textContent;
+        holder.textContent = "";
+        const spans = [];
+        for (const ch of text) {
+          const s = document.createElement("span");
+          s.textContent = ch;
+          s.style.opacity = "0";
+          s.setAttribute("data-layout-allow-overlap", "");
+          s.setAttribute("data-layout-allow-occlusion", "");
+          holder.appendChild(s);
+          spans.push(s);
+        }
+        spans.forEach((s, i) => {
+          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, t + i * step);
+        });
+      }
+      function swap(a, b, t) {
+        tl.set(a, { opacity: 0 }, t);
+        tl.set(b, { opacity: 1 }, t);
+      }
+      // El numero/indicador se fija en saltos discretos (nunca cuenta hacia arriba).
+      function setNum(sel, txt, t) { tl.set(sel, { textContent: txt }, t); }
+
+      // ---- B1 Gancho: el hilo, la burbuja que se abre y el clip (fotograma 0 = miniatura)
+      rise("#s1-phone", at(1, 0.0), { y: 30 });
+      rise("#s1-thread", at(1, 0.0), { y: 30 });
+      rise("#s1-bubble", at(1, 0.0), { y: 20 });
+      rise("#s1-kicker", at(1, 0.0), { y: 20 });
+      put("#s1-label", at(1, 0.0), { x: -20 });
+      tl.fromTo("#s1-bubble", { scale: 1 }, { scale: 1.05, duration: 0.2, ease: "power2.out" }, at(1, 1.05));
+      tl.to("#s1-bubble", { scale: 1, duration: 0.2, ease: "power2.inOut" }, at(1, 1.45));
+      put("#s1-clip", at(1, 1.15), { scale: 0.6, y: 20 });
+
+      // ---- B2 El caso: la tarjeta 2010 + logotipo y el comentario que se convierte
+      rise("#s2-card", at(2, 0.0));
+      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-year", at(2, 0.30), { scale: 0.8 });
+      put("#s2-brand", at(2, 0.95), { y: 20 });
+      put("#s2-cm", at(2, 1.30), { x: -24 });
+      put("#s2-clip", at(2, 1.75), { scale: 0.6 });
+
+      // ---- B3 El mecanismo: la cadena que se dibuja estacion a estacion
+      rise("#s3-card", at(3, 0.0));
+      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-st1", at(3, 0.30), { x: -30 });
+      draw("#s3-a1", at(3, 0.55), 0.25);
+      put("#s3-st2", at(3, 0.80), { x: -30 });
+      draw("#s3-a2", at(3, 1.05), 0.25);
+      put("#s3-st3", at(3, 1.30), { x: -30 });
+      draw("#s3-a3", at(3, 1.55), 0.25);
+      put("#s3-st4", at(3, 1.80), { x: -30 });
+      put("#s3-note", at(3, 2.40), { y: 16 });
+
+      // ---- B4 La escala: la rejilla crece y la cifra 186 aparece de golpe, luego el foco se cierra
+      rise("#s4-card", at(4, 0.0));
+      put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
+      typeWords("#s4-grid .mini", at(4, 0.20), 0.035);
+      setNum("#s4-num", "186", at(4, 1.20));
+      put("#s4-numlab", at(4, 1.20), { y: 12 });
+      put("#s4-stat", at(4, 1.70), { scale: 0.8 });
+      tl.to("#s4-grid", { opacity: 0.22, duration: 0.5, ease: "power2.out" }, at(4, 2.20));
+      put("#s4-focus", at(4, 2.30), { scale: 0.6 });
+      put("#s4-plabel", at(4, 2.70), { y: 16 });
+
+      // ---- B5 La leccion: tres etiquetas que se asientan, la ultima en acento
+      rise("#s5-card", at(5, 0.0));
+      put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+      put("#s5-t1", at(5, 0.25), { x: -30 });
+      put("#s5-t2", at(5, 0.70), { x: -30 });
+      put("#s5-t3", at(5, 1.15), { x: -30, scale: 0.88 });
+
+      // ---- B6 Tu version: el set y el presupuesto tachado en tinta
+      rise("#s6-card", at(6, 0.0));
+      put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
+      put("#s6-tripod", at(6, 0.25), { y: 24 });
+      put("#s6-phone", at(6, 0.45), { y: 24 });
+      put("#s6-sign", at(6, 0.85), { x: -24 });
+      draw("#s6-strike", at(6, 1.30), 0.35);
+      put("#s6-pill", at(6, 1.60), { scale: 0.86 });
+
+      // ---- B7 El ejemplo: la tienda y la pregunta que se teclea caracter a caracter
+      rise("#s7-card", at(7, 0.0));
+      put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
+      rise("#s7-store", at(7, 0.0), { y: 30 });
+      draw("#s7-hanger", at(7, 0.35), 0.5);
+      put("#s7-chat", at(7, 0.85), { y: 24 });
+      typeChars("#s7-q", at(7, 1.30), 0.05);
+
+      // ---- B8 La doble ganancia: la horquilla que se dibuja hacia los dos destinos
+      rise("#s8-card", at(8, 0.0));
+      put("#s8-kicker", at(8, 0.06), { dur: 0.4 });
+      put("#s8-clip", at(8, 0.20), { scale: 0.6 });
+      draw("#s8-fork", at(8, 0.75), 0.4);
+      put("#s8-her", at(8, 1.15), { x: -24 });
+      put("#s8-others", at(8, 1.45), { x: 24 });
+      typeWords("#s8-others .avatars i", at(8, 1.85), 0.06);
+
+      // ---- B9 La practica: la lista y las marcas de video en secuencia
+      rise("#s9-card", at(9, 0.0));
+      put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
+      put("#s9-r1", at(9, 0.20), { x: -30 });
+      put("#s9-r2", at(9, 0.45), { x: -30 });
+      put("#s9-r3", at(9, 0.70), { x: -30 });
+      put("#s9-v1", at(9, 0.95), { scale: 0.7 });
+      put("#s9-v2", at(9, 1.20), { scale: 0.7 });
+      put("#s9-v3", at(9, 1.45), { scale: 0.7 });
+
+      // ---- B10 El cierre: las burbujas que ya llegan escritas
+      rise("#s10-card", at(10, 0.0));
+      put("#s10-kicker", at(10, 0.06), { dur: 0.4 });
+      put("#s10-b1", at(10, 0.15), { y: 24, rot: -2 });
+      put("#s10-b2", at(10, 0.35), { y: 24, rot: 2 });
+      put("#s10-b3", at(10, 0.55), { y: 24, rot: -2 });
+      put("#s10-b4", at(10, 0.75), { y: 24, rot: 2 });
+      put("#s10-hint", at(10, 1.00), { y: 16 });
+
+      // ---- B11 CTA: guarda esto, con el motivo de la pieza
+      rise("#s11-card", at(11, 0.0));
+      put("#s11-mark", at(11, 0.05), { scale: 0.5, dur: 0.5 });
+      put("#s11-label", at(11, 0.55), { scale: 0.86, dur: 0.5 });
+      draw("#s11-wave", at(11, 0.95), 0.5);
+      put("#s11-motif", at(11, 1.45), { scale: 0.7 });
+
+      // ---- barra de progreso (la re-tima retime.py)
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 37.524, ease: "none" }, 0);
+
+      // ---- TRANSICIONES: animan la capa interna .s-in; las piezas propias
+      //      (cover, sweep) se escriben a mano.
+      const TR = [
+        [1, "slide", 0.35],
+        [2, "cover", 0.45],
+        [3, "slide", 0.45],
+        [4, "slide", 0.40],
+        [5, "slide", 0.35],
+        [6, "slide", 0.40],
+        [7, "sweep", 0.45],
+        [8, "slide", 0.40],
+        [9, "slide", 0.40],
+        [10, "cut", 0.00]
+      ];
+      TR.forEach(([n, kind, d]) => {
+        const T = S[n];
+        const out = `#s${n}-in`, inc = `#s${n + 1}-in`;
+        if (kind === "slide") {
+          tl.fromTo(out, { y: 0 }, { y: -1920, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: 1920 }, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "sweep") {
+          // x: 0 explicito: el CSS parte de translateX(-130%) y GSAP lo leeria como
+          // x=-1404px; sin resetearlo, xPercent solo llegaria a translateX(0) (tapando
+          // la escena entrante). Un barrido es una banda, nunca inset:0.
+          tl.fromTo(`#s${n + 1}-sweep`, { x: 0, xPercent: -130, skewX: -12 },
+            { x: 0, xPercent: 130, skewX: -12, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "cover") {
+          // El lleno tiene que caer en el instante del corte (fin de la cola de sN):
+          // una sola tween, con la duracion entera de la transicion.
+          tl.fromTo(`#s${n}-cover`, { scale: 0 }, { scale: 1, duration: d, ease: "power3.in" }, T);
+        }
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </div></body>
+</html>

@@ -1,6 +1,6 @@
 # STORYBOARD — mkt-01 «Responde con vídeo (Old Spice 2010)»
 
-Serie **Casos de estudio marketing** · Pieza **mkt-01** · **11 beats · 121 palabras · ≈34,6 s** ·
+Serie **Casos de estudio marketing** · Pieza **mkt-01** · **11 beats · 121 palabras · ≈37,5 s** ·
 1080×1920 · faceless · voz en off es-ES (`Pablo`) · subtítulos karaoke. La dirección de arte está en
 `DIRECCION.md` y el brief en `DIRECCION-ARTE-BRIEF.md`. Formato calcado de
 `videos/seo-06-canibalizacion/STORYBOARD.md`.
@@ -19,6 +19,16 @@ CSS); el resto usa `fromTo`/`.to()`.
 **Recurso propio:** el **comentario que se convierte en vídeo** (burbuja → clip-respuesta). No se
 reutiliza la **SERP etiquetada** de V5 ni la **balanza** de V6. **Ejemplo único:** la tienda de ropa
 (B7-B9), de `SCRIPT.md`. **La pieza no usa rojo**: no hay pérdida ni error real.
+
+---
+
+## Desviaciones justificadas del contrato
+
+- **Banda segura (`.s-in`).** El contrato §3 fija `padding: 300px 74px 470px`; esta pieza usa
+  **`padding: 300px 74px 700px`** (`index.html`). Se subió a propósito para que el bloque de contenido
+  **no quede bajo la píldora del karaoke** (la píldora va a `bottom:470` y ocupa ~y 1230-1450). Es una
+  desviación **solo de margen y más conservadora** que el contrato: no viola la banda segura 15-75 %
+  (288-1440). Se mantiene tal cual; queda documentada aquí por indicación de la verificación.
 
 ---
 
@@ -142,7 +152,7 @@ reutiliza la **SERP etiquetada** de V5 ni la **balanza** de V6. **Ejemplo único
   `rise("#s7-store", at(7,0.0),{y:30})` · `draw("#s7-hanger", at(7,0.35),0.5)` ·
   `put("#s7-chat", at(7,0.85),{y:24})` · `typeChars("#s7-q", at(7,1.30),0.05)`.
 - **Rótulo en pantalla:** kicker **«EL EJEMPLO»**; la pregunta tecleada (JetBrains Mono).
-- **Sonido:** pop 0,20 · pop 0,85 · tick 1,30 (el tecleo) · ding 2,80.
+- **Sonido:** pop 0,20 · pop 0,85 · tecleo (`key`, 14 clics, loc. 1,30-2,60, **ganancia 0,35**) · ding 2,80.
 - **Salida:** **barrido de color (`.sweep`) 0,45 s** — banda de acento sesgada con **`x:0` explícito**;
   entra la escena oscura de los dos destinos (claro → oscuro).
 
@@ -249,34 +259,40 @@ B8 mov · B9 mov · B10 mov · B11 lec. **Un efecto por aparición**, nunca por 
 
 ---
 
-## Ritmo — tabla calculada a 3,5 palabras por segundo
+## Ritmo — tabla medida con la voz real
 
-Velocidad **real medida con la voz de esta serie: 3,5 palabras/s**, derivada de `DECISIONS.md` D38 (V6,
-142 palabras en **≈40,27 s** → ≈3,53). Total del guion: **121 palabras**.
-**121 / 3,5 = 34,57 s ≈ 34,6 s.** Los tiempos definitivos los fija `voice_pipeline.py` y los aplica
-`retime.py`; toda la animación está en tiempos **relativos** al inicio de su beat. Las líneas de 14
-palabras ≈ 4,00 s; las de 13 ≈ 3,71 s; las de 12 ≈ 3,43 s; las de 10 ≈ 2,86 s; las de 9 ≈ 2,57 s; la de
-8 ≈ 2,29 s.
+Total del guion: **121 palabras**. Duración real de la voz (suma de los clips, `assets/voice/timing.json`):
+**37,52 s** → **121 / 37,52 ≈ 3,22 palabras/s**. (La estimación previa de 3,5 pal./s era la de V6, D38;
+con `Pablo` y sin tocar su velocidad, esta pieza va algo más despacio, a 3,22 pal./s: las frases llevan
+más pausas internas.) Los tiempos definitivos los fija `voice_pipeline.py` y los aplica `retime.py`; toda
+la animación está en tiempos **relativos** al inicio de su beat.
 
-| Beat | Pal. | Dur. (3,5 pal./s) | Inicio | Fin |
+| Beat | Pal. | Dur. real (s) | Inicio (s) | Fin (s) |
 |---|---|---|---|---|
-| B1 | 12 | 3,43 | 0,00 | 3,43 |
-| B2 | 13 | 3,71 | 3,43 | 7,14 |
-| B3 | 14 | 4,00 | 7,14 | 11,14 |
-| B4 | 13 | 3,71 | 11,14 | 14,86 |
-| B5 | 10 | 2,86 | 14,86 | 17,71 |
-| B6 | 8 | 2,29 | 17,71 | 20,00 |
-| B7 | 14 | 4,00 | 20,00 | 24,00 |
-| B8 | 10 | 2,86 | 24,00 | 26,86 |
-| B9 | 9 | 2,57 | 26,86 | 29,43 |
-| B10 | 8 | 2,29 | 29,43 | 31,71 |
-| B11 | 10 | 2,86 | 31,71 | **34,57** |
+| B1 | 12 | 3,576 | 0,000 | 3,576 |
+| B2 | 13 | **4,551** | 3,576 | 8,127 |
+| B3 | 14 | 3,855 | 8,127 | 11,982 |
+| B4 | 13 | **4,690** | 11,982 | 16,672 |
+| B5 | 10 | 3,576 | 16,672 | 20,248 |
+| B6 | 8 | 2,601 | 20,248 | 22,849 |
+| B7 | 14 | 4,087 | 22,849 | 26,936 |
+| B8 | 10 | 2,647 | 26,936 | 29,583 |
+| B9 | 9 | 2,461 | 29,583 | 32,044 |
+| B10 | 8 | 2,322 | 32,044 | 34,366 |
+| B11 | 10 | 3,158 | 34,366 | **37,524** |
 
-**Total: 121 palabras · 34,57 s ≈ 34,6 s** (dentro de la banda 30-40 s). **Cuadre:** la suma de palabras
-de la tabla es 12+13+14+13+10+8+14+10+9+8+10 = **121**, igual que `SCRIPT.md`. Los arranques/fines son el
-redondeo a 2 decimales del acumulado exacto (palabras/3,5), así que el inicio de cada beat es el fin del
-anterior y su diferencia puede diferir 0,01 s de la duración redondeada. Ninguna escena baja de 2,29 s
-(mínimo del contrato: 1,2 s) ni sube de 4,00 s (máximo de referencia: 4,2 s).
+**Total: 121 palabras · 37,52 s** (dentro de la banda 30-40 s). **Cuadre:** la suma de palabras de la
+tabla es 12+13+14+13+10+8+14+10+9+8+10 = **121** = `assets/voice/*.txt` = carrera del karaoke = `SCRIPT.md`.
+
+**Excepciones de duración (medidas).** La escena más corta mide **2,322 s** (B10; el mínimo del contrato es
+1,2 s) y **dos escenas superan el techo de 4,2 s** del contrato §5: **B2 = 4,551 s** y **B4 = 4,690 s**,
+por el ritmo real de la voz en esas dos frases (13 palabras, más pausas internas). **No se parten** —la
+locución está grabada y no se toca—: misma excepción aceptada en V6 (D38); ver `DECISIONS.md` D39. El resto
+queda por debajo de 4,2 s (máximo: B7 = 4,087 s).
+
+**Excepción del beat (medida).** Cinco de las once líneas superan el beat de **6-10 palabras** del
+contrato §3: L1 = 12 · L2 = 13 · L3 = 14 · L4 = 13 · L7 = 14 (todas ≤ 14). Es texto dictado por el dueño y
+no se redistribuye; ver `DECISIONS.md` D40.
 
 ## Reparto de rótulos
 

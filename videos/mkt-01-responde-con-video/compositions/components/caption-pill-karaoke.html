@@ -1,0 +1,371 @@
+<template id="caption-pill-karaoke-template">
+  <div data-hf-id="hf-mh1y" data-composition-id="caption-pill-karaoke" data-timeline-locked="" data-start="0" data-duration="37.524" data-fps="30" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-9flp" class="caption-layer" aria-hidden="true">
+      <div data-hf-id="hf-s3tz" id="caption-stage" class="safe-zone"></div>
+    </div>
+  </div>
+
+  <style>
+    [data-composition-id="caption-pill-karaoke"] {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: transparent;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+    }
+    [data-composition-id="caption-pill-karaoke"] .safe-zone {
+      position: absolute;
+      bottom: 470px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-group {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1000px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-pill {
+      width: auto;
+      max-width: 1000px;
+      padding: 16px 40px 18px;
+      border-radius: 20px;
+      background: rgba(16, 16, 22, 0.86);
+      border: 2px solid #26262e;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      color: #8b8b99;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      word-break: normal;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-line {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: none;
+      line-height: 1.16;
+      white-space: nowrap;
+      overflow: visible;
+    }
+    [data-composition-id="caption-pill-karaoke"] .caption-word {
+      display: inline-block;
+      color: #8b8b99;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var DURATION = 37.524;
+      var PILL_MAX_WIDTH = 940;
+      var PILL_MIN_PADDING_X = 30;
+      var PILL_MAX_PADDING_X = 40;
+      var FONT_WIDTH_SAFETY = 1.18;
+      var FONT_FAMILY = "Inter";
+      var FONT_WEIGHT = "800";
+      var BASE_FONT_SIZE = 56;
+      var MIN_FONT_SIZE = 38;
+      var MAX_WORDS_PER_GROUP = 4;
+      var WORD_SPACING = 12;
+      var PAUSE_THRESHOLD = 0.18;
+      var GROUP_END_BUFFER = 0.35;
+      var COLOR_INACTIVE = "#8b8b99";
+      var COLOR_ACTIVE = "#c8ff3d";
+      var COLOR_FADE_DURATION = 0.1;
+      var WORD_FADE_LEAD = 0.05;
+
+      var TRANSCRIPT = [
+        { text: "La", start: 0.0, end: 0.14 },
+        { text: "estrategia", start: 0.14, end: 0.655 },
+        { text: "que", start: 0.655, end: 0.842 },
+        { text: "usó", start: 0.842, end: 1.029 },
+        { text: "esta", start: 1.029, end: 1.263 },
+        { text: "conocida", start: 1.263, end: 1.684 },
+        { text: "marca,", start: 1.684, end: 2.011 },
+        { text: "la", start: 2.011, end: 2.373 },
+        { text: "puedes", start: 2.373, end: 2.701 },
+        { text: "usar", start: 2.701, end: 2.935 },
+        { text: "tú", start: 2.935, end: 3.075 },
+        { text: "también.", start: 3.075, end: 3.496 },
+        { text: "En", start: 3.576, end: 3.75 },
+        { text: "2010,", start: 3.75, end: 4.099 },
+        { text: "Old", start: 4.099, end: 4.332 },
+        { text: "Spice", start: 4.332, end: 4.907 },
+        { text: "respondió", start: 4.907, end: 5.488 },
+        { text: "con", start: 5.488, end: 5.721 },
+        { text: "vídeos", start: 5.721, end: 6.128 },
+        { text: "a", start: 6.128, end: 6.244 },
+        { text: "comentarios", start: 6.244, end: 6.942 },
+        { text: "de", start: 6.942, end: 7.117 },
+        { text: "fans", start: 7.117, end: 7.407 },
+        { text: "y", start: 7.407, end: 7.524 },
+        { text: "famosos.", start: 7.524, end: 8.047 },
+        { text: "Un", start: 8.127, end: 8.273 },
+        { text: "equipo", start: 8.273, end: 8.615 },
+        { text: "grababa", start: 8.615, end: 9.006 },
+        { text: "cada", start: 9.006, end: 9.25 },
+        { text: "respuesta", start: 9.25, end: 9.738 },
+        { text: "en", start: 9.738, end: 9.885 },
+        { text: "minutos,", start: 9.885, end: 10.324 },
+        { text: "en", start: 10.324, end: 10.632 },
+        { text: "torno", start: 10.632, end: 10.925 },
+        { text: "a", start: 10.925, end: 11.023 },
+        { text: "dos", start: 11.023, end: 11.218 },
+        { text: "días", start: 11.218, end: 11.462 },
+        { text: "y", start: 11.462, end: 11.56 },
+        { text: "medio.", start: 11.56, end: 11.902 },
+        { text: "En", start: 11.982, end: 12.161 },
+        { text: "total,", start: 12.161, end: 12.579 },
+        { text: "186", start: 12.579, end: 12.953 },
+        { text: "vídeos", start: 12.953, end: 13.37 },
+        { text: "y", start: 13.37, end: 13.49 },
+        { text: "casi", start: 13.49, end: 13.788 },
+        { text: "seis", start: 13.788, end: 14.086 },
+        { text: "millones", start: 14.086, end: 14.623 },
+        { text: "de", start: 14.623, end: 14.802 },
+        { text: "reproducciones", start: 14.802, end: 15.697 },
+        { text: "el", start: 15.697, end: 15.876 },
+        { text: "primer", start: 15.876, end: 16.294 },
+        { text: "día.", start: 16.294, end: 16.592 },
+        { text: "La", start: 16.672, end: 16.828 },
+        { text: "lección:", start: 16.828, end: 17.295 },
+        { text: "responder", start: 17.295, end: 18.35 },
+        { text: "por", start: 18.35, end: 18.558 },
+        { text: "su", start: 18.558, end: 18.714 },
+        { text: "nombre,", start: 18.714, end: 19.129 },
+        { text: "rápido", start: 19.129, end: 19.493 },
+        { text: "y", start: 19.493, end: 19.597 },
+        { text: "con", start: 19.597, end: 19.804 },
+        { text: "humor.", start: 19.804, end: 20.168 },
+        { text: "Tú", start: 20.248, end: 20.392 },
+        { text: "no", start: 20.392, end: 20.536 },
+        { text: "necesitas", start: 20.536, end: 21.017 },
+        { text: "comprar", start: 21.017, end: 21.402 },
+        { text: "anuncios,", start: 21.402, end: 21.882 },
+        { text: "solo", start: 21.882, end: 22.288 },
+        { text: "un", start: 22.288, end: 22.432 },
+        { text: "móvil.", start: 22.432, end: 22.769 },
+        { text: "Por", start: 22.849, end: 23.033 },
+        { text: "ejemplo,", start: 23.033, end: 23.449 },
+        { text: "en", start: 23.449, end: 23.766 },
+        { text: "tu", start: 23.766, end: 23.904 },
+        { text: "tienda", start: 23.904, end: 24.227 },
+        { text: "de", start: 24.227, end: 24.365 },
+        { text: "ropa", start: 24.365, end: 24.596 },
+        { text: "una", start: 24.596, end: 24.78 },
+        { text: "clienta", start: 24.78, end: 25.149 },
+        { text: "pregunta", start: 25.149, end: 25.564 },
+        { text: "cómo", start: 25.564, end: 25.795 },
+        { text: "combinar", start: 25.795, end: 26.21 },
+        { text: "una", start: 26.21, end: 26.394 },
+        { text: "chaqueta.", start: 26.394, end: 26.856 },
+        { text: "Respondes", start: 26.936, end: 27.388 },
+        { text: "con", start: 27.388, end: 27.569 },
+        { text: "un", start: 27.569, end: 27.705 },
+        { text: "vídeo", start: 27.705, end: 27.977 },
+        { text: "corto", start: 27.977, end: 28.248 },
+        { text: "y", start: 28.248, end: 28.339 },
+        { text: "otros", start: 28.339, end: 28.779 },
+        { text: "también", start: 28.779, end: 29.141 },
+        { text: "lo", start: 29.141, end: 29.277 },
+        { text: "ven.", start: 29.277, end: 29.503 },
+        { text: "Empieza", start: 29.583, end: 29.957 },
+        { text: "por", start: 29.957, end: 30.143 },
+        { text: "las", start: 30.143, end: 30.33 },
+        { text: "tres", start: 30.33, end: 30.564 },
+        { text: "preguntas", start: 30.564, end: 31.03 },
+        { text: "que", start: 31.03, end: 31.217 },
+        { text: "más", start: 31.217, end: 31.404 },
+        { text: "te", start: 31.404, end: 31.544 },
+        { text: "repiten.", start: 31.544, end: 31.964 },
+        { text: "Tus", start: 32.044, end: 32.231 },
+        { text: "clientes", start: 32.231, end: 32.651 },
+        { text: "ya", start: 32.651, end: 32.791 },
+        { text: "te", start: 32.791, end: 32.931 },
+        { text: "dicen", start: 32.931, end: 33.212 },
+        { text: "qué", start: 33.212, end: 33.399 },
+        { text: "contenido", start: 33.399, end: 33.866 },
+        { text: "quieren.", start: 33.866, end: 34.286 },
+        { text: "Guarda", start: 34.366, end: 34.712 },
+        { text: "esto", start: 34.712, end: 34.958 },
+        { text: "y", start: 34.958, end: 35.057 },
+        { text: "responde", start: 35.057, end: 35.667 },
+        { text: "al", start: 35.667, end: 35.815 },
+        { text: "próximo", start: 35.815, end: 36.21 },
+        { text: "comentario", start: 36.21, end: 36.753 },
+        { text: "con", start: 36.753, end: 36.95 },
+        { text: "un", start: 36.95, end: 37.098 },
+        { text: "vídeo.", start: 37.098, end: 37.444 }
+      ];
+
+      function normalizeWords(rawWords) {
+        return rawWords
+          .map(function (item) {
+            var text = String(item.word || item.text || "").trim();
+            return {
+              text: text,
+              start: Math.max(0, Number(item.start) || 0),
+              end: Math.min(DURATION, Math.max(Number(item.start) || 0, Number(item.end) || 0)),
+            };
+          })
+          .filter(function (w) { return w.text.length > 0; });
+      }
+
+      var measureCanvas = document.createElement("canvas");
+      var measureContext = measureCanvas.getContext("2d");
+      function measureWordWidth(text, fontSize) {
+        measureContext.font = FONT_WEIGHT + " " + fontSize + "px " + FONT_FAMILY;
+        return measureContext.measureText(text).width * FONT_WIDTH_SAFETY;
+      }
+      function measureLineWidth(words, fontSize) {
+        return words.reduce(function (total, word, index) {
+          return total + measureWordWidth(word.text.toLowerCase(), fontSize) + (index ? WORD_SPACING : 0);
+        }, 0);
+      }
+      function splitLinesForGroup(words, fontSize) {
+        var maxLineWidth = PILL_MAX_WIDTH - PILL_MIN_PADDING_X * 2;
+        if (words.some(function (w) { return measureWordWidth(w.text.toLowerCase(), fontSize) > maxLineWidth; })) return null;
+        if (measureLineWidth(words, fontSize) <= maxLineWidth) return [words];
+        var bestSplit = null, bestImbalance = Infinity;
+        for (var split = 1; split < words.length; split++) {
+          var firstLine = words.slice(0, split), secondLine = words.slice(split);
+          var fw = measureLineWidth(firstLine, fontSize), sw = measureLineWidth(secondLine, fontSize);
+          if (fw <= maxLineWidth && sw <= maxLineWidth) {
+            var imbalance = Math.abs(fw - sw);
+            if (imbalance < bestImbalance) { bestSplit = [firstLine, secondLine]; bestImbalance = imbalance; }
+          }
+        }
+        return bestSplit;
+      }
+      function fitsInTwoLinesAtSize(words, fontSize) { return splitLinesForGroup(words, fontSize) !== null; }
+      function planPillLayout(words, fontSize) {
+        var lines = splitLinesForGroup(words, fontSize) || [words];
+        var widestLine = lines.reduce(function (max, lineWords) { return Math.max(max, measureLineWidth(lineWords, fontSize)); }, 0);
+        var availablePadding = Math.floor((PILL_MAX_WIDTH - widestLine) / 2);
+        var padX = Math.max(PILL_MIN_PADDING_X, Math.min(PILL_MAX_PADDING_X, availablePadding));
+        var pillWidth = Math.min(PILL_MAX_WIDTH, Math.ceil(widestLine + padX * 2));
+        return { lines: lines, padX: padX, pillWidth: pillWidth };
+      }
+      function makeGroups(words) {
+        var groups = [], current = [];
+        words.forEach(function (word, index) {
+          var testGroup = current.concat([word]);
+          var nextWord = words[index + 1];
+          var wouldExceedMaxWords = testGroup.length > MAX_WORDS_PER_GROUP;
+          var wouldExceedTwoLines = !fitsInTwoLinesAtSize(testGroup, BASE_FONT_SIZE);
+          if (wouldExceedMaxWords || wouldExceedTwoLines) {
+            if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [word];
+            return;
+          }
+          current.push(word);
+          var hasPunctuation = /[,.:!?]$/.test(word.text);
+          var pauseDuration = nextWord ? nextWord.start - word.end : 0;
+          var hasNaturalPause = pauseDuration >= PAUSE_THRESHOLD;
+          var maxWordsReached = current.length >= MAX_WORDS_PER_GROUP;
+          if (maxWordsReached || !nextWord || hasPunctuation || hasNaturalPause) {
+            groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+            current = [];
+          }
+        });
+        if (current.length) groups.push({ words: current.slice(), start: current[0].start, end: current[current.length - 1].end });
+        return groups;
+      }
+      function fontSizeForGroup(words) {
+        var size = BASE_FONT_SIZE;
+        while (size > MIN_FONT_SIZE && !fitsInTwoLinesAtSize(words, size)) size -= 2;
+        return size;
+      }
+      function buildCaptions(groups) {
+        var stage = document.getElementById("caption-stage");
+        groups.forEach(function (group, groupIndex) {
+          var groupEl = document.createElement("div"), pillEl = document.createElement("div"), copyEl = document.createElement("div");
+          var fontSize = fontSizeForGroup(group.words);
+          groupEl.id = "caption-group-" + groupIndex;
+          groupEl.className = "caption-group";
+          pillEl.className = "caption-pill";
+          copyEl.className = "caption-copy";
+          copyEl.style.fontSize = fontSize + "px";
+          var indexedWords = group.words.map(function (word, wordIndex) {
+            return { text: word.text, start: word.start, end: word.end, wordIndex: wordIndex };
+          });
+          var layout = planPillLayout(indexedWords, fontSize);
+          pillEl.style.width = layout.pillWidth + "px";
+          pillEl.style.paddingLeft = layout.padX + "px";
+          pillEl.style.paddingRight = layout.padX + "px";
+          layout.lines.slice(0, 2).forEach(function (lineWords) {
+            var lineEl = document.createElement("div");
+            lineEl.className = "caption-line";
+            lineWords.forEach(function (word) {
+              var wordEl = document.createElement("span");
+              wordEl.id = "caption-word-" + groupIndex + "-" + word.wordIndex;
+              wordEl.className = "caption-word";
+              wordEl.textContent = word.text.toLowerCase();
+              lineEl.appendChild(wordEl);
+            });
+            copyEl.appendChild(lineEl);
+          });
+          pillEl.appendChild(copyEl);
+          groupEl.appendChild(pillEl);
+          stage.appendChild(groupEl);
+        });
+      }
+
+      var WORDS = normalizeWords(TRANSCRIPT);
+      var GROUPS = makeGroups(WORDS);
+      buildCaptions(GROUPS);
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      GROUPS.forEach(function (group, groupIndex) {
+        var groupEl = document.getElementById("caption-group-" + groupIndex);
+        var nextGroup = GROUPS[groupIndex + 1];
+        var isLastGroup = groupIndex === GROUPS.length - 1;
+        var effectiveEnd = isLastGroup ? DURATION : Math.min(nextGroup.start, group.end + GROUP_END_BUFFER);
+        var visibleStart = Math.max(0, group.start);
+        var visibleEnd = Math.max(visibleStart + 0.01, effectiveEnd);
+        tl.set(groupEl, { opacity: 1 }, visibleStart);
+        tl.set(groupEl, { opacity: 0 }, visibleEnd);
+        group.words.forEach(function (word, wordIndex) {
+          var wordEl = document.getElementById("caption-word-" + groupIndex + "-" + wordIndex);
+          tl.set(wordEl, { color: wordIndex === 0 ? COLOR_ACTIVE : COLOR_INACTIVE }, visibleStart);
+          if (wordIndex === 0) return;
+          tl.to(wordEl, { color: COLOR_ACTIVE, duration: COLOR_FADE_DURATION, ease: "none" }, Math.max(visibleStart, word.start - WORD_FADE_LEAD));
+        });
+      });
+      window.__timelines["caption-pill-karaoke"] = tl;
+    })();
+  </script>
+</template>

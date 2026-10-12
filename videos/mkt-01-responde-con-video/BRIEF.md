@@ -1,7 +1,7 @@
 # BRIEF — mkt-01 «Responde con vídeo (Old Spice 2010)»
 
 **Serie:** Casos de estudio marketing · **Pieza:** mkt-01 · **Carpeta:** `videos/mkt-01-responde-con-video/`
-**Formato:** 9:16 · 1080×1920 · faceless · **11 beats · 121 palabras · ≈34,6 s** · voz en off es-ES (`Pablo`)
+**Formato:** 9:16 · 1080×1920 · faceless · **11 beats · 121 palabras · ≈37,5 s** · voz en off es-ES (`Pablo`)
 **Fuente de datos:** `investigacion/01-fuentes.md` · **continuidad:** `investigacion/02-continuidad.md` ·
 **guion:** `SCRIPT.md`
 
@@ -46,9 +46,9 @@ Se estrena el logo de la marca nombrada (Old Spice) **en línea sobre tarjeta cl
 
 ## Duración (resuelto)
 
-El guion queda en **121 palabras / 3,5 pal./s = 34,6 s**, dentro del objetivo de 30-40 s. La velocidad
-(3,5 pal./s) se deriva de `DECISIONS.md` D38: V6 se aceptó con 142 palabras en **≈40,27 s**
-(142/40,27 ≈ 3,53); la duración final la fija `voice_pipeline.py`.
+El guion queda en **121 palabras · 37,52 s** (a **3,22 pal./s**), dentro del objetivo de 30-40 s. La
+velocidad es la de la voz real (`Pablo`, sin tocar su ritmo); la de 3,5 pal./s de `DECISIONS.md` D38 era la
+de V6 (142 palabras en **≈40,27 s** → 3,53). La duración final la fija `voice_pipeline.py`.
 
 ## Barras de calidad
 

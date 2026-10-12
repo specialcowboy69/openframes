@@ -2,7 +2,7 @@
 
 Aplica el brief del dueño (`DIRECCION-ARTE-BRIEF.md`) y el contrato de producción heredado
 (`videos/seo-06-canibalizacion/investigacion/03-contrato.md`). Serie **Casos de estudio marketing** ·
-Pieza **mkt-01** · **11 beats · 121 palabras · ≈34,6 s** · 1080×1920 · voz en off es-ES (`Pablo`) ·
+Pieza **mkt-01** · **11 beats · 121 palabras · ≈37,5 s** · 1080×1920 · voz en off es-ES (`Pablo`) ·
 subtítulos karaoke · barra de progreso. Formato calcado de `seo-06-canibalizacion/DIRECCION.md`.
 
 ---
@@ -109,7 +109,7 @@ no usa `warn`.**
 
 ## 4. Familias de composición (5)
 
-Una familia de composición cada 8-12 s (`DESIGN.md`: «30-45 s: 4-5»): para ~34,6 s tocan **4-5**, y la
+Una familia de composición cada 8-12 s (`DESIGN.md`: «30-45 s: 4-5»): para ~37,5 s tocan **4-5**, y la
 pieza usa cinco.
 
 1. **El comentario que se convierte en vídeo** — `#sN-phone`/`#sN-bubbles` con burbujas y el
@@ -155,7 +155,7 @@ B10(1) · B11(1). Cinco familias, ninguna escena con dos familias a la vez.
 
 Las **seis familias** están disponibles (decisión del dueño, `DESIGN.md`). Se usan **cuatro**; `forma` y
 `circle` quedan disponibles. `DESIGN.md` fija «un mecanismo distinto cada 10-12 s»
-(30-45 s: **3-4**): a ~34,6 s la pieza cae en la banda media, así que usa cuatro. La que necesita
+(30-45 s: **3-4**): a ~37,5 s la pieza cae en la banda media, así que usa cuatro. La que necesita
 **pieza propia** está marcada con **(P)**.
 
 | familia | implementación | ¿pieza propia? | dónde |
@@ -232,9 +232,10 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 ```css
 /* ---- base de la pieza: panel nunca por debajo de #20202a ---- */
 :root { --panel:#20202a; --accent:#c8ff3d; --accent-ink:#0b0b10; }
-/* banda segura 15%-75% de 1920 (288-1440): 300 arriba, 480 abajo */
+/* banda segura 15%-75% de 1920 (288-1440): 300 arriba, 700 abajo (contrato 470; desviación
+   justificada para no quedar bajo la píldora del karaoke — ver STORYBOARD «Desviaciones») */
 .s-in { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
-        align-items:stretch; gap:24px; padding:300px 74px 480px; }
+        align-items:stretch; gap:24px; padding:300px 74px 700px; }
 .rowline { display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .title { font-size:110px; font-weight:900; letter-spacing:-0.03em; line-height:0.95; }
 .title .w { display:inline-block; }          /* spans que se teclean con typeWords(); nunca rotan */
@@ -256,7 +257,8 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 .cbubble::after { content:""; position:absolute; left:-10px; top:20px; width:0; height:0;
            border-top:10px solid transparent; border-bottom:10px solid transparent;
            border-right:12px solid #2c2c38; }                                   /* cola de la burbuja */
-.cbubble.hot { border-color:#c8ff3d; }        /* la burbuja que se convierte: filo de acento (sobre el móvil oscuro) */
+.cbubble.hot { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.cbubble.hot::after { border-right-color:var(--accent); }  /* la burbuja que se convierte: acento de relleno + tinta §2 */
 .replyclip { position:relative; width:230px; height:400px; border-radius:26px; overflow:hidden;
              background:#20202a; border:4px solid var(--line);
              box-shadow:0 26px 64px rgba(0,0,0,0.5); }
@@ -400,8 +402,9 @@ para que su `.cover` quede por encima de B3 durante el cruce.
 1. **Verde ilegible sobre claro** → el acento nunca como texto/trazo en claro; el logotipo de marca y el
    tachado van en tinta; el play y las pills usan relleno de acento con `#0b0b10` encima; validar con
    `check`.
-2. **La burbuja de B1 sobre el móvil oscuro** → es un relleno oscuro dentro del móvil `#20202a`; su
-   filo de acento queda **sobre oscuro**, no sobre el papel; el móvil nace desde `t=0`.
+2. **La burbuja de B1 sobre el móvil oscuro** → la burbuja destacada va con **acento de relleno y tinta
+   `accent-ink` encima** (§2: el acento siempre relleno, nunca trazo); las demás burbujas van oscuras.
+   El móvil nace desde `t=0`.
 3. **Cruces claros/oscuros (B2→B3, B3→B4, B7→B8, B8→B9, B10→B11)** → cada escena tiene escenario
    visible desde `t=0`; B2→B3 cubre con panel `#20202a`; B3→B4 entra con `slide`; B7→B8 lleva la banda
    con `x:0` explícito; B10→B11 es un corte directo. Revisar los fotogramas medios con
@@ -411,7 +414,8 @@ para que su `.cover` quede por encima de B3 durante el cruce.
    contenido.
 5. **El logotipo de marca** → es un **logotipo tipográfico** (tinta sobre tarjeta clara), sin arroba,
    sin imagen de red y sin sugerir afiliación; **autorizado por el dueño (2026-10-12)** (§5 del brief).
-6. **Duraciones reales ≠ estimadas** → la estimación de ~34,6 s es de palabra/velocidad; los tiempos
+6. **Duraciones reales ≠ estimadas** → la estimación de ~34,6 s era de palabra/velocidad; la voz real mide
+   **37,52 s** (3,22 pal./s). Los tiempos
    definitivos los fija `voice_pipeline.py` y los aplica `retime.py`. Toda la animación está en tiempos
    **relativos** al inicio de su beat.
 7. **Fuentes de red** → las `woff2` ya están vendorizadas; medir tras `document.fonts.ready`.

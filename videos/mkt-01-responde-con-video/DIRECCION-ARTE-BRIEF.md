@@ -1,7 +1,7 @@
 # Brief de dirección de arte — mkt-01 «Responde con vídeo (Old Spice 2010)»
 
 Serie **Casos de estudio marketing** · Pieza **mkt-01** · 9:16 · 1080×1920 · faceless · voz en off es-ES
-(`Pablo`) · subtítulos karaoke · barra de progreso. **11 beats · 121 palabras · ≈34,6 s**.
+(`Pablo`) · subtítulos karaoke · barra de progreso. **11 beats · 121 palabras · ≈37,5 s**.
 Guion cerrado: `SCRIPT.md` (no se toca). Contrato de producción heredado **tal cual**:
 `videos/seo-06-canibalizacion/investigacion/03-contrato.md`. Continuidad de la línea:
 `investigacion/02-continuidad.md`. Fuentes del dato: `investigacion/01-fuentes.md`.
