@@ -1,8 +1,8 @@
 # V6 — Canibalización de palabras clave
 
-Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **11 líneas · ~35,7 s**
-Ángulo: **dos páginas tuyas compitiendo por la misma búsqueda**.
-Tesis: **dos páginas tuyas compitiendo por la misma búsqueda: ninguna gana.**
+Serie SEO · 1080×1920 · faceless · voz en off es-ES (Fish Audio `Pablo`) · **11 líneas · ≈40,27 s**
+Ángulo: **Dos páginas de tu sitio web compitiendo por la misma búsqueda**.
+Tesis: **Dos páginas de tu sitio web compitiendo por la misma búsqueda: ninguna gana.**
 Estado: **propuesta de guion** (un solo ejemplo; la intención de búsqueda se da por sabida, es de V5).
 Pendiente de voz y montaje.
 
@@ -26,8 +26,10 @@ Pendiente de voz y montaje.
 | 10 | Arréglalo separando bien las dos intenciones o fusionando las dos páginas en una. | 13 | El arreglo | Flecha de fusión hacia una tarjeta; la otra se atenúa |
 | 11 | Guarda esto antes de escribir o de revisar la próxima página de tu web. | 14 | CTA | Marcador de guardado con onda; rótulo «Guarda esto» |
 
-**Total: 142 palabras.** A la velocidad de la voz oficial (**3,98 palabras/s**): **≈ 35,7 s**, dentro de
-la banda de 30-40 s de la serie. La duración real la fija `voice_pipeline.py`.
+**Total: 142 palabras.** A la velocidad de la voz oficial (**3,98 palabras/s**) el papel daría ≈ 35,7 s,
+pero la duración **real** del audio (la que fija `voice_pipeline.py` y aplica `retime.py`) es
+**≈ 40,27 s**: queda **0,27 s por encima del techo de 40 s** de la banda 30-40 de la serie. Es una
+excepción aceptada y registrada (`DECISIONS.md`, D38); no se toca la velocidad de la voz.
 
 **Nota de fuentes:** la línea 1 afirma una consecuencia (bajar posiciones) que las fuentes describen como
 «ninguna rinde lo que podría», no como una caída garantizada. Decisión del dueño: se mantiene el

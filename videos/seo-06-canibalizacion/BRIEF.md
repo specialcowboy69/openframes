@@ -18,7 +18,7 @@ rinde. No técnico. Puede no haber visto V5, pero la pieza da la intención de b
 
 ## Tesis
 
-> Dos páginas tuyas compitiendo por la misma búsqueda: ninguna gana.
+> Dos páginas de tu sitio web compitiendo por la misma búsqueda: ninguna gana.
 
 Es el reverso de V5 «una intención, una página»: allí se repartían páginas por intención; aquí, la
 **misma** intención repartida en dos páginas propias que se estorban.

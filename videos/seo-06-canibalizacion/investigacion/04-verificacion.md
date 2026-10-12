@@ -27,7 +27,7 @@ Toda cita de fichero va con `línea:`; los comandos ejecutados se indican en el 
   y contradice el criterio del propio guion (`SCRIPT.md:10`: «todo lo afirmado está en
   `investigacion/01-fuentes.md`»).
 - Arreglo: quitar el absoluto. Propuesto (12 palabras, sigue ≤14):
-  «En Search Console puedes ver dos páginas tuyas compitiendo por la misma búsqueda.»
+  «En Search Console puedes ver Dos páginas de tu sitio web compitiendo por la misma búsqueda.»
 
 **A2. Acento usado como trazo sobre fondo claro (regla dura incumplida) en dos elementos.**
 - Cita: `DIRECCION.md:278` — `.prow.dup { box-shadow:inset 4px 0 0 var(--accent); }` (B9: panel

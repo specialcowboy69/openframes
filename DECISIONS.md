@@ -42,6 +42,7 @@ Se añade al final; lo más reciente abajo. Fecha en formato AAAA-MM-DD.
 | D35 | 2026-10-08 | **Instagram y Facebook se publican siempre sin portada** (`include_cover=false` → ruta `/video_reels`) | Medido: n8n rechaza la portada de GitHub Releases con `400 cover_url must use an approved HTTPS media host`. La ruta `/videos` con portada exigiría alojarla en `media.urltovideo.es`/R2 autorizado. El `video_url` de GitHub sí se acepta | Reintentar con portada y perder el encolado |
 | D36 | 2026-10-08 | **YouTube y TikTok quedan fuera de este flujo: no reintentar** | El dueño los publicó por su cuenta (2026-10-08) y pidió expresamente no reintentar nada hacia esas plataformas | Reintentar subidas ya hechas |
 | D37 | 2026-10-08 | **La leyenda nunca se teclea a mano: se lee del campo `caption` de la cola de `hypervideo`** | Incidente real: en un reintento manual se pasó el input `caption` como `PLACEHOLDER` y n8n lo encoló tal cual. La cola es la fuente de verdad del texto | Pasar los inputs a mano |
+| D38 | 2026-10-12 | V6: aceptar **≈40,27 s** (2 páginas, 142 palabras, 11 líneas), **0,27 s por encima del techo de 40 s** | Con la voz oficial `Pablo` y sin tocar su velocidad, el contenido no cabe en 30-40 s; la pieza ya está montada y el dueño pidió no cambiar la velocidad de la voz | Acelerar la voz (`atempo ≈1,017`) o recortar líneas/el ejemplo |
 
 ## Notas operativas aprendidas (no son decisiones de contenido)
 
