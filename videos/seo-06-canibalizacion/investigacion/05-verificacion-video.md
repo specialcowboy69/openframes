@@ -190,3 +190,46 @@ Beats que conviene revisar por sobrecarga: **B10** (7 objetos) y, en menor medid
   render.
 - **Columnas/medidas internas de tipografías** (anchura de URLs de B7, encaje del panel de B8/B9 en
   el ancho móvil): deducidas del CSS, no medidas sobre la captura.
+
+---
+
+## Addendum · Re-verificación tras los cambios (opción A + escritura)
+
+Árbol de trabajo sin commit. Render actual: `renders/video.mp4` **40,267 s · 1080×1920 · 30 fps**
+(antes 40,700 s en el cuerpo principal de este informe, ya desactualizado).
+
+**Cambios verificados**
+- **Opción A (resultados de Google).** Cada `.pcard` (escenas 2,3,5,6,10) lleva la línea de
+  resultado `.psite` estilo Google —dominio `tudominio.com` en tinta (`var(--ink)`) + migas
+  `› servicios › instalacion-de-luz` en gris (`var(--muted)`)— por encima de la ruta `.purl`;
+  conserva la insignia «G» (favicon). Nueva barra `.searchbar` (pastilla clara, borde suave
+  `#d7dce3`, lupa en tinta `#14141a`) sobre las tarjetas de las escenas 2 y 3.
+  Las filas `.prow` de Search Console (escenas 8 y 9) **pierden la insignia «G»** y quedan con las
+  pestañas `.sctabs` propias.
+- **Escritura (cambio 2).** Las 7 consultas se revelan carácter a carácter con `typeChars`
+  (spans con opacidad por pasos; sin `Math.random`, `Date.now`, `repeat` ni `yoyo`). Efecto de
+  sonido **nuevo `key`** (aditivo en `sfx.py`, sin tocar los existentes) a ganancia **0,13**:
+  **67 eventos** = 1 clic por cada 2 caracteres, alineados 1:1 con los instantes de escritura
+  (0 eventos fuera del tramo de tecleo; `S` coincide con `timing.json.start`).
+
+**Resultados del re-chequeo**
+- `check`: **0 errores** (Lint 15 avisos y Layout 5 infos preexistentes; el info nuevo
+  `t=3.24s` es la píldora de karaoke sobre las migas de s2, capas intencionales).
+- Montaje: **MONTAJE OK**, peor tramo vacío 0,00 s, **0 huecos** de audio > 0,12 s.
+- Audio final: `max_volume −1,3 dB` (sin recorte); pico de `sfx.wav` 0,850.
+- Fotograma 0: `L≈212,4` y **100 %** de filas con contenido (estable en t=0–0,467 s).
+
+**Tiempos de escritura (1er carácter → fin, corte de escena)**
+
+| escena | consulta | N | inicio | fin | corte | margen |
+|---|---|---|---|---|---|---|
+| 2 | instalación de luz | 18 | 3,519 | 4,644 | 6,734 | 2,09 |
+| 3 | instalación de luz | 18 | 7,234 | 8,359 | 9,706 | 1,35 |
+| 5a | instalación de luz | 18 | 14,314 | 15,439 | 18,019 | 2,58 |
+| 5b | precio instalación de luz | **25** | 14,964 | 16,544 | 18,019 | 1,48 |
+| 6 | instalación de luz | 18 | 18,619 | 19,744 | 21,688 | 1,94 |
+| 7 | instalación de luz | 18 | 22,288 | 23,413 | 26,704 | 3,29 |
+| 9 | instalación de luz | 18 | 30,055 | 31,180 | 32,695 | 1,52 |
+
+Nota: «precio instalación de luz» tiene **N=25** puntos de código (el brief estimaba 23); el
+recuento se toma del propio `index.html` y es el que usa el recorrido `for … of` de JS.

@@ -164,6 +164,28 @@
       .pcard.ours { background: #dff2b0; border-color: #a9c65f; }
       .pcard.ours .ptitle { color: #14141a; }
       .pcard.ours .purl { color: #4d5a29; }
+      /* linea de resultado de Google: dominio + migas de pan, encima de la ruta */
+      .psite { font-size: 22px; font-weight: 700; line-height: 1.25; }
+      .psite .pdom { color: var(--ink); white-space: nowrap; }
+      .psite .pcrumbs { color: var(--muted); font-weight: 600; }
+      .pcard.ours .psite .pdom { color: #14141a; }
+      .pcard.ours .psite .pcrumbs { color: #4d5a29; }
+      .scale.mini .psite { font-size: 16px; }
+
+      /* barra de busqueda: pastilla clara con la lupa y la consulta (no es la tabla) */
+      .searchbar {
+        display: flex; align-items: center; gap: 16px; width: 840px; margin: 0 auto;
+        padding: 16px 26px; border-radius: 999px; background: #ffffff;
+        border: 2px solid #d7dce3; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.30);
+      }
+      .searchbar .slens { display: flex; flex: 0 0 auto; color: #14141a; }
+      .searchbar .slens svg { width: 42px; height: 42px; }
+      .searchbar .squery {
+        flex: 1 1 auto; min-width: 0; font-family: "JetBrains Mono", monospace;
+        font-size: 36px; font-weight: 600; color: #14141a; white-space: nowrap;
+      }
+      /* la escritura reserva el ancho desde el primer fotograma (sin reflujo) */
+      .qtext { white-space: pre-wrap; }
 
       /* ---- balanza de dos platos ---- */
       .scale { position: relative; width: 760px; height: 470px; margin: 0 auto; }
@@ -290,14 +312,18 @@
       <section class="scene clip light" id="s2" data-start="3.019" data-duration="4.165" data-track-index="0">
         <div class="s-in" id="s2-in">
           <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>EL FENÓMENO</div>
+          <div class="searchbar" id="s2-search">
+            <span class="slens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+            <span class="squery" id="s2-query"><span class="qtext">instalación de luz</span></span>
+          </div>
           <div class="scale" id="s2-balance">
             <div class="beam" id="s2-beam">
               <div class="plank"></div>
               <div class="seat" id="s2-seatL">
-                <div class="pcard" id="s2-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div>
+                <div class="pcard" id="s2-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › instalacion-de-luz</span></span><span class="purl" data-layout-allow-overlap data-layout-allow-occlusion>/servicios/instalacion-de-luz</span></div>
               </div>
               <div class="seat" id="s2-seatR">
-                <div class="pcard" id="s2-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/instalacion-de-luz</span></div>
+                <div class="pcard" id="s2-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› blog › instalacion-de-luz</span></span><span class="purl">/blog/instalacion-de-luz</span></div>
               </div>
             </div>
             <div class="pivot"></div>
@@ -316,6 +342,10 @@
       <section class="scene clip dark" id="s3" data-start="6.734" data-duration="3.422" data-track-index="0">
         <div class="s-in" id="s3-in">
           <div class="kicker fade-in" id="s3-kicker"><span class="dot warn"></span>LA CONSECUENCIA</div>
+          <div class="searchbar" id="s3-search">
+            <span class="slens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+            <span class="squery" id="s3-query"><span class="qtext">instalación de luz</span></span>
+          </div>
           <div class="card" id="s3-card">
             <div class="rowc" style="align-items: flex-start; gap: 70px">
               <div class="ladder" id="s3-ladder">
@@ -324,8 +354,8 @@
                 <span class="pos" id="s3-pos">↓</span>
               </div>
               <div class="colcards">
-                <div class="pcard" id="s3-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div>
-                <div class="pcard" id="s3-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/instalacion-de-luz</span></div>
+                <div class="pcard" id="s3-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › instalacion-de-luz</span></span><span class="purl">/servicios/instalacion-de-luz</span></div>
+                <div class="pcard" id="s3-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› blog › instalacion-de-luz</span></span><span class="purl">/blog/instalacion-de-luz</span></div>
               </div>
             </div>
           </div>
@@ -342,8 +372,8 @@
             <div class="scale mini" id="s4-balance">
               <div class="beam" id="s4-beam">
                 <div class="plank"></div>
-                <div class="seat"><div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/...</span></div></div>
-                <div class="seat"><div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/...</span></div></div>
+                <div class="seat"><div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › ...</span></span><span class="purl">/servicios/...</span></div></div>
+                <div class="seat"><div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› blog › ...</span></span><span class="purl">/blog/...</span></div></div>
               </div>
               <div class="pivot"></div>
               <div class="fiel"></div>
@@ -360,13 +390,13 @@
           <div class="card" id="s5-card">
             <div class="duo">
               <div class="duocol" id="s5-a" data-layout-allow-overlap>
-                <div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div>
-                <span class="chip sm" id="s5-qa">instalación de luz</span>
+                <div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › instalacion-de-luz</span></span><span class="purl">/servicios/instalacion-de-luz</span></div>
+                <span class="chip sm" id="s5-qa"><span class="qtext">instalación de luz</span></span>
                 <span class="tag" id="s5-la">CONTRATAR</span>
               </div>
               <div class="duocol" id="s5-b" data-layout-allow-overlap>
-                <div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/precio-instalacion-de-luz</span></div>
-                <span class="chip sm" id="s5-qb">precio instalación de luz</span>
+                <div class="pcard"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› blog › precio-instalacion-de-luz</span></span><span class="purl">/blog/precio-instalacion-de-luz</span></div>
+                <span class="chip sm" id="s5-qb"><span class="qtext">precio instalación de luz</span></span>
                 <span class="tag" id="s5-lb">INFORMARSE</span>
               </div>
             </div>
@@ -379,11 +409,11 @@
         <div class="s-in" id="s6-in">
           <div class="kicker fade-in" id="s6-kicker"><span class="dot"></span>LA CAUSA</div>
           <div class="card" id="s6-card">
-            <div class="rowc"><span class="chip accent" id="s6-qpill">instalación de luz</span></div>
+            <div class="rowc"><span class="chip accent" id="s6-qpill"><span class="qtext">instalación de luz</span></span></div>
             <div class="causewrap">
               <div class="duo6">
-                <div class="pcard" id="s6-a" data-layout-allow-overlap><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div>
-                <div class="pcard" id="s6-b" data-layout-allow-overlap><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/instalacion-de-luz</span></div>
+                <div class="pcard" id="s6-a" data-layout-allow-overlap><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite" data-layout-allow-overlap><span class="pdom" data-layout-allow-overlap>tudominio.com</span> <span class="pcrumbs" data-layout-allow-overlap>› servicios › instalacion-de-luz</span></span><span class="purl">/servicios/instalacion-de-luz</span></div>
+                <div class="pcard" id="s6-b" data-layout-allow-overlap><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite" data-layout-allow-overlap><span class="pdom" data-layout-allow-overlap>tudominio.com</span> <span class="pcrumbs" data-layout-allow-overlap>› blog › instalacion-de-luz</span></span><span class="purl">/blog/instalacion-de-luz</span></div>
               </div>
               <div id="s6-overlap"></div>
             </div>
@@ -397,11 +427,11 @@
         <div class="s-in" id="s7-in">
           <div class="kicker fade-in" id="s7-kicker"><span class="dot"></span>EL EJEMPLO</div>
           <div class="card" id="s7-card">
-            <div class="rowc"><span class="chip" id="s7-q">instalación de luz</span></div>
+            <div class="rowc"><span class="chip" id="s7-q"><span class="qtext">instalación de luz</span></span></div>
             <div class="browser" id="s7-winA">
               <div class="chrome">
                 <div class="lights"><i></i><i></i><i></i></div>
-                <div class="addr"><span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span class="url"><span class="w">/servicios/</span><span class="w">instalacion</span><span class="w">-</span><span class="w">de</span><span class="w">-</span><span class="w">luz</span></span></div>
+                <div class="addr"><span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span class="url"><span class="w" data-layout-allow-overlap data-layout-allow-occlusion>/servicios/</span><span class="w">instalacion</span><span class="w">-</span><span class="w">de</span><span class="w">-</span><span class="w">luz</span></span></div>
               </div>
               <div class="pagebody"><span class="fav">G</span><span class="skel"><i></i><i></i></span></div>
             </div>
@@ -423,8 +453,8 @@
           <div class="panel" id="s8-panel">
             <div class="phead"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9M10 20V4M16 20v-7M20 20H2"/></svg><span class="name">Rendimiento</span></div>
             <div class="sctabs" id="s8-tabs"><span class="t">Consultas</span><span class="t on">Páginas</span></div>
-            <div class="prow dup" id="s8-r1"><span class="fav">G</span><span class="nm mono">/servicios/instalacion-de-luz</span><span class="tr"><b></b></span></div>
-            <div class="prow dup" id="s8-r2"><span class="fav">G</span><span class="nm mono">/blog/precio-instalacion-de-luz</span><span class="tr"><b></b></span></div>
+            <div class="prow dup" id="s8-r1"><span class="nm mono">/servicios/instalacion-de-luz</span><span class="tr"><b></b></span></div>
+            <div class="prow dup" id="s8-r2"><span class="nm mono">/blog/precio-instalacion-de-luz</span><span class="tr"><b></b></span></div>
             <div id="s8-dup"></div>
           </div>
           <div class="sweep" id="s8-sweep"></div>
@@ -439,10 +469,10 @@
             <div class="phead"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9M10 20V4M16 20v-7M20 20H2"/></svg><span class="name">Rendimiento</span></div>
             <div class="sctabs" id="s9-tabs"><span class="t on">Consultas</span><span class="t">Páginas</span></div>
             <div class="rowc" style="justify-content: flex-start; padding: 16px 0">
-              <span class="chip" id="s9-q">instalación de luz</span>
+              <span class="chip" id="s9-q"><span class="qtext">instalación de luz</span></span>
             </div>
-            <div class="prow" id="s9-rA"><span class="fav">G</span><span class="nm mono">/servicios/instalacion-de-luz</span><span class="tr"><b></b></span><div class="tint" id="s9-ta"></div></div>
-            <div class="prow" id="s9-rB"><span class="fav">G</span><span class="nm mono">/blog/precio-instalacion-de-luz</span><span class="tr"><b></b></span><div class="tint" id="s9-tb"></div></div>
+            <div class="prow" id="s9-rA"><span class="nm mono">/servicios/instalacion-de-luz</span><span class="tr"><b></b></span><div class="tint" id="s9-ta"></div></div>
+            <div class="prow" id="s9-rB"><span class="nm mono">/blog/precio-instalacion-de-luz</span><span class="tr"><b></b></span><div class="tint" id="s9-tb"></div></div>
           </div>
         </div>
       </section>
@@ -453,13 +483,13 @@
           <div class="kicker fade-in" id="s10-kicker"><span class="dot"></span>EL ARREGLO</div>
           <div class="card" id="s10-card" style="gap: 16px; padding: 30px 34px">
             <div class="rowc" style="gap: 40px">
-              <div class="pcard" id="s10-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div>
-              <div class="pcard" id="s10-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/blog/instalacion-de-luz</span></div>
+              <div class="pcard" id="s10-a"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › instalacion-de-luz</span></span><span class="purl">/servicios/instalacion-de-luz</span></div>
+              <div class="pcard" id="s10-b"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› blog › instalacion-de-luz</span></span><span class="purl">/blog/instalacion-de-luz</span></div>
             </div>
             <div class="fusearw" id="s10-fuse">
               <svg viewBox="0 0 560 210"><path d="M120 8 L120 74 Q120 112 280 112 L280 150 M440 8 L440 74 Q440 112 280 112 M280 150 L254 124 M280 150 L306 124"/></svg>
             </div>
-            <div class="rowc"><div class="pcard ours" id="s10-survivor"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="purl">/servicios/instalacion-de-luz</span></div></div>
+            <div class="rowc"><div class="pcard ours" id="s10-survivor"><span class="fav">G</span><span class="ptitle">Tu página</span><span class="psite"><span class="pdom">tudominio.com</span> <span class="pcrumbs">› servicios › instalacion-de-luz</span></span><span class="purl">/servicios/instalacion-de-luz</span></div></div>
             <div class="rowc"><span class="pill accent sm" id="s10-optA">SEPARAR INTENCIONES</span><span class="pill plain sm" id="s10-optB">FUSIONAR EN UNA</span></div>
           </div>
         </div>
@@ -549,6 +579,27 @@
           tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, t + i * step);
         });
       }
+      // Escritura: cada caracter es un span revelado por pasos. Sin Math.random ni
+      // Date.now; el tween corto es seguro al buscar fotograma a fotograma (sin repeat/yoyo).
+      function typeChars(sel, t, step = 0.065) {
+        const holder = document.querySelector(sel);
+        if (!holder) return;
+        const text = holder.textContent;
+        holder.textContent = "";
+        const spans = [];
+        for (const ch of text) {
+          const s = document.createElement("span");
+          s.textContent = ch;
+          s.style.opacity = "0";
+          s.setAttribute("data-layout-allow-overlap", "");
+          s.setAttribute("data-layout-allow-occlusion", "");
+          holder.appendChild(s);
+          spans.push(s);
+        }
+        spans.forEach((s, i) => {
+          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, t + i * step);
+        });
+      }
       function swap(a, b, t) {
         tl.set(a, { opacity: 0 }, t);
         tl.set(b, { opacity: 1 }, t);
@@ -566,6 +617,8 @@
       // ---- B2 El fenomeno: la balanza bascula y la barra se reparte
       rise("#s2-balance", at(2, 0.0));
       put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-search", at(2, 0.12), { y: -24 });
+      typeChars("#s2-query .qtext", at(2, 0.50), 0.065);
       put("#s2-a", at(2, 0.18), { y: -30 });
       put("#s2-b", at(2, 0.34), { y: -30 });
       tl.fromTo("#s2-beam", { rotation: 0 }, { rotation: -6, duration: 0.45, ease: "power2.out" }, at(2, 0.55));
@@ -581,6 +634,8 @@
       // ---- B3 La consecuencia: la marca intenta subir, las dos fichas se hunden
       rise("#s3-card", at(3, 0.0));
       put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-search", at(3, 0.12), { y: 24 });
+      typeChars("#s3-query .qtext", at(3, 0.50), 0.065);
       put("#s3-ladder", at(3, 0.18), { y: 30 });
       put("#s3-mark", at(3, 0.45), { y: 20 });
       put("#s3-a", at(3, 0.45));
@@ -607,6 +662,8 @@
       tl.fromTo("#s5-b", { x: 0 }, { x: 44, duration: 0.6, ease: "power3.out" }, at(5, 0.40));
       put("#s5-qa", at(5, 0.50), { y: -20 });
       put("#s5-qb", at(5, 0.95), { y: -20 });
+      typeChars("#s5-qa .qtext", at(5, 0.80), 0.065);
+      typeChars("#s5-qb .qtext", at(5, 1.45), 0.065);
       put("#s5-la", at(5, 1.25), { scale: 0.8 });
       put("#s5-lb", at(5, 1.55), { scale: 0.8 });
 
@@ -614,6 +671,7 @@
       rise("#s6-card", at(6, 0.0));
       put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
       put("#s6-qpill", at(6, 0.20), { y: -24 });
+      typeChars("#s6-qpill .qtext", at(6, 0.60), 0.065);
       put("#s6-a", at(6, 0.50), { x: -30 });
       put("#s6-b", at(6, 0.75), { x: 30 });
       tl.to("#s6-a", { x: 18, duration: 0.5, ease: "power3.inOut" }, at(6, 1.30));
@@ -625,6 +683,7 @@
       rise("#s7-card", at(7, 0.0));
       put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
       put("#s7-q", at(7, 0.25), { y: -24 });
+      typeChars("#s7-q .qtext", at(7, 0.60), 0.065);
       put("#s7-winA", at(7, 0.60), { y: 40 });
       put("#s7-winB", at(7, 1.00), { y: 40 });
       typeWords("#s7-winA .w", at(7, 1.30), 0.05);
@@ -643,6 +702,7 @@
       put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
       put("#s9-tabs", at(9, 0.18));
       put("#s9-q", at(9, 0.40), { y: -20 });
+      typeChars("#s9-q .qtext", at(9, 0.75), 0.065);
       put("#s9-rA", at(9, 0.70), { x: -30 });
       put("#s9-rB", at(9, 0.95), { x: -30 });
       swap("#s9-ta", "#s9-tb", at(9, 1.50));
