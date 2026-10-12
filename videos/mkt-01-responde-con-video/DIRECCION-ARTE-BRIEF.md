@@ -103,12 +103,12 @@ ejemplo** (la tienda de ropa, B7-B9).
 
 ---
 
-## 5. Pendiente de confirmación del dueño
+## 5. Uso de la marca ajena
 
-- **El logo de la marca de consumo queda pendiente de confirmación.** `PROFILE.md:39` autoriza mostrar
+- **El logo de la marca de consumo queda autorizado por el dueño (2026-10-12).** `PROFILE.md:39` autoriza mostrar
   «el logo de la marca cuando se la nombra», pero sus ejemplos son **plataformas** (Google, Search
   Console), no una **marca de consumo** como Old Spice; `investigacion/02-continuidad.md` §6 ya marca
-  este riesgo. Mientras no se confirme, la marca se representa **solo con su nombre escrito como
+  este riesgo. La marca se representa **solo con su nombre escrito como
   logotipo** (tinta `#14141a` sobre tarjeta clara `#ffffff`), **sin arroba**, **sin descargar ninguna
   imagen de red** y **sin sugerir afiliación** ni usarla como hashtag. Si el dueño confirma el logo
   oficial, se sustituye el logotipo tipográfico por la marca en línea sobre la misma tarjeta.

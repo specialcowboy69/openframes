@@ -36,7 +36,7 @@ De guardar, con gatillo: «Guarda esto y responde al próximo comentario con un 
 ## Sistema visual
 
 Kinetic Type + Swiss Grid, el sistema de la casa. Recurso propio de la pieza: **hilo de comentarios → vídeo-respuesta**.
-Se estrena el logo de la marca nombrada (Old Spice) **en línea sobre tarjeta clara** (`PROFILE.md:39`; logotipo **pendiente de confirmación del dueño**), sin
+Se estrena el logo de la marca nombrada (Old Spice) **en línea sobre tarjeta clara** (`PROFILE.md:39`; logotipo **autorizado por el dueño (2026-10-12)**), sin
 `@handle` ni adorno de autoría o IA. No se reutilizan la SERP etiquetada (V5) ni la balanza de dos platos (V6).
 
 ## Cifras

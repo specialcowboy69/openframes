@@ -66,3 +66,8 @@ Se añade al final; lo más reciente abajo. Fecha en formato AAAA-MM-DD.
   el siguiente intento muere en la reserva (sin volver a llamar a n8n — la salvaguarda
   funciona). Para reintentar hay que reconciliar antes: comprobar el `jobId` con la Action
   de estado y, si está `not_found`, liberar la reserva (`publish_attempt`, `needs_review`).
+
+## MK1 — logotipo de marca ajena y la cifra de los 65 millones (2026-10-12)
+
+- El dueño **autoriza** usar el logotipo de la marca del caso (Old Spice) en la pieza MK1. El perfil solo autorizaba logos de plataformas, así que es una autorización expresa para esta pieza.
+- La cifra de «más de 65 millones de reproducciones» queda **fuera** del guion: la fuente que la publica no especifica plataforma ni ventana temporal. Se usan 186 vídeos, en torno a dos días y medio y casi seis millones de reproducciones el primer día.

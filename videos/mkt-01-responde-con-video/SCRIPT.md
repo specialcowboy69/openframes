@@ -59,7 +59,7 @@ por eso la pieza dice **«no necesitas comprar anuncios»**, no «no cuesta nada
 - **Aperturas gastadas:** el gancho no usa el mecanismo de «error» de la serie SEO; usa el **caso** de una marca, con el texto dictado por el dueño.
 - **Vocabulario de otras series:** no se reutiliza el de SEO (autoridad, enlaces, canibalización, SERP) ni el de GA4 (cuenta, propiedad, flujo, etiqueta).
 - **Recursos visuales:** se estrena un recurso propio (hilo de comentarios → vídeo-respuesta); no se reutiliza la SERP etiquetada (V5) ni la balanza de dos platos (V6).
-- **Marcas:** se nombra **Old Spice** y se muestra su **logo en línea sobre tarjeta clara** (`PROFILE.md:39`; logotipo **pendiente de confirmación del dueño**); **sin `@handle`** ni ningún adorno de autoría o IA.
+- **Marcas:** se nombra **Old Spice** y se muestra su **logo en línea sobre tarjeta clara** (`PROFILE.md:39`; logotipo **autorizado por el dueño (2026-10-12)**); **sin `@handle`** ni ningún adorno de autoría o IA.
 
 ## Reglas aplicadas
 
@@ -84,3 +84,5 @@ Estas son las líneas que lee `voice_pipeline.py` (4 espacios de sangría), en e
     Empieza por las tres preguntas que más te repiten.
     Tus clientes ya te dicen qué contenido quieren.
     Guarda esto y responde al próximo comentario con un vídeo.
+
+**Decisión del dueño (2026-10-12):** la cifra de los 65 millones queda fuera del guion, con el motivo de arriba; y el logotipo de la marca del caso queda autorizado para esta pieza.

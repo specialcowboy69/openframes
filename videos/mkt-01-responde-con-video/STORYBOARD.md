@@ -54,7 +54,7 @@ reutiliza la **SERP etiquetada** de V5 ni la **balanza** de V6. **Ejemplo único
   `put("#s2-cm", at(2,1.30),{x:-24})` · `put("#s2-clip", at(2,1.75),{scale:0.6})`.
 - **Rótulo en pantalla:** kicker **«EL CASO»**; logotipo **«OLD SPICE»** (tinta `#14141a` sobre tarjeta
   `#ffffff`) · año **«2010»**.
-- **Nota:** el logotipo de la marca de consumo va **pendiente de confirmación del dueño**; mientras, se
+- **Nota:** el logotipo de la marca de consumo va **autorizado por el dueño (2026-10-12)**; mientras, se
   representa solo con su nombre escrito como logotipo (tinta sobre tarjeta clara), sin arroba ni afiliación.
 - **Sonido:** pop 0,20 · tick 0,55 (el año) · pop 0,95 (la marca) · pop 1,30 · ding 2,30.
 - **Salida:** **objeto que cubre (`.cover`) 0,45 s** — el panel `#20202a` crece desde la tarjeta de marca
@@ -215,7 +215,7 @@ reutiliza la **SERP etiquetada** de V5 ni la **balanza** de V6. **Ejemplo único
 | Marcador de guardado + onda (`.cta-mark`, `.cta-label`, `.savewave`) | HTML/SVG | Reutilizado (kit / GA4) |
 | **Móvil con hilo de comentarios** (`.phone`, `.cthread`, `.cmsg`, `.cbubble`) | HTML/CSS | **Nuevo** |
 | **Clip-respuesta** (`.replyclip` con `.play`, `.clipbar`) | HTML/CSS/SVG | **Nuevo** |
-| **Callout** (`.callout`) y **logotipo de marca** (`.brandmark`), **año** (`.yearbadge`) | HTML/CSS | **Nuevo** (logotipo tipográfico, **pendiente de confirmación del dueño**) |
+| **Callout** (`.callout`) y **logotipo de marca** (`.brandmark`), **año** (`.yearbadge`) | HTML/CSS | **Nuevo** (logotipo tipográfico, **autorizado por el dueño (2026-10-12)**) |
 | **Cadena de producción** (`.chain`, `.station`, `.chainarrow`, `.sheet`, `.prompter`) | HTML/CSS/SVG | **Nuevo** |
 | **Muro de clips** (`.clipgrid`, `.mini`, `.minifocus`) y **cifra** (`.bignum`, `.statlab`) | HTML/CSS | **Nuevo** |
 | **Etiquetas de la lección** (`.lesstag`) | HTML/CSS/SVG | **Nuevo** |

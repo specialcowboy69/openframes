@@ -276,7 +276,7 @@ Todo es CSS + SVG inline (sin imágenes externas). Reutilizados del kit: `.scene
 .brandmark { display:inline-flex; align-items:center; padding:18px 30px; border-radius:14px;
              background:#ffffff; border:3px solid var(--line); font-family:"Inter",sans-serif;
              font-size:64px; font-weight:900; letter-spacing:0.02em; text-transform:uppercase;
-             color:#14141a; }                    /* logotipo tipográfico: marca pendiente de confirmación (§ brief 5) */
+             color:#14141a; }                    /* logotipo tipográfico: marca autorizado por el dueño (2026-10-12) (§ brief 5) */
 
 /* ---- B3: la cadena de producción (comentario → guion → teleprompter → cámara) ---- */
 .chain { display:flex; align-items:center; justify-content:center; gap:8px; }
@@ -410,7 +410,7 @@ para que su `.cover` quede por encima de B3 durante el cruce.
    desde `t=0`, sin desvanecidos; solo se asientan con `rise()`. Medir luminancia y % de filas con
    contenido.
 5. **El logotipo de marca** → es un **logotipo tipográfico** (tinta sobre tarjeta clara), sin arroba,
-   sin imagen de red y sin sugerir afiliación; **pendiente de confirmación del dueño** (§5 del brief).
+   sin imagen de red y sin sugerir afiliación; **autorizado por el dueño (2026-10-12)** (§5 del brief).
 6. **Duraciones reales ≠ estimadas** → la estimación de ~34,6 s es de palabra/velocidad; los tiempos
    definitivos los fija `voice_pipeline.py` y los aplica `retime.py`. Toda la animación está en tiempos
    **relativos** al inicio de su beat.
@@ -429,7 +429,7 @@ para que su `.cover` quede por encima de B3 durante el cruce.
 4. **El foco de la escala se cierra en uno (resuelto):** en B4 la rejilla crece hasta `186` y luego el
    foco se cierra en **un solo** clip, para decir que la respuesta es personal.
 5. **La marca se representa como logotipo tipográfico (resuelto):** tinta `#14141a` sobre tarjeta clara
-   `#ffffff`, sin arroba ni imagen de red; **pendiente de confirmación del dueño** (§5 del brief).
+   `#ffffff`, sin arroba ni imagen de red; **autorizado por el dueño (2026-10-12)** (§5 del brief).
 6. **Rótulos nominales, sin numerar (resuelto):** como V5/V6; los kickers siguen los nombres de beat de
    `SCRIPT.md` (GANCHO, EL CASO, EL MECANISMO, LA ESCALA, LA LECCIÓN, TU VERSIÓN, EL EJEMPLO, LA DOBLE
    GANANCIA, LA PRÁCTICA, EL CIERRE; B11 no lleva kicker).
