@@ -479,6 +479,10 @@ transición (`.cover` en B2, `.sweep` en B6) quede por encima de la escena sigui
 9. **El blanco se rellena de acento solo en el cierre (resuelto):** en B1 y B7 el centro es un anillo
    de tinta; en **B11** el centro se rellena de acento con las cinco marcas en tinta, para que la
    última imagen diga «aquí está lo correcto» sin una palabra.
+10. **El lenguaje 2D entra cuando la voz nombra (resuelto):** personajes y entornos se dibujan con
+   **SVG en línea** (plano, dos colores + acento) y aparecen en el instante que fija `cue()` —el mismo
+   reparto por longitud que el karaoke—, con entradas ≤0,3 s; se prefieren figuras a rótulos y cajas
+   (§12). El mapeo palabra→elemento está declarado en §12.
 
 ---
 
@@ -495,3 +499,99 @@ transición (`.cover` en B2, `.sweep` en B6) quede por encima de la escena sigui
 - **Revisión final** (checklist en `STORYBOARD.md`): un fotograma de lectura por escena, los instantes
   intermedios de `cover` y `sweep`, entradas y salidas, alineación, sincronía con la voz y el
   MP4 completo en movimiento.
+
+---
+
+## 12. Lenguaje 2D — personajes y entornos (heredable)
+
+**Regla de la línea:** cuando la voz **nombra** a alguien o algo, entra en pantalla **una figura o una
+escena dibujada**, no un rótulo. La pieza prefiere **generación de personajes y entornos** antes que
+cajas, cartelas y letras sueltas; el texto en pantalla queda solo para lo que la voz **no** dice
+(la cifra `6 €`, la marca, el año) o para fijar una frase clave.
+
+### Cómo se dibujan
+
+- **HTML `<svg>` en línea + CSS**. Nada de imagen de red, nada de bitmap, nada de banco de assets:
+  todo determinista y compatible con el avance fotograma a fotograma.
+- **Plano y geométrico**, sin degradados ni texturas, **legible a tamaño pequeño** y con **un solo
+  foco** por escena. Todas las figuras usan `fill="currentColor"` y heredan el color de su contenedor;
+  `aria-hidden="true"` y sin texto dentro (el rótulo, si hace falta, va fuera).
+- **Dos colores + acento.** El cuerpo va en `ink` (tinta clara sobre oscuro, tinta oscura sobre
+  claro); el detalle (corbata, cuello, respaldo de silla, cruces del retículo) en `muted`. El acento
+  **nunca es la figura entera salvo dentro de una zona de acento**: las cinco personas del cierre
+  (B7/B8/B11) van en `--accent` como **relleno** cuando están sobre el núcleo del blanco, con
+  `--accent-ink` encima (`.blanco.correct .gente { color: var(--accent-ink) }` cuando el núcleo es de
+  acento; el relleno va por `fill: currentColor`). Nunca hay texto sobre estas figuras.
+
+### Piezas y medidas
+
+| pieza | viewBox | uso / tamaño | color |
+|---|---|---|---|
+| `.gente` (persona, cabeza + torso) | `0 0 64 64` — `circle r12 cy20` + `path` de hombros | cinco correctos (B7/B8/B11) y respondedores (B6), a **52 px** | `ink`/`muted`; `accent-ink` dentro del núcleo |
+| `.fig` (figura de cuerpo entero) | `0 0 120 200` — **5 variantes** distintas por atributo (gafas + corbata, pelo, moño + gafas, chistera, cuello) | 5 directores (B3) a **100 px**; filas (B4) a **54 px**; cliente (B9) a **60 px** | `ink` + `muted` |
+| `.fig.al` (Alec, `--fig-w` propio) | `0 0 140 210` | protagonista dentro de la redacción (B2), a **150 px** | `ink` + `muted` |
+| `.office` / `.officebg` (redacción de agencia) | `0 0 900 460` — ventana con skyline, escritorio, silla, lámpara | fondo de la tarjeta del caso (B2), a ancho completo de la tarjeta (alto 460 px) | skyline `muted`, mobiliario `ink`/`line` |
+| `.crowd .disperso` (impacto) | `0 0 64 64` | multitud de la pared (B7) | `muted` (se apaga a 0,14) |
+
+Todas las figuras de una escena se alinean a la misma línea de suelo y comparten escala; ninguna
+sobresale de la tarjeta ni pisa la banda de karaoke (el contenido de `.s-in` termina en
+`padding-bottom:700px`, y la píldora vive a `bottom:470`).
+
+### Cuándo entran (regla de cues)
+
+Cada elemento **nombrado por la voz** se ancla con el helper `cue(línea, palabra, [ocurrencia])`:
+
+```
+cue(n, word, occ) = S[n-1] + (clip[n] · Σlen(palabras anteriores) / Σlen(línea))
+```
+
+Es el **mismo reparto proporcional por longitud que usa el karaoke**
+(`caption-pill-karaoke.html`): el instante local de una palabra pesa por su longitud sobre el total de
+la línea. El elemento entra **≤0,3 s** después de ese instante, con `put()` (`fromTo` de opacidad/`y`/
+`scale`), de modo que **la voz lo trae**: primero se oye la palabra, en seguida llega la figura. La
+segunda ocurrencia de una palabra repetida (p. ej. «tráfico» en B11) se pide con `occ=2`.
+
+**Anclas declaradas** (instante absoluto = inicio de línea + posición ponderada de la palabra):
+
+| línea | palabra que la voz dice | elemento que entra | instante |
+|---|---|---|---|
+| L2 | «Alec» | personaje de Alec + oficina | 4,075 s |
+| L2 | «Brownstein» | nombre en pantalla | 4,380 s |
+| L2 | «publicista» | tarjeta «PUBLICISTA» | 5,220 s |
+| L2 | «2010» | año | 6,213 s |
+| L3 | «directores» | los cinco directores | 7,830 s |
+| L3 | «buscan» | se teclea el nombre | 9,356 s |
+| L3 | «mismos» | brota el anuncio | 10,010 s |
+| L4 | «cinco» | primera fila de la lista | 11,530 s |
+| L4 | «nombres» | nota «SOLO ESOS NOMBRES» | 14,417 s |
+| L5 | «anuncio» | tarjeta del anuncio | 15,040 s |
+| L5 | «Contratarme» | resaltado | 18,329 s |
+| L6 | «llamaron» | 4 respondedores + marcador 4/5 | 20,704 s |
+| L6 | «dos» | marcador «2 ofertas» | 21,645 s |
+| L7 | «esas» | cinco personas encendidas | 24,632 s |
+| L7 | «cinco» | rótulo «ESAS CINCO» | 24,885 s |
+| L8 | «mismo» | las cinco cruzan | 25,451 s |
+| L8 | «vale» | puente | 25,764 s |
+| L8 | «negocio» | tarjeta «TU NEGOCIO» | 26,389 s |
+| L9 | «abogado» / «dentista» | término + tachado | 27,934 / 28,587 s |
+| L9 | «piensa» | lupa | 29,305 s |
+| L9 | «cliente» | cliente ideal + etiqueta | 30,545 s |
+| L10 | «mejores» | «TUS MEJORES CLIENTES» | 33,982 s |
+| L11 | «tráfico» (2.ª) | cinco personas sobre el núcleo | 37,852 s |
+| L11 | «correcto» | nota «EL TRÁFICO CORRECTO» | 38,318 s |
+
+### Choques con el contrato y cómo se resuelven
+
+- **«Un solo acento por escena» (contrato §2).** Los cinco de B7/B8/B11 y las casillas de B4 usan el
+  acento que **ya tenía** la escena (las marcas del blanco, las casillas): no añaden un segundo
+  acento. Los cuatro respondedores de **B6** se dibujan en **`ink`/`muted`**, no en acento, para no
+  competir con el marcador «2 OFERTAS» (el único acento de esa escena).
+- **«El acento siempre relleno con `accent-ink` encima» / verde prohibido como trazo (contrato §2).**
+  Las figuras de acento son **relleno puro sin texto** (igual que las `.marca` que ya existían); en
+  ningún caso hay texto o trazo verde sobre claro. El detalle va en `muted` (`#6f6f78` en claro),
+  nunca en acento.
+- **Panel oscuro mínimo (contrato §2).** La ventana de la redacción (B2) es **claro sobre claro**
+  (`--panel`/`--bg`), nunca un bloque oscuro; el cielo no baja de `--bg` (`#f4f1ea`).
+- No hay más contradicciones: el estado inicial sigue en CSS (`transform:scale(0)` estático, sin
+  `transition`/`@keyframes`), las entradas usan `put()`/`fromTo`, el escenario nace visible con
+  `rise()` y no se toca `.from()`, `Math.random`, `Date.now` ni `repeat`/`yoyo`.

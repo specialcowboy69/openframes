@@ -92,6 +92,16 @@ negocio pequeño. Sin cifras fuera de las fuentes, sin promesas de resultados y 
   de transición: `.cover` (B2→B3) y `.sweep` (B6→B7). No se reutiliza el hilo de comentarios → vídeo
   de `mkt-01`, ni la **SERP etiquetada** de V5, ni la **balanza de dos platos** de V6.
 
+**Lenguaje 2D (nuevo, heredable — detalle en `DIRECCION.md` §12).** Los personajes y entornos se
+**dibujan en la propia composición** con **SVG en línea + CSS**: plano, geométrico, de **dos colores**
+(`ink` + `muted`) más el acento **solo como relleno**, legible a tamaño pequeño. Aparecen **cuando la
+voz los nombra**: el instante sale del helper `cue(línea, palabra)` = inicio de línea + posición
+proporcional **ponderada por longitud de palabra** (el mismo reparto que el karaoke), y la figura entra
+**≤0,3 s** después con `put()`, para que **la voz la traiga**. Se prefieren figuras a cartelas: Alec
+(persona genérica) y la redacción con skyline (B2), los **cinco directores creativos** distintos (B3),
+una figura por fila (B4), los cuatro que responden (B6), las **cinco personas** del cierre (B7/B8/B11)
+y el cliente ideal (B9). Nada de red, nada de bitmap.
+
 ---
 
 ## 4. Qué hay que evitar

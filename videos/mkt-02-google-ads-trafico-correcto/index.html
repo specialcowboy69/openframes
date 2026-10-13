@@ -76,6 +76,59 @@
       .cinco  { display:grid; grid-template-columns:repeat(3, 56px); gap:22px;
                 justify-content:center; width:100%; }
       .cinco .marca { justify-self:center; }
+      .cinco .gente { justify-self:center; }
+
+      /* ===================== LENGUAJE 2D (figuras planas, SVG en línea) =====================
+         Dos colores (tinta del tema + secundario muted) y el acento solo como relleno.
+         La figura se dibuja con formas geométricas planas; a tamaño pequeño mantiene
+         silueta distinta por variante (gafas, pelo, moño, sombrero, cuello). */
+      .fig { display:block; width:var(--fig-w,104px); height:auto; color:var(--ink); }
+      .fig .fg-head,.fig .fg-body,.fig .fg-leg,.fig .fg-hair,.fig .fg-bun,
+      .fig .fg-hat,.fig .fg-hand { fill:currentColor; }
+      .fig .fg-arm  { fill:none; stroke:currentColor; stroke-width:20; stroke-linecap:round; }
+      .fig .fg-glasses { fill:var(--bg); }
+      .fig .fg-tie,.fig .fg-collar { fill:var(--muted); }
+      .fig .fg-hair,.fig .fg-bun,.fig .fg-hat,.fig .fg-glasses,
+      .fig .fg-collar,.fig .fg-hand { display:none; }
+      .fig.v1 .fg-glasses { display:block; }
+      .fig.v2 .fg-hair { display:block; }
+      .fig.v3 .fg-bun,.fig.v3 .fg-glasses { display:block; }
+      .fig.v4 .fg-hat { display:block; }
+      .fig.v5 .fg-collar { display:block; }
+      .fig.v5 .fg-tie { display:none; }
+      .fig.al .fg-glasses,.fig.al .fg-hand { display:block; }
+
+      /* la gente menuda (los «cinco correctos»): mismo glifo, relleno de acento o tinta */
+      .gente { display:inline-block; width:52px; height:52px; color:var(--accent);
+               transform:scale(0); transform-origin:center; }
+      .gente svg { width:100%; height:100%; display:block; }
+      .gente .g-head,.gente .g-body { fill:currentColor; }
+      .blanco.correct .gente { color:var(--accent-ink); }
+
+      /* ---- el despacho de la agencia (B2): escritorio, silla y ventana con ciudad ---- */
+      .office { position:relative; width:100%; height:460px; }
+      .office .officebg { position:absolute; inset:0; width:100%; height:100%; display:block; }
+      .office .figwrap { position:absolute; left:16px; bottom:54px; width:150px; }
+      .office .figwrap .fig { --fig-w:150px; }
+
+      /* ---- los cinco directores creativos (B3): banda de figuras ---- */
+      .directors { display:flex; align-items:flex-end; justify-content:center; gap:8px; }
+      .directors .dcell { display:block; }
+      .directors .fig { --fig-w:100px; }
+
+      /* ---- filas de la selección (B4): figura + nombre + casilla ---- */
+      .pickfig { flex:0 0 auto; display:flex; align-items:center; }
+      .pickfig .fig { --fig-w:54px; }
+      .pick .pname { flex:1; }
+
+      /* ---- los cuatro que responden (B6) ---- */
+      .responders { display:flex; align-items:flex-end; justify-content:center; gap:20px; }
+      .responders .gente { color:var(--ink); }
+      .responders .gente.dim { color:var(--muted); }
+
+      /* ---- el cliente ideal (B9): figura plana junto a la lupa ---- */
+      .clientefig { position:absolute; left:50%; top:56%; margin:56px 0 0 -30px; width:60px; z-index:4; }
+      .clientefig .fig { --fig-w:60px; }
 
       /* ---- B1/B3/B5: la barra de búsqueda ---- */
       .searchbar { position:relative; display:flex; align-items:center; gap:18px;
@@ -275,13 +328,52 @@
         <div class="s-in" id="s2-in">
           <div class="kicker fade-in" id="s2-kicker" data-layout-allow-overlap><span class="dot"></span>EL CASO</div>
           <div class="card" id="s2-card">
-            <div class="rowline" style="align-items:center; gap:44px">
-              <div class="monogram" id="s2-mono">AB</div>
-              <div style="flex:1; display:flex; flex-direction:column; gap:22px; align-items:flex-start">
-                <div class="yearbadge" id="s2-year" data-layout-allow-overlap>2010</div>
-                <div class="nameplate" id="s2-name">Alec Brownstein</div>
-                <div class="rowc" style="justify-content:flex-start"><span class="chip" id="s2-role">PUBLICISTA</span></div>
+            <!-- la redacción de la agencia: ventana con Nueva York, escritorio y silla.
+                 El escenario nace visible; solo se asienta con rise(). -->
+            <div class="office" id="s2-office" data-layout-allow-overlap>
+              <svg class="officebg" viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <rect x="0" y="392" width="900" height="68" fill="var(--line)"/>
+                <rect x="560" y="30" width="300" height="256" rx="14" fill="var(--bg)" stroke="var(--line)" stroke-width="8"/>
+                <line x1="710" y1="30" x2="710" y2="286" stroke="var(--line)" stroke-width="6"/>
+                <line x1="560" y1="158" x2="860" y2="158" stroke="var(--line)" stroke-width="6"/>
+                <rect x="576" y="196" width="40" height="90" fill="var(--muted)"/>
+                <rect x="622" y="166" width="34" height="120" fill="var(--muted)"/>
+                <rect x="636" y="136" width="6" height="30" fill="var(--muted)"/>
+                <rect x="662" y="210" width="38" height="76" fill="var(--muted)"/>
+                <rect x="720" y="182" width="44" height="104" fill="var(--muted)"/>
+                <rect x="772" y="214" width="36" height="72" fill="var(--muted)"/>
+                <rect x="816" y="192" width="34" height="94" fill="var(--muted)"/>
+                <rect x="262" y="300" width="340" height="24" rx="8" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+                <rect x="282" y="324" width="16" height="86" fill="var(--muted)"/>
+                <rect x="566" y="324" width="16" height="86" fill="var(--muted)"/>
+                <rect x="330" y="228" width="130" height="72" rx="8" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+                <rect x="342" y="240" width="106" height="48" fill="var(--muted)"/>
+                <rect x="386" y="300" width="18" height="10" fill="var(--muted)"/>
+                <rect x="648" y="196" width="26" height="132" rx="12" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+                <rect x="616" y="328" width="106" height="20" rx="8" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+                <rect x="696" y="348" width="16" height="62" fill="var(--muted)"/>
+                <rect x="646" y="404" width="116" height="12" rx="6" fill="var(--muted)"/>
+              </svg>
+              <div class="figwrap fade-in" id="s2-alec">
+                <svg class="fig al" viewBox="0 0 140 210" aria-hidden="true">
+                  <circle class="fg-head" cx="66" cy="48" r="28"/>
+                  <rect class="fg-glasses" x="44" y="44" width="44" height="9" rx="4"/>
+                  <path class="fg-arm" d="M46 100 L30 152"/>
+                  <path class="fg-arm" d="M88 98 L118 46"/>
+                  <circle class="fg-hand" cx="122" cy="42" r="11"/>
+                  <rect class="fg-body" x="40" y="82" width="52" height="82" rx="18"/>
+                  <rect class="fg-leg" x="52" y="158" width="14" height="42" rx="7"/>
+                  <rect class="fg-leg" x="66" y="158" width="14" height="42" rx="7"/>
+                  <rect class="fg-tie" x="60" y="88" width="12" height="44" rx="6"/>
+                </svg>
               </div>
+            </div>
+            <div class="rowline" style="align-items:center; gap:24px">
+              <div style="flex:1; display:flex; flex-direction:column; gap:16px; align-items:flex-start">
+                <div class="nameplate fade-in" id="s2-name">Alec Brownstein</div>
+                <div class="rowc" style="justify-content:flex-start"><span class="chip fade-in" id="s2-role">PUBLICISTA</span></div>
+              </div>
+              <span class="yearbadge fade-in" id="s2-year">2010</span>
             </div>
           </div>
           <div class="cover" id="s2-cover"></div>
@@ -302,6 +394,14 @@
               <span class="sterm" id="s3-term">Scott Vitrone</span>
               <span class="scaret"></span>
             </div>
+            <!-- los cinco directores creativos: cinco figuritas planas y distintas -->
+            <div class="directors" id="s3-directors" data-layout-allow-overlap>
+              <span class="dcell fade-in"><svg class="fig v1" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span>
+              <span class="dcell fade-in"><svg class="fig v2" viewBox="0 0 120 200" aria-hidden="true"><rect class="fg-hair" x="34" y="16" width="52" height="26" rx="10"/><circle class="fg-head" cx="60" cy="46" r="27"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span>
+              <span class="dcell fade-in"><svg class="fig v3" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-bun" cx="86" cy="28" r="13"/><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span>
+              <span class="dcell fade-in"><svg class="fig v4" viewBox="0 0 120 200" aria-hidden="true"><rect class="fg-hat" x="28" y="30" width="64" height="10" rx="5"/><rect class="fg-hat" x="42" y="4" width="36" height="30" rx="6"/><circle class="fg-head" cx="60" cy="50" r="26"/><path class="fg-arm" d="M44 100 L28 150"/><path class="fg-arm" d="M76 100 L92 150"/><rect class="fg-body" x="34" y="82" width="52" height="82" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="88" width="12" height="44" rx="6"/></svg></span>
+              <span class="dcell fade-in"><svg class="fig v5" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-collar" x="42" y="78" width="36" height="18" rx="9"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/></svg></span>
+            </div>
             <div class="rowc"><span class="chip fade-in" id="s3-note">SE BUSCAN A SÍ MISMOS</span></div>
           </div>
         </div>
@@ -312,12 +412,12 @@
         <div class="s-in" id="s4-in">
           <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>LA SELECCIÓN</div>
           <div class="card" id="s4-card">
-            <div class="picklist" id="s4-list">
-              <div class="pick" id="s4-p1"><span class="pname">Droga</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
-              <div class="pick" id="s4-p2"><span class="pname">Granger</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
-              <div class="pick" id="s4-p3"><span class="pname">Graf</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
-              <div class="pick" id="s4-p4"><span class="pname">Reichenthal</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
-              <div class="pick" id="s4-p5"><span class="pname">Vitrone</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+            <div class="picklist" id="s4-list" data-layout-allow-overlap>
+              <div class="pick fade-in" id="s4-p1"><span class="pickfig"><svg class="fig v1" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span><span class="pname">Droga</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick fade-in" id="s4-p2"><span class="pickfig"><svg class="fig v2" viewBox="0 0 120 200" aria-hidden="true"><rect class="fg-hair" x="34" y="16" width="52" height="26" rx="10"/><circle class="fg-head" cx="60" cy="46" r="27"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span><span class="pname">Granger</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick fade-in" id="s4-p3"><span class="pickfig"><svg class="fig v3" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-bun" cx="86" cy="28" r="13"/><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg></span><span class="pname">Graf</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick fade-in" id="s4-p4"><span class="pickfig"><svg class="fig v4" viewBox="0 0 120 200" aria-hidden="true"><rect class="fg-hat" x="28" y="30" width="64" height="10" rx="5"/><rect class="fg-hat" x="42" y="4" width="36" height="30" rx="6"/><circle class="fg-head" cx="60" cy="50" r="26"/><path class="fg-arm" d="M44 100 L28 150"/><path class="fg-arm" d="M76 100 L92 150"/><rect class="fg-body" x="34" y="82" width="52" height="82" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="88" width="12" height="44" rx="6"/></svg></span><span class="pname">Reichenthal</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick fade-in" id="s4-p5"><span class="pickfig"><svg class="fig v5" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-collar" x="42" y="78" width="36" height="18" rx="9"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/></svg></span><span class="pname">Vitrone</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
             </div>
             <div class="rowc"><span class="chip fade-in" id="s4-note">SOLO ESOS NOMBRES</span></div>
           </div>
@@ -358,6 +458,14 @@
                 <div class="scorelab fade-in" id="s6-lab2">OFERTAS</div>
               </div>
             </div>
+            <!-- cuatro de los cinco responden; el quinto queda apagado -->
+            <div class="responders" id="s6-resp" data-layout-allow-overlap>
+              <span class="gente d1 fade-in"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente d2 fade-in"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente d3 fade-in"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente d4 fade-in"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente dim d5 fade-in"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+            </div>
             <div class="sweep" id="s6-sweep"></div>
           </div>
         </div>
@@ -385,7 +493,11 @@
               <span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span>
             </div>
             <div class="cinco" id="s7-five" data-layout-allow-overlap>
-              <span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span>
+              <span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
+              <span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span>
             </div>
             <div class="crowdlabel" id="s7-labA">MILES</div>
             <div id="s7-labB" class="fade-in"><span class="fivelabel">ESAS CINCO</span></div>
@@ -398,7 +510,7 @@
         <div class="s-in" id="s8-in">
           <div class="kicker fade-in" id="s8-kicker"><span class="dot"></span>TU VERSIÓN</div>
           <div class="card" id="s8-card">
-            <div class="rowc"><div class="cinco" id="s8-five" data-layout-allow-overlap><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span></div></div>
+            <div class="rowc"><div class="cinco" id="s8-five" data-layout-allow-overlap><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></div></div>
             <div class="bridge" id="s8-bridge"><svg viewBox="0 0 864 150" preserveAspectRatio="none"><path d="M24 130 C 220 130, 300 34, 432 20 S 640 128 840 24"/></svg></div>
             <div class="rowc"><div class="bizcard" id="s8-biz">
               <span class="bizic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></span>
@@ -418,6 +530,10 @@
             <div class="genrow" id="s9-gen2"><span class="genterm">dentista</span><div class="strike" id="s9-s2"><svg viewBox="0 0 100 44" preserveAspectRatio="none"><path d="M3 34 L97 10"/></svg></div></div>
             <div class="lupa fade-in" id="s9-lupa" data-layout-allow-overflow>
               <svg viewBox="0 0 240 240"><circle cx="100" cy="100" r="70"/><path d="M152 152 L214 214"/></svg>
+            </div>
+            <!-- el cliente ideal, bajo la lupa -->
+            <div class="clientefig fade-in" id="s9-client" data-layout-allow-overflow>
+              <svg class="fig v3" viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-bun" cx="86" cy="28" r="13"/><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg>
             </div>
             <div class="rowc"><span class="idealtag fade-in" id="s9-ideal">TU CLIENTE IDEAL</span></div>
           </div>
@@ -452,7 +568,7 @@
               <circle class="ring inner" cx="430" cy="430" r="180"/>
               <circle class="core" id="s11-core" cx="430" cy="430" r="90"/>
             </svg>
-            <div class="cinco" id="s11-five" data-layout-allow-overlap><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span></div>
+            <div class="cinco" id="s11-five" data-layout-allow-overlap><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span><span class="gente"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></div>
           </div>
           <div class="cta-wrap" id="s11-cta" data-layout-allow-overflow>
             <div class="savewave" id="s11-wave"><svg viewBox="0 0 320 320"><path d="M160 24 a136 136 0 1 1 -0.1 0"/></svg></div>
@@ -494,6 +610,38 @@
       window.__timelines = window.__timelines || {};
       const S = [0.0, 3.158, 6.595, 11.1, 14.908, 19.645, 22.292, 25.264, 26.889, 31.394, 34.923];
       const at = (n, t) => S[n - 1] + t;
+
+      // Texto y duracion REAL de cada linea (medidos por la voz; ver timing.json).
+      // cue() coloca un elemento igual que el karaoke: reparte el tiempo de la linea
+      // ponderando por la longitud de cada palabra (palabra larga = mas tiempo).
+      const LINES = [
+        "¿Cuántos contactos podrías conseguir con 6 euros en Google Ads?",
+        "Se lo preguntó Alec Brownstein, publicista, en 2010.",
+        "Su idea fue esta: los directores creativos se buscan a sí mismos en Google.",
+        "Eligió a cinco y compró anuncios que solo aparecían al buscar sus nombres.",
+        "El anuncio decía: «Buscarte a ti mismo en Google es divertido. Contratarme también».",
+        "Cuatro de los cinco le llamaron y recibió dos ofertas.",
+        "No quiso llegar a miles de personas: quería a esas cinco.",
+        "Eso mismo vale para tu negocio.",
+        "En vez de pelear por «abogado» o «dentista», piensa qué buscaría tu cliente ideal.",
+        "Puede que tenga pocas búsquedas al mes, pero sean tus mejores clientes.",
+        "Guarda esto: en anuncios no gana más tráfico, gana el tráfico correcto."
+      ];
+      const DUR = [3.158, 3.437, 4.505, 3.808, 4.737, 2.647, 2.972, 1.625, 4.505, 3.529, 3.994];
+      const _nz = (w) => w.toLowerCase().replace(/[^a-z0-9áéíóúüñ]/g, "");
+      // Instante absoluto en que la voz nombra `word` en la linea n (occ = n-esima aparicion).
+      function cue(n, word, occ = 1) {
+        const words = LINES[n - 1].split(/\s+/).filter(Boolean);
+        const total = words.reduce((a, w) => a + w.length, 0);
+        const goal = _nz(word);
+        let acc = 0, seen = 0;
+        for (const w of words) {
+          if (_nz(w) === goal && ++seen === occ) return at(n, DUR[n - 1] * (acc / total));
+          acc += w.length;
+        }
+        return at(n, 0);
+      }
+
       const tl = gsap.timeline({ paused: true });
 
       // Aparicion con estado inicial explicito. Asentamiento power3.out.
@@ -569,82 +717,85 @@
       tl.fromTo("#s1-eur", { scale: 1 }, { scale: 1.12, duration: 0.12, ease: "power2.out" }, at(1, 0.55));
       tl.to("#s1-eur", { scale: 1, duration: 0.16, ease: "power2.inOut" }, at(1, 0.67));
 
-      // ---- B2 El caso: la ficha con el año y el nombre
+      // ---- B2 El caso: la redaccion, Alec (entra al oir su nombre) y la cartera
       rise("#s2-card", at(2, 0.0));
       put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
-      put("#s2-mono", at(2, 0.22), { scale: 0.7 });
-      put("#s2-year", at(2, 0.30), { scale: 0.8 });
-      put("#s2-name", at(2, 0.80), { y: 20 });
-      put("#s2-role", at(2, 1.15), { y: 16 });
+      put("#s2-alec", cue(2, "Alec"), { y: 22, dur: 0.26 });          // el personaje, al nombrarlo
+      put("#s2-name", cue(2, "Brownstein"), { y: 18, dur: 0.26 });    // el nombre en pantalla
+      put("#s2-role", cue(2, "publicista"), { y: 14, dur: 0.26 });    // «publicista»: la tarjeta
+      put("#s2-year", cue(2, "2010"), { scale: 0.8, dur: 0.24 });     // el año
 
-      // ---- B3 El mecanismo: se teclea el nombre y brota el anuncio
+      // ---- B3 El mecanismo: los cinco creativos, la busqueda y el anuncio
       rise("#s3-card", at(3, 0.0));
       put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
-      put("#s3-brand", at(3, 0.20), { y: 16 });
-      rise("#s3-search", at(3, 0.40), { y: 24 });
-      typeChars("#s3-term", at(3, 0.80), 0.05);
-      put("#s3-ad", at(3, 1.85), { y: -20 });
-      put("#s3-note", at(3, 2.70), { y: 16 });
+      put("#s3-brand", at(3, 0.25), { y: 16 });
+      rise("#s3-search", at(3, 0.45), { y: 24 });
+      put("#s3-directors .dcell", cue(3, "directores"), { y: 22, dur: 0.26, stagger: 0.06 });
+      typeChars("#s3-term", cue(3, "buscan"), 0.045);
+      put("#s3-ad", cue(3, "mismos"), { y: -20, dur: 0.26 });
+      put("#s3-note", at(3, 4.00), { y: 16 });
 
-      // ---- B4 La seleccion: los cinco nombres y sus casillas marcadas
+      // ---- B4 La seleccion: los cinco nombres, cada uno con su figura
       rise("#s4-card", at(4, 0.0));
       put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
-      put("#s4-p1", at(4, 0.20), { x: -30 });
-      put("#s4-p2", at(4, 0.42), { x: -30 });
-      put("#s4-p3", at(4, 0.64), { x: -30 });
-      put("#s4-p4", at(4, 0.86), { x: -30 });
-      put("#s4-p5", at(4, 1.08), { x: -30 });
-      put("#s4-k1", at(4, 1.45), { scale: 0.5 });
-      put("#s4-k2", at(4, 1.68), { scale: 0.5 });
-      put("#s4-k3", at(4, 1.91), { scale: 0.5 });
-      put("#s4-k4", at(4, 2.14), { scale: 0.5 });
-      put("#s4-k5", at(4, 2.37), { scale: 0.5 });
-      put("#s4-note", at(4, 2.80), { y: 16 });
+      put("#s4-p1", cue(4, "cinco"), { x: -30, dur: 0.26 });
+      put("#s4-p2", at(4, 0.62), { x: -30, dur: 0.26 });
+      put("#s4-p3", at(4, 0.82), { x: -30, dur: 0.26 });
+      put("#s4-p4", at(4, 1.02), { x: -30, dur: 0.26 });
+      put("#s4-p5", at(4, 1.22), { x: -30, dur: 0.26 });
+      put("#s4-k1", at(4, 1.60), { scale: 0.5, dur: 0.22 });
+      put("#s4-k2", at(4, 1.80), { scale: 0.5, dur: 0.22 });
+      put("#s4-k3", at(4, 2.00), { scale: 0.5, dur: 0.22 });
+      put("#s4-k4", at(4, 2.20), { scale: 0.5, dur: 0.22 });
+      put("#s4-k5", at(4, 2.40), { scale: 0.5, dur: 0.22 });
+      put("#s4-note", cue(4, "nombres"), { y: 16, dur: 0.3 });
 
       // ---- B5 El anuncio: el texto colocado y el resaltado
       rise("#s5-card", at(5, 0.0));
       put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
       put("#s5-brand", at(5, 0.18), { y: 16 });
       put("#s5-search", at(5, 0.40), { y: -16 });
-      put("#s5-adcard", at(5, 0.80), { y: 24 });
-      put("#s5-adtext", at(5, 1.15), { y: 16 });
-      tl.fromTo("#s5-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, at(5, 1.80));
+      put("#s5-adcard", cue(5, "anuncio"), { y: 24, dur: 0.26 });
+      put("#s5-adtext", at(5, 0.55), { y: 16, dur: 0.3 });
+      tl.fromTo("#s5-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, cue(5, "Contratarme"));
 
-      // ---- B6 El resultado: el marcador en saltos discretos
+      // ---- B6 El resultado: el marcador y los cuatro que responden
       rise("#s6-card", at(6, 0.0));
       put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
-      setNum("#s6-n1", "4/5", at(6, 0.60));
-      put("#s6-lab1", at(6, 0.60), { y: 12 });
-      setNum("#s6-n2", "2", at(6, 1.50));
-      put("#s6-lab2", at(6, 1.50), { y: 12 });
+      put("#s6-resp .gente", cue(6, "llamaron"), { scale: 0, dur: 0.24, stagger: 0.05 });
+      setNum("#s6-n1", "4/5", cue(6, "llamaron"));
+      put("#s6-lab1", cue(6, "llamaron"), { y: 12, dur: 0.3 });
+      setNum("#s6-n2", "2", cue(6, "dos"));
+      put("#s6-lab2", cue(6, "dos"), { y: 12, dur: 0.3 });
 
-      // ---- B7 La leccion: la multitud se apaga y quedan cinco
+      // ---- B7 La leccion: la multitud se apaga y quedan cinco personas
       rise("#s7-blank", at(7, 0.0));
       put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
       put("#s7-crowd .disperso", at(7, 0.15), { scale: 0, dur: 0.2, stagger: 0.03 });
-      tl.to("#s7-crowd", { opacity: 0.14, duration: 0.5, ease: "power2.out" }, at(7, 1.35));
-      swap("#s7-labA", "#s7-labB", at(7, 1.35));
-      grow("#s7-five", at(7, 1.45), 1, { from: 0.6, dur: 0.4 });
-      put("#s7-five .marca", at(7, 1.60), { scale: 0, dur: 0.2, stagger: 0.06 });
+      tl.to("#s7-crowd", { opacity: 0.14, duration: 0.5, ease: "power2.out" }, cue(7, "esas"));
+      grow("#s7-five", cue(7, "esas"), 1, { from: 0.6, dur: 0.35 });
+      put("#s7-five .gente", cue(7, "esas"), { scale: 0, dur: 0.22, stagger: 0.05 });
+      swap("#s7-labA", "#s7-labB", cue(7, "cinco"));
 
       // ---- B8 Tu version: las cinco cruzan el puente
       rise("#s8-card", at(8, 0.0));
       put("#s8-kicker", at(8, 0.06), { dur: 0.4 });
-      put("#s8-five", at(8, 0.20), { x: -24 });
-      put("#s8-five .marca", at(8, 0.20), { scale: 0, dur: 0.2, stagger: 0.06 });
-      draw("#s8-bridge", at(8, 0.55), 0.4);
-      put("#s8-biz", at(8, 0.95), { x: 24 });
-      put("#s8-note", at(8, 1.30), { y: 16 });
+      put("#s8-five", cue(8, "mismo"), { x: -24, dur: 0.24 });
+      put("#s8-five .gente", cue(8, "mismo"), { scale: 0, dur: 0.22, stagger: 0.05 });
+      draw("#s8-bridge", cue(8, "vale"), 0.4);
+      put("#s8-biz", cue(8, "negocio"), { x: 24, dur: 0.26 });
+      put("#s8-note", at(8, 1.30), { y: 16, dur: 0.3 });
 
-      // ---- B9 La practica: los terminos tachados y la lupa
+      // ---- B9 La practica: los terminos tachados, la lupa y el cliente ideal
       rise("#s9-card", at(9, 0.0));
       put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
-      put("#s9-gen1", at(9, 0.20), { x: -30 });
-      draw("#s9-s1", at(9, 0.55), 0.3);
-      put("#s9-gen2", at(9, 0.80), { x: -30 });
-      draw("#s9-s2", at(9, 1.15), 0.3);
-      put("#s9-lupa", at(9, 1.60), { x: -40 });
-      put("#s9-ideal", at(9, 2.15), { scale: 0.86 });
+      put("#s9-gen1", cue(9, "abogado"), { x: -30, dur: 0.26 });
+      draw("#s9-s1", cue(9, "abogado") + 0.3, 0.3);
+      put("#s9-gen2", cue(9, "dentista"), { x: -30, dur: 0.26 });
+      draw("#s9-s2", cue(9, "dentista") + 0.3, 0.3);
+      put("#s9-lupa", cue(9, "piensa"), { x: -40, dur: 0.3 });
+      put("#s9-client", cue(9, "cliente"), { y: 20, dur: 0.26 });
+      put("#s9-ideal", cue(9, "cliente"), { scale: 0.86, dur: 0.26 });
 
       // ---- B10 La practica: la grafica corta
       rise("#s10-card", at(10, 0.0));
@@ -653,18 +804,18 @@
       bar("#s10-f1", at(10, 0.45), 0.30);
       bar("#s10-f2", at(10, 0.65), 0.42);
       bar("#s10-f3", at(10, 0.85), 0.24);
-      put("#s10-best", at(10, 1.30), { scale: 0.86 });
+      put("#s10-best", cue(10, "mejores"), { scale: 0.86, dur: 0.26 });
 
       // ---- B11 Cierre: guarda esto, con el blanco encendido
       rise("#s11-blank", at(11, 0.0));
       // El marcador de la CTA nace visible en el fotograma 0 de la escena (sin opacidad):
       // en el corte B10→B11 no debe quedar un tramo vacío.
       grow("#s11-mark", at(11, 0.0), 1, { from: 0.6, dur: 0.18 });
-      put("#s11-label", at(11, 0.55), { scale: 0.86, dur: 0.5 });
+      put("#s11-label", at(11, 0.45), { scale: 0.86, dur: 0.5 });
       draw("#s11-wave", at(11, 0.95), 0.5);
-      grow("#s11-core", at(11, 1.30), 1, { from: 0.3, dur: 0.4 });
-      put("#s11-five .marca", at(11, 1.60), { scale: 0, dur: 0.2, stagger: 0.08 });
-      put("#s11-note", at(11, 2.30), { y: 16 });
+      grow("#s11-core", cue(11, "tráfico", 2), 1, { from: 0.3, dur: 0.4 });
+      put("#s11-five .gente", cue(11, "tráfico", 2), { scale: 0, dur: 0.22, stagger: 0.06 });
+      put("#s11-note", cue(11, "correcto"), { y: 16, dur: 0.28 });
 
       // ---- barra de progreso (la re-tima retime.py)
       tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 38.917, ease: "none" }, 0);
