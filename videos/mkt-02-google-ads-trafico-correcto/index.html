@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>El tráfico correcto (Google Job Experiment 2010)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <style>
+      :root { --accent:#c8ff3d; --accent-ink:#0b0b10; --panel:#20202a; }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body {
+        width:1080px; height:1920px; overflow:hidden;
+        background:#0a0a0f; font-family:"Inter", system-ui, sans-serif; color:#f5f5f7;
+      }
+      #root { position:relative; width:1080px; height:1920px; background:#0a0a0f; overflow:hidden; }
+
+      /* ---------- escena + tema ---------- */
+      .scene { position:absolute; inset:0; overflow:hidden; z-index:1; isolation:isolate; }
+      .s-in {
+        position:absolute; inset:0; display:flex; flex-direction:column;
+        justify-content:center; align-items:stretch; gap:24px;
+        padding:300px 74px 700px;
+      }
+      .dark  { --bg:#0a0a0f; --panel:#20202a; --line:#26262e; --ink:#f5f5f7; --muted:#8b8b99; }
+      .light { --bg:#f4f1ea; --panel:#ffffff; --line:#e0dbcf; --ink:#14141a; --muted:#6f6f78; }
+      .dark  .s-in { background: radial-gradient(circle at 50% 42%, rgba(200,255,61,0.10), rgba(200,255,61,0) 54%), #0a0a0f; }
+      .light .s-in { background: radial-gradient(#ddd6c8 2.2px, rgba(0,0,0,0) 2.2px) 0 0 / 48px 48px, #f4f1ea; }
+
+      /* ---------- kicker ---------- */
+      .kicker {
+        display:flex; align-items:center; gap:14px; font-size:32px; font-weight:700;
+        letter-spacing:0.28em; color:var(--muted); text-transform:uppercase;
+      }
+      .kicker .dot { width:14px; height:14px; border-radius:50%; background:var(--accent); }
+
+      /* ---------- superficies (kit) ---------- */
+      .card {
+        position:relative; background:var(--panel); border:3px solid var(--line); border-radius:30px;
+        padding:40px 34px; box-shadow:0 26px 70px rgba(0,0,0,0.45);
+        min-height:700px; display:flex; flex-direction:column; justify-content:center; gap:24px;
+      }
+      .rowc { display:flex; align-items:center; justify-content:center; gap:26px; }
+      .rowline { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+      .chip {
+        display:inline-flex; align-items:center; gap:12px; padding:18px 30px; border-radius:999px;
+        background:var(--panel); border:2px solid var(--line); color:var(--ink);
+        font-family:"JetBrains Mono", monospace; font-size:36px; font-weight:800; white-space:nowrap;
+      }
+      .pill {
+        display:inline-flex; align-items:center; padding:14px 30px; border-radius:999px;
+        font-size:42px; font-weight:800; letter-spacing:0.02em; white-space:nowrap;
+      }
+      .pill.accent { background:var(--accent); color:var(--accent-ink); }
+      .stage { position:relative; }
+
+      /* ===================== EL BLANCO (la metáfora) ===================== */
+      .blanco { position:absolute; left:50%; top:50%; width:860px; height:860px;
+                margin:-430px 0 0 -430px; z-index:1; pointer-events:none; }
+      .blanco svg { width:100%; height:100%; display:block; }
+      .blanco .ring       { fill:none; stroke:var(--line);  stroke-width:3; }
+      .blanco .ring.inner { fill:none; stroke:var(--muted); stroke-width:3; }
+      .blanco .core       { fill:none; stroke:var(--ink);   stroke-width:6;
+                            transform-box:fill-box; transform-origin:center; }
+      .blanco.correct .core { fill:var(--accent); stroke:none; }
+      .blanco .cross      { stroke:var(--line); stroke-width:2; }
+
+      .marca    { width:40px; height:40px; border-radius:50%; background:var(--accent);
+                  transform:scale(0); transform-origin:center; }
+      .blanco.correct .marca { background:var(--accent-ink); }
+      .disperso { width:20px; height:20px; border-radius:50%;
+                  background:var(--muted); opacity:0.5; transform:scale(0); transform-origin:center; }
+      .crowd  { display:grid; grid-template-columns:repeat(8, 46px); gap:22px;
+                justify-content:center; width:100%; }
+      .crowd .disperso { justify-self:center; }
+      .cinco  { display:grid; grid-template-columns:repeat(3, 56px); gap:22px;
+                justify-content:center; width:100%; }
+      .cinco .marca { justify-self:center; }
+
+      /* ---- B1/B3/B5: la barra de búsqueda ---- */
+      .searchbar { position:relative; display:flex; align-items:center; gap:18px;
+                   width:100%; max-width:840px; margin:0 auto; padding:24px 28px;
+                   border-radius:20px; background:var(--panel); border:3px solid var(--line);
+                   box-shadow:0 24px 60px rgba(0,0,0,0.28); }
+      .searchbar .sicon { flex:0 0 auto; width:46px; height:46px; color:var(--muted); }
+      .searchbar .sicon svg { width:100%; height:100%; display:block; }
+      .searchbar .sterm { flex:1; font-family:"JetBrains Mono",monospace; font-size:44px;
+                   font-weight:600; color:var(--ink); white-space:pre; }
+      .searchbar .scaret { flex:0 0 auto; width:4px; height:56px; background:var(--ink); }
+      .searchbar .shint  { font-family:"Inter",sans-serif; font-size:40px; color:var(--muted); }
+
+      .eurmark { display:inline-flex; align-items:center; padding:14px 40px; border-radius:26px;
+                 background:var(--accent); color:var(--accent-ink);
+                 font-size:150px; font-weight:900; letter-spacing:-0.03em; line-height:1; }
+
+      /* ---- B2: la ficha del caso (año + nombre) ---- */
+      .yearbadge { font-family:"Inter",sans-serif; font-size:180px; font-weight:900;
+                   letter-spacing:-0.04em; line-height:1; color:var(--ink); }
+      .nameplate { font-family:"Inter",sans-serif; font-size:56px; font-weight:800;
+                   letter-spacing:-0.01em; line-height:1.1; color:var(--ink); }
+      .monogram  { width:132px; height:132px; border-radius:50%; background:var(--panel);
+                   border:3px solid var(--line); display:flex; align-items:center; justify-content:center;
+                   font-size:52px; font-weight:900; letter-spacing:0.04em; color:var(--ink); }
+
+      /* ---- marca de la plataforma: logotipo TIPOGRÁFICO, tinta sobre tarjeta clara ---- */
+      .brandmark { display:inline-flex; align-items:center; padding:18px 34px; border-radius:14px;
+                   background:#ffffff; border:3px solid var(--line);
+                   font-family:"Inter",sans-serif; font-size:64px; font-weight:900; letter-spacing:0.01em;
+                   color:#14141a; }
+      .brandmark.sm { font-size:44px; padding:12px 24px; }
+
+      /* ---- B3: el anuncio que brota sobre la barra ---- */
+      .adrow { position:relative; display:flex; align-items:center; gap:18px;
+               width:100%; max-width:840px; margin:0 auto; padding:20px 26px; border-radius:16px;
+               background:var(--accent); color:var(--accent-ink); }
+      .adrow .adlab { font-size:28px; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; }
+      .adrow .adtxt { font-size:38px; font-weight:700; }
+
+      /* ---- B4: la lista de los cinco nombres que se marcan ---- */
+      .picklist { display:flex; flex-direction:column; gap:16px; width:100%; }
+      .pick { position:relative; display:flex; align-items:center; justify-content:space-between;
+              gap:20px; padding:20px 26px; border-radius:16px; background:var(--panel);
+              border:3px solid var(--line); }
+      .pick .pname { font-family:"JetBrains Mono",monospace; font-size:44px; font-weight:600; color:var(--ink); }
+      .pickbox { position:relative; flex:0 0 auto; width:58px; height:58px; border-radius:14px;
+              border:3px solid var(--muted); }
+      .pickfill { position:absolute; inset:-3px; border-radius:14px; background:var(--accent);
+              display:flex; align-items:center; justify-content:center; }
+      .pickfill svg { width:38px; height:38px; color:var(--accent-ink); }
+
+      /* ---- B5: la tarjeta del anuncio y el texto resaltado ---- */
+      .adcard { position:relative; width:100%; padding:28px 30px; border-radius:20px;
+                background:#ffffff; border:3px solid var(--line); display:flex;
+                flex-direction:column; gap:16px; box-shadow:0 24px 60px rgba(0,0,0,0.22); }
+      .adcard .adlab { font-size:26px; font-weight:800; letter-spacing:0.18em; text-transform:uppercase;
+                color:var(--muted); }
+      .adcard .adtext { font-size:48px; font-weight:800; line-height:1.22; color:#14141a; }
+      .hl { background:var(--accent); color:var(--accent-ink); padding:0 12px; border-radius:10px;
+            display:inline-block; transform-origin:left center; }
+
+      /* ---- B6: el marcador del resultado ---- */
+      .scoreboard { display:flex; align-items:flex-end; justify-content:center; gap:64px; }
+      .scorebig { display:flex; flex-direction:column; align-items:center; gap:14px; }
+      .scorenum { font-size:170px; font-weight:900; letter-spacing:-0.04em; line-height:1; color:var(--ink);
+                  min-height:176px; }
+      .scorebig.accent .scorenum { background:var(--accent); color:var(--accent-ink);
+                  border-radius:26px; padding:0 30px; display:inline-block; }
+      .scorelab { font-size:32px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+                  color:var(--muted); }
+
+      /* ---- B7/B11: el rótulo de la multitud y el de las cinco ---- */
+      .crowdlabel { font-size:30px; font-weight:700; letter-spacing:0.24em; text-transform:uppercase;
+                  color:var(--muted); text-align:center; }
+      .fivelabel { display:inline-flex; align-items:center; padding:12px 26px; border-radius:999px;
+                  background:var(--accent); color:var(--accent-ink); font-size:34px; font-weight:900;
+                  letter-spacing:0.06em; }
+
+      /* ---- B8: el puente y la tarjeta «tu negocio» ---- */
+      .bridge { width:100%; height:150px; color:var(--muted); }
+      .bridge svg { width:100%; height:100%; display:block; }
+      .bridge svg path { fill:none; stroke:currentColor; stroke-width:6; stroke-linecap:round; }
+      .bizcard { width:420px; padding:28px 30px; border-radius:24px; background:var(--panel);
+                border:3px solid var(--line); display:flex; flex-direction:column; align-items:center;
+                gap:16px; }
+      .bizcard .bizic { width:92px; height:92px; color:var(--ink); }
+      .bizcard .bizic svg { width:100%; height:100%; display:block; }
+      .bizcard .bl { font-size:52px; font-weight:900; letter-spacing:-0.01em; color:var(--ink); }
+
+      /* ---- B9: los términos genéricos, el tachado y la lupa ---- */
+      .genrow { position:relative; display:flex; align-items:center; justify-content:space-between;
+                gap:20px; padding:18px 26px; border-radius:16px; background:var(--panel);
+                border:3px solid var(--line); }
+      .genterm { font-family:"JetBrains Mono",monospace; font-size:46px; font-weight:600; color:var(--ink); }
+      .strike { position:absolute; inset:0; color:var(--ink); }
+      .strike svg { width:100%; height:100%; display:block; }
+      .strike svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; }
+      .lupa { position:relative; width:240px; height:240px; color:var(--ink); }
+      .lupa svg { width:100%; height:100%; display:block; }
+      .lupa svg circle { fill:none; stroke:currentColor; stroke-width:8; }
+      .lupa svg path { fill:none; stroke:currentColor; stroke-width:12; stroke-linecap:round; }
+      .idealtag { display:inline-flex; align-items:center; padding:16px 32px; border-radius:999px;
+                background:var(--accent); color:var(--accent-ink); font-size:46px; font-weight:900;
+                letter-spacing:-0.01em; }
+
+      /* ---- B10: la gráfica de barras corta (relleno con `bar`, escalaX) ---- */
+      .barchart { display:flex; flex-direction:column; gap:24px; width:100%; }
+      .brow { position:relative; height:58px; border-radius:12px; background:var(--line); overflow:hidden; }
+      .bfill { display:block; height:100%; border-radius:12px; background:var(--accent);
+               transform:scaleX(0); transform-origin:left center; }
+      .blab { font-size:28px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+               color:var(--muted); }
+
+      /* ---- CTA (kit) ---- */
+      .cta-wrap { position:relative; align-self:center; }
+      .cta-mark { width:172px; height:172px; border-radius:46px; background:var(--accent); display:flex; align-items:center; justify-content:center; }
+      .cta-mark svg { width:96px; height:96px; color:var(--accent-ink); }
+      .cta-label { font-size:96px; font-weight:900; letter-spacing:-0.02em; color:var(--ink); text-align:center; }
+      .savewave { position:absolute; inset:-90px; color:var(--accent); }
+      .savewave svg { width:100%; height:100%; display:block; }
+      .savewave svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; }
+
+      /* ---------- piezas propias de transición ---------- */
+      .cover { position:absolute; inset:0; z-index:40; background:#20202a; transform:scale(0);
+               transform-origin:50% 62%; pointer-events:none; }
+      .sweep { position:absolute; left:0; right:0; top:30%; height:40%; z-index:40;
+               background:var(--accent); transform:translateX(-130%) skewX(-12deg); pointer-events:none; }
+      #s2 { z-index:5; }
+      #s6 { z-index:5; }   /* escena saliente del barrido B6→B7: la banda barre B6 */
+
+      /* ---------- barra de progreso + karaoke ---------- */
+      .progress {
+        position:absolute; left:74px; right:74px; top:300px; height:6px;
+                  background:#20202a; border-radius:3px; overflow:hidden; z-index:60;
+      }
+      .progress-fill { height:100%; width:100%; background:var(--accent); transform:scaleX(0); transform-origin:left center; }
+      [data-composition-id="caption-pill-karaoke"] { z-index:55; }
+
+      /* ---------- posiciones ---------- */
+      #s1-stage { flex:1; display:flex; flex-direction:column; align-items:stretch;
+                  justify-content:center; gap:30px; position:relative; }
+      #s1-blank { left:50%; top:44%; margin:-430px 0 0 -430px; }
+      #s1-search { position:relative; z-index:3; }
+      #s1-eur    { position:absolute; right:64px; top:-70px; z-index:5; }
+      #s1-label  { position:relative; z-index:4; }
+
+      #s7-stage  { flex:1; position:relative; }
+      #s7-blank  { position:absolute; left:50%; top:50%; margin:-430px 0 0 -430px; }
+      #s7-crowd  { position:absolute; left:50%; top:32%; width:760px; margin-left:-380px; z-index:2; }
+      #s7-five   { position:absolute; left:50%; top:50%; width:360px; margin:-110px 0 0 -180px; z-index:3; }
+      #s7-labA   { position:absolute; left:0; right:0; top:72%; z-index:4; }
+      #s7-labB   { position:absolute; left:0; right:0; top:72%; z-index:4; display:flex; justify-content:center; }
+
+      #s9-lupa   { position:absolute; left:50%; top:56%; margin:-120px 0 0 -120px; z-index:5; }
+
+      #s11-in    { align-items:center; }
+      #s11-blank { position:absolute; left:50%; top:50%; margin:-430px 0 0 -430px; z-index:1; }
+      #s11-five  { position:absolute; left:50%; top:50%; width:360px; margin:-110px 0 0 -180px; z-index:2; }
+      #s11-note  { position:relative; z-index:4; }
+
+      /* ---------- estados iniciales (seek-safe) ---------- */
+      .fade-in { opacity:0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38.917" data-width="1080" data-height="1920">
+
+      <!-- ===== B1 · GANCHO — la búsqueda montada sobre el blanco (fotograma 0 = miniatura) ===== -->
+      <section class="scene clip light" id="s1" data-start="0.0" data-duration="3.508" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div class="kicker" id="s1-kicker"><span class="dot"></span>GANCHO</div>
+          <div class="stage" id="s1-stage">
+            <div class="blanco" id="s1-blank">
+              <svg viewBox="0 0 860 860" aria-hidden="true">
+                <line class="cross" x1="430" y1="8" x2="430" y2="852"/>
+                <line class="cross" x1="8" y1="430" x2="852" y2="430"/>
+                <circle class="ring" cx="430" cy="430" r="420"/>
+                <circle class="ring" cx="430" cy="430" r="300"/>
+                <circle class="ring inner" cx="430" cy="430" r="180"/>
+                <circle class="core" cx="430" cy="430" r="90"/>
+              </svg>
+            </div>
+            <div class="searchbar" id="s1-search" data-layout-allow-overflow>
+              <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+              <span class="shint" id="s1-hint">¿A quién buscas?</span>
+              <span class="scaret"></span>
+              <span class="eurmark" id="s1-eur">6 €</span>
+            </div>
+            <div class="rowc"><span class="chip" id="s1-label">EN GOOGLE ADS</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B2 · EL CASO — la ficha: 2010 + nombre + monograma ===== -->
+      <section class="scene clip light" id="s2" data-start="3.158" data-duration="3.887" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div class="kicker fade-in" id="s2-kicker" data-layout-allow-overlap><span class="dot"></span>EL CASO</div>
+          <div class="card" id="s2-card">
+            <div class="rowline" style="align-items:center; gap:44px">
+              <div class="monogram" id="s2-mono">AB</div>
+              <div style="flex:1; display:flex; flex-direction:column; gap:22px; align-items:flex-start">
+                <div class="yearbadge" id="s2-year" data-layout-allow-overlap>2010</div>
+                <div class="nameplate" id="s2-name">Alec Brownstein</div>
+                <div class="rowc" style="justify-content:flex-start"><span class="chip" id="s2-role">PUBLICISTA</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="cover" id="s2-cover"></div>
+        </div>
+      </section>
+
+      <!-- ===== B3 · EL MECANISMO — se teclea el nombre y brota el anuncio ===== -->
+      <section class="scene clip dark" id="s3" data-start="6.595" data-duration="4.955" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div class="kicker fade-in" id="s3-kicker" data-layout-allow-overlap><span class="dot"></span>EL MECANISMO</div>
+          <div class="card" id="s3-card">
+            <div class="rowc"><span class="brandmark fade-in" id="s3-brand" data-layout-allow-overlap>Google</span></div>
+            <div class="adrow fade-in" id="s3-ad">
+              <span class="adlab">ANUNCIO</span>
+            </div>
+            <div class="searchbar" id="s3-search">
+              <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+              <span class="sterm" id="s3-term">Scott Vitrone</span>
+              <span class="scaret"></span>
+            </div>
+            <div class="rowc"><span class="chip fade-in" id="s3-note">SE BUSCAN A SÍ MISMOS</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B4 · LA SELECCIÓN — los cinco nombres que se marcan ===== -->
+      <section class="scene clip light" id="s4" data-start="11.1" data-duration="4.208" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>LA SELECCIÓN</div>
+          <div class="card" id="s4-card">
+            <div class="picklist" id="s4-list">
+              <div class="pick" id="s4-p1"><span class="pname">Droga</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick" id="s4-p2"><span class="pname">Granger</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick" id="s4-p3"><span class="pname">Graf</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick" id="s4-p4"><span class="pname">Reichenthal</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+              <div class="pick" id="s4-p5"><span class="pname">Vitrone</span><span class="pickbox"><span class="pickfill fade-in" id="s4-k5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></div>
+            </div>
+            <div class="rowc"><span class="chip fade-in" id="s4-note">SOLO ESOS NOMBRES</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B5 · EL ANUNCIO — el texto colocado, con el resaltado ===== -->
+      <section class="scene clip light" id="s5" data-start="14.908" data-duration="5.087" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div class="kicker fade-in" id="s5-kicker"><span class="dot"></span>EL ANUNCIO</div>
+          <div class="card" id="s5-card">
+            <div class="rowc"><span class="brandmark sm fade-in" id="s5-brand">Google</span></div>
+            <div class="searchbar fade-in" id="s5-search">
+              <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+              <span class="sterm">Scott Vitrone</span>
+              <span class="scaret"></span>
+            </div>
+            <div class="adcard fade-in" id="s5-adcard">
+              <span class="adlab" id="s5-adlab">ANUNCIO</span>
+              <div class="adtext" id="s5-adtext">Buscarte a ti mismo en Google es divertido. <mark class="hl" id="s5-hl">Contratarme también</mark></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B6 · EL RESULTADO — el marcador 4/5 y 2 ofertas ===== -->
+      <section class="scene clip light" id="s6" data-start="19.645" data-duration="3.097" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div class="kicker fade-in" id="s6-kicker"><span class="dot"></span>EL RESULTADO</div>
+          <div class="card" id="s6-card">
+            <div class="scoreboard" id="s6-scoreboard">
+              <div class="scorebig" id="s6-s1">
+                <div class="scorenum" id="s6-n1"></div>
+                <div class="scorelab fade-in" id="s6-lab1">LE LLAMARON</div>
+              </div>
+              <div class="scorebig accent" id="s6-s2">
+                <div class="scorenum" id="s6-n2"></div>
+                <div class="scorelab fade-in" id="s6-lab2">OFERTAS</div>
+              </div>
+            </div>
+            <div class="sweep" id="s6-sweep"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B7 · LA LECCIÓN — la multitud se apaga, quedan cinco ===== -->
+      <section class="scene clip dark" id="s7" data-start="22.292" data-duration="3.372" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div class="kicker fade-in" id="s7-kicker"><span class="dot"></span>LA LECCIÓN</div>
+          <div class="stage" id="s7-stage">
+            <div class="blanco" id="s7-blank">
+              <svg viewBox="0 0 860 860" aria-hidden="true">
+                <line class="cross" x1="430" y1="8" x2="430" y2="852"/>
+                <line class="cross" x1="8" y1="430" x2="852" y2="430"/>
+                <circle class="ring" cx="430" cy="430" r="420"/>
+                <circle class="ring" cx="430" cy="430" r="300"/>
+                <circle class="ring inner" cx="430" cy="430" r="180"/>
+                <circle class="core" cx="430" cy="430" r="90"/>
+              </svg>
+            </div>
+            <div class="crowd" id="s7-crowd" data-layout-allow-overlap>
+              <span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span>
+              <span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span>
+              <span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span>
+              <span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span><span class="disperso"></span>
+            </div>
+            <div class="cinco" id="s7-five" data-layout-allow-overlap>
+              <span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span>
+            </div>
+            <div class="crowdlabel" id="s7-labA">MILES</div>
+            <div id="s7-labB" class="fade-in"><span class="fivelabel">ESAS CINCO</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B8 · TU VERSIÓN — las cinco cruzan el puente a «tu negocio» ===== -->
+      <section class="scene clip light" id="s8" data-start="25.264" data-duration="2.025" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div class="kicker fade-in" id="s8-kicker"><span class="dot"></span>TU VERSIÓN</div>
+          <div class="card" id="s8-card">
+            <div class="rowc"><div class="cinco" id="s8-five" data-layout-allow-overlap><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span></div></div>
+            <div class="bridge" id="s8-bridge"><svg viewBox="0 0 864 150" preserveAspectRatio="none"><path d="M24 130 C 220 130, 300 34, 432 20 S 640 128 840 24"/></svg></div>
+            <div class="rowc"><div class="bizcard" id="s8-biz">
+              <span class="bizic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></span>
+              <span class="bl">TU NEGOCIO</span>
+            </div></div>
+            <div class="rowc"><span class="chip fade-in" id="s8-note">EL MISMO GESTO</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B9 · LA PRÁCTICA — términos genéricos tachados y la lupa ===== -->
+      <section class="scene clip light" id="s9" data-start="26.889" data-duration="4.905" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div class="kicker fade-in" id="s9-kicker"><span class="dot"></span>LA PRÁCTICA</div>
+          <div class="card" id="s9-card">
+            <div class="genrow" id="s9-gen1"><span class="genterm">abogado</span><div class="strike" id="s9-s1"><svg viewBox="0 0 100 44" preserveAspectRatio="none"><path d="M3 34 L97 10"/></svg></div></div>
+            <div class="genrow" id="s9-gen2"><span class="genterm">dentista</span><div class="strike" id="s9-s2"><svg viewBox="0 0 100 44" preserveAspectRatio="none"><path d="M3 34 L97 10"/></svg></div></div>
+            <div class="lupa fade-in" id="s9-lupa" data-layout-allow-overflow>
+              <svg viewBox="0 0 240 240"><circle cx="100" cy="100" r="70"/><path d="M152 152 L214 214"/></svg>
+            </div>
+            <div class="rowc"><span class="idealtag fade-in" id="s9-ideal">TU CLIENTE IDEAL</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B10 · LA PRÁCTICA — la gráfica corta de búsquedas ===== -->
+      <section class="scene clip light" id="s10" data-start="31.394" data-duration="3.529" data-track-index="0">
+        <div class="s-in" id="s10-in">
+          <div class="kicker fade-in" id="s10-kicker"><span class="dot"></span>LA PRÁCTICA</div>
+          <div class="card" id="s10-card">
+            <div class="barchart fade-in" id="s10-chart">
+              <div class="brow"><div class="bfill" id="s10-f1"></div></div>
+              <div class="brow"><div class="bfill" id="s10-f2"></div></div>
+              <div class="brow"><div class="bfill" id="s10-f3"></div></div>
+            </div>
+            <div class="rowc"><span class="blab" id="s10-axis">BÚSQUEDAS AL MES</span></div>
+            <div class="rowc"><span class="pill accent fade-in" id="s10-best">TUS MEJORES CLIENTES</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B11 · CIERRE — guarda esto, con el blanco encendido ===== -->
+      <section class="scene clip dark" id="s11" data-start="34.923" data-duration="3.994" data-track-index="0">
+        <div class="s-in" id="s11-in">
+          <div class="blanco correct" id="s11-blank">
+            <svg viewBox="0 0 860 860" aria-hidden="true">
+              <line class="cross" x1="430" y1="8" x2="430" y2="852"/>
+              <line class="cross" x1="8" y1="430" x2="852" y2="430"/>
+              <circle class="ring" cx="430" cy="430" r="420"/>
+              <circle class="ring" cx="430" cy="430" r="300"/>
+              <circle class="ring inner" cx="430" cy="430" r="180"/>
+              <circle class="core" id="s11-core" cx="430" cy="430" r="90"/>
+            </svg>
+            <div class="cinco" id="s11-five" data-layout-allow-overlap><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span><span class="marca"></span></div>
+          </div>
+          <div class="cta-wrap" id="s11-cta" data-layout-allow-overflow>
+            <div class="savewave" id="s11-wave"><svg viewBox="0 0 320 320"><path d="M160 24 a136 136 0 1 1 -0.1 0"/></svg></div>
+            <div class="cta-mark" id="s11-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z"/></svg></div>
+          </div>
+          <div class="cta-label fade-in" id="s11-label">Guarda esto</div>
+          <div class="rowc"><span class="pill accent fade-in" id="s11-note">EL TRÁFICO CORRECTO</span></div>
+        </div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="38.917" data-track-index="0" data-media-start="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== KARAOKE ===== -->
+      <div id="caption-karaoke" data-layout-allow-overlap class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="38.917" data-track-index="2" data-width="1080" data-height="1920"></div>
+
+      <!-- ===== MUSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="38.917" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS (sfx.wav lo genera sfx.py) ===== -->
+      <audio id="sfx" class="clip" data-start="0" data-duration="38.917" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
+
+      <!-- ===== VOZ ===== -->
+      <audio id="vo-01" class="clip" data-start="0.0" data-duration="3.156" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="3.158" data-duration="3.435" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="6.595" data-duration="4.503" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="11.1" data-duration="3.806" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="14.908" data-duration="4.735" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="19.645" data-duration="2.645" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="22.292" data-duration="2.97" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="25.264" data-duration="1.623" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="26.889" data-duration="4.503" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="31.394" data-duration="3.527" data-track-index="1" src="assets/voice/10.wav"></audio>
+      <audio id="vo-11" class="clip" data-start="34.923" data-duration="3.994" data-track-index="1" src="assets/voice/11.wav"></audio>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const S = [0.0, 3.158, 6.595, 11.1, 14.908, 19.645, 22.292, 25.264, 26.889, 31.394, 34.923];
+      const at = (n, t) => S[n - 1] + t;
+      const tl = gsap.timeline({ paused: true });
+
+      // Aparicion con estado inicial explicito. Asentamiento power3.out.
+      function put(sel, t, o = {}) {
+        const { x = 0, y = 0, scale = 1, rot = 0, dur = 0.55, ease = "power3.out", stagger = 0 } = o;
+        tl.fromTo(sel, { opacity: 0, x, y, scale, rotation: rot },
+          { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: dur, ease, stagger }, t);
+      }
+      // El escenario no se oculta nunca: solo se asienta (sin tocar opacity).
+      function rise(sel, t, o = {}) {
+        const { y = 40, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { y }, { y: 0, duration: dur, ease }, t);
+      }
+      // Trazo que se dibuja: stroke-dashoffset de L a 0 (determinista).
+      function draw(sel, t, dur = 0.4) {
+        let el = document.querySelector(sel);
+        if (el && el.tagName.toLowerCase() !== "path") el = el.querySelector("path");
+        if (!el) return;
+        const L = el.getTotalLength();
+        el.style.strokeDasharray = L;
+        tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+      }
+      // Escala de un elemento (contenedor o forma) desde `from` hasta `to`.
+      function grow(sel, t, to = 1, o = {}) {
+        const { from = 0, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { scale: from }, { scale: to, duration: dur, ease }, t);
+      }
+      // Relleno de barra por escalaX (estado inicial en CSS: scaleX(0)).
+      function bar(sel, t, to = 1, o = {}) {
+        const { dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: to, duration: dur, ease }, t);
+      }
+      // Palabra por palabra (revelado tipografico).
+      function typeWords(sel, t, step = 0.05) {
+        document.querySelectorAll(sel).forEach((el, i) => {
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, t + i * step);
+        });
+      }
+      // Escritura: cada caracter es un span revelado por pasos. Determinista y
+      // seguro al buscar fotograma a fotograma.
+      function typeChars(sel, t, step = 0.065) {
+        const holder = document.querySelector(sel);
+        if (!holder) return;
+        const text = holder.textContent;
+        holder.textContent = "";
+        const spans = [];
+        for (const ch of text) {
+          const s = document.createElement("span");
+          s.textContent = ch;
+          s.style.opacity = "0";
+          s.setAttribute("data-layout-allow-overlap", "");
+          s.setAttribute("data-layout-allow-occlusion", "");
+          holder.appendChild(s);
+          spans.push(s);
+        }
+        spans.forEach((s, i) => {
+          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, t + i * step);
+        });
+      }
+      function swap(a, b, t) {
+        tl.set(a, { opacity: 0 }, t);
+        tl.set(b, { opacity: 1 }, t);
+      }
+      // El numero/indicador se fija en saltos discretos (nunca cuenta hacia arriba).
+      function setNum(sel, txt, t) { tl.set(sel, { textContent: txt }, t); }
+
+      // ---- B1 Gancho: la barra montada sobre el blanco (fotograma 0 = miniatura)
+      rise("#s1-blank", at(1, 0.0));
+      rise("#s1-search", at(1, 0.0), { y: 30 });
+      rise("#s1-kicker", at(1, 0.0), { y: 20 });
+      rise("#s1-label", at(1, 0.0), { y: 20 });
+      rise("#s1-eur", at(1, 0.0));
+      tl.fromTo("#s1-eur", { scale: 1 }, { scale: 1.12, duration: 0.12, ease: "power2.out" }, at(1, 0.55));
+      tl.to("#s1-eur", { scale: 1, duration: 0.16, ease: "power2.inOut" }, at(1, 0.67));
+
+      // ---- B2 El caso: la ficha con el año y el nombre
+      rise("#s2-card", at(2, 0.0));
+      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-mono", at(2, 0.22), { scale: 0.7 });
+      put("#s2-year", at(2, 0.30), { scale: 0.8 });
+      put("#s2-name", at(2, 0.80), { y: 20 });
+      put("#s2-role", at(2, 1.15), { y: 16 });
+
+      // ---- B3 El mecanismo: se teclea el nombre y brota el anuncio
+      rise("#s3-card", at(3, 0.0));
+      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-brand", at(3, 0.20), { y: 16 });
+      rise("#s3-search", at(3, 0.40), { y: 24 });
+      typeChars("#s3-term", at(3, 0.80), 0.05);
+      put("#s3-ad", at(3, 1.85), { y: -20 });
+      put("#s3-note", at(3, 2.70), { y: 16 });
+
+      // ---- B4 La seleccion: los cinco nombres y sus casillas marcadas
+      rise("#s4-card", at(4, 0.0));
+      put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
+      put("#s4-p1", at(4, 0.20), { x: -30 });
+      put("#s4-p2", at(4, 0.42), { x: -30 });
+      put("#s4-p3", at(4, 0.64), { x: -30 });
+      put("#s4-p4", at(4, 0.86), { x: -30 });
+      put("#s4-p5", at(4, 1.08), { x: -30 });
+      put("#s4-k1", at(4, 1.45), { scale: 0.5 });
+      put("#s4-k2", at(4, 1.68), { scale: 0.5 });
+      put("#s4-k3", at(4, 1.91), { scale: 0.5 });
+      put("#s4-k4", at(4, 2.14), { scale: 0.5 });
+      put("#s4-k5", at(4, 2.37), { scale: 0.5 });
+      put("#s4-note", at(4, 2.80), { y: 16 });
+
+      // ---- B5 El anuncio: el texto colocado y el resaltado
+      rise("#s5-card", at(5, 0.0));
+      put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+      put("#s5-brand", at(5, 0.18), { y: 16 });
+      put("#s5-search", at(5, 0.40), { y: -16 });
+      put("#s5-adcard", at(5, 0.80), { y: 24 });
+      put("#s5-adtext", at(5, 1.15), { y: 16 });
+      tl.fromTo("#s5-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, at(5, 1.80));
+
+      // ---- B6 El resultado: el marcador en saltos discretos
+      rise("#s6-card", at(6, 0.0));
+      put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
+      setNum("#s6-n1", "4/5", at(6, 0.60));
+      put("#s6-lab1", at(6, 0.60), { y: 12 });
+      setNum("#s6-n2", "2", at(6, 1.50));
+      put("#s6-lab2", at(6, 1.50), { y: 12 });
+
+      // ---- B7 La leccion: la multitud se apaga y quedan cinco
+      rise("#s7-blank", at(7, 0.0));
+      put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
+      put("#s7-crowd .disperso", at(7, 0.15), { scale: 0, dur: 0.2, stagger: 0.03 });
+      tl.to("#s7-crowd", { opacity: 0.14, duration: 0.5, ease: "power2.out" }, at(7, 1.35));
+      swap("#s7-labA", "#s7-labB", at(7, 1.35));
+      grow("#s7-five", at(7, 1.45), 1, { from: 0.6, dur: 0.4 });
+      put("#s7-five .marca", at(7, 1.60), { scale: 0, dur: 0.2, stagger: 0.06 });
+
+      // ---- B8 Tu version: las cinco cruzan el puente
+      rise("#s8-card", at(8, 0.0));
+      put("#s8-kicker", at(8, 0.06), { dur: 0.4 });
+      put("#s8-five", at(8, 0.20), { x: -24 });
+      put("#s8-five .marca", at(8, 0.20), { scale: 0, dur: 0.2, stagger: 0.06 });
+      draw("#s8-bridge", at(8, 0.55), 0.4);
+      put("#s8-biz", at(8, 0.95), { x: 24 });
+      put("#s8-note", at(8, 1.30), { y: 16 });
+
+      // ---- B9 La practica: los terminos tachados y la lupa
+      rise("#s9-card", at(9, 0.0));
+      put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
+      put("#s9-gen1", at(9, 0.20), { x: -30 });
+      draw("#s9-s1", at(9, 0.55), 0.3);
+      put("#s9-gen2", at(9, 0.80), { x: -30 });
+      draw("#s9-s2", at(9, 1.15), 0.3);
+      put("#s9-lupa", at(9, 1.60), { x: -40 });
+      put("#s9-ideal", at(9, 2.15), { scale: 0.86 });
+
+      // ---- B10 La practica: la grafica corta
+      rise("#s10-card", at(10, 0.0));
+      put("#s10-kicker", at(10, 0.06), { dur: 0.4 });
+      put("#s10-chart", at(10, 0.20), { y: 20 });
+      bar("#s10-f1", at(10, 0.45), 0.30);
+      bar("#s10-f2", at(10, 0.65), 0.42);
+      bar("#s10-f3", at(10, 0.85), 0.24);
+      put("#s10-best", at(10, 1.30), { scale: 0.86 });
+
+      // ---- B11 Cierre: guarda esto, con el blanco encendido
+      rise("#s11-blank", at(11, 0.0));
+      // El marcador de la CTA nace visible en el fotograma 0 de la escena (sin opacidad):
+      // en el corte B10→B11 no debe quedar un tramo vacío.
+      grow("#s11-mark", at(11, 0.0), 1, { from: 0.6, dur: 0.18 });
+      put("#s11-label", at(11, 0.55), { scale: 0.86, dur: 0.5 });
+      draw("#s11-wave", at(11, 0.95), 0.5);
+      grow("#s11-core", at(11, 1.30), 1, { from: 0.3, dur: 0.4 });
+      put("#s11-five .marca", at(11, 1.60), { scale: 0, dur: 0.2, stagger: 0.08 });
+      put("#s11-note", at(11, 2.30), { y: 16 });
+
+      // ---- barra de progreso (la re-tima retime.py)
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 38.917, ease: "none" }, 0);
+
+      // ---- TRANSICIONES: animan la capa interna .s-in; las piezas propias
+      //      (cover, sweep) se escriben a mano.
+      const TR = [
+        [1, "slide", 0.35],
+        [2, "cover", 0.45],
+        [3, "slide", 0.45],
+        [4, "slide", 0.40],
+        [5, "slide", 0.35],
+        [6, "sweep", 0.45],
+        [7, "slide", 0.40],
+        [8, "slide", 0.40],
+        [9, "slide", 0.40],
+        [10, "cut", 0.00]
+      ];
+      TR.forEach(([n, kind, d]) => {
+        const T = S[n];
+        const out = `#s${n}-in`, inc = `#s${n + 1}-in`;
+        if (kind === "slide") {
+          tl.fromTo(out, { y: 0 }, { y: -1920, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: 1920 }, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "sweep") {
+          // x: 0 explicito: el CSS parte de translateX(-130%) y GSAP lo leeria como
+          // x=-1404px; sin resetearlo, xPercent solo llegaria a translateX(0) (tapando
+          // la escena entrante). Un barrido es una banda, nunca inset:0.
+          // La banda pertenece a la escena SALIENTE (que lleva z-index superior), de modo
+          // que el barrido cruza B6 por delante y no aparece sobre un fondo ya negro.
+          tl.fromTo(`#s${n}-sweep`, { x: 0, xPercent: -130, skewX: -12 },
+            { x: 0, xPercent: 130, skewX: -12, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "cover") {
+          tl.fromTo(`#s${n}-cover`, { scale: 0 }, { scale: 1, duration: d, ease: "power3.in" }, T);
+        }
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </div></body>
+</html>
