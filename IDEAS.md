@@ -55,6 +55,7 @@ Los IDs `GA*` son de esta serie; los `V*` siguen siendo la serie SEO.
 | ID | Carpeta prevista | Tema | Gancho | Formato | Estado |
 |----|------------------|------|--------|---------|--------|
 | MK1 | `videos/mkt-01-responde-con-video` | Old Spice 2010: responder a comentarios con video (aplicado a una tienda de ropa) | "La estrategia que uso esta conocida marca, la puedes usar tu tambien" | 9:16 · ~34,6 s | **Guion y plan visual hechos** (2026-10-12): 11 lineas · 121 palabras ≈ 34,6 s, con fuentes en `investigacion/01-fuentes.md`. Hecho con red de subagentes (fuentes, continuidad, guion, plan visual y verificacion adversarial: 18 defectos, corregidos el alto y los medios). La cifra de los 65 millones de reproducciones **se descarta**: la fuente no dice que mide. Montada y verificada: 37,53 s, voz `Pablo`, 11 escenas, `check` 0 errores y MONTAJE OK. **Publicacion programada para el 13/10/2026 a las 18:00 (Madrid)** en Instagram, Facebook, TikTok y YouTube |
+| MK2 | `videos/mkt-02-google-ads-trafico-correcto` | Google Ads: llegar solo a los cinco que importan (caso Alec Brownstein, 2010) | "¿Cuántos contactos podrías conseguir con 6 euros en Google Ads?" | 9:16 · ~38,4 s | **Guion, brief y fuentes hechos** (2026-10-13): 11 líneas · 123 palabras ≈ 38,4 s. Cifras verificadas con Ad Age, CNN/Mashable, NPR y D&AD; en euros por decisión del dueño (el original son dólares). Pendiente: plan visual, voz y montaje |
 
 ## Historial
 
