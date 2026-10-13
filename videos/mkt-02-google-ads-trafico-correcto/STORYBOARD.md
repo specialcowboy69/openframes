@@ -100,8 +100,9 @@ V5 ni la **balanza** de V6. **Ejemplo único:** «abogado»/«dentista» (B9), e
 
 ## B4 · La selección — «Eligió a cinco y compró anuncios que solo aparecían al buscar sus nombres.»
 
-- **Qué se ve:** papel claro. La **lista de cinco nombres** (los cinco directores creativos: Droga,
-  Granger, Graf, Reichenthal, Vitrone); cada fila recibe su **casilla marcada** en acento, una a una.
+- **Qué se ve:** papel claro. La **lista de cinco nombres** (los cinco directores creativos, escritos
+  por su **nombre de pila**: David, Tony, Gerry, Ian, Scott); cada fila recibe su **casilla marcada**
+  en acento, una a una.
   Al pie, el rótulo **«SOLO ESOS NOMBRES»**.
 - **Elementos:** `#s4-in` · `#s4-kicker` · `#s4-card` (`.card`) ·
   `#s4-list` (`.picklist`) · `#s4-p1`…`#s4-p5` (`.pick` con `.pname` + `.pickbox/.pickfill`) ·

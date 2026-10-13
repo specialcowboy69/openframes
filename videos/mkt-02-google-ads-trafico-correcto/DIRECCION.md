@@ -483,6 +483,14 @@ transición (`.cover` en B2, `.sweep` en B6) quede por encima de la escena sigui
    **SVG en línea** (plano, dos colores + acento) y aparecen en el instante que fija `cue()` —el mismo
    reparto por longitud que el karaoke—, con entradas ≤0,3 s; se prefieren figuras a rótulos y cajas
    (§12). El mapeo palabra→elemento está declarado en §12.
+11. **B4 nombra a las personas por su nombre de pila (resuelto):** la lista de los cinco directores
+   creativos se rotula con **David, Tony, Gerry, Ian, Scott** en lugar de sus apellidos (Droga,
+   Granger, Graf, Reichenthal, Vitrone). El motivo es de **lectura en español**: «Droga» se lee como
+   la palabra que ya se sabe y distrae; el apellido no aporta y sí estorba. El **nombre de pila**
+   conserva que son **personas reales** sin esa mala lectura. Son los nombres de pila reales de los
+   cinco directores creativos (David Droga, Tony Granger, Gerry Graf, Ian Reichenthal y Scott
+   Vitrone). **No cambia** el nombre tecleado de B3 ni el de la búsqueda de B5 («Scott Vitrone»),
+   porque ahí el mecanismo es buscar el nombre y apellido de una persona.
 
 ---
 
