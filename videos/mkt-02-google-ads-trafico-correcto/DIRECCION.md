@@ -635,3 +635,12 @@ usan `"local"` (p. ej. V6, MK1) no cambian.
 - No hay más contradicciones: el estado inicial sigue en CSS (`transform:scale(0)` estático, sin
   `transition`/`@keyframes`), las entradas usan `put()`/`fromTo`, el escenario nace visible con
   `rise()` y no se toca `.from()`, `Math.random`, `Date.now` ni `repeat`/`yoyo`.
+
+## Regla de sonido (2026-10-14)
+
+Los efectos que acompanan a un elemento se atan al **cue de ese elemento**, no al arranque de la escena: si
+el cue se mueve, el sonido se mueve con el. Los whoosh de transicion se atan al **instante visual del corte**
+(medido, no nominal). Y el criterio de aceptacion **se mide sobre el render final**, nunca sobre la
+composicion: se comprueba con , que detecta los ataques de sonido en
+ y los cambios reales de imagen en el MP4. Objetivos: cortes |audio-imagen| <= 0,04 s y cues por
+zona <= 0,06 s. Medido en esta pieza: 10/10 cortes y 21/21 cues dentro de objetivo.
