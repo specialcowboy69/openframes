@@ -491,6 +491,18 @@ transición (`.cover` en B2, `.sweep` en B6) quede por encima de la escena sigui
    cinco directores creativos (David Droga, Tony Granger, Gerry Graf, Ian Reichenthal y Scott
    Vitrone). **No cambia** el nombre tecleado de B3 ni el de la búsqueda de B5 («Scott Vitrone»),
    porque ahí el mecanismo es buscar el nombre y apellido de una persona.
+12. **El sonido cuelga del cue del elemento, no del arranque de escena (resuelto):** un efecto que
+   acompaña a un elemento entra **en el mismo instante** que ese elemento (su cue), no al empezar su
+   escena. Los efectos se declaran en `assets/sfx/events.json` con `"cue": ["palabra", ocurrencia]`
+   (+ `"offset"` opcional para el desfase propio del elemento, p. ej. el carácter *i* de un tecleo o
+   una línea que se dibuja 0,3 s después); el tecleo de B3 también cuelga del cue de la palabra que
+   se teclea («buscan»), con un `offset` por carácter. Solo los elementos que **no** se movieron al
+   rehacerse la pieza (los colocados con `at(n, local)`) siguen anclados con `"local"`. El
+   modo cues de `.openhands/tools/sfx.py` es **retrocompatible**: solo se activa si el evento declara
+   `"cue"`, de modo que V6 y MK1 (que usan `"local"`) no cambian. Así, **si un cue se mueve, su sonido
+   se mueve con él**: reapuntar la pieza o retimar la voz no vuelve a desincronizar el sonido.
+   Si un efecto necesita sonar unas milésimas antes por el ataque del sonido, nunca supera **40 ms**;
+   el valor por defecto es coincidencia exacta (offset 0).
 
 ---
 
@@ -587,6 +599,26 @@ segunda ocurrencia de una palabra repetida (p. ej. «tráfico» en B11) se pide 
 | L10 | «mejores» | «TUS MEJORES CLIENTES» | 33,982 s |
 | L11 | «tráfico» (2.ª) | cinco personas sobre el núcleo | 37,852 s |
 | L11 | «correcto» | nota «EL TRÁFICO CORRECTO» | 38,318 s |
+
+### Sonido (misma regla que la imagen)
+
+**Un efecto que acompaña a un elemento se ata al cue de ese elemento, no al arranque de su escena.**
+El sonido entra **en el mismo instante** que la figura; nunca antes. Si el cue se mueve (reapuntado de
+la pieza, retimado de la voz), **su sonido se mueve con él**.
+
+En `assets/sfx/events.json` se declara con `"cue": ["palabra", ocurrencia]`; el instante se calcula con
+el **mismo reparto por longitud** que `cue()` (`S[n-1] + clip[n]·Σlen_previas/Σlen_línea`), así que
+imagen y sonido no pueden desincronizarse. El tecleo carácter a carácter de B3 se ata al cue de la
+palabra que se escribe («buscan»), con un `offset` por carácter (paso de 45 ms); los efectos que
+acompañan a elementos que **no** se movieron al rehacerse la pieza (los colocados con `at(n, local)`)
+siguen anclados con `"local"` (segundos desde el inicio de escena). El campo opcional `"offset"` añade
+el desfase propio del elemento dentro de su cue (p. ej. el carácter *i* de un tecleo con paso de 45 ms,
+o la línea de tachado que se dibuja 0,3 s después de oír el término).
+
+Criterio de ajuste: **coincidencia exacta** por defecto; un efecto puede ir unas milésimas antes por el
+ataque del sonido, pero **nunca más de 40 ms**. Esto se apoya en el modo cues **retrocompatible** de
+`.openhands/tools/sfx.py`: solo se activa cuando el evento declara `"cue"`, de modo que las piezas que
+usan `"local"` (p. ej. V6, MK1) no cambian.
 
 ### Choques con el contrato y cómo se resuelven
 

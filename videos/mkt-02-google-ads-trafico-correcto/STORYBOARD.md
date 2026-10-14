@@ -280,6 +280,14 @@ V5 ni la **balanza** de V6. **Ejemplo único:** «abogado»/«dentista» (B9), e
 
 ## Ritmo y sonido por beat
 
+> **Nota (sonido anclado al cue).** Los valores «Efectos (rel)» de la tabla son la referencia
+> histórica respecto al **arranque de escena**. Desde el reajuste de sonido, un efecto que acompaña a
+> un elemento entra **en el instante de su cue** (imagen y voz ya no se separan), no en el arranque de
+> la escena: el detalle y la regla están en `DIRECCION.md` §12 «Sonido» y en
+> `assets/sfx/events.json` (`"cue"` + `"offset"`), no en esta columna. El tecleo de B3 también cuelga
+> del cue de la palabra que se escribe («buscan», con `offset` por carácter); solo los elementos que no
+> se movieron (los `at(n, local)`) siguen anclados con `local` y coinciden con la tabla.
+
 | # | Movimiento o lectura | Entrada | Desarrollo | Lectura | Transición | Efectos (rel) |
 |---|---|---|---|---|---|---|
 | B1 | Movimiento | 0,0-0,4 | 0,4-1,5 | 1,5-fin | 0,35 | whoosh 0,0 · tick 0,55 · ding 1,30 · pop 2,40 |
