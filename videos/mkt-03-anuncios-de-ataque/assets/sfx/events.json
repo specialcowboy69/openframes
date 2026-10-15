@@ -1,0 +1,637 @@
+[
+  {
+    "scene": 1,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.55
+  },
+  {
+    "scene": 1,
+    "local": 0.55,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 1,
+    "local": 1.2,
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 2,
+    "local": 0.375,
+    "kind": "whoosh",
+    "gain": 0.5
+  },
+  {
+    "scene": 2,
+    "cue": [
+      "competencia",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.65
+  },
+  {
+    "scene": 2,
+    "cue": [
+      "clientes",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 2,
+    "cue": [
+      "nombre",
+      1
+    ],
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 2,
+    "local": 2.693,
+    "kind": "ding",
+    "gain": 0.55
+  },
+  {
+    "scene": 3,
+    "local": 0.08,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "Google",
+      1
+    ],
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "ataque",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "buscan",
+      1
+    ],
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "buscan",
+      1
+    ],
+    "offset": 0.045,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "buscan",
+      1
+    ],
+    "offset": 0.09,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "buscan",
+      1
+    ],
+    "offset": 0.135,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "buscan",
+      1
+    ],
+    "offset": 0.18,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 3,
+    "local": 0.4,
+    "kind": "whoosh",
+    "gain": 0.5
+  },
+  {
+    "scene": 3,
+    "cue": [
+      "rival",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.55
+  },
+  {
+    "scene": 4,
+    "local": 0.21,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 4,
+    "cue": [
+      "Basecamp",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.65
+  },
+  {
+    "scene": 4,
+    "cue": [
+      "2019",
+      1
+    ],
+    "kind": "tick",
+    "gain": 0.7
+  },
+  {
+    "scene": 4,
+    "local": 1.6,
+    "kind": "ding",
+    "gain": 0.55
+  },
+  {
+    "scene": 5,
+    "local": 0.153,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.05,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.1,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.15,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.2,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.25,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.3,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "buscar",
+      1
+    ],
+    "offset": 0.35,
+    "kind": "key",
+    "gain": 0.35
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.6
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "offset": 0.08,
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "offset": 0.17,
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "offset": 0.24,
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "offset": 0.31,
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "cuatro",
+      1
+    ],
+    "offset": 0.38,
+    "kind": "tick",
+    "gain": 0.65
+  },
+  {
+    "scene": 5,
+    "cue": [
+      "competidores",
+      1
+    ],
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 6,
+    "local": 0.205,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 6,
+    "cue": [
+      "quien",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.65
+  },
+  {
+    "scene": 6,
+    "cue": [
+      "marca",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 6,
+    "cue": [
+      "comparando",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.55
+  },
+  {
+    "scene": 6,
+    "cue": [
+      "elegir",
+      1
+    ],
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 7,
+    "local": 0.45,
+    "kind": "whoosh",
+    "gain": 0.5
+  },
+  {
+    "scene": 7,
+    "cue": [
+      "ti",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 7,
+    "cue": [
+      "mismo",
+      1
+    ],
+    "kind": "swoosh_down",
+    "gain": 0.55,
+    "offset": -0.04
+  },
+  {
+    "scene": 7,
+    "cue": [
+      "mismo",
+      1
+    ],
+    "offset": 0.02,
+    "kind": "swoosh_down",
+    "gain": 0.55
+  },
+  {
+    "scene": 7,
+    "local": 2.882,
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 8,
+    "local": 0.163,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 8,
+    "cue": [
+      "defensa",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 8,
+    "cue": [
+      "pagar",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.55
+  },
+  {
+    "scene": 8,
+    "cue": [
+      "nombre",
+      1
+    ],
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 9,
+    "local": 0.013,
+    "kind": "whoosh",
+    "gain": 0.45
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "protestar",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.65
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "anuncio",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.55
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "No",
+      1
+    ],
+    "kind": "tick",
+    "gain": 0.3
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "No",
+      1
+    ],
+    "offset": 0.16,
+    "kind": "tick",
+    "gain": 0.3
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "No",
+      1
+    ],
+    "offset": 0.32,
+    "kind": "tick",
+    "gain": 0.3
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "No",
+      1
+    ],
+    "offset": 0.48,
+    "kind": "tick",
+    "gain": 0.3
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "No",
+      1
+    ],
+    "offset": 0.64,
+    "kind": "tick",
+    "gain": 0.3
+  },
+  {
+    "scene": 9,
+    "cue": [
+      "anuncio",
+      2
+    ],
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "local": 0.375,
+    "kind": "whoosh",
+    "gain": 0.5
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "puja",
+      1
+    ],
+    "kind": "pop",
+    "gain": 0.65
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "clics",
+      1
+    ],
+    "kind": "tick",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "clics",
+      1
+    ],
+    "offset": 0.08,
+    "kind": "tick",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "clics",
+      1
+    ],
+    "offset": 0.16,
+    "kind": "tick",
+    "gain": 0.6
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "tuyos",
+      1
+    ],
+    "kind": "swoosh_down",
+    "gain": 0.55
+  },
+  {
+    "scene": 11,
+    "local": 0.0,
+    "kind": "whoosh",
+    "gain": 0.4
+  },
+  {
+    "scene": 11,
+    "local": 0.0,
+    "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 11,
+    "cue": [
+      "Guarda",
+      1
+    ],
+    "offset": 0.45,
+    "kind": "ding",
+    "gain": 0.6
+  },
+  {
+    "scene": 11,
+    "cue": [
+      "busca",
+      1
+    ],
+    "kind": "swoosh_up",
+    "gain": 0.55
+  },
+  {
+    "scene": 11,
+    "cue": [
+      "antes",
+      1
+    ],
+    "kind": "tick",
+    "gain": 0.6
+  },
+  {
+    "scene": 11,
+    "cue": [
+      "antes",
+      1
+    ],
+    "offset": 0.07,
+    "kind": "tick",
+    "gain": 0.6
+  },
+  {
+    "scene": 11,
+    "local": 3.6,
+    "kind": "ding",
+    "gain": 0.6
+  }
+]

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>Anuncios de ataque (Basecamp, 2019)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <style>
+      :root { --accent:#c8ff3d; --accent-ink:#0b0b10; --panel:#20202a; --warn:#ff5a5a; }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body {
+        width:1080px; height:1920px; overflow:hidden;
+        background:#0a0a0f; font-family:"Inter", system-ui, sans-serif; color:#f5f5f7;
+      }
+      #root { position:relative; width:1080px; height:1920px; background:#0a0a0f; overflow:hidden; }
+
+      /* ---------- escena + tema ---------- */
+      .scene { position:absolute; inset:0; overflow:hidden; z-index:1; isolation:isolate; }
+      .s-in {
+        position:absolute; inset:0; display:flex; flex-direction:column;
+        justify-content:center; align-items:stretch; gap:24px;
+        padding:300px 74px 700px;
+      }
+      .s-in > * { flex:0 0 auto; }
+      .dark  { --bg:#0a0a0f; --panel:#20202a; --line:#26262e; --ink:#f5f5f7; --muted:#8b8b99; }
+      .light { --bg:#f4f1ea; --panel:#ffffff; --line:#e0dbcf; --ink:#14141a; --muted:#6f6f78; }
+      .dark  .s-in { background: radial-gradient(circle at 50% 42%, rgba(200,255,61,0.10), rgba(200,255,61,0) 54%), #0a0a0f; }
+      .light .s-in { background: radial-gradient(#ddd6c8 2.2px, rgba(0,0,0,0) 2.2px) 0 0 / 48px 48px, #f4f1ea; }
+
+      /* ---------- kicker ---------- */
+      .kicker {
+        display:flex; align-items:center; gap:14px; font-size:32px; font-weight:700;
+        letter-spacing:0.28em; color:var(--muted); text-transform:uppercase;
+      }
+      .kicker .dot { width:14px; height:14px; border-radius:50%; background:var(--accent); }
+
+      /* ---------- kit de superficies ---------- */
+      .rowc { display:flex; align-items:center; justify-content:center; gap:26px; }
+      .stage { position:relative; }
+      .chip {
+        display:inline-flex; align-items:center; gap:12px; padding:18px 30px; border-radius:999px;
+        background:var(--panel); border:2px solid var(--line); color:var(--ink);
+        font-family:"JetBrains Mono", monospace; font-size:36px; font-weight:800; white-space:nowrap;
+      }
+      .pill { display:inline-flex; align-items:center; padding:14px 30px; border-radius:999px;
+        font-size:34px; font-weight:900; letter-spacing:0.04em; white-space:nowrap; }
+      .tag { display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px;
+        background:var(--accent); color:var(--accent-ink); font-size:30px; font-weight:900;
+        letter-spacing:0.04em; white-space:nowrap; }
+
+      /* ===================== LA CALLE (entorno) ===================== */
+      .calle { position:absolute; left:0; right:0; bottom:0; height:560px; z-index:0; pointer-events:none; }
+      .calle .aire  { position:absolute; left:0; right:0; bottom:170px; top:0; background:transparent; }
+      .calle .acera { position:absolute; left:0; right:0; bottom:0; height:170px; background:var(--line); }
+      .calle .borde { position:absolute; left:0; right:0; bottom:170px; height:4px; background:var(--muted); }
+
+      /* ===================== EL RÓTULO (la marca) ===================== */
+      .rotulo { position:relative; display:inline-flex; flex-direction:column; align-items:center; z-index:3; }
+      .rotulo .placa { position:relative; display:inline-flex; align-items:center; justify-content:center;
+        padding:16px 30px; border-radius:12px; background:#ffffff; border:3px solid var(--line);
+        box-shadow:0 18px 40px rgba(0,0,0,0.24); font-family:"Inter",sans-serif; font-size:52px;
+        font-weight:900; letter-spacing:0.01em; color:#14141a; }
+      .rotulo .poste { width:14px; height:120px; background:var(--muted); }
+      .rotulo.rival .placa { background:var(--panel); border-color:var(--line); color:var(--ink); }
+      .rotulo .sub { font-family:"Inter",sans-serif; font-size:30px; font-weight:700; letter-spacing:0.02em;
+        color:var(--muted); }
+
+      .redact { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:16px;
+        background:var(--panel); border-radius:12px; transform-origin:left center; z-index:4; }
+      .redact b { display:block; width:96px; height:28px; border-radius:7px; background:var(--ink); }
+      .redact b.c { width:56px; }
+      .redact .q { font-family:"Inter",sans-serif; font-size:56px; font-weight:900; color:var(--ink); }
+
+      /* ===================== LA VALLA (el anuncio) ===================== */
+      .valla { position:relative; width:660px; height:190px; z-index:3; }
+      .valla .tablon { position:absolute; left:0; right:0; top:0; height:148px; border-radius:14px;
+        background:var(--panel); border:3px solid var(--line); box-shadow:0 20px 48px rgba(0,0,0,0.30);
+        display:flex; flex-direction:column; justify-content:center; gap:8px; padding:0 28px; }
+      .valla .poste { position:absolute; bottom:0; width:14px; height:42px; background:var(--muted); }
+      .valla .poste.l { left:70px; } .valla .poste.r { right:70px; }
+      .valla .vallalab { font-family:"Inter",sans-serif; font-size:26px; font-weight:800; letter-spacing:0.20em;
+        text-transform:uppercase; color:var(--muted); }
+      .valla .vallatxt { font-family:"JetBrains Mono",monospace; font-size:40px; font-weight:700; color:var(--ink); }
+      .valla.propia .tablon { background:var(--accent); border-color:var(--accent); }
+      .valla.propia .vallalab, .valla.propia .vallatxt { color:var(--accent-ink); }
+      .valla.protesta { width:700px; height:400px; }
+      .valla.protesta .tablon { height:358px; gap:14px; }
+      .valla .quote { font-family:"Inter",sans-serif; font-size:56px; font-weight:800; line-height:1.22;
+        color:var(--ink); }
+
+      /* la pila de vallas (B5, B7, B11): compacta para que quepan varias por delante del rótulo */
+      .vallas { display:flex; flex-direction:column; gap:14px; width:100%; align-items:center; z-index:3; }
+      .vallas .valla { width:560px; height:112px; }
+      .vallas .valla .tablon { height:82px; gap:4px; padding:0 22px; }
+      .vallas .valla .poste { height:30px; }
+      .vallas .valla .poste.l { left:56px; } .vallas .valla .poste.r { right:56px; }
+      .vallas .valla .vallalab { font-size:20px; }
+      .vallas .valla .vallatxt { font-size:30px; }
+
+      /* ===================== LA PUJA ===================== */
+      .puja { position:relative; width:132px; height:186px; z-index:4; }
+      .puja svg { width:100%; height:100%; display:block; }
+      .puja .palo  { fill:var(--muted); }
+      .puja .placa { fill:var(--panel); stroke:var(--ink); stroke-width:5; }
+      .puja.vacia .placa { fill:none; stroke:var(--muted); stroke-dasharray:16 12; }
+
+      /* ===================== EL CLIC ===================== */
+      .clics { display:flex; gap:22px; justify-content:center; z-index:4; }
+      .clic { width:52px; height:52px; color:var(--ink); }
+      .clic svg { width:100%; height:100%; display:block; }
+      .clic svg path { fill:currentColor; }
+      .clic.apagado { color:var(--muted); }
+
+      /* ===================== EL REFLEJO ===================== */
+      .reflejo { position:relative; width:760px; height:520px; border-radius:22px; background:var(--panel);
+        border:3px solid var(--line); overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,0.32); z-index:2; }
+      .reflejo .brillo { position:absolute; left:-14%; top:-40%; width:56%; height:180%; background:var(--line);
+        opacity:0.35; transform:skewX(-18deg); }
+
+      /* ===================== EL FOCO ===================== */
+      .foco { position:absolute; width:560px; height:640px; pointer-events:none; z-index:1; }
+      .foco svg { width:100%; height:100%; display:block; }
+      .foco .haz { fill:var(--muted); opacity:0.18; }
+
+      /* ===================== TITULARES NUEVOS ===================== */
+      .hookline { font-family:"Inter",sans-serif; font-size:132px; font-weight:900; letter-spacing:-0.02em;
+        line-height:1.04; color:var(--ink); text-align:center; z-index:5; }
+      .contador { display:inline-flex; align-items:center; justify-content:center; min-width:150px;
+        padding:8px 26px; border-radius:20px; background:var(--panel); border:3px solid var(--line);
+        font-family:"Inter",sans-serif; font-size:120px; font-weight:900; letter-spacing:-0.04em;
+        line-height:1; color:var(--ink); z-index:4; }
+
+      /* ===================== LENGUAJE 2D (figuras) ===================== */
+      .fig { display:block; width:var(--fig-w,104px); height:auto; color:var(--ink); }
+      .fig .fg-head,.fig .fg-body,.fig .fg-leg,.fig .fg-hair,.fig .fg-bun,
+      .fig .fg-hat,.fig .fg-hand { fill:currentColor; }
+      .fig .fg-arm  { fill:none; stroke:currentColor; stroke-width:20; stroke-linecap:round; }
+      .fig .fg-glasses { fill:var(--bg); }
+      .fig .fg-tie,.fig .fg-collar { fill:var(--muted); }
+      .fig .fg-hair,.fig .fg-bun,.fig .fg-hat,.fig .fg-glasses,
+      .fig .fg-collar,.fig .fg-hand { display:none; }
+      .fig.v1 .fg-glasses { display:block; }
+      .fig.v2 .fg-hair { display:block; }
+      .gente { display:inline-block; width:52px; height:52px; color:var(--ink); }
+      .gente svg { width:100%; height:100%; display:block; }
+      .gente .g-head,.gente .g-body { fill:currentColor; }
+      .gente .sub { display:block; width:100%; height:100%; transform-origin:50% 100%; }
+
+      /* ---- barra de búsqueda (kit mkt-02) ---- */
+      .searchbar { position:relative; display:flex; align-items:center; gap:18px;
+        width:100%; max-width:840px; margin:0 auto; padding:24px 28px;
+        border-radius:20px; background:var(--panel); border:3px solid var(--line);
+        box-shadow:0 24px 60px rgba(0,0,0,0.28); }
+      .searchbar .sicon { flex:0 0 auto; width:46px; height:46px; color:var(--muted); }
+      .searchbar .sicon svg { width:100%; height:100%; display:block; }
+      .searchbar .sterm { flex:1; font-family:"JetBrains Mono",monospace; font-size:44px;
+        font-weight:600; color:var(--ink); white-space:pre; }
+      .searchbar .scaret { flex:0 0 auto; width:4px; height:56px; background:var(--ink); }
+
+      /* ---- marca de plataforma: logotipo tipográfico ---- */
+      .brandmark { display:inline-flex; align-items:center; padding:18px 34px; border-radius:14px;
+        background:#ffffff; border:3px solid var(--line);
+        font-family:"Inter",sans-serif; font-size:64px; font-weight:900; letter-spacing:0.01em; color:#14141a; }
+      .brandmark.sm { font-size:44px; padding:12px 24px; }
+      .yearbadge { font-family:"Inter",sans-serif; font-size:180px; font-weight:900;
+        letter-spacing:-0.04em; line-height:1; color:var(--ink); }
+      .hl { background:var(--accent); color:var(--accent-ink); padding:0 12px; border-radius:10px;
+        display:inline-block; transform-origin:left center; }
+
+      /* ---- CTA (kit) ---- */
+      .cta-wrap { position:relative; align-self:center; }
+      .cta-mark { width:172px; height:172px; border-radius:46px; background:var(--accent);
+        display:flex; align-items:center; justify-content:center; }
+      .cta-mark svg { width:96px; height:96px; color:var(--accent-ink); }
+      .cta-label { font-size:96px; font-weight:900; letter-spacing:-0.02em; color:var(--ink); text-align:center; }
+      .savewave { position:absolute; inset:-90px; color:var(--accent); }
+      .savewave svg { width:100%; height:100%; display:block; }
+      .savewave svg path { fill:none; stroke:currentColor; stroke-width:8; stroke-linecap:round; }
+
+      /* ---------- piezas propias de transición ---------- */
+      .cover { position:absolute; inset:0; z-index:40; background:#20202a; transform:scale(0);
+        transform-origin:50% 62%; pointer-events:none; }
+      .sweep { position:absolute; left:0; right:0; top:30%; height:40%; z-index:40; background:var(--accent);
+        transform:translateX(-130%) skewX(-12deg); pointer-events:none; }
+      #s1, #s6, #s9 { z-index:5; }   /* escenas salientes con pieza propia (cover/sweep) */
+
+      /* ---------- barra de progreso + karaoke ---------- */
+      .progress { position:absolute; left:74px; right:74px; top:300px; height:6px;
+        background:#20202a; border-radius:3px; overflow:hidden; z-index:60; }
+      .progress-fill { height:100%; width:100%; background:var(--accent); transform:scaleX(0); transform-origin:left center; }
+      [data-composition-id="caption-pill-karaoke"] { z-index:55; }
+
+      /* ---------- posiciones por escena ---------- */
+      /* B1 · gancho: rótulo censurado sobre la acera; el titular es lo único escrito */
+      #s1-calle  { position:absolute; inset:0; }
+      #s1-foco   { left:50%; top:4%; margin-left:-280px; }
+      #s1-rotulo { position:absolute; left:50%; top:20%; margin-left:-210px; }
+      #s1-hook   { position:absolute; left:74px; right:74px; top:34%; }
+
+      /* B2 · la emboscada */
+      #s2-kicker    { position:absolute; left:74px; right:74px; top:300px; }
+      #s2-rotuloA   { position:absolute; left:90px; top:33%; }
+      #s2-rotuloB   { position:absolute; right:90px; top:33%; }
+      #s2-valla     { position:absolute; left:50%; margin-left:-330px; top:54%; }
+      #s2-name      { inset:auto; left:24px; right:24px; top:46px; height:62px; }
+      #s2-fig       { position:absolute; left:50%; margin-left:-152px; top:42%; --fig-w:104px; }
+      #s2-clientes  { position:absolute; left:0; right:0; top:72%; display:flex; justify-content:center; gap:90px; }
+
+      /* B3 · el mecanismo (columna en flujo) */
+      #s3-term { color:var(--ink); }
+      #s3-valla { margin:0 auto; }
+
+      /* B4 · la empresa */
+      #s4-brand { background:transparent; border:none; padding:0; }
+      #s4-year  { align-self:flex-end; }
+
+      /* B5 · el dato (columna en flujo) */
+      #s5-in    { gap:16px; }
+      #s5-search, #s5-vallas, #s5-rotulo, #s5-note { position:relative; }
+      #s5-count { position:absolute; right:64px; top:38%; }
+      #s5-vallas { max-width:560px; margin:0 auto; }
+
+      /* B6 · la encrucijada */
+      #s6-kicker  { position:absolute; left:74px; right:74px; top:300px; }
+      #s6-op1     { position:absolute; left:80px; top:34%; }
+      #s6-op2     { position:absolute; right:80px; top:34%; }
+      #s6-foco1   { left:40px; top:12%; }
+      #s6-foco2   { right:40px; top:12%; }
+      #s6-foco1 .haz, #s6-foco2 .haz { opacity:1; }
+      #s6-tag     { position:absolute; left:50%; margin-left:-108px; top:56%; }
+      #s6-cliente { position:absolute; left:50%; margin-left:-66px; top:62%; width:132px; height:132px; color:var(--ink); }
+
+      /* B7 · tu versión */
+      #s7-kicker  { position:absolute; left:74px; right:74px; top:300px; }
+      #s7-reflejo { position:absolute; left:50%; top:44%; margin:-260px 0 0 -380px; }
+      #s7-rotulo  { position:absolute; left:50%; top:52%; margin-left:-200px; }
+      #s7-vallas  { position:absolute; left:50%; top:30%; width:520px; margin-left:-260px; opacity:0.7; }
+      #s7-vallas .valla { width:520px; }
+      #s7-note    { position:absolute; left:50%; margin-left:-96px; top:22%; }
+
+      /* B8 · la defensa */
+      #s8-kicker  { position:absolute; left:74px; right:74px; top:300px; }
+      #s8-rotulo  { position:absolute; left:50%; top:36%; margin-left:-190px; }
+      #s8-brand   { background:transparent; border:none; padding:0; }
+      #s8-valla   { position:absolute; left:50%; top:58%; margin-left:-330px; }
+      #s8-puja    { right:56px; top:40%; }
+      #s8-label   { position:absolute; left:50%; margin-left:-90px; top:82%; }
+
+      /* B9 · la protesta (columna en flujo) */
+      #s9-valla  { margin:0 auto; }
+      #s9-brand  { margin-bottom:4px; }
+      #s9-qwrap  { position:relative; }
+      #s9-hl     { position:absolute; left:-14px; right:-14px; top:-8px; bottom:-8px; padding:0;
+        display:block; transform:scaleX(0); z-index:0; background:var(--accent); border-radius:12px; }
+      #s9-quote  { position:relative; z-index:1; }
+      #s9-quote span { opacity:0; }
+
+      /* B10 · la consecuencia */
+      #s10-kicker { position:absolute; left:74px; right:74px; top:300px; }
+      #s10-rotulo { position:absolute; left:50%; top:36%; margin-left:-180px; }
+      #s10-valla  { position:absolute; left:50%; top:54%; margin-left:-330px; }
+      #s10-puja   { right:56px; top:36%; }
+      #s10-note   { position:absolute; left:50%; margin-left:-84px; top:46%; }
+      #s10-clics  { position:absolute; left:50%; margin-left:-96px; top:74%; }
+
+      /* B11 · cierre (columna en flujo, alineada al centro) */
+      #s11-in     { align-items:center; gap:12px; }
+      #s11-mark   { position:relative; z-index:6; width:140px; height:140px; }
+      #s11-mark svg { width:80px; height:80px; }
+      #s11-label  { font-size:80px; }
+      #s11-search { position:relative; z-index:5; padding:16px 24px; }
+      #s11-search .sterm { font-size:38px; }
+      #s11-vallas { position:relative; z-index:3; max-width:520px; }
+      #s11-vallas .valla { height:88px; }
+      #s11-vallas .valla .tablon { height:64px; }
+      #s11-vallas .valla .poste { height:24px; }
+      #s11-rotulo { position:relative; z-index:2; }
+      #s11-rotulo .poste { height:56px; }
+      #s11-brand  { background:transparent; border:none; padding:0; }
+      #s11-valla  { position:relative; z-index:4; margin:-56px auto 0; }
+
+      /* ---------- estados iniciales (seek-safe) ---------- */
+      .fade-in { opacity:0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="36.083" data-width="1080" data-height="1920">
+
+      <!-- ===== B1 · GANCHO — «Esta empresa descubrió algo que no imaginas» (fotograma 0 = miniatura) ===== -->
+      <section class="scene clip light" id="s1" data-start="0.0" data-duration="2.679" data-track-index="0">
+        <div class="s-in" id="s1-in">
+          <div class="calle" id="s1-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="foco" id="s1-foco">
+            <svg viewBox="0 0 560 640" aria-hidden="true"><path class="haz" d="M280 0 L40 640 L520 640 Z"/></svg>
+          </div>
+          <div class="rotulo" id="s1-rotulo">
+            <div class="placa">Basecamp
+              <span class="redact" id="s1-redact"><b></b><b class="c"></b><span class="q">?</span></span>
+            </div>
+            <div class="poste"></div>
+          </div>
+          <div class="hookline" id="s1-hook" data-layout-allow-overlap>Esta empresa descubrió algo que no imaginas.</div>
+          <div class="cover" id="s1-cover"></div>
+        </div>
+      </section>
+
+      <!-- ===== B2 · EL CASO — la competencia clava su valla delante del rótulo ===== -->
+      <section class="scene clip dark" id="s2" data-start="2.229" data-duration="3.651" data-track-index="0">
+        <div class="s-in" id="s2-in">
+          <div class="calle" id="s2-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>EL CASO</div>
+          <div class="rotulo marca" id="s2-rotuloA">
+            <div class="placa">Marca
+              <span class="redact"><b></b><b class="c"></b><span class="q">?</span></span>
+            </div>
+            <div class="poste"></div>
+          </div>
+          <div class="rotulo rival" id="s2-rotuloB">
+            <div class="placa">Rival</div>
+            <div class="poste"></div>
+          </div>
+          <div class="valla rival fade-in" id="s2-valla">
+            <div class="tablon">
+              <span class="vallalab">ANUNCIO</span>
+              <span class="vallatxt">Basecamp</span>
+              <span class="redact" id="s2-name"><b></b><b class="c"></b><span class="q">?</span></span>
+            </div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="fig v1 fade-in" id="s2-fig">
+            <svg viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg>
+          </div>
+          <div id="s2-clientes">
+            <span class="gente fade-in"><span class="sub"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></span>
+            <span class="gente fade-in"><span class="sub"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B3 · EL MECANISMO — se teclea el nombre del rival y brota la valla ===== -->
+      <section class="scene clip dark" id="s3" data-start="5.48" data-duration="4.301" data-track-index="0">
+        <div class="s-in" id="s3-in">
+          <div class="calle" id="s3-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s3-kicker"><span class="dot"></span>EL MECANISMO</div>
+          <div class="rowc"><span class="brandmark fade-in" id="s3-brand">Google</span></div>
+          <div class="searchbar" id="s3-search">
+            <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+            <span class="sterm" id="s3-term">Rival</span>
+            <span class="scaret"></span>
+          </div>
+          <div class="valla rival fade-in" id="s3-valla">
+            <div class="tablon"><span class="vallalab">ANUNCIO</span></div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="rotulo rival" id="s3-rotuloR">
+            <div class="placa">Rival</div>
+            <div class="poste"></div>
+          </div>
+          <div class="rowc"><span class="chip fade-in" id="s3-chip">ANUNCIOS DE ATAQUE</span></div>
+        </div>
+      </section>
+
+      <!-- ===== B4 · LA EMPRESA — la censura se retira y aparece Basecamp ===== -->
+      <section class="scene clip light" id="s4" data-start="9.381" data-duration="3.136" data-track-index="0">
+        <div class="s-in" id="s4-in">
+          <div class="calle" id="s4-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s4-kicker"><span class="dot"></span>LA EMPRESA</div>
+          <div class="rowc" style="gap:60px; align-items:flex-end">
+            <div class="rotulo" id="s4-rotulo">
+              <div class="placa">
+                <span class="brandmark" id="s4-brand" data-layout-allow-overlap>Basecamp</span>
+                <span class="redact" id="s4-redact" data-layout-allow-overlap><b></b><b class="c"></b><span class="q" data-layout-allow-overlap>?</span></span>
+              </div>
+              <div class="poste"></div>
+            </div>
+            <span class="yearbadge fade-in" id="s4-year">2019</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B5 · EL DATO — cuatro vallas ajenas sobre el rótulo propio ===== -->
+      <section class="scene clip dark" id="s5" data-start="12.167" data-duration="4.162" data-track-index="0">
+        <div class="s-in" id="s5-in">
+          <div class="calle" id="s5-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s5-kicker"><span class="dot"></span>EL DATO</div>
+          <div class="searchbar" id="s5-search">
+            <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+            <span class="sterm" id="s5-term">Basecamp</span>
+            <span class="scaret"></span>
+          </div>
+          <div class="vallas" id="s5-vallas">
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+          </div>
+          <div class="rotulo" id="s5-rotulo">
+            <div class="placa">Basecamp</div>
+            <div class="poste"></div>
+          </div>
+          <div class="contador fade-in" id="s5-count">4</div>
+          <div class="rowc"><span class="chip fade-in" id="s5-note">DE COMPETIDORES</span></div>
+        </div>
+      </section>
+
+      <!-- ===== B6 · POR QUÉ — el cliente compara y está a punto de elegir ===== -->
+      <section class="scene clip light" id="s6" data-start="15.929" data-duration="4.072" data-track-index="0">
+        <div class="s-in" id="s6-in">
+          <div class="calle" id="s6-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s6-kicker" data-layout-allow-overlap><span class="dot"></span>POR QUÉ</div>
+          <div class="foco" id="s6-foco1"><svg viewBox="0 0 560 640" aria-hidden="true"><path class="haz" d="M280 0 L40 640 L520 640 Z"/></svg></div>
+          <div class="foco" id="s6-foco2"><svg viewBox="0 0 560 640" aria-hidden="true"><path class="haz" d="M280 0 L40 640 L520 640 Z"/></svg></div>
+          <div class="rotulo rival fade-in" id="s6-op1"><div class="placa">Opción A</div><div class="poste"></div></div>
+          <div class="rotulo rival fade-in" id="s6-op2"><div class="placa">Opción B</div><div class="poste"></div></div>
+          <div class="tag fade-in" id="s6-tag">TU CLIENTE</div>
+          <div class="gente fade-in" id="s6-cliente"><span class="sub"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></div>
+          <div class="sweep" id="s6-sweep"></div>
+        </div>
+      </section>
+
+      <!-- ===== B7 · TU VERSIÓN — el caso ajeno se refleja sobre tu rótulo ===== -->
+      <section class="scene clip dark" id="s7" data-start="19.551" data-duration="3.186" data-track-index="0">
+        <div class="s-in" id="s7-in">
+          <div class="calle" id="s7-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s7-kicker"><span class="dot"></span>TU VERSIÓN</div>
+          <div class="reflejo" id="s7-reflejo" data-layout-allow-overflow><span class="brillo" data-layout-allow-overflow></span></div>
+          <div class="vallas" id="s7-vallas">
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+          </div>
+          <div class="rotulo" id="s7-rotulo"><div class="placa">TU NEGOCIO</div><div class="poste"></div></div>
+          <div class="rowc"><span class="chip fade-in" id="s7-note">LO MISMO</span></div>
+        </div>
+      </section>
+
+      <!-- ===== B8 · LA PRÁCTICA — pagar por tu propio nombre ===== -->
+      <section class="scene clip light" id="s8" data-start="22.337" data-duration="3.186" data-track-index="0">
+        <div class="s-in" id="s8-in">
+          <div class="calle" id="s8-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s8-kicker"><span class="dot"></span>LA PRÁCTICA</div>
+          <div class="rotulo" id="s8-rotulo">
+            <div class="placa"><span class="brandmark sm" id="s8-brand">Basecamp</span></div>
+            <div class="poste"></div>
+          </div>
+          <div class="puja fade-in" id="s8-puja">
+            <svg viewBox="0 0 132 186" aria-hidden="true"><rect class="palo" x="60" y="92" width="12" height="92" rx="6"/><rect class="placa" x="8" y="8" width="116" height="100" rx="16"/></svg>
+          </div>
+          <div class="valla propia fade-in" id="s8-valla">
+            <div class="tablon"><span class="vallalab">ANUNCIO</span><span class="vallatxt">Basecamp</span></div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="rowc"><span class="chip fade-in" id="s8-label">DEFENSA</span></div>
+        </div>
+      </section>
+
+      <!-- ===== B9 · LA PROTESTA — el titular citado del anuncio, resaltado ===== -->
+      <section class="scene clip light" id="s9" data-start="25.123" data-duration="4.583" data-track-index="0">
+        <div class="s-in" id="s9-in">
+          <div class="calle" id="s9-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s9-kicker" data-layout-allow-overlap><span class="dot"></span>LA PROTESTA</div>
+          <div class="valla protesta" id="s9-valla">
+            <div class="tablon">
+              <span class="brandmark sm fade-in" id="s9-brand">Basecamp</span>
+              <span class="vallalab fade-in" id="s9-adlab">ANUNCIO</span>
+              <div id="s9-qwrap">
+                <span class="hl" id="s9-hl"></span>
+                <div class="quote fade-in" id="s9-quote" data-layout-allow-overlap><span data-layout-allow-overlap>«No</span> <span data-layout-allow-overlap>queremos</span> <span data-layout-allow-overlap>publicar</span> <span data-layout-allow-overlap>este</span> <span data-layout-allow-overlap>anuncio».</span></div>
+              </div>
+            </div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="cover" id="s9-cover"></div>
+        </div>
+      </section>
+
+      <!-- ===== B10 · LA CONSECUENCIA — sin puja, los clics se van con la valla ajena ===== -->
+      <section class="scene clip dark" id="s10" data-start="29.256" data-duration="2.972" data-track-index="0">
+        <div class="s-in" id="s10-in">
+          <div class="calle" id="s10-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="kicker fade-in" id="s10-kicker"><span class="dot"></span>LA CONSECUENCIA</div>
+          <div class="rotulo" id="s10-rotulo"><div class="placa"><span class="brandmark sm" id="s10-brand">Basecamp</span></div><div class="poste"></div></div>
+          <div class="puja vacia fade-in" id="s10-puja">
+            <svg viewBox="0 0 132 186" aria-hidden="true"><rect class="palo" x="60" y="92" width="12" height="92" rx="6"/><rect class="placa" x="8" y="8" width="116" height="100" rx="16"/></svg>
+          </div>
+          <div class="valla rival" id="s10-valla">
+            <div class="tablon"><span class="vallalab">ANUNCIO</span><span class="vallatxt">Rival</span></div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="rowc"><span class="chip fade-in" id="s10-note">SIN PUJA</span></div>
+          <div class="clics" id="s10-clics">
+            <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
+            <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
+            <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== B11 · CIERRE — busca tu nombre y mira quién aparece antes que tú ===== -->
+      <section class="scene clip light" id="s11" data-start="32.228" data-duration="3.855" data-track-index="0">
+        <div class="s-in" id="s11-in">
+          <div class="calle" id="s11-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
+          <div class="cta-wrap" id="s11-cta">
+            <div class="savewave" id="s11-wave" data-layout-allow-overflow><svg viewBox="0 0 320 320" aria-hidden="true"><path d="M160 24 a136 136 0 1 1 -0.1 0"/></svg></div>
+            <div class="cta-mark" id="s11-mark"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 2.8h12a1.5 1.5 0 0 1 1.5 1.5v17.2L12 17.3l-7.5 4.2V4.3A1.5 1.5 0 0 1 6 2.8z"/></svg></div>
+          </div>
+          <div class="cta-label fade-in" id="s11-label">Guarda esto</div>
+          <div class="searchbar" id="s11-search">
+            <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
+            <span class="sterm" id="s11-term">Tu nombre</span>
+            <span class="scaret"></span>
+          </div>
+          <div class="vallas" id="s11-vallas">
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+            <div class="valla rival fade-in"><div class="tablon"><span class="vallalab">ANUNCIO</span></div><span class="poste l"></span><span class="poste r"></span></div>
+          </div>
+          <div class="rotulo" id="s11-rotulo"><div class="placa"><span class="brandmark sm" id="s11-brand">Tu negocio</span></div><div class="poste"></div></div>
+          <div class="valla propia fade-in" id="s11-valla">
+            <div class="tablon"><span class="vallalab">ANUNCIO</span><span class="vallatxt">Tu negocio</span></div>
+            <span class="poste l"></span><span class="poste r"></span>
+          </div>
+          <div class="rowc"><span class="chip fade-in" id="s11-note">TU NOMBRE, DEFENDIDO</span></div>
+        </div>
+      </section>
+
+      <!-- ===== PROGRESO ===== -->
+      <div class="progress clip" id="prog" data-start="0" data-duration="36.083" data-track-index="0" data-media-start="0">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+
+      <!-- ===== KARAOKE ===== -->
+      <div id="caption-karaoke" data-layout-allow-overlap class="clip" data-composition-id="caption-pill-karaoke" data-composition-src="compositions/components/caption-pill-karaoke.html" data-start="0" data-duration="36.083" data-track-index="2" data-width="1080" data-height="1920"></div>
+
+      <!-- ===== MUSICA ===== -->
+      <audio id="music" class="clip" data-start="0" data-duration="36.083" data-track-index="3" data-volume="0.18" src="assets/music/track.wav"></audio>
+
+      <!-- ===== EFECTOS (sfx.wav lo genera sfx.py) ===== -->
+      <audio id="sfx" class="clip" data-start="0" data-duration="36.083" data-track-index="4" data-volume="0.5" src="assets/sfx/sfx.wav"></audio>
+
+      <!-- ===== VOZ ===== -->
+      <audio id="vo-01" class="clip" data-start="0.0" data-duration="2.227" data-track-index="1" src="assets/voice/01.wav"></audio>
+      <audio id="vo-02" class="clip" data-start="2.229" data-duration="3.249" data-track-index="1" src="assets/voice/02.wav"></audio>
+      <audio id="vo-03" class="clip" data-start="5.48" data-duration="3.899" data-track-index="1" src="assets/voice/03.wav"></audio>
+      <audio id="vo-04" class="clip" data-start="9.381" data-duration="2.784" data-track-index="1" src="assets/voice/04.wav"></audio>
+      <audio id="vo-05" class="clip" data-start="12.167" data-duration="3.76" data-track-index="1" src="assets/voice/05.wav"></audio>
+      <audio id="vo-06" class="clip" data-start="15.929" data-duration="3.62" data-track-index="1" src="assets/voice/06.wav"></audio>
+      <audio id="vo-07" class="clip" data-start="19.551" data-duration="2.784" data-track-index="1" src="assets/voice/07.wav"></audio>
+      <audio id="vo-08" class="clip" data-start="22.337" data-duration="2.784" data-track-index="1" src="assets/voice/08.wav"></audio>
+      <audio id="vo-09" class="clip" data-start="25.123" data-duration="4.131" data-track-index="1" src="assets/voice/09.wav"></audio>
+      <audio id="vo-10" class="clip" data-start="29.256" data-duration="2.97" data-track-index="1" src="assets/voice/10.wav"></audio>
+      <audio id="vo-11" class="clip" data-start="32.228" data-duration="3.855" data-track-index="1" src="assets/voice/11.wav"></audio>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const S = [0.0, 2.229, 5.48, 9.381, 12.167, 15.929, 19.551, 22.337, 25.123, 29.256, 32.228];
+      const at = (n, t) => S[n - 1] + t;
+
+      // Texto y duracion REAL de cada linea (medidos por la voz; ver timing.json).
+      // cue() coloca un elemento igual que el karaoke: reparte el tiempo de la linea
+      // ponderando por la longitud de cada palabra (palabra larga = mas tiempo).
+      const LINES = [
+        "Esta empresa descubrió algo que no imaginas.",
+        "Su competencia le estaba robando clientes anunciándose con su nombre.",
+        "Se conocen como anuncios de ataque: aparecer en Google cuando buscan a tu rival.",
+        "Esa empresa era Basecamp, en 2019.",
+        "Al buscar su propio nombre, aparecían hasta cuatro anuncios de competidores.",
+        "Funciona porque quien busca una marca está comparando y a punto de elegir.",
+        "El problema es que a ti pueden hacerte exactamente lo mismo.",
+        "Ahí entra la defensa: pagar por tu propio nombre.",
+        "Basecamp llegó a protestar en el anuncio: «No queremos publicar este anuncio».",
+        "Si nadie puja por tu marca, pagas clics que ya eran tuyos.",
+        "Guarda esto: busca tu nombre en Google y mira quién aparece antes que tú."
+      ];
+      const DUR = [2.229, 3.251, 3.901, 2.786, 3.762, 3.622, 2.786, 2.786, 4.133, 2.972, 3.855];
+      const _nz = (w) => w.toLowerCase().replace(/[^a-z0-9áéíóúüñ]/g, "");
+      // Instante absoluto en que la voz nombra `word` en la linea n (occ = n-esima aparicion).
+      function cue(n, word, occ = 1) {
+        const words = LINES[n - 1].split(/\s+/).filter(Boolean);
+        const total = words.reduce((a, w) => a + w.length, 0);
+        const goal = _nz(word);
+        let acc = 0, seen = 0;
+        for (const w of words) {
+          if (_nz(w) === goal && ++seen === occ) return at(n, DUR[n - 1] * (acc / total));
+          acc += w.length;
+        }
+        return at(n, 0);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+
+      // Aparicion con estado inicial explicito. Asentamiento power3.out.
+      function put(sel, t, o = {}) {
+        const { x = 0, y = 0, scale = 1, rot = 0, dur = 0.55, ease = "power3.out", stagger = 0 } = o;
+        tl.fromTo(sel, { opacity: 0, x, y, scale, rotation: rot },
+          { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: dur, ease, stagger }, t);
+      }
+      // El escenario no se oculta nunca: solo se asienta (sin tocar opacity).
+      function rise(sel, t, o = {}) {
+        const { y = 40, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { y }, { y: 0, duration: dur, ease }, t);
+      }
+      // Trazo que se dibuja: stroke-dashoffset de L a 0 (determinista).
+      function draw(sel, t, dur = 0.4) {
+        let el = document.querySelector(sel);
+        if (el && el.tagName.toLowerCase() !== "path") el = el.querySelector("path");
+        if (!el) return;
+        const L = el.getTotalLength();
+        el.style.strokeDasharray = L;
+        tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+      }
+      // Escala de un elemento (contenedor o forma) desde `from` hasta `to`.
+      function grow(sel, t, to = 1, o = {}) {
+        const { from = 0, dur = 0.5, ease = "power3.out" } = o;
+        tl.fromTo(sel, { scale: from }, { scale: to, duration: dur, ease }, t);
+      }
+      // Palabra por palabra (revelado tipografico).
+      function typeWords(sel, t, step = 0.05) {
+        document.querySelectorAll(sel).forEach((el, i) => {
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, t + i * step);
+        });
+      }
+      // Escritura: cada caracter es un span revelado por pasos. Determinista y
+      // seguro al buscar fotograma a fotograma.
+      function typeChars(sel, t, step = 0.065) {
+        const holder = document.querySelector(sel);
+        if (!holder) return;
+        const text = holder.textContent;
+        holder.textContent = "";
+        const spans = [];
+        for (const ch of text) {
+          const s = document.createElement("span");
+          s.textContent = ch;
+          s.style.opacity = "0";
+          s.setAttribute("data-layout-allow-overlap", "");
+          s.setAttribute("data-layout-allow-occlusion", "");
+          holder.appendChild(s);
+          spans.push(s);
+        }
+        spans.forEach((s, i) => {
+          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, t + i * step);
+        });
+      }
+      // El numero/indicador se fija en saltos discretos (nunca cuenta hacia arriba).
+      function setNum(sel, txt, t) { tl.set(sel, { textContent: txt }, t); }
+
+      // ---- B1 Gancho: el rótulo censurado sobre la acera; el titular es lo único escrito
+      rise("#s1-calle", at(1, 0.0));
+      rise("#s1-foco", at(1, 0.0));
+      rise("#s1-rotulo", at(1, 0.0), { y: 30 });
+      rise("#s1-hook", at(1, 0.0), { y: 20 });
+      tl.fromTo("#s1-rotulo", { scale: 1 }, { scale: 1.06, duration: 0.14, ease: "power2.out" }, at(1, 0.55));
+      tl.to("#s1-rotulo", { scale: 1, duration: 0.18, ease: "power2.inOut" }, at(1, 0.69));
+
+      // ---- B2 El caso: la figura rival clava su valla delante del rótulo ajeno
+      rise("#s2-calle", at(2, 0.0));
+      rise("#s2-rotuloA", at(2, 0.0));
+      rise("#s2-rotuloB", at(2, 0.0));
+      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
+      put("#s2-fig", cue(2, "competencia"), { y: 22, dur: 0.26 });
+      put("#s2-valla", cue(2, "competencia") + 0.06, { y: -20, dur: 0.26 });
+      put("#s2-clientes .gente", cue(2, "clientes"), { y: 16, dur: 0.24, stagger: 0.06 });
+      put("#s2-name", cue(2, "nombre"), { scale: 0.86, dur: 0.24 });
+
+      // ---- B3 El mecanismo: se teclea el nombre del rival y brota la valla
+      rise("#s3-calle", at(3, 0.0));
+      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
+      put("#s3-brand", cue(3, "Google"), { y: 16, dur: 0.26 });
+      rise("#s3-search", at(3, 0.40), { y: 24 });
+      put("#s3-chip", cue(3, "ataque"), { scale: 0.86, dur: 0.26 });
+      typeChars("#s3-term", cue(3, "buscan"), 0.045);
+      put("#s3-valla", cue(3, "rival"), { y: -20, dur: 0.26 });
+
+      // ---- B4 La empresa: la censura se retira y aparece Basecamp
+      rise("#s4-calle", at(4, 0.0));
+      rise("#s4-rotulo", at(4, 0.0), { y: 30 });
+      put("#s4-kicker", at(4, 0.06), { dur: 0.4 });
+      tl.to("#s4-redact", { scaleX: 0, duration: 0.30, ease: "power2.inOut" }, cue(4, "Basecamp"));
+      put("#s4-brand", cue(4, "Basecamp"), { scale: 0.9, dur: 0.26 });
+      put("#s4-year", cue(4, "2019"), { scale: 0.8, dur: 0.24 });
+
+      // ---- B5 El dato: cuatro vallas ajenas sobre el rótulo propio
+      rise("#s5-calle", at(5, 0.0));
+      rise("#s5-search", at(5, 0.0), { y: 24 });
+      rise("#s5-rotulo", at(5, 0.0));
+      put("#s5-kicker", at(5, 0.06), { dur: 0.4 });
+      typeChars("#s5-term", cue(5, "buscar"), 0.05);
+      put("#s5-vallas .valla", cue(5, "cuatro"), { y: -20, dur: 0.24, stagger: 0.07 });
+      put("#s5-count", cue(5, "cuatro"), { scale: 0.8, dur: 0.24 });
+      setNum("#s5-count", "4", cue(5, "cuatro"));
+      put("#s5-note", cue(5, "competidores"), { y: 14, dur: 0.26 });
+      tl.to("#s5-vallas", { y: 24, duration: 0.5, ease: "power2.out" }, at(5, 2.40));
+      grow("#s5-rotulo", at(5, 2.40), 1, { from: 0.96, dur: 0.4 });
+
+      // ---- B6 Por qué: el cliente compara y está a punto de elegir
+      rise("#s6-calle", at(6, 0.0));
+      put("#s6-kicker", at(6, 0.06), { dur: 0.4 });
+      put("#s6-cliente", cue(6, "quien"), { y: 20, dur: 0.26 });
+      put("#s6-tag", cue(6, "quien") + 0.10, { y: 12, dur: 0.24 });
+      put("#s6-op1,#s6-op2", cue(6, "marca"), { scale: 0.94, dur: 0.26, stagger: 0.06 });
+      tl.to("#s6-foco1,#s6-foco2", { opacity: 0.18, duration: 0.30 }, cue(6, "comparando"));
+      tl.to("#s6-cliente .sub", { x: 28, rotation: -6, duration: 0.40, ease: "power2.out" }, cue(6, "elegir"));
+
+      // ---- B7 Tu versión: el caso ajeno se refleja sobre tu rótulo
+      rise("#s7-calle", at(7, 0.0));
+      rise("#s7-reflejo", at(7, 0.0));
+      put("#s7-kicker", at(7, 0.06), { dur: 0.4 });
+      put("#s7-rotulo", cue(7, "ti"), { y: 20, dur: 0.26 });
+      put("#s7-vallas .valla", cue(7, "mismo"), { y: -16, dur: 0.24, stagger: 0.06 });
+      put("#s7-note", at(7, 2.60), { y: 14, dur: 0.26 });
+
+      // ---- B8 La práctica: pagar por tu propio nombre
+      rise("#s8-calle", at(8, 0.0));
+      rise("#s8-rotulo", at(8, 0.0));
+      put("#s8-kicker", at(8, 0.06), { dur: 0.4 });
+      put("#s8-label", cue(8, "defensa"), { scale: 0.86, dur: 0.26 });
+      put("#s8-puja", cue(8, "pagar"), { y: 20, dur: 0.28 });
+      put("#s8-valla", cue(8, "nombre"), { y: -20, dur: 0.28 });
+
+      // ---- B9 La protesta: el titular citado, palabra a palabra, y su resaltado
+      rise("#s9-calle", at(9, 0.0));
+      rise("#s9-valla", at(9, 0.0));
+      put("#s9-kicker", at(9, 0.06), { dur: 0.4 });
+      put("#s9-brand", cue(9, "Basecamp"), { scale: 0.9, dur: 0.24 });
+      put("#s9-quote", cue(9, "protestar"), { y: 16, dur: 0.26 });
+      put("#s9-adlab", cue(9, "anuncio"), { y: 12, dur: 0.24 });
+      typeWords("#s9-quote span", cue(9, "No"), 0.16);
+      tl.fromTo("#s9-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.30, ease: "power2.out" }, cue(9, "anuncio", 2));
+
+      // ---- B10 La consecuencia: sin puja, los clics se van con la valla ajena
+      rise("#s10-calle", at(10, 0.0));
+      rise("#s10-rotulo", at(10, 0.0));
+      rise("#s10-valla", at(10, 0.0));
+      put("#s10-kicker", at(10, 0.06), { dur: 0.4 });
+      put("#s10-puja", cue(10, "puja"), { y: 20, dur: 0.28 });
+      put("#s10-note", cue(10, "puja") + 0.10, { scale: 0.86, dur: 0.24 });
+      put("#s10-clics .clic", cue(10, "clics"), { scale: 0.6, dur: 0.22, stagger: 0.08 });
+      tl.to("#s10-clics", { x: 132, y: -168, duration: 0.50, ease: "power2.inOut" }, cue(10, "tuyos"));
+      // Único "pérdida" de la pieza, sin rojo de error: el clic se apaga (variante apagada).
+      tl.to("#s10-clics .clic", { color: "#8b8b99", opacity: 0.55, duration: 0.30 }, cue(10, "tuyos"));
+
+      // ---- B11 Cierre: guarda esto y busca tu nombre
+      rise("#s11-calle", at(11, 0.0));
+      rise("#s11-rotulo", at(11, 0.0));
+      rise("#s11-search", at(11, 0.0), { y: 24 });
+      // El marcador nace visible en el fotograma 0 de la escena (sin opacidad):
+      // en el corte B10→B11 no debe quedar un tramo vacío.
+      grow("#s11-mark", at(11, 0.0), 1, { from: 0.6, dur: 0.18 });
+      put("#s11-label", cue(11, "Guarda"), { scale: 0.86, dur: 0.5 });
+      draw("#s11-wave", cue(11, "Guarda") + 0.40, 0.5);
+      typeChars("#s11-term", cue(11, "busca"), 0.05);
+      put("#s11-vallas .valla", cue(11, "antes"), { y: -16, dur: 0.24, stagger: 0.06 });
+      put("#s11-valla", at(11, 0.0));
+      put("#s11-note", at(11, 3.60), { y: 14, dur: 0.26 });
+
+      // ---- barra de progreso (la re-tima retime.py)
+      tl.fromTo("#prog-fill", { scaleX: 0 }, { scaleX: 1, duration: 36.083, ease: "none" }, 0);
+
+      // ---- TRANSICIONES: animan la capa interna .s-in; las piezas propias
+      //      (cover, sweep) se escriben a mano.
+      const TR = [
+        [1, "cover", 0.45],
+        [2, "slide", 0.40],
+        [3, "slide", 0.40],
+        [4, "slide", 0.35],
+        [5, "slide", 0.40],
+        [6, "sweep", 0.45],
+        [7, "slide", 0.40],
+        [8, "slide", 0.40],
+        [9, "cover", 0.45],
+        [10, "cut", 0.00]
+      ];
+      TR.forEach(([n, kind, d]) => {
+        const T = S[n];
+        const out = `#s${n}-in`, inc = `#s${n + 1}-in`;
+        if (kind === "slide") {
+          tl.fromTo(out, { y: 0 }, { y: -1920, duration: d, ease: "power3.inOut" }, T);
+          tl.fromTo(inc, { y: 1920 }, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else if (kind === "sweep") {
+          // x: 0 explícito: el CSS parte de translateX(-130%) y GSAP lo lee como x.
+          // La banda pertenece a la escena SALIENTE (B6, z-index superior).
+          tl.fromTo(`#s${n}-sweep`, { x: 0, xPercent: -130, skewX: -12 },
+            { x: 0, xPercent: 130, skewX: -12, duration: d, ease: "power2.inOut" }, T);
+        } else if (kind === "cover") {
+          tl.fromTo(`#s${n}-cover`, { scale: 0 }, { scale: 1, duration: d, ease: "power3.in" }, T);
+        }
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </div></body>
+</html>
