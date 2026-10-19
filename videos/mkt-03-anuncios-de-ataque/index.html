@@ -196,23 +196,22 @@
       #s1-calle  { position:absolute; inset:0; }
       #s1-foco   { left:50%; top:4%; margin-left:-280px; }
       #s1-rotulo { position:absolute; left:50%; top:20%; margin-left:-210px; }
-      #s1-hook   { position:absolute; left:74px; right:74px; top:34%; }
+      #s1-ofic   { position:absolute; left:74px; right:74px; top:33%; height:470px; z-index:3; }
+      #s1-figwrap { position:absolute; left:572px; bottom:24px; width:164px; }
 
-      /* B2 · la emboscada */
-      #s2-kicker    { position:absolute; left:74px; right:74px; top:300px; }
-      #s2-rotuloA   { position:absolute; left:90px; top:33%; }
-      #s2-rotuloB   { position:absolute; right:90px; top:33%; }
-      #s2-valla     { position:absolute; left:50%; margin-left:-330px; top:54%; }
-      #s2-name      { inset:auto; left:24px; right:24px; top:46px; height:62px; }
-      #s2-fig       { position:absolute; left:50%; margin-left:-152px; top:42%; --fig-w:104px; }
-      #s2-clientes  { position:absolute; left:0; right:0; top:72%; display:flex; justify-content:center; gap:90px; }
+      /* B2 · el ladrón se lleva los clientes de la marca ajena */
+      #s2-marca  { position:absolute; left:74px; top:30%; }
+      #s2-marca .placa { width:300px; height:106px; }
+      #s2-marca .redact b { width:76px; }
+      #s2-marca .redact b.c { width:44px; }
+      #s2-ladron { position:absolute; left:50%; margin-left:-34px; top:36%; width:300px; }
 
-      /* B3 · el mecanismo (columna en flujo) */
-      #s3-term { color:var(--ink); }
-      #s3-valla { margin:0 auto; }
+      /* B3 · el duelo (dos personajes, una espada) */
+      #s3-duelo { position:absolute; left:74px; right:74px; top:36%; height:420px; }
 
       /* B4 · la empresa */
       #s4-brand { background:transparent; border:none; padding:0; }
+      #s4-brand img { display:block; height:72px; width:auto; }
       #s4-year  { align-self:flex-end; }
 
       /* B5 · el dato (columna en flujo) */
@@ -256,13 +255,12 @@
       #s9-quote  { position:relative; z-index:1; }
       #s9-quote span { opacity:0; }
 
-      /* B10 · la consecuencia */
-      #s10-kicker { position:absolute; left:74px; right:74px; top:300px; }
-      #s10-rotulo { position:absolute; left:50%; top:36%; margin-left:-180px; }
-      #s10-valla  { position:absolute; left:50%; top:54%; margin-left:-330px; }
-      #s10-puja   { right:56px; top:36%; }
-      #s10-note   { position:absolute; left:50%; margin-left:-84px; top:46%; }
-      #s10-clics  { position:absolute; left:50%; margin-left:-96px; top:74%; }
+      /* B10 · la mano que paga clics */
+      #s10-puja   { right:56px; top:30%; }
+      #s10-clics  { position:absolute; left:50%; margin-left:-100px; top:40%; }
+      #s10-mano   { position:absolute; left:74px; top:56%; width:330px; }
+      #s10-pago   { left:216px; top:1050px; }
+      #s10-cursor { left:50%; margin-left:-32px; top:41%; }
 
       /* B11 · cierre (columna en flujo, alineada al centro) */
       #s11-in     { align-items:center; gap:12px; }
@@ -279,6 +277,47 @@
       #s11-rotulo .poste { height:56px; }
       #s11-brand  { background:transparent; border:none; padding:0; }
       #s11-valla  { position:relative; z-index:4; margin:-56px auto 0; }
+
+      /* ===================== ENCARGO DEL DUEÑO · ANIMACIONES 2D =====================
+         B1 la oficina, B2 el ladrón, B3 el duelo, B10 la mano que paga. Formas planas
+         y SVG en línea; dos colores del tema (tinta + muted) y el acento solo como
+         relleno, siempre con tinta encima. */
+      .oficard { background:var(--panel); border:3px solid var(--line); border-radius:30px;
+        box-shadow:0 26px 70px rgba(0,0,0,0.32); overflow:hidden; }
+      .oficard svg.oficina { display:block; width:100%; height:100%; }
+      #s1-pantalla .pl { opacity:0; }
+      .fig.ofic .fg-glasses, .fig.ofic .fg-hand { display:block; }
+      .fig .arms-up { opacity:0; }
+
+      .ladron-svg { display:block; width:100%; height:auto; }
+      .ladron-svg .ld-sack { fill:var(--muted); }
+      .ladron-svg .ld-body, .ladron-svg .ld-head, .ladron-svg .ld-hat,
+      .ladron-svg .ld-knot, .ladron-svg .ld-eye, .ladron-svg .ld-leg,
+      .ladron-svg .ld-foot, .ladron-svg .ld-hand, .ladron-svg .ld-cli { fill:var(--ink); }
+      .ladron-svg .ld-stripe { fill:var(--muted); }
+      .ladron-svg .ld-mask { fill:var(--bg); }
+      .ladron-svg .ld-arm { fill:none; stroke:var(--ink); stroke-width:22; stroke-linecap:round; }
+      .ladron-svg .qmark { font-family:"Inter",sans-serif; font-size:54px; font-weight:900; fill:var(--ink); }
+      #s2-botin, #s2-tag { opacity:0; }
+
+      .duelo-svg { display:block; width:100%; height:100%; }
+      .duelo-svg .dl-in, .duelo-svg .dl-mu { fill:var(--ink); }
+      .duelo-svg .dl-mu { fill:var(--muted); }
+      .duelo-svg .dl-armi { fill:none; stroke:var(--ink); stroke-width:20; stroke-linecap:round; }
+      .duelo-svg .dl-armmu { fill:none; stroke:var(--muted); stroke-width:20; stroke-linecap:round; }
+      .duelo-svg .sw-b { fill:none; stroke:var(--ink); stroke-width:15; stroke-linecap:round; }
+      .duelo-svg .sw-g { fill:var(--ink); }
+      .duelo-svg .dl-hit { fill:none; stroke:var(--ink); stroke-width:12; stroke-linecap:round; opacity:0; }
+      .duelo-svg .dl-sombra { fill:var(--line); }
+
+      .mano-svg { display:block; width:100%; height:auto; }
+      .mano-svg .md-hand { fill:var(--ink); }
+      .mano-svg .md-bill, .pago .md-bill { fill:var(--accent); }
+      .mano-svg .md-mark, .pago .md-mark { fill:var(--accent-ink); }
+      .pago svg, .cursor svg { display:block; width:100%; height:auto; }
+      .pago { position:absolute; width:210px; }
+      .cursor { position:absolute; width:64px; color:var(--ink); z-index:6; }
+      .cursor svg path { fill:currentColor; }
 
       /* ---------- estados iniciales (seek-safe) ---------- */
       .fade-in { opacity:0; }
@@ -300,7 +339,53 @@
             </div>
             <div class="poste"></div>
           </div>
-          <div class="hookline" id="s1-hook" data-layout-allow-overlap>Esta empresa descubrió algo que no imaginas.</div>
+          <div class="oficard" id="s1-ofic">
+            <svg class="oficina" viewBox="0 0 932 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <rect x="0" y="404" width="932" height="66" fill="var(--line)"/>
+              <rect x="600" y="18" width="296" height="96" rx="12" fill="var(--bg)" stroke="var(--line)" stroke-width="8"/>
+              <line x1="748" y1="18" x2="748" y2="114" stroke="var(--line)" stroke-width="6"/>
+              <line x1="600" y1="66" x2="896" y2="66" stroke="var(--line)" stroke-width="6"/>
+              <rect x="622" y="76" width="34" height="38" fill="var(--muted)"/>
+              <rect x="664" y="60" width="28" height="54" fill="var(--muted)"/>
+              <rect x="702" y="84" width="30" height="30" fill="var(--muted)"/>
+              <rect x="762" y="70" width="34" height="44" fill="var(--muted)"/>
+              <rect x="808" y="88" width="26" height="26" fill="var(--muted)"/>
+              <rect x="556" y="126" width="216" height="196" rx="26" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+              <rect x="60" y="300" width="812" height="26" rx="8" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+              <rect x="92" y="326" width="18" height="78" fill="var(--muted)"/>
+              <rect x="822" y="326" width="18" height="78" fill="var(--muted)"/>
+              <rect x="112" y="140" width="290" height="160" rx="12" fill="var(--panel)" stroke="var(--line)" stroke-width="6"/>
+              <rect x="128" y="156" width="258" height="128" fill="var(--muted)"/>
+              <g id="s1-pantalla">
+                <rect class="pl" x="150" y="182" width="176" height="14" rx="7" fill="var(--ink)"/>
+                <rect class="pl" x="150" y="212" width="214" height="14" rx="7" fill="var(--ink)"/>
+                <rect class="pl" x="150" y="242" width="132" height="14" rx="7" fill="var(--ink)"/>
+              </g>
+              <rect x="150" y="300" width="250" height="16" rx="8" fill="var(--muted)"/>
+            </svg>
+            <div class="figwrap" id="s1-figwrap">
+              <svg class="fig ofic" id="s1-fig" viewBox="0 0 140 220" aria-hidden="true">
+                <circle class="fg-head" cx="68" cy="46" r="30"/>
+                <rect class="fg-glasses" x="36" y="40" width="64" height="11" rx="5"/>
+                <rect class="fg-body" x="40" y="80" width="56" height="88" rx="20"/>
+                <rect class="fg-tie" x="62" y="86" width="14" height="46" rx="7"/>
+                <rect class="fg-leg" x="50" y="164" width="16" height="48" rx="8"/>
+                <rect class="fg-leg" x="74" y="164" width="16" height="48" rx="8"/>
+                <g class="arms-rest">
+                  <path class="fg-arm" d="M46 98 L28 150"/>
+                  <path class="fg-arm" d="M90 98 L108 150"/>
+                  <circle class="fg-hand" cx="26" cy="156" r="12"/>
+                  <circle class="fg-hand" cx="110" cy="156" r="12"/>
+                </g>
+                <g class="arms-up">
+                  <path class="fg-arm" d="M46 98 C32 76 36 52 52 34"/>
+                  <path class="fg-arm" d="M90 98 C104 76 100 52 84 34"/>
+                  <circle class="fg-hand" cx="54" cy="30" r="13"/>
+                  <circle class="fg-hand" cx="82" cy="30" r="13"/>
+                </g>
+              </svg>
+            </div>
+          </div>
           <div class="cover" id="s1-cover"></div>
         </div>
       </section>
@@ -309,31 +394,48 @@
       <section class="scene clip dark" id="s2" data-start="2.229" data-duration="3.651" data-track-index="0">
         <div class="s-in" id="s2-in">
           <div class="calle" id="s2-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
-          <div class="kicker fade-in" id="s2-kicker"><span class="dot"></span>EL CASO</div>
-          <div class="rotulo marca" id="s2-rotuloA">
-            <div class="placa">Marca
-              <span class="redact"><b></b><b class="c"></b><span class="q">?</span></span>
+          <div class="rotulo marca" id="s2-marca">
+            <div class="placa">
+              <span class="redact" id="s2-redact"><b></b><b class="c"></b><span class="q">?</span></span>
             </div>
             <div class="poste"></div>
           </div>
-          <div class="rotulo rival" id="s2-rotuloB">
-            <div class="placa">Rival</div>
-            <div class="poste"></div>
-          </div>
-          <div class="valla rival fade-in" id="s2-valla">
-            <div class="tablon">
-              <span class="vallalab">ANUNCIO</span>
-              <span class="vallatxt">Basecamp</span>
-              <span class="redact" id="s2-name"><b></b><b class="c"></b><span class="q">?</span></span>
-            </div>
-            <span class="poste l"></span><span class="poste r"></span>
-          </div>
-          <div class="fig v1 fade-in" id="s2-fig">
-            <svg viewBox="0 0 120 200" aria-hidden="true"><circle class="fg-head" cx="60" cy="46" r="27"/><rect class="fg-glasses" x="40" y="42" width="40" height="9" rx="4"/><path class="fg-arm" d="M44 98 L28 150"/><path class="fg-arm" d="M76 98 L92 150"/><rect class="fg-body" x="34" y="80" width="52" height="84" rx="18"/><rect class="fg-leg" x="46" y="158" width="14" height="40" rx="7"/><rect class="fg-leg" x="60" y="158" width="14" height="40" rx="7"/><rect class="fg-tie" x="54" y="86" width="12" height="44" rx="6"/></svg>
-          </div>
-          <div id="s2-clientes">
-            <span class="gente fade-in"><span class="sub"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></span>
-            <span class="gente fade-in"><span class="sub"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="g-head" cx="32" cy="20" r="12"/><path class="g-body" d="M8 60c0-14 10-22 24-22s24 8 24 22z"/></svg></span></span>
+          <div class="fade-in" id="s2-ladron">
+            <svg class="ladron-svg" viewBox="0 0 320 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs><clipPath id="ldstripes"><rect x="164" y="140" width="84" height="126" rx="26"/></clipPath></defs>
+              <g id="s2-botin">
+                <circle class="ld-cli" cx="72" cy="72" r="18"/>
+                <path class="ld-cli" d="M46 100 C46 84 58 76 72 76 C86 76 98 84 98 100 Z"/>
+                <circle class="ld-cli" cx="120" cy="66" r="18"/>
+                <path class="ld-cli" d="M94 94 C94 78 106 70 120 70 C134 70 146 78 146 94 Z"/>
+              </g>
+              <path class="ld-sack" d="M40 180 C28 116 76 84 116 86 C156 88 190 116 180 180 Z"/>
+              <rect class="ld-knot" x="96" y="62" width="48" height="26" rx="12"/>
+              <g id="s2-tag">
+                <line x1="86" y1="150" x2="92" y2="164" stroke="var(--ink)" stroke-width="6"/>
+                <rect x="30" y="160" width="92" height="70" rx="12" fill="var(--panel)"/>
+                <text class="qmark" x="76" y="212" text-anchor="middle">?</text>
+              </g>
+              <rect class="ld-leg" x="198" y="248" width="24" height="100" rx="12" transform="rotate(14 210 254)"/>
+              <rect class="ld-leg" x="166" y="248" width="24" height="100" rx="12" transform="rotate(-26 178 254)"/>
+              <rect class="ld-foot" x="216" y="338" width="46" height="17" rx="8" transform="rotate(8 239 346)"/>
+              <rect class="ld-foot" x="136" y="346" width="46" height="17" rx="8" transform="rotate(-20 159 354)"/>
+              <rect class="ld-body" x="164" y="140" width="84" height="126" rx="26"/>
+              <g clip-path="url(#ldstripes)">
+                <rect class="ld-stripe" x="164" y="166" width="84" height="13"/>
+                <rect class="ld-stripe" x="164" y="194" width="84" height="13"/>
+                <rect class="ld-stripe" x="164" y="222" width="84" height="13"/>
+              </g>
+              <path class="ld-hat" d="M192 70 C192 30 272 30 272 70 Z"/>
+              <circle class="ld-head" cx="232" cy="96" r="40"/>
+              <rect class="ld-mask" x="194" y="80" width="76" height="26" rx="10"/>
+              <rect class="ld-eye" x="210" y="88" width="14" height="10" rx="4"/>
+              <rect class="ld-eye" x="240" y="88" width="14" height="10" rx="4"/>
+              <path class="ld-arm" d="M196 166 C176 140 150 112 128 88"/>
+              <circle class="ld-hand" cx="124" cy="84" r="14"/>
+              <path class="ld-arm" d="M244 172 C264 190 276 208 280 226"/>
+              <circle class="ld-hand" cx="282" cy="232" r="14"/>
+            </svg>
           </div>
         </div>
       </section>
@@ -342,22 +444,46 @@
       <section class="scene clip dark" id="s3" data-start="5.48" data-duration="4.301" data-track-index="0">
         <div class="s-in" id="s3-in">
           <div class="calle" id="s3-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
-          <div class="kicker fade-in" id="s3-kicker"><span class="dot"></span>EL MECANISMO</div>
-          <div class="rowc"><span class="brandmark fade-in" id="s3-brand">Google</span></div>
-          <div class="searchbar" id="s3-search">
-            <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></span>
-            <span class="sterm" id="s3-term">Rival</span>
-            <span class="scaret"></span>
+          <div id="s3-duelo">
+            <svg class="duelo-svg" viewBox="0 0 932 420" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <ellipse class="dl-sombra" cx="236" cy="392" rx="118" ry="13"/>
+              <ellipse class="dl-sombra" cx="700" cy="392" rx="108" ry="12"/>
+              <g id="s3-atk">
+                <rect class="dl-in" x="196" y="248" width="24" height="122" rx="12" transform="rotate(20 208 254)"/>
+                <rect class="dl-in" x="160" y="248" width="24" height="122" rx="12" transform="rotate(-24 172 254)"/>
+                <rect class="dl-in" x="158" y="330" width="46" height="17" rx="8"/>
+                <rect class="dl-in" x="214" y="334" width="46" height="17" rx="8" transform="rotate(12 237 342)"/>
+                <path class="dl-armi" d="M186 178 C162 194 142 204 124 208"/>
+                <circle class="dl-in" cx="120" cy="210" r="13"/>
+                <rect class="dl-in" x="176" y="150" width="76" height="120" rx="24"/>
+                <circle class="dl-in" cx="214" cy="112" r="36"/>
+                <path class="dl-armi" d="M246 178 C272 170 292 160 304 150"/>
+                <g id="s3-espada">
+                  <path class="sw-b" d="M300 152 L596 44"/>
+                  <rect class="sw-g" x="286" y="134" width="26" height="46" rx="7" transform="rotate(20 299 157)"/>
+                  <circle class="dl-in" cx="302" cy="150" r="14"/>
+                </g>
+              </g>
+              <g id="s3-def">
+                <rect class="dl-mu" x="676" y="248" width="24" height="122" rx="12" transform="rotate(-14 688 254)"/>
+                <rect class="dl-mu" x="642" y="248" width="24" height="122" rx="12" transform="rotate(16 654 254)"/>
+                <rect class="dl-mu" x="634" y="330" width="46" height="17" rx="8" transform="rotate(-8 657 338)"/>
+                <rect class="dl-mu" x="692" y="334" width="46" height="17" rx="8" transform="rotate(10 715 342)"/>
+                <path class="dl-armmu" d="M652 178 C628 168 610 156 598 142"/>
+                <path class="dl-armmu" d="M714 180 C702 162 692 150 678 142"/>
+                <rect class="dl-mu" x="646" y="150" width="76" height="120" rx="24"/>
+                <circle class="dl-mu" cx="684" cy="114" r="36"/>
+                <circle class="dl-mu" cx="594" cy="138" r="13"/>
+                <circle class="dl-mu" cx="674" cy="138" r="13"/>
+              </g>
+              <g id="s3-hit">
+                <path class="dl-hit" d="M640 212 L606 196"/>
+                <path class="dl-hit" d="M640 254 L606 270"/>
+                <path class="dl-hit" d="M672 202 L672 168"/>
+                <path class="dl-hit" d="M692 248 L712 270"/>
+              </g>
+            </svg>
           </div>
-          <div class="valla rival fade-in" id="s3-valla">
-            <div class="tablon"><span class="vallalab">ANUNCIO</span></div>
-            <span class="poste l"></span><span class="poste r"></span>
-          </div>
-          <div class="rotulo rival" id="s3-rotuloR">
-            <div class="placa">Rival</div>
-            <div class="poste"></div>
-          </div>
-          <div class="rowc"><span class="chip fade-in" id="s3-chip">ANUNCIOS DE ATAQUE</span></div>
         </div>
       </section>
 
@@ -369,7 +495,7 @@
           <div class="rowc" style="gap:60px; align-items:flex-end">
             <div class="rotulo" id="s4-rotulo">
               <div class="placa">
-                <span class="brandmark" id="s4-brand" data-layout-allow-overlap>Basecamp</span>
+                <span class="brandmark" id="s4-brand" data-layout-allow-overlap><img src="assets/brand/basecamp-wordmark.svg" alt="Basecamp"></span>
                 <span class="redact" id="s4-redact" data-layout-allow-overlap><b></b><b class="c"></b><span class="q" data-layout-allow-overlap>?</span></span>
               </div>
               <div class="poste"></div>
@@ -480,20 +606,39 @@
       <section class="scene clip dark" id="s10" data-start="29.256" data-duration="2.972" data-track-index="0">
         <div class="s-in" id="s10-in">
           <div class="calle" id="s10-calle"><span class="aire"></span><span class="acera"></span><span class="borde"></span></div>
-          <div class="kicker fade-in" id="s10-kicker"><span class="dot"></span>LA CONSECUENCIA</div>
-          <div class="rotulo" id="s10-rotulo"><div class="placa"><span class="brandmark sm" id="s10-brand">Basecamp</span></div><div class="poste"></div></div>
           <div class="puja vacia fade-in" id="s10-puja">
             <svg viewBox="0 0 132 186" aria-hidden="true"><rect class="palo" x="60" y="92" width="12" height="92" rx="6"/><rect class="placa" x="8" y="8" width="116" height="100" rx="16"/></svg>
           </div>
-          <div class="valla rival" id="s10-valla">
-            <div class="tablon"><span class="vallalab">ANUNCIO</span><span class="vallatxt">Rival</span></div>
-            <span class="poste l"></span><span class="poste r"></span>
-          </div>
-          <div class="rowc"><span class="chip fade-in" id="s10-note">SIN PUJA</span></div>
           <div class="clics" id="s10-clics">
             <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
             <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
             <span class="clic fade-in"><svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg></span>
+          </div>
+          <div class="fade-in" id="s10-mano">
+            <svg class="mano-svg" viewBox="0 0 330 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <g transform="translate(164 111)"><g transform="rotate(-14)"><rect class="md-bill" x="-100" y="-47" width="200" height="94" rx="14"/></g></g>
+              <g transform="translate(184 99)"><g transform="rotate(-2)"><rect class="md-bill" x="-100" y="-47" width="200" height="94" rx="14"/></g></g>
+              <g transform="translate(204 91)"><g transform="rotate(10)"><rect class="md-bill" x="-100" y="-47" width="200" height="94" rx="14"/></g></g>
+              <rect class="md-mark" x="150" y="62" width="9" height="28" rx="4"/>
+              <rect class="md-mark" x="236" y="58" width="9" height="28" rx="4"/>
+              <circle class="md-mark" cx="206" cy="76" r="16"/>
+              <rect class="md-hand" x="34" y="96" width="32" height="72" rx="16"/>
+              <rect class="md-hand" x="74" y="88" width="32" height="80" rx="16"/>
+              <rect class="md-hand" x="114" y="92" width="32" height="76" rx="16"/>
+              <rect class="md-hand" x="152" y="102" width="32" height="66" rx="16"/>
+              <rect class="md-hand" x="182" y="152" width="62" height="34" rx="17" transform="rotate(-12 213 169)"/>
+              <path class="md-hand" d="M24 168 C24 140 44 130 72 130 L176 130 C198 130 212 144 212 166 L212 208 C212 232 196 244 172 244 L64 244 C38 244 24 232 24 208 Z"/>
+            </svg>
+          </div>
+          <div class="pago fade-in" id="s10-pago">
+            <svg viewBox="0 0 210 96" aria-hidden="true">
+              <rect class="md-bill" x="0" y="0" width="210" height="96" rx="14"/>
+              <rect class="md-mark" x="42" y="32" width="9" height="32" rx="4"/>
+              <circle class="md-mark" cx="140" cy="48" r="17"/>
+            </svg>
+          </div>
+          <div class="cursor fade-in" id="s10-cursor">
+            <svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2 L3 21 L8 16 L12 23 L15 21.4 L11 14.6 L18 14.6 Z"/></svg>
           </div>
         </div>
       </section>
@@ -645,32 +790,43 @@
       // El numero/indicador se fija en saltos discretos (nunca cuenta hacia arriba).
       function setNum(sel, txt, t) { tl.set(sel, { textContent: txt }, t); }
 
-      // ---- B1 Gancho: el rótulo censurado sobre la acera; el titular es lo único escrito
+      // ---- B1 Gancho: el rótulo censurado y la oficina donde se descubre algo
       rise("#s1-calle", at(1, 0.0));
       rise("#s1-foco", at(1, 0.0));
       rise("#s1-rotulo", at(1, 0.0), { y: 30 });
-      rise("#s1-hook", at(1, 0.0), { y: 20 });
+      rise("#s1-ofic", at(1, 0.0), { y: 26 });
       tl.fromTo("#s1-rotulo", { scale: 1 }, { scale: 1.06, duration: 0.14, ease: "power2.out" }, at(1, 0.55));
       tl.to("#s1-rotulo", { scale: 1, duration: 0.18, ease: "power2.inOut" }, at(1, 0.69));
+      // la pantalla se llena: lo que descubre
+      put("#s1-pantalla .pl", at(1, 0.30), { dur: 0.18, stagger: 0.06 });
+      // la reacción: se lleva las manos a la cabeza (se lee en la silueta)
+      put("#s1-fig .arms-up", at(1, 0.662), { dur: 0.22 });
+      tl.to("#s1-fig .arms-rest", { opacity: 0, duration: 0.16, ease: "none" }, at(1, 0.662));
+      tl.to("#s1-fig", { y: -14, duration: 0.20, ease: "power2.out" }, at(1, 0.662));
+      tl.to("#s1-fig", { rotation: 6, duration: 0.22, ease: "power2.inOut" }, at(1, 0.90));
+      tl.to("#s1-fig", { rotation: 0, duration: 0.24, ease: "power2.inOut" }, at(1, 1.14));
 
-      // ---- B2 El caso: la figura rival clava su valla delante del rótulo ajeno
+      // ---- B2 El caso: un ladrón se lleva los clientes de la marca ajena
       rise("#s2-calle", at(2, 0.0));
-      rise("#s2-rotuloA", at(2, 0.0));
-      rise("#s2-rotuloB", at(2, 0.0));
-      put("#s2-kicker", at(2, 0.06), { dur: 0.4 });
-      put("#s2-fig", cue(2, "competencia"), { y: 22, dur: 0.26 });
-      put("#s2-valla", cue(2, "competencia") + 0.06, { y: -20, dur: 0.26 });
-      put("#s2-clientes .gente", cue(2, "clientes"), { y: 16, dur: 0.24, stagger: 0.06 });
-      put("#s2-name", cue(2, "nombre"), { scale: 0.86, dur: 0.24 });
+      rise("#s2-marca", at(2, 0.0));
+      put("#s2-ladron", cue(2, "competencia"), { y: 24, dur: 0.28 });
+      // el botín: los clientes asoman del saco
+      put("#s2-botin", cue(2, "robando"), { y: 18, dur: 0.24 });
+      tl.fromTo("#s2-botin", { y: 14 }, { y: 0, duration: 0.22, ease: "power2.out" }, cue(2, "clientes"));
+      // el nombre robado, todavía tapado
+      put("#s2-tag", cue(2, "nombre"), { scale: 0.82, dur: 0.24 });
 
-      // ---- B3 El mecanismo: se teclea el nombre del rival y brota la valla
+      // ---- B3 El mecanismo: un personaje ataca a otro con una espada
       rise("#s3-calle", at(3, 0.0));
-      put("#s3-kicker", at(3, 0.06), { dur: 0.4 });
-      put("#s3-brand", cue(3, "Google"), { y: 16, dur: 0.26 });
-      rise("#s3-search", at(3, 0.40), { y: 24 });
-      put("#s3-chip", cue(3, "ataque"), { scale: 0.86, dur: 0.26 });
-      typeChars("#s3-term", cue(3, "buscan"), 0.045);
-      put("#s3-valla", cue(3, "rival"), { y: -20, dur: 0.26 });
+      rise("#s3-duelo", at(3, 0.0), { y: 20 });
+      put("#s3-def", cue(3, "anuncios"), { y: 18, dur: 0.26 });
+      put("#s3-atk", cue(3, "ataque"), { x: -26, dur: 0.26 });
+      // la estocada y el impacto
+      tl.fromTo("#s3-atk", { x: 0 }, { x: 64, duration: 0.26, ease: "power3.out" }, cue(3, "buscan"));
+      tl.fromTo("#s3-espada", { rotation: 0, svgOrigin: "302 150" },
+        { rotation: 35, svgOrigin: "302 150", duration: 0.24, ease: "power2.in" }, cue(3, "buscan"));
+      tl.fromTo("#s3-def", { x: 0, rotation: 0 }, { x: 34, rotation: -8, duration: 0.30, ease: "power2.out" }, cue(3, "buscan") + 0.18);
+      put("#s3-hit", cue(3, "rival"), { scale: 0.6, dur: 0.22 });
 
       // ---- B4 La empresa: la censura se retira y aparece Basecamp
       rise("#s4-calle", at(4, 0.0));
@@ -728,17 +884,20 @@
       typeWords("#s9-quote span", cue(9, "No"), 0.16);
       tl.fromTo("#s9-hl", { scaleX: 0 }, { scaleX: 1, duration: 0.30, ease: "power2.out" }, cue(9, "anuncio", 2));
 
-      // ---- B10 La consecuencia: sin puja, los clics se van con la valla ajena
+      // ---- B10 La consecuencia: la mano con el dinero paga los clics que ya eran tuyos
       rise("#s10-calle", at(10, 0.0));
-      rise("#s10-rotulo", at(10, 0.0));
-      rise("#s10-valla", at(10, 0.0));
-      put("#s10-kicker", at(10, 0.06), { dur: 0.4 });
-      put("#s10-puja", cue(10, "puja"), { y: 20, dur: 0.28 });
-      put("#s10-note", cue(10, "puja") + 0.10, { scale: 0.86, dur: 0.24 });
-      put("#s10-clics .clic", cue(10, "clics"), { scale: 0.6, dur: 0.22, stagger: 0.08 });
-      tl.to("#s10-clics", { x: 132, y: -168, duration: 0.50, ease: "power2.inOut" }, cue(10, "tuyos"));
+      rise("#s10-puja", at(10, 0.0));
+      rise("#s10-clics", at(10, 0.0));
+      put("#s10-mano", cue(10, "puja"), { y: 22, dur: 0.28 });
+      put("#s10-cursor", cue(10, "marca"), { x: 132, y: 98, dur: 0.26 });
+      put("#s10-pago", cue(10, "pagas"), { y: 18, dur: 0.24 });
+      // el clic: el cursor pulsa y el billete va al resultado
+      tl.to("#s10-pago", { x: 250, y: -322, duration: 0.34, ease: "power1.out" }, cue(10, "clics"));
+      tl.fromTo("#s10-cursor", { scale: 1 }, { scale: 0.86, duration: 0.10, ease: "power2.out" }, cue(10, "clics"));
+      tl.to("#s10-cursor", { scale: 1, duration: 0.14, ease: "power2.out" }, cue(10, "clics") + 0.11);
       // Único "pérdida" de la pieza, sin rojo de error: el clic se apaga (variante apagada).
-      tl.to("#s10-clics .clic", { color: "#8b8b99", opacity: 0.55, duration: 0.30 }, cue(10, "tuyos"));
+      tl.to("#s10-clics .clic", { color: "#8b8b99", opacity: 0.5, duration: 0.30, ease: "power2.out" }, cue(10, "tuyos"));
+      tl.to("#s10-clics", { y: 26, duration: 0.5, ease: "power2.out" }, cue(10, "tuyos"));
 
       // ---- B11 Cierre: guarda esto y busca tu nombre
       rise("#s11-calle", at(11, 0.0));

@@ -7,15 +7,15 @@
   },
   {
     "scene": 1,
-    "local": 0.55,
-    "kind": "pop",
-    "gain": 0.6
+    "local": 0.3,
+    "kind": "tick",
+    "gain": 0.5
   },
   {
     "scene": 1,
-    "local": 1.2,
-    "kind": "ding",
-    "gain": 0.6
+    "local": 0.6,
+    "kind": "pop",
+    "gain": 0.65
   },
   {
     "scene": 2,
@@ -35,10 +35,19 @@
   {
     "scene": 2,
     "cue": [
-      "clientes",
+      "robando",
       1
     ],
     "kind": "pop",
+    "gain": 0.6
+  },
+  {
+    "scene": 2,
+    "cue": [
+      "clientes",
+      1
+    ],
+    "kind": "tick",
     "gain": 0.6
   },
   {
@@ -51,12 +60,6 @@
     "gain": 0.65
   },
   {
-    "scene": 2,
-    "local": 2.693,
-    "kind": "ding",
-    "gain": 0.55
-  },
-  {
     "scene": 3,
     "local": 0.08,
     "kind": "whoosh",
@@ -65,10 +68,10 @@
   {
     "scene": 3,
     "cue": [
-      "Google",
+      "anuncios",
       1
     ],
-    "kind": "ding",
+    "kind": "pop",
     "gain": 0.6
   },
   {
@@ -86,54 +89,8 @@
       "buscan",
       1
     ],
-    "kind": "key",
-    "gain": 0.35
-  },
-  {
-    "scene": 3,
-    "cue": [
-      "buscan",
-      1
-    ],
-    "offset": 0.045,
-    "kind": "key",
-    "gain": 0.35
-  },
-  {
-    "scene": 3,
-    "cue": [
-      "buscan",
-      1
-    ],
-    "offset": 0.09,
-    "kind": "key",
-    "gain": 0.35
-  },
-  {
-    "scene": 3,
-    "cue": [
-      "buscan",
-      1
-    ],
-    "offset": 0.135,
-    "kind": "key",
-    "gain": 0.35
-  },
-  {
-    "scene": 3,
-    "cue": [
-      "buscan",
-      1
-    ],
-    "offset": 0.18,
-    "kind": "key",
-    "gain": 0.35
-  },
-  {
-    "scene": 3,
-    "local": 0.4,
-    "kind": "whoosh",
-    "gain": 0.5
+    "kind": "thud",
+    "gain": 0.55
   },
   {
     "scene": 3,
@@ -141,8 +98,8 @@
       "rival",
       1
     ],
-    "kind": "swoosh_up",
-    "gain": 0.55
+    "kind": "tick",
+    "gain": 0.6
   },
   {
     "scene": 4,
@@ -543,11 +500,20 @@
   {
     "scene": 10,
     "cue": [
-      "clics",
+      "marca",
+      1
+    ],
+    "kind": "click",
+    "gain": 0.5
+  },
+  {
+    "scene": 10,
+    "cue": [
+      "pagas",
       1
     ],
     "kind": "tick",
-    "gain": 0.6
+    "gain": 0.5
   },
   {
     "scene": 10,
@@ -555,18 +521,7 @@
       "clics",
       1
     ],
-    "offset": 0.08,
-    "kind": "tick",
-    "gain": 0.6
-  },
-  {
-    "scene": 10,
-    "cue": [
-      "clics",
-      1
-    ],
-    "offset": 0.16,
-    "kind": "tick",
+    "kind": "click",
     "gain": 0.6
   },
   {
