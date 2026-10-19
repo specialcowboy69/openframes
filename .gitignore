@@ -9,3 +9,7 @@
 **/.hyperframes/backup/
 **/.hyperframes/preview/
 **/.hyperframes/history-id
+
+# cache de python
+__pycache__/
+*.pyc
