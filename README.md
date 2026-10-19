@@ -28,28 +28,16 @@ videos/<proyecto>/           Un proyecto de vídeo por carpeta
 
 ## Vídeos
 
-| ID | Título | Duración | Estado |
-|----|--------|----------|--------|
-| V1 | Por qué copiar el título del nº1 no funciona | 42,5 s | Publicado |
-| V2 | Dónde colocar el modificador (y el error de lujo) | 29,8 s | Renderizado |
+| Serie | Proyecto | Duración | Estado |
+|---|---|---|---|
+| SEO | V1 · Copiar el título | — | publicado |
+| SEO | V2 · Modificador de lujo | — | publicado (Facebook dio error de permisos) |
+| SEO | V3 · Autoridad | — | publicado |
+| SEO | V5 · Intención de búsqueda | 53,1 s | publicado (11/10/2026) |
+| SEO | V6 · Canibalización | 37,5 s | enviado a publicar (13/10/2026) |
+| GA4 | GA1 · Instalar sin duplicar | — | publicado (11/10/2026) |
+| Marketing | MK1 · Old Spice 2010 | 37,5 s | enviado a publicar (13/10/2026) |
+| Marketing | MK2 · Google Ads con 6 euros | 38,4 s | **publicado en los 4 canales (14/10/2026)** |
+| Marketing | MK3 · Anuncios de ataque (Basecamp) | 36,1 s | **terminado y verificado; pendiente de publicar** |
 
-V2 se publica **después** de V1 (da por sabido qué es un "modificador").
-
-## Cómo se produce cada vídeo
-
-1. Guion para redes (hook, una idea, jerga definida antes de usarla).
-2. **Escena = clip**: cada frase dura lo que dura su audio, sin silencios
-   (`SCRIPT.md` + `STORYBOARD.md`).
-3. Voz en off con **Fish Audio** (voz oficial `Pablo`, español) — `tools/voice_pipeline.py`.
-4. Montaje de la composición (HyperFrames) **a base de gráficos**, no de rótulos: ventana de
-   navegador, tarjetas de resultado, iconos SVG, cursor (ver `DESIGN.md`).
-5. **Efectos de sonido** en cada aparición (`tools/sfx.py`) + subtítulos karaoke.
-6. Música, por debajo de la voz.
-7. Re-timado de todo con `tools/retime.py`.
-8. `check` (lint + runtime + layout + motion + contraste) y render a MP4.
-
-## Convenciones
-
-- Formato 9:16 (1080×1920), faceless, español.
-- CTA de guardar. Se entiende **sin sonido** por karaoke + gráficos, no por acumular texto.
-- Paleta: fondo oscuro, **un solo acento** verde ácido, rojo para advertencias y dorado para lujo.
+Reglas de publicación y estado de cada envío: **`PUBLICACION.md`**.

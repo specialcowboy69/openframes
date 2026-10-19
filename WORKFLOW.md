@@ -15,8 +15,10 @@ npx hyperframes browser ensure                                  # navegador para
 
 - El sandbox **se reconstruye entre sesiones**: `apt`/`pip` se pierden (ffmpeg, unzip, Chrome).
   El workspace (`/workspace/...`) sí persiste.
-- La toolchain propia vive en **`.openhands/tools/`** (versionada desde el 2026-10-19): `voice_pipeline.py`,
-  `retime.py`, `sfx.py`, `diag_one.py` y `music_bed.wav`.
+- La toolchain propia vive en **`.openhands/tools/`** (versionada desde el 2026-10-19):
+  `voice_pipeline.py`, `retime.py`, `sfx.py`, `transiciones.py`, `diag_one.py`,
+  `medir_sync.py`, `verificar_montaje.py`, `publicar_reel.py`, `voice-timing.json` y
+  `music_bed.wav`.
 - Sin `unzip`, el render falla con un `▲ Something went wrong` **sin detalle** (la descarga de
   Chrome no puede descomprimirse). Con `--debug` sí se ve la causa.
 

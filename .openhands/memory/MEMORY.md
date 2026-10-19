@@ -85,7 +85,7 @@
 ## Publicación (copy y plataformas) — reglas del dueño (2026-10-08)
 - **Copy**: texto breve relacionado con el vídeo + **2-3 hashtags**, y nada más. **Sin avisos de autoría** ("hecho con IA"/"OpenHands") en leyenda, vídeo ni rótulos (V1/V2 los llevan por ser anteriores a la regla). CTA de la serie: "Guarda esto". El texto se genera desde el `SCRIPT.md`.
 - **Instagram y Facebook: siempre sin portada** (`include_cover=false` → ruta `/video_reels`). Con portada iría a `/videos`, pero n8n rechaza la portada alojada en GitHub Releases (`400 cover_url must use an approved HTTPS media host`); para esa ruta la portada tendría que estar en `media.urltovideo.es`/R2 autorizado. El `video_url` de GitHub Releases **sí** se acepta para IG/FB.
-- **YouTube y TikTok: publicados fuera de este flujo; NO reintentar subidas** (orden expresa del dueño, 2026-10-08).
+- ~~**YouTube y TikTok: publicados fuera de este flujo; NO reintentar subidas** (orden del dueño, 2026-10-08)~~ **SUPERADA el 2026-10-09 y confirmada el 2026-10-14**: las cuatro plataformas publican por este flujo (MK2 salió en todas).
 - **La leyenda nunca se teclea a mano**: se lee del campo `caption` del item de la cola de `hypervideo`. Incidente real: un reintento manual pasó `caption="PLACEHOLDER"` y n8n lo encoló tal cual.
 - Documento completo en el repo: `PUBLICACION.md` (raíz de openframes).
 
